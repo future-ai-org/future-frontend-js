@@ -235,7 +235,6 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
 
   return (
     <div className="trading-container">
-      <h1>Trading {assetId}</h1>
       <table className="info-grid">
         <tbody>
           <tr>
@@ -307,7 +306,9 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
           </tr>
         </tbody>
       </table>
-      <div className="trading-widget" id="trading_widget" />
+      <div className="trading-widget">
+        <div id="trading_widget" />
+      </div>
     </div>
   );
 };

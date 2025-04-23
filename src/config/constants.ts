@@ -91,7 +91,7 @@ export const TRADING_CONFIG = {
     hideideas: true,
     hide_legend: true,
     hide_volume: true,
-    container_id: "",
+    container_id: "trading_widget",
     overrides: {
       "mainSeriesProperties.candleStyle.upColor": "var(--color-bullish)",
       "mainSeriesProperties.candleStyle.downColor": "var(--color-bearish)",
