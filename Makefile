@@ -11,7 +11,6 @@ clean:
 	rm -f yarn.lock
 
 install:
-	make clean
 	yarn install
 
 build:
