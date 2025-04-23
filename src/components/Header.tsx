@@ -68,8 +68,8 @@ const Header: React.FC = () => {
           </Link>
           {isConnected && (
             <Link
-              href="/"
-              className={`nav-link ${isActive("/") ? "active" : ""}`}
+              href="/dashboard"
+              className={`nav-link ${isActive("/dashboard") ? "active" : ""}`}
             >
               {strings.en.nav.dashboard}
             </Link>
