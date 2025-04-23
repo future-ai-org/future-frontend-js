@@ -31,25 +31,78 @@ interface CandleData {
   rsi?: number;
 }
 
+type TimePeriod = "1D" | "1W" | "1M" | "3M" | "1Y" | "ALL";
+
 export const Trading: React.FC<TradingProps> = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [chartData, setChartData] = useState<CandleData[]>([]);
+  const [timePeriod, setTimePeriod] = useState<TimePeriod>("1M");
+
+  // Generate sample data for different time periods
+  const generateData = (period: TimePeriod): CandleData[] => {
+    const now = new Date();
+    const data: CandleData[] = [];
+    let startDate: Date;
+    let interval: number;
+
+    switch (period) {
+      case "1D":
+        startDate = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+        interval = 5 * 60 * 1000; // 5 minutes
+        break;
+      case "1W":
+        startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+        interval = 30 * 60 * 1000; // 30 minutes
+        break;
+      case "1M":
+        startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+        interval = 2 * 60 * 60 * 1000; // 2 hours
+        break;
+      case "3M":
+        startDate = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
+        interval = 6 * 60 * 60 * 1000; // 6 hours
+        break;
+      case "1Y":
+        startDate = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
+        interval = 24 * 60 * 60 * 1000; // 1 day
+        break;
+      case "ALL":
+        startDate = new Date(now.getTime() - 2 * 365 * 24 * 60 * 60 * 1000);
+        interval = 7 * 24 * 60 * 60 * 1000; // 1 week
+        break;
+    }
+
+    let currentPrice = 100;
+    let currentDate = startDate;
+
+    while (currentDate <= now) {
+      const volatility = Math.random() * 0.02;
+      const change = (Math.random() - 0.5) * volatility * currentPrice;
+      const open = currentPrice;
+      const close = currentPrice + change;
+      const high = Math.max(open, close) * (1 + Math.random() * 0.01);
+      const low = Math.min(open, close) * (1 - Math.random() * 0.01);
+      const volume = Math.floor(Math.random() * 1000) + 500;
+
+      data.push({
+        date: currentDate.toISOString().split('T')[0],
+        open,
+        high,
+        low,
+        close,
+        volume,
+      });
+
+      currentPrice = close;
+      currentDate = new Date(currentDate.getTime() + interval);
+    }
+
+    return data;
+  };
 
   useEffect(() => {
-    // Sample data with OHLC and volume
-    const data: CandleData[] = [
-      { date: "2024-01-01", open: 100, high: 110, low: 95, close: 105, volume: 1000 },
-      { date: "2024-01-02", open: 105, high: 115, low: 100, close: 110, volume: 1200 },
-      { date: "2024-01-03", open: 110, high: 120, low: 105, close: 115, volume: 1500 },
-      { date: "2024-01-04", open: 115, high: 125, low: 110, close: 120, volume: 1300 },
-      { date: "2024-01-05", open: 120, high: 130, low: 115, close: 125, volume: 1400 },
-      { date: "2024-01-06", open: 125, high: 135, low: 120, close: 130, volume: 1600 },
-      { date: "2024-01-07", open: 130, high: 140, low: 125, close: 135, volume: 1700 },
-      { date: "2024-01-08", open: 135, high: 145, low: 130, close: 140, volume: 1800 },
-      { date: "2024-01-09", open: 140, high: 150, low: 135, close: 145, volume: 1900 },
-      { date: "2024-01-10", open: 145, high: 155, low: 140, close: 150, volume: 2000 },
-    ];
-
+    const data = generateData(timePeriod);
+    
     // Calculate indicators
     const dataWithIndicators = data.map((item, index) => {
       // Calculate MA5
@@ -84,7 +137,7 @@ export const Trading: React.FC<TradingProps> = () => {
 
     setChartData(dataWithIndicators);
     setIsLoading(false);
-  }, []);
+  }, [timePeriod]);
 
   if (isLoading) {
     return (
@@ -100,8 +153,21 @@ export const Trading: React.FC<TradingProps> = () => {
     bearish: getComputedStyle(document.documentElement).getPropertyValue("--color-bearish"),
   };
 
+  const timePeriods: TimePeriod[] = ["1D", "1W", "1M", "3M", "1Y", "ALL"];
+
   return (
     <div className="trading-container">
+      <div className="time-period-selector">
+        {timePeriods.map((period) => (
+          <button
+            key={period}
+            className={`time-period-button ${timePeriod === period ? "active" : ""}`}
+            onClick={() => setTimePeriod(period)}
+          >
+            {period}
+          </button>
+        ))}
+      </div>
       <div className="chartiq-container">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart

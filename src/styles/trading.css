@@ -213,3 +213,31 @@
   width: 100% !important;
   height: 100% !important;
 }
+
+.time-period-selector {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 0 16px;
+}
+
+.time-period-button {
+  padding: 4px 12px;
+  border-radius: 4px;
+  background-color: var(--background-color);
+  color: var(--primary-color);
+  border: 1px solid var(--bullish-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+}
+
+.time-period-button:hover {
+  background-color: var(--bullish-color);
+  color: var(--background-color);
+}
+
+.time-period-button.active {
+  background-color: var(--bullish-color);
+  color: var(--background-color);
+}
