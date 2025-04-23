@@ -1,6 +1,7 @@
 {
   "name": "lilit-frontend",
   "version": "0.0.1",
+  "license": "MIT",
   "dependencies": {
     "@tanstack/react-query": "^5.74.4",
     "@types/node": "^20.11.24",
