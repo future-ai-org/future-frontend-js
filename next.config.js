@@ -4,28 +4,15 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   staticPageGenerationTimeout: 1000,
-
+  compiler: {
+    styledComponents: true,
+  },
   webpack: (config) => {
     config.module.rules.push({
       test: /\.css$/,
-      use: [
-        'style-loader',
-        {
-          loader: 'css-loader',
-          options: {
-            importLoaders: 1,
-            modules: {
-              auto: true,
-              localIdentName: '[name]__[local]--[hash:base64:5]',
-            },
-          },
-        },
-      ],
+      use: ['style-loader', 'css-loader', 'postcss-loader'],
     });
     return config;
-  },
-  images: {
-    domains: [],
   },
 };
 

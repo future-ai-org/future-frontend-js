@@ -155,9 +155,14 @@ const Wallet: React.FC = () => {
     return `${address.slice(0, WALLET_CONFIG.ADDRESS.PREFIX_LENGTH)}...${address.slice(-WALLET_CONFIG.ADDRESS.SUFFIX_LENGTH)}`;
   }, []);
 
-  const handleDisconnect = useCallback(() => {
-    disconnect();
-    router.push("/");
+  const handleDisconnect = useCallback(async () => {
+    try {
+      await disconnect();
+      router.push("/");
+    } catch (error) {
+      console.error("Error disconnecting wallet:", error);
+      setError(error instanceof Error ? error.message : strings.en.connectionError);
+    }
   }, [disconnect, router]);
 
   const handleConnect = useCallback(async () => {
