@@ -273,7 +273,8 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
               yAxisId="left" 
               stroke={colors.bullish}
               tick={{ fill: colors.bullish }}
-              domain={['auto', 'auto']}
+              domain={[(dataMin: number) => Math.floor(dataMin * 0.95), (dataMax: number) => Math.ceil(dataMax * 1.05)]}
+              tickFormatter={(value) => `$${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
             />
             <Tooltip
               contentStyle={{
@@ -282,7 +283,7 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
                 color: colors.bullish,
               }}
               labelFormatter={(value) => new Date(value).toLocaleDateString()}
-              formatter={(value: number) => [`$${value.toFixed(2)}`, 'Price']}
+              formatter={(value: number) => [`$${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 'Price']}
             />
             <Legend />
             <ReferenceLine yAxisId="left" y={0} stroke={colors.bullish + "1a"} />

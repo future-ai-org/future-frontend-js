@@ -15,7 +15,7 @@
 }
 
 .trading-container {
-  padding: 20px;
+  padding: 40px;
   background-color: var(--background-color);
   color: var(--color-primary);
   width: 100%;
@@ -165,18 +165,18 @@
 
 @media (max-width: 768px) {
   .trading-container {
-    padding: 12px;
+    padding: 20px;
   }
 
   .chartiq-container {
     height: 400px;
-    padding: 12px;
-    margin: 20px auto;
+    padding: 20px;
+    margin: 30px auto;
   }
 
   .time-period-selector {
     gap: 8px;
-    margin: 12px 0;
+    margin: 20px 0;
   }
 
   .time-period-button {
@@ -219,8 +219,8 @@
   height: 600px;
   background: var(--background-color);
   border-radius: 8px;
-  padding: 20px;
-  margin: 30px auto;
+  padding: 30px;
+  margin: 40px auto;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: relative;
 }
@@ -234,7 +234,7 @@
   display: flex;
   gap: 12px;
   justify-content: center;
-  margin: 20px 0;
+  margin: 40px 0;
   flex-wrap: wrap;
 }
 
