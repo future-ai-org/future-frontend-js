@@ -21,6 +21,7 @@
   text-shadow: var(--text-glow);
   animation: glow 2s ease-in-out infinite alternate;
   line-height: 1.2;
+  font-weight: 700;
 }
 
 @keyframes glow {

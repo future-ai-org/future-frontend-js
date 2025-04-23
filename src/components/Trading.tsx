@@ -1,313 +1,410 @@
 import React, { useEffect, useState, useCallback } from "react";
 import {
-  TradingData,
-  API_CONFIG,
-  CACHE_CONFIG,
-  TRADING_CONFIG,
-} from "../config/constants";
-import strings from "../i18n/trading.json";
-import { Loading } from "./Loading";
-import { useTheme } from "../contexts/ThemeContext";
+  ComposedChart,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  ReferenceLine,
+  Line,
+} from "recharts";
 import "../styles/trading.css";
 
 interface TradingProps {
   assetId: string;
 }
 
-interface TradingViewWidgetConfig {
-  symbol: string;
-  theme: string;
-  toolbar_bg: string;
-  overrides: Record<string, string | number | boolean>;
-  studies_overrides: Record<string, string | number | boolean>;
-  container_id: string;
+interface CandleData {
+  date: string;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  volume: number;
 }
 
-declare global {
-  interface Window {
-    TradingView: {
-      widget: new (config: TradingViewWidgetConfig) => void;
-    };
-  }
+type TimePeriod = "1D" | "1W" | "1M" | "3M" | "1Y" | "ALL";
+
+interface CandlestickProps {
+  x: number;
+  y: (value: number) => number;
+  width: number;
+  open: number;
+  close: number;
+  high: number;
+  low: number;
+  fill: string;
+  stroke: string;
 }
+
+const CustomCandlestick = (props: CandlestickProps) => {
+  const { x, y, width, open, close, high, low, fill, stroke } = props;
+  const isGrowing = close >= open;
+  const bodyHeight = Math.abs(y(close) - y(open));
+  const bodyY = isGrowing ? y(close) : y(open);
+
+  return (
+    <g>
+      {/* High-Low line */}
+      <line
+        x1={x + width / 2}
+        y1={y(high)}
+        x2={x + width / 2}
+        y2={y(low)}
+        stroke={isGrowing ? fill : stroke}
+        strokeWidth={1}
+      />
+      {/* Body */}
+      <rect
+        x={x}
+        y={bodyY}
+        width={width}
+        height={bodyHeight}
+        fill={isGrowing ? fill : stroke}
+        stroke={isGrowing ? fill : stroke}
+      />
+    </g>
+  );
+};
+
+const getTimePeriodConfig = (period: TimePeriod) => {
+  switch (period) {
+    case "1D":
+      return { days: 1, dataPoints: 24, interval: "hourly" };
+    case "1W":
+      return { days: 7, dataPoints: 7, interval: "daily" };
+    case "1M":
+      return { days: 30, dataPoints: 30, interval: "daily" };
+    case "3M":
+      return { days: 90, dataPoints: 90, interval: "daily" };
+    case "1Y":
+      return { days: 365, dataPoints: 365, interval: "daily" };
+    case "ALL":
+      return { days: "max", dataPoints: 365 * 2, interval: "daily" };
+    default:
+      return { days: 30, dataPoints: 30, interval: "daily" };
+  }
+};
 
 export const Trading: React.FC<TradingProps> = ({ assetId }) => {
-  const [tradingData, setTradingData] = useState<TradingData | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const { theme } = useTheme();
+  const [chartData, setChartData] = useState<CandleData[]>([]);
+  const [timePeriod, setTimePeriod] = useState<TimePeriod>("1M");
+  const [colors, setColors] = useState({
+    background: "#ffffff",
+    bullish: "#22c55e",
+    bearish: "#ef4444",
+  });
 
-  const loadCachedData = useCallback(() => {
-    const cachedData = localStorage.getItem(`cachedTradingData_${assetId}`);
-    const cachedTimestamp = localStorage.getItem(
-      `cachedTradingDataTimestamp_${assetId}`,
-    );
+  console.log("Trading component mounted with assetId:", assetId);
 
-    if (cachedData && cachedTimestamp) {
-      const parsedData = JSON.parse(cachedData);
-      const timestamp = parseInt(cachedTimestamp);
+  const fetchHistoricalData = useCallback(
+    async (period: TimePeriod) => {
+      try {
+        const { days, dataPoints, interval } = getTimePeriodConfig(period);
+        console.log("Fetching data with config:", {
+          days,
+          dataPoints,
+          period,
+          assetId,
+        });
 
-      if (Date.now() - timestamp < CACHE_CONFIG.DURATION) {
-        setTradingData(parsedData);
-        setIsLoading(false);
-        return true;
+        // Simple CoinGecko API call
+        const response = await fetch(
+          `https://api.coingecko.com/api/v3/coins/${assetId.toLowerCase()}/market_chart?vs_currency=usd&days=${days}&interval=${interval}`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          },
+        );
+
+        console.log("API Response status:", response.status);
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error("API Error:", {
+            status: response.status,
+            statusText: response.statusText,
+            error: errorText,
+          });
+          throw new Error(
+            `API Error: ${response.status} ${response.statusText}`,
+          );
+        }
+
+        const data = await response.json();
+        console.log("API Response data:", data);
+
+        if (!data.prices || !Array.isArray(data.prices)) {
+          throw new Error("Invalid data format received from API");
+        }
+
+        // Process the data
+        const processedData = data.prices.map(
+          (price: [number, number], index: number) => {
+            const [timestamp, close] = price;
+            const open = index > 0 ? data.prices[index - 1][1] : close;
+            const high = Math.max(open, close);
+            const low = Math.min(open, close);
+
+            return {
+              date: new Date(timestamp).toISOString(),
+              open,
+              high,
+              low,
+              close,
+              volume: 0,
+            };
+          },
+        );
+
+        console.log("Processed data points:", processedData.length);
+
+        // For 1Y period, we want to show monthly data points
+        if (period === "1Y") {
+          // Group data by month
+          const monthlyData = processedData.reduce(
+            (acc: { [key: string]: CandleData[] }, curr: CandleData) => {
+              const date = new Date(curr.date);
+              const monthKey = `${date.getFullYear()}-${date.getMonth()}`;
+              if (!acc[monthKey]) {
+                acc[monthKey] = [];
+              }
+              acc[monthKey].push(curr);
+              return acc;
+            },
+            {},
+          );
+
+          // Create monthly candles
+          const monthlyCandles = (
+            Object.values(monthlyData) as CandleData[][]
+          ).map((monthData: CandleData[]) => {
+            const firstDay = monthData[0];
+            const lastDay = monthData[monthData.length - 1];
+            return {
+              date: firstDay.date,
+              open: firstDay.open,
+              close: lastDay.close,
+              high: Math.max(...monthData.map((d: CandleData) => d.high)),
+              low: Math.min(...monthData.map((d: CandleData) => d.low)),
+              volume: monthData.reduce(
+                (sum: number, d: CandleData) => sum + d.volume,
+                0,
+              ),
+            };
+          });
+
+          setChartData(monthlyCandles);
+        } else {
+          // For other periods, use the existing sampling logic
+          const step = Math.max(
+            1,
+            Math.floor(processedData.length / dataPoints),
+          );
+          const sampledData = processedData.filter(
+            (_: CandleData, index: number) => index % step === 0,
+          );
+          setChartData(sampledData);
+        }
+      } catch (err) {
+        console.error("Error in fetchHistoricalData:", err);
+        // Set some sample data for debugging
+        const sampleData = Array.from({ length: 30 }, (_, i) => ({
+          date: new Date(
+            Date.now() - (30 - i) * 24 * 60 * 60 * 1000,
+          ).toISOString(),
+          open: 100 + Math.random() * 10,
+          high: 110 + Math.random() * 10,
+          low: 90 + Math.random() * 10,
+          close: 105 + Math.random() * 10,
+          volume: 1000,
+        }));
+        setChartData(sampleData);
       }
-    }
-    return false;
-  }, [assetId]);
-
-  const saveCachedData = useCallback(
-    (data: TradingData) => {
-      localStorage.setItem(
-        `cachedTradingData_${assetId}`,
-        JSON.stringify(data),
-      );
-      localStorage.setItem(
-        `cachedTradingDataTimestamp_${assetId}`,
-        Date.now().toString(),
-      );
     },
     [assetId],
   );
 
-  const fetchTradingData = useCallback(
-    async (retryCount = 0) => {
-      try {
-        if (retryCount === 0 && loadCachedData()) {
-          return;
-        }
-
-        if (!assetId) {
-          setIsLoading(true);
-          return;
-        }
-
-        const response = await fetch(
-          API_CONFIG.COINGECKO.BASE_URL +
-            API_CONFIG.COINGECKO.ENDPOINTS.COIN_DETAILS.replace(
-              "{{id}}",
-              assetId,
-            ),
-        );
-
-        if (!response.ok) {
-          if (retryCount < TRADING_CONFIG.MAX_RETRIES) {
-            const delay = Math.min(1000 * Math.pow(2, retryCount), 30000);
-            setTimeout(() => fetchTradingData(retryCount + 1), delay);
-          }
-          return;
-        }
-
-        const data = await response.json();
-        const tradingData = {
-          id: data.id,
-          symbol: data.symbol,
-          name: data.name,
-          current_price: data.market_data.current_price.usd,
-          price_change_percentage_24h:
-            data.market_data.price_change_percentage_24h,
-          market_cap: data.market_data.market_cap.usd,
-          total_volume: data.market_data.total_volume.usd,
-          high_24h: data.market_data.high_24h.usd,
-          low_24h: data.market_data.low_24h.usd,
-          ath: data.market_data.ath.usd,
-          ath_date: data.market_data.ath_date.usd,
-          atl: data.market_data.atl.usd,
-          atl_date: data.market_data.atl_date.usd,
-        };
-
-        setTradingData(tradingData);
-        saveCachedData(tradingData);
-      } catch (err) {
-        if (retryCount < TRADING_CONFIG.MAX_RETRIES) {
-          const delay = Math.min(1000 * Math.pow(2, retryCount), 30000);
-          setTimeout(() => fetchTradingData(retryCount + 1), delay);
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [assetId, loadCachedData, saveCachedData],
-  );
+  useEffect(() => {
+    console.log("useEffect triggered with timePeriod:", timePeriod);
+    fetchHistoricalData(timePeriod);
+  }, [timePeriod, fetchHistoricalData]);
 
   useEffect(() => {
-    if (assetId) {
-      fetchTradingData();
-    }
-  }, [assetId, fetchTradingData]);
-
-  useEffect(() => {
-    if (!tradingData) return;
-
-    const initializeTrading = () => {
-      if (!tradingData) return;
-      new window.TradingView.widget({
-        ...TRADING_CONFIG.WIDGET,
-        theme: theme,
-        toolbar_bg: getComputedStyle(document.documentElement).getPropertyValue(
-          "--color-background",
-        ),
-        overrides: {
-          ...TRADING_CONFIG.WIDGET.overrides,
-          "paneProperties.background": getComputedStyle(
-            document.documentElement,
-          ).getPropertyValue("--color-background"),
-          "scalesProperties.backgroundColor": getComputedStyle(
-            document.documentElement,
-          ).getPropertyValue("--color-background"),
-          "mainSeriesProperties.candleStyle.upColor": getComputedStyle(
-            document.documentElement,
-          ).getPropertyValue("--color-bullish"),
-          "mainSeriesProperties.candleStyle.downColor": getComputedStyle(
-            document.documentElement,
-          ).getPropertyValue("--color-bearish"),
-          "mainSeriesProperties.candleStyle.borderUpColor": getComputedStyle(
-            document.documentElement,
-          ).getPropertyValue("--color-bullish"),
-          "mainSeriesProperties.candleStyle.borderDownColor": getComputedStyle(
-            document.documentElement,
-          ).getPropertyValue("--color-bearish"),
-          "mainSeriesProperties.candleStyle.wickUpColor": getComputedStyle(
-            document.documentElement,
-          ).getPropertyValue("--color-bullish"),
-          "mainSeriesProperties.candleStyle.wickDownColor": getComputedStyle(
-            document.documentElement,
-          ).getPropertyValue("--color-bearish"),
-          "paneProperties.vertGridProperties.color": `${getComputedStyle(document.documentElement).getPropertyValue("--color-bullish")}1a`,
-          "paneProperties.horzGridProperties.color": `${getComputedStyle(document.documentElement).getPropertyValue("--color-bullish")}1a`,
-          "scalesProperties.textColor": getComputedStyle(
-            document.documentElement,
-          ).getPropertyValue("--color-bullish"),
-          "mainSeriesProperties.background": getComputedStyle(
-            document.documentElement,
-          ).getPropertyValue("--color-background"),
-          "mainSeriesProperties.gridColor": `${getComputedStyle(document.documentElement).getPropertyValue("--color-bullish")}1a`,
-          "mainSeriesProperties.crossHairProperties.color": getComputedStyle(
-            document.documentElement,
-          ).getPropertyValue("--color-bullish"),
-          "mainSeriesProperties.crossHairProperties.width": 1,
-          "mainSeriesProperties.crossHairProperties.style": 2,
-          "mainSeriesProperties.crossHairProperties.visible": true,
-          "mainSeriesProperties.crossHairProperties.labelBackgroundColor":
-            getComputedStyle(document.documentElement).getPropertyValue(
-              "--color-background",
-            ),
-        },
-        studies_overrides: {
-          "volume.volume.color.0": getComputedStyle(
-            document.documentElement,
-          ).getPropertyValue("--color-bullish"),
-          "volume.volume.color.1": getComputedStyle(
-            document.documentElement,
-          ).getPropertyValue("--color-bearish"),
-          "volume.volume.transparency": 70,
-        },
-        symbol: `${TRADING_CONFIG.SYMBOL_FORMAT.EXCHANGE}${TRADING_CONFIG.SYMBOL_FORMAT.SEPARATOR}${tradingData.symbol.toUpperCase()}${TRADING_CONFIG.SYMBOL_FORMAT.QUOTE}`,
-        container_id: "trading_widget",
+    if (typeof window !== "undefined") {
+      setColors({
+        background:
+          getComputedStyle(document.documentElement).getPropertyValue(
+            "--color-background",
+          ) || "#ffffff",
+        bullish:
+          getComputedStyle(document.documentElement).getPropertyValue(
+            "--color-primary",
+          ) || "#22c55e",
+        bearish:
+          getComputedStyle(document.documentElement).getPropertyValue(
+            "--color-secondary",
+          ) || "#ef4444",
       });
-    };
-
-    if (!document.getElementById(TRADING_CONFIG.SCRIPT_ID)) {
-      const script = document.createElement("script");
-      script.id = TRADING_CONFIG.SCRIPT_ID;
-      script.src = TRADING_CONFIG.TRADING_SCRIPT;
-      script.async = true;
-      script.onload = initializeTrading;
-      document.head.appendChild(script);
-    } else {
-      initializeTrading();
     }
+  }, []);
 
-    return () => {
-      const script = document.getElementById(TRADING_CONFIG.SCRIPT_ID);
-      if (script) {
-        document.head.removeChild(script);
-      }
-    };
-  }, [tradingData, theme]);
-
-  if (isLoading || !tradingData) {
-    return (
-      <div className="trading-container">
-        <Loading />
-      </div>
-    );
-  }
+  const timePeriods: TimePeriod[] = ["1D", "1W", "1M", "3M", "1Y", "ALL"];
 
   return (
     <div className="trading-container">
-      <table className="info-grid">
-        <tbody>
-          <tr>
-            <td className="info-card">
-              <div className="info-label">{strings.en.labels.currentPrice}</div>
-              <div className="info-value">
-                ${tradingData?.current_price?.toLocaleString() ?? "N/A"}
-              </div>
-            </td>
-            <td className="info-card">
-              <div className="info-label">
-                {strings.en.labels.priceChange24h}
-              </div>
-              <div
-                className={`info-value ${tradingData?.price_change_percentage_24h >= 0 ? "price-change-positive" : "price-change-negative"}`}
-              >
-                {tradingData?.price_change_percentage_24h >= 0 ? "+" : ""}
-                {tradingData?.price_change_percentage_24h?.toFixed(2) ?? "N/A"}%
-              </div>
-            </td>
-            <td className="info-card">
-              <div className="info-label">{strings.en.labels.marketCap}</div>
-              <div className="info-value">
-                ${tradingData?.market_cap?.toLocaleString() ?? "N/A"}
-              </div>
-            </td>
-            <td className="info-card">
-              <div className="info-label">{strings.en.labels.volume24h}</div>
-              <div className="info-value">
-                ${tradingData?.total_volume?.toLocaleString() ?? "N/A"}
-              </div>
-            </td>
-            <td className="info-card">
-              <div className="info-label">{strings.en.labels.high24h}</div>
-              <div className="info-value">
-                ${tradingData?.high_24h?.toLocaleString() ?? "N/A"}
-              </div>
-            </td>
-            <td className="info-card">
-              <div className="info-label">{strings.en.labels.low24h}</div>
-              <div className="info-value">
-                ${tradingData?.low_24h?.toLocaleString() ?? "N/A"}
-              </div>
-            </td>
-            <td className="info-card">
-              <div className="info-label">{strings.en.labels.allTimeHigh}</div>
-              <div className="info-value">
-                ${tradingData?.ath?.toLocaleString() ?? "N/A"}
-              </div>
-              <div className="info-label">
-                {strings.en.labels.date}:{" "}
-                {tradingData?.ath_date
-                  ? new Date(tradingData.ath_date).toLocaleDateString()
-                  : "N/A"}
-              </div>
-            </td>
-            <td className="info-card">
-              <div className="info-label">{strings.en.labels.allTimeLow}</div>
-              <div className="info-value">
-                ${tradingData?.atl?.toLocaleString() ?? "N/A"}
-              </div>
-              <div className="info-label">
-                {strings.en.labels.date}:{" "}
-                {tradingData?.atl_date
-                  ? new Date(tradingData.atl_date).toLocaleDateString()
-                  : "N/A"}
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div className="trading-widget">
-        <div id="trading_widget" />
+      <div className="time-period-selector">
+        {timePeriods.map((period) => (
+          <button
+            key={period}
+            className={`time-period-button ${timePeriod === period ? "active" : ""}`}
+            onClick={() => setTimePeriod(period)}
+          >
+            {period}
+          </button>
+        ))}
+      </div>
+      <div className="chartiq-container">
+        <ResponsiveContainer width="100%" height={500}>
+          <ComposedChart
+            data={chartData}
+            margin={{
+              top: 20,
+              right: 20,
+              bottom: 20,
+              left: 40,
+            }}
+          >
+            <CartesianGrid
+              strokeDasharray="3 3"
+              stroke={colors.bullish + "1a"}
+            />
+            <XAxis
+              dataKey="date"
+              stroke={colors.bullish}
+              tick={{ fill: colors.bullish }}
+              tickFormatter={(value) => {
+                const date = new Date(value);
+                switch (timePeriod) {
+                  case "1D":
+                    return date.toLocaleTimeString("en-US", {
+                      hour: "numeric",
+                      minute: "2-digit",
+                    });
+                  case "1W":
+                    return date.toLocaleDateString("en-US", {
+                      weekday: "short",
+                      day: "numeric",
+                    });
+                  case "1M":
+                    return date.toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                    });
+                  case "3M":
+                    return date.toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                    });
+                  case "1Y":
+                    return date
+                      .toLocaleDateString("en-US", { month: "short" })
+                      .slice(0, 3);
+                  case "ALL":
+                    return date.toLocaleDateString("en-US", {
+                      month: "short",
+                      year: "2-digit",
+                    });
+                  default:
+                    return date.toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                    });
+                }
+              }}
+            />
+            <YAxis
+              yAxisId="left"
+              stroke={colors.bullish}
+              tick={{ fill: colors.bullish }}
+              domain={[
+                () => {
+                  const min = Math.min(...chartData.map((d) => d.low));
+                  const range = Math.max(...chartData.map((d) => d.high)) - min;
+                  return Math.floor(min - range * 0.05);
+                },
+                () => {
+                  const max = Math.max(...chartData.map((d) => d.high));
+                  const range = max - Math.min(...chartData.map((d) => d.low));
+                  return Math.ceil(max + range * 0.05);
+                },
+              ]}
+              tickFormatter={(value) =>
+                `$${value.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+              }
+            />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: colors.background,
+                border: `1px solid ${colors.bullish}`,
+                color: colors.bullish,
+              }}
+              labelFormatter={(value) => new Date(value).toLocaleDateString()}
+              formatter={(value: number) => [
+                `$${value.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+                "Price",
+              ]}
+            />
+            <Legend />
+            <ReferenceLine
+              yAxisId="left"
+              y={0}
+              stroke={colors.bullish + "1a"}
+            />
+
+            {/* Candlesticks */}
+            {chartData.length > 0 &&
+              chartData.map((entry, index) => {
+                const x = index * (500 / chartData.length);
+                const candleWidth = Math.max(5, 500 / chartData.length - 2);
+
+                return (
+                  <CustomCandlestick
+                    key={index}
+                    x={x}
+                    y={(value: number) => {
+                      const min = Math.min(...chartData.map((d) => d.low));
+                      const max = Math.max(...chartData.map((d) => d.high));
+                      const range = max - min;
+                      return 450 - ((value - min) / range) * 400;
+                    }}
+                    width={candleWidth}
+                    open={entry.open}
+                    close={entry.close}
+                    high={entry.high}
+                    low={entry.low}
+                    fill={colors.bullish}
+                    stroke={colors.bearish}
+                  />
+                );
+              })}
+
+            {/* Add a line chart for the closing prices */}
+            <Line
+              type="monotone"
+              dataKey="close"
+              stroke={colors.bullish + "80"}
+              strokeWidth={1}
+              dot={false}
+              yAxisId="left"
+            />
+          </ComposedChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );

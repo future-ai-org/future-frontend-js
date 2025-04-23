@@ -1,0 +1,31 @@
+name: ✨ code quality
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: use node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'yarn'
+    
+    - name: install dependencies
+      run: yarn install --frozen-lockfile
+    
+    - name: check formatting
+      run: yarn prettier --check "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}"
+    
+    - name: bundle analysis
+      run: |
+        yarn add @next/bundle-analyzer
+        ANALYZE=true yarn build 
