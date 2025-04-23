@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   ComposedChart,
-  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -9,8 +8,8 @@ import {
   Legend,
   ResponsiveContainer,
   ReferenceLine,
-  Brush,
   Line,
+  Rectangle,
 } from "recharts";
 import { Loading } from "./Loading";
 import "../styles/trading.css";
@@ -32,6 +31,49 @@ interface CandleData {
 }
 
 type TimePeriod = "1D" | "1W" | "1M" | "3M" | "1Y" | "ALL";
+
+interface CandlestickProps {
+  x: number;
+  y: (value: number) => number;
+  width: number;
+  open: number;
+  close: number;
+  high: number;
+  low: number;
+  fill: string;
+  stroke: string;
+}
+
+const CustomCandlestick = (props: CandlestickProps) => {
+  const { x, y, width, open, close, high, low, fill, stroke } = props;
+  const isGrowing = close >= open;
+  const bodyHeight = Math.abs(y(close) - y(open));
+  const bodyY = isGrowing ? y(close) : y(open);
+  
+  return (
+    <g>
+      {/* High-Low line */}
+      <Line
+        x1={x + width / 2}
+        y1={y(high)}
+        x2={x + width / 2}
+        y2={y(low)}
+        stroke={stroke}
+        strokeWidth={1}
+      />
+      {/* Body */}
+      <Rectangle
+        x={x}
+        y={bodyY}
+        width={width}
+        height={bodyHeight}
+        fill={isGrowing ? fill : stroke}
+        stroke={stroke}
+        strokeWidth={1}
+      />
+    </g>
+  );
+};
 
 export const Trading: React.FC<TradingProps> = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -149,8 +191,8 @@ export const Trading: React.FC<TradingProps> = () => {
 
   const colors = {
     background: getComputedStyle(document.documentElement).getPropertyValue("--color-background"),
-    bullish: getComputedStyle(document.documentElement).getPropertyValue("--color-bullish"),
-    bearish: getComputedStyle(document.documentElement).getPropertyValue("--color-bearish"),
+    bullish: getComputedStyle(document.documentElement).getPropertyValue("--bullish-color"),
+    bearish: getComputedStyle(document.documentElement).getPropertyValue("--bearish-color"),
   };
 
   const timePeriods: TimePeriod[] = ["1D", "1W", "1M", "3M", "1Y", "ALL"];
@@ -182,7 +224,6 @@ export const Trading: React.FC<TradingProps> = () => {
             <CartesianGrid strokeDasharray="3 3" stroke={colors.bullish + "1a"} />
             <XAxis dataKey="date" stroke={colors.bullish} />
             <YAxis yAxisId="left" stroke={colors.bullish} domain={['auto', 'auto']} />
-            <YAxis yAxisId="right" orientation="right" stroke={colors.bullish} />
             <Tooltip
               contentStyle={{
                 backgroundColor: colors.background,
@@ -192,7 +233,7 @@ export const Trading: React.FC<TradingProps> = () => {
             <Legend />
             <ReferenceLine yAxisId="left" y={0} stroke={colors.bullish + "1a"} />
             
-            {/* Price chart */}
+            {/* Price line */}
             <Line
               yAxisId="left"
               type="monotone"
@@ -202,48 +243,21 @@ export const Trading: React.FC<TradingProps> = () => {
               name="Price"
             />
             
-            {/* Moving Averages */}
-            <Line
-              yAxisId="left"
-              type="monotone"
-              dataKey="ma5"
-              stroke={colors.bullish + "99"}
-              dot={false}
-              name="MA5"
-            />
-            <Line
-              yAxisId="left"
-              type="monotone"
-              dataKey="ma10"
-              stroke={colors.bearish + "99"}
-              dot={false}
-              name="MA10"
-            />
-            
-            {/* Volume */}
-            <Bar
-              yAxisId="right"
-              dataKey="volume"
-              fill={colors.bullish + "66"}
-              name="Volume"
-            />
-            
-            {/* RSI */}
-            <Line
-              yAxisId="right"
-              type="monotone"
-              dataKey="rsi"
-              stroke={colors.bullish + "cc"}
-              dot={false}
-              name="RSI"
-            />
-            
-            <Brush
-              dataKey="date"
-              height={30}
-              stroke={colors.bullish}
-              fill={colors.background}
-            />
+            {/* Candlestick chart */}
+            {chartData.map((entry, index) => (
+              <CustomCandlestick
+                key={index}
+                x={index * 20 - 7.5}
+                y={(value: number) => value}
+                width={15}
+                open={entry.open}
+                close={entry.close}
+                high={entry.high}
+                low={entry.low}
+                fill={colors.bullish}
+                stroke={colors.bearish}
+              />
+            ))}
           </ComposedChart>
         </ResponsiveContainer>
       </div>
