@@ -1,8 +1,14 @@
 module.exports = {
   extends: [
-    'react-app',
-    'react-app/jest'
+    'next/core-web-vitals',
+    'plugin:@typescript-eslint/recommended'
   ],
+  parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint'],
+  rules: {
+    '@typescript-eslint/no-unused-vars': 'error',
+    '@typescript-eslint/no-explicit-any': 'warn'
+  },
   globals: {
     BigInt: 'readonly',
     globalThis: 'readonly',

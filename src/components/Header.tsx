@@ -1,6 +1,10 @@
+"use client";
+
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import "../styles/header.css";
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import styles from "../styles/header.module.css";
 import strings from "../i18n/header.json";
 import { Toggler } from "./Toggler";
 import Wallet from "./Wallet";
@@ -9,20 +13,20 @@ import logo from "../assets/logo.svg";
 
 const Header: React.FC = () => {
   const { isConnected } = useWeb3();
-  const location = useLocation();
+  const pathname = usePathname();
 
   const isActive = (path: string) => {
     if (path === "/") {
-      return location.pathname === path;
+      return pathname === path;
     }
-    return location.pathname.startsWith(path);
+    return pathname?.startsWith(path);
   };
 
   return (
-    <header className="header">
-      <div className="header-content">
+    <header className={styles.header}>
+      <div className={styles.headerContent}>
         <Link
-          to="/"
+          href="/"
           style={{
             textDecoration: "none",
             color: "var(--primary-color)",
@@ -31,44 +35,47 @@ const Header: React.FC = () => {
             gap: "12px",
           }}
         >
-          <img
+          <Image
             src={logo}
-            alt="Logo"
+            alt="LILIT Logo"
+            width={30}
+            height={30}
+            priority
             style={{ width: "30px", height: "30px" }}
           />
-          <div className="header-title-container">
-            <h1 className="header-title">{strings.en.title}</h1>
+          <div className={styles.headerTitleContainer}>
+            <h1 className={styles.headerTitle}>{strings.en.title}</h1>
           </div>
         </Link>
-        <nav className="header-nav">
+        <nav className={styles.headerNav}>
           <Link
-            to="/astrology"
-            className={`nav-link ${isActive("/astrology") ? "active" : ""}`}
+            href="/astrology"
+            className={`${styles.navLink} ${isActive("/astrology") ? styles.active : ""}`}
           >
             {strings.en.nav.astrology}
           </Link>
           <Link
-            to="/invest"
-            className={`nav-link ${isActive("/invest") ? "active" : ""}`}
+            href="/invest"
+            className={`${styles.navLink} ${isActive("/invest") ? styles.active : ""}`}
           >
             {strings.en.nav.invest}
           </Link>
           <Link
-            to="/about"
-            className={`nav-link ${isActive("/about") ? "active" : ""}`}
+            href="/about"
+            className={`${styles.navLink} ${isActive("/about") ? styles.active : ""}`}
           >
             {strings.en.nav.about}
           </Link>
           {isConnected && (
             <Link
-              to="/"
-              className={`nav-link ${isActive("/") ? "active" : ""}`}
+              href="/dashboard"
+              className={`${styles.navLink} ${isActive("/dashboard") ? styles.active : ""}`}
             >
               {strings.en.nav.dashboard}
             </Link>
           )}
         </nav>
-        <div className="header-right">
+        <div className={styles.headerRight}>
           <Wallet />
           <Toggler />
         </div>

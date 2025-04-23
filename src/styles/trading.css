@@ -17,16 +17,23 @@
 }
 
 .trading-container {
-  padding: 72px 32px 16px;
-  color: var(--bullish-color);
+  padding: 16px;
+  color: var(--primary-color);
   background-color: var(--background-color);
-  min-height: calc(100vh - 120px);
+  height: calc(100vh - 64px);
   font-family: inherit;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
   box-sizing: border-box;
   width: 100%;
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
+  padding-top: 32px;
 }
 
 .chart-container {
@@ -41,19 +48,17 @@
 
 .info-grid {
   display: table;
-  width: 100%;
+  width: calc(100% - 32px);
+  margin: 3px auto;
   border-collapse: collapse;
-  margin: 0 0 24px 0;
-  padding: 10;
-  border: 1px solid var(--border-color);
-  border-top: 1px solid var(--border-color);
+  padding: 20;
   border-spacing: 0;
   table-layout: fixed;
   text-align: center;
-  box-sizing: border-box;
   overflow-x: auto;
   white-space: nowrap;
   background-color: var(--background-color);
+  flex-shrink: 0;
 }
 
 .info-grid::-webkit-scrollbar {
@@ -71,8 +76,7 @@
 
 .info-card {
   display: table-cell;
-  padding: 4px 6px;
-  border-bottom: 1px solid var(--border-color);
+  padding: 16px 8px;
   font-family: var(--base-font);
   overflow: visible;
   white-space: nowrap;
@@ -83,6 +87,7 @@
   transition: all 0.2s ease;
   min-width: 80px;
   max-width: 120px;
+  color: var(--primary-color);
 }
 
 .info-card:hover {
@@ -90,7 +95,7 @@
 }
 
 .info-label {
-  color: var(--text-color);
+  color: var(--primary-color);
   font-size: 0.65rem;
   margin-bottom: 1px;
   opacity: 0.8;
@@ -101,7 +106,7 @@
 }
 
 .info-value {
-  color: var(--bullish-color);
+  color: var(--primary-color);
   font-size: 0.75rem;
   font-weight: bold;
   text-align: center;
@@ -109,15 +114,23 @@
 }
 
 .trading-widget {
-  width: 100%;
+  width: calc(100% - 32px);
+  margin: 0 auto;
+  padding-bottom: 16px;
   flex: 1;
   min-height: 400px;
-  max-height: 600px;
   background-color: var(--background-color);
   position: relative;
   border-radius: 4px;
   overflow: hidden;
-  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+}
+
+#trading_widget {
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
 }
 
 /* TradingView widget specific styles */
@@ -128,6 +141,9 @@
   background-color: var(--background-color) !important;
   border-radius: 4px;
   height: 100% !important;
+  width: 100% !important;
+  flex: 1;
+  min-height: 400px;
 }
 
 .trading-widget div[class*="chart-container"] {
@@ -159,8 +175,8 @@
 
 @media (max-width: 768px) {
   .trading-container {
-    padding: 48px 20px 20px;
-    gap: 10px;
+    padding: 12px;
+    gap: 8px;
   }
 
   .info-grid {
@@ -182,7 +198,6 @@
   }
 
   .trading-widget {
-    min-height: 350px;
-    max-height: 500px;
+    padding-bottom: 8px;
   }
 }

@@ -14,6 +14,7 @@
         "price": "price",
         "change": "24h change",
         "marketCap": "market cap",
+        "ath": "all time high",
         "chart": "zoom in to trade"
       }
     }

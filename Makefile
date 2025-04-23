@@ -1,13 +1,4 @@
-.PHONY: build install server clean lint check format test
-
-install:
-	yarn install
-
-build:
-	yarn build
-
-server:
-	yarn start
+.PHONY: clean install build server lint
 
 clean:
 	rm -rf dist/
@@ -19,14 +10,16 @@ clean:
 	yarn cache clean
 	rm -f yarn.lock
 
+install:
+	yarn install
+
+build:
+	yarn build
+
+server:
+	yarn build
+	yarn start
+
 lint:
 	yarn lint
-
-check:
-	yarn tsc --noEmit
-
-format:
 	yarn prettier --write "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}"
-
-test:
-	yarn test

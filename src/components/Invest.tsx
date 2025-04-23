@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState, useCallback } from "react";
 import "../styles/invest.css";
 import strings from "../i18n/invest.json";
@@ -12,12 +14,20 @@ interface CryptoData {
   current_price: number;
   price_change_percentage_24h: number;
   market_cap: number;
+  ath: number;
+  ath_date: string;
   sparkline_in_7d?: {
     price: number[];
   };
 }
 
-export const Invest: React.FC = () => {
+interface TrendingCoin {
+  item: {
+    id: string;
+  };
+}
+
+export default function Invest() {
   const [cryptoData, setCryptoData] = useState<CryptoData[]>([]);
   const [memecoinData, setMemecoinData] = useState<CryptoData[]>([]);
   const [trendingData, setTrendingData] = useState<CryptoData[]>([]);
@@ -130,7 +140,7 @@ export const Invest: React.FC = () => {
           (crypto) => crypto.id !== "dogecoin",
         );
         const trendingIds = trendingData.coins
-          .map((coin: any) => coin.item.id)
+          .map((coin: TrendingCoin) => coin.item.id)
           .join(",");
 
         const trendingDetailsResponse = await fetch(
@@ -201,6 +211,7 @@ export const Invest: React.FC = () => {
               <th className="table-header">{t.table.headers.price}</th>
               <th className="table-header">{t.table.headers.change}</th>
               <th className="table-header">{t.table.headers.marketCap}</th>
+              <th className="table-header">{t.table.headers.ath}</th>
               <th className="table-header">{t.table.headers.chart}</th>
             </tr>
           </thead>
@@ -273,6 +284,16 @@ export const Invest: React.FC = () => {
                   >
                     ${(crypto.market_cap / 1000000000).toFixed(2)}B
                   </td>
+                  <td className={`table-cell crypto-ath-cell ${colorClass}`}>
+                    $
+                    {crypto.ath.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 6,
+                    })}
+                    <div className="ath-date">
+                      {new Date(crypto.ath_date).toLocaleDateString()}
+                    </div>
+                  </td>
                   <td className="table-cell">
                     {crypto.sparkline_in_7d?.price ? (
                       <a href={`/trading/${crypto.id}`} className="chart-link">
@@ -315,4 +336,4 @@ export const Invest: React.FC = () => {
       )}
     </div>
   );
-};
+}

@@ -42,3 +42,24 @@ coverage/
 .next/
 out/
 node_modules/
+
+# Next.js
+.next/
+.next/cache/
+.next/standalone/
+.next/types/
+.next/build-manifest.json
+.next/build-manifest.json
+.next/fallback-build-manifest.json
+.next/required-server-files.json
+.next/server/
+.next/serverless/
+.next/static/
+.next/trace
+.next/turbo
+
+# Tailwind CSS
+*.css.map
+*.css
+!tailwind.css
+!tailwind.config.js
