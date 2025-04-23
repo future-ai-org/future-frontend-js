@@ -8,15 +8,30 @@ declare module "*.svg" {
   export default content;
 }
 
+interface EthereumProvider {
+  isMetaMask?: boolean;
+  isBraveWallet?: boolean;
+  isRainbow?: boolean;
+  providers?: EthereumProvider[];
+  request: (params: { method: string; params: unknown[] }) => Promise<unknown>;
+}
+
+interface SolanaRequestParams {
+  method: string;
+  params: unknown[];
+}
+
+interface SolanaProvider {
+  connect: () => Promise<{ publicKey: string }>;
+  disconnect: () => Promise<void>;
+  on: (event: string, callback: () => void) => void;
+  removeAllListeners: () => void;
+  request: (params: SolanaRequestParams) => Promise<unknown>;
+}
+
 interface Window {
-  ethereum?: any;
+  ethereum?: EthereumProvider;
   phantom?: {
-    solana: {
-      connect: () => Promise<any>;
-      disconnect: () => Promise<void>;
-      on: (event: string, callback: () => void) => void;
-      removeAllListeners: () => void;
-      request: (params: { method: string; params: any[] }) => Promise<any>;
-    };
+    solana: SolanaProvider;
   };
 }

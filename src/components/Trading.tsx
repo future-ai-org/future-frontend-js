@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
 import {
   TradingData,
   API_CONFIG,
@@ -9,11 +8,30 @@ import {
 import strings from "../i18n/trading.json";
 import { Loading } from "./Loading";
 import { useTheme } from "../contexts/ThemeContext";
-import { colors } from "../styles/colors";
 import "../styles/trading.css";
 
-export const Trading: React.FC = () => {
-  const { assetId } = useParams<{ assetId: string }>();
+interface TradingProps {
+  assetId: string;
+}
+
+interface TradingViewWidgetConfig {
+  symbol: string;
+  theme: string;
+  toolbar_bg: string;
+  overrides: Record<string, string | number | boolean>;
+  studies_overrides: Record<string, string | number | boolean>;
+  container_id: string;
+}
+
+declare global {
+  interface Window {
+    TradingView: {
+      widget: new (config: TradingViewWidgetConfig) => void;
+    };
+  }
+}
+
+export const Trading: React.FC<TradingProps> = ({ assetId }) => {
   const [tradingData, setTradingData] = useState<TradingData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { theme } = useTheme();
@@ -122,43 +140,65 @@ export const Trading: React.FC = () => {
 
     const initializeTrading = () => {
       if (!tradingData) return;
-      const currentThemeColors = colors[theme];
-      new (window as any).TradingView.widget({
+      new window.TradingView.widget({
         ...TRADING_CONFIG.WIDGET,
         theme: theme,
-        toolbar_bg: currentThemeColors.background,
+        toolbar_bg: getComputedStyle(document.documentElement).getPropertyValue(
+          "--color-background",
+        ),
         overrides: {
           ...TRADING_CONFIG.WIDGET.overrides,
-          "paneProperties.background": currentThemeColors.background,
-          "scalesProperties.backgroundColor": currentThemeColors.background,
-          "mainSeriesProperties.candleStyle.upColor":
-            currentThemeColors.bullish,
-          "mainSeriesProperties.candleStyle.downColor":
-            currentThemeColors.bearish,
-          "mainSeriesProperties.candleStyle.borderUpColor":
-            currentThemeColors.bullish,
-          "mainSeriesProperties.candleStyle.borderDownColor":
-            currentThemeColors.bearish,
-          "mainSeriesProperties.candleStyle.wickUpColor":
-            currentThemeColors.bullish,
-          "mainSeriesProperties.candleStyle.wickDownColor":
-            currentThemeColors.bearish,
-          "paneProperties.vertGridProperties.color": `${currentThemeColors.bullish}1a`,
-          "paneProperties.horzGridProperties.color": `${currentThemeColors.bullish}1a`,
-          "scalesProperties.textColor": currentThemeColors.bullish,
-          "mainSeriesProperties.background": currentThemeColors.background,
-          "mainSeriesProperties.gridColor": `${currentThemeColors.bullish}1a`,
-          "mainSeriesProperties.crossHairProperties.color":
-            currentThemeColors.bullish,
+          "paneProperties.background": getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--color-background"),
+          "scalesProperties.backgroundColor": getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--color-background"),
+          "mainSeriesProperties.candleStyle.upColor": getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--color-bullish"),
+          "mainSeriesProperties.candleStyle.downColor": getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--color-bearish"),
+          "mainSeriesProperties.candleStyle.borderUpColor": getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--color-bullish"),
+          "mainSeriesProperties.candleStyle.borderDownColor": getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--color-bearish"),
+          "mainSeriesProperties.candleStyle.wickUpColor": getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--color-bullish"),
+          "mainSeriesProperties.candleStyle.wickDownColor": getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--color-bearish"),
+          "paneProperties.vertGridProperties.color": `${getComputedStyle(document.documentElement).getPropertyValue("--color-bullish")}1a`,
+          "paneProperties.horzGridProperties.color": `${getComputedStyle(document.documentElement).getPropertyValue("--color-bullish")}1a`,
+          "scalesProperties.textColor": getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--color-bullish"),
+          "mainSeriesProperties.background": getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--color-background"),
+          "mainSeriesProperties.gridColor": `${getComputedStyle(document.documentElement).getPropertyValue("--color-bullish")}1a`,
+          "mainSeriesProperties.crossHairProperties.color": getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--color-bullish"),
           "mainSeriesProperties.crossHairProperties.width": 1,
           "mainSeriesProperties.crossHairProperties.style": 2,
           "mainSeriesProperties.crossHairProperties.visible": true,
           "mainSeriesProperties.crossHairProperties.labelBackgroundColor":
-            currentThemeColors.background,
+            getComputedStyle(document.documentElement).getPropertyValue(
+              "--color-background",
+            ),
         },
         studies_overrides: {
-          "volume.volume.color.0": currentThemeColors.bullish,
-          "volume.volume.color.1": currentThemeColors.bearish,
+          "volume.volume.color.0": getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--color-bullish"),
+          "volume.volume.color.1": getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--color-bearish"),
           "volume.volume.transparency": 70,
         },
         symbol: `${TRADING_CONFIG.SYMBOL_FORMAT.EXCHANGE}${TRADING_CONFIG.SYMBOL_FORMAT.SEPARATOR}${tradingData.symbol.toUpperCase()}${TRADING_CONFIG.SYMBOL_FORMAT.QUOTE}`,
@@ -201,7 +241,7 @@ export const Trading: React.FC = () => {
             <td className="info-card">
               <div className="info-label">{strings.en.labels.currentPrice}</div>
               <div className="info-value">
-                ${tradingData.current_price.toLocaleString()}
+                ${tradingData?.current_price?.toLocaleString() ?? "N/A"}
               </div>
             </td>
             <td className="info-card">
@@ -209,60 +249,66 @@ export const Trading: React.FC = () => {
                 {strings.en.labels.priceChange24h}
               </div>
               <div
-                className={`info-value ${tradingData.price_change_percentage_24h >= 0 ? "price-change-positive" : "price-change-negative"}`}
+                className={`info-value ${tradingData?.price_change_percentage_24h >= 0 ? "price-change-positive" : "price-change-negative"}`}
               >
-                {tradingData.price_change_percentage_24h >= 0 ? "+" : ""}
-                {tradingData.price_change_percentage_24h.toFixed(2)}%
+                {tradingData?.price_change_percentage_24h >= 0 ? "+" : ""}
+                {tradingData?.price_change_percentage_24h?.toFixed(2) ?? "N/A"}%
               </div>
             </td>
             <td className="info-card">
               <div className="info-label">{strings.en.labels.marketCap}</div>
               <div className="info-value">
-                ${tradingData.market_cap.toLocaleString()}
+                ${tradingData?.market_cap?.toLocaleString() ?? "N/A"}
               </div>
             </td>
             <td className="info-card">
               <div className="info-label">{strings.en.labels.volume24h}</div>
               <div className="info-value">
-                ${tradingData.total_volume.toLocaleString()}
+                ${tradingData?.total_volume?.toLocaleString() ?? "N/A"}
               </div>
             </td>
             <td className="info-card">
               <div className="info-label">{strings.en.labels.high24h}</div>
               <div className="info-value">
-                ${tradingData.high_24h.toLocaleString()}
+                ${tradingData?.high_24h?.toLocaleString() ?? "N/A"}
               </div>
             </td>
             <td className="info-card">
               <div className="info-label">{strings.en.labels.low24h}</div>
               <div className="info-value">
-                ${tradingData.low_24h.toLocaleString()}
+                ${tradingData?.low_24h?.toLocaleString() ?? "N/A"}
               </div>
             </td>
             <td className="info-card">
               <div className="info-label">{strings.en.labels.allTimeHigh}</div>
               <div className="info-value">
-                ${tradingData.ath.toLocaleString()}
+                ${tradingData?.ath?.toLocaleString() ?? "N/A"}
               </div>
               <div className="info-label">
                 {strings.en.labels.date}:{" "}
-                {new Date(tradingData.ath_date).toLocaleDateString()}
+                {tradingData?.ath_date
+                  ? new Date(tradingData.ath_date).toLocaleDateString()
+                  : "N/A"}
               </div>
             </td>
             <td className="info-card">
               <div className="info-label">{strings.en.labels.allTimeLow}</div>
               <div className="info-value">
-                ${tradingData.atl.toLocaleString()}
+                ${tradingData?.atl?.toLocaleString() ?? "N/A"}
               </div>
               <div className="info-label">
                 {strings.en.labels.date}:{" "}
-                {new Date(tradingData.atl_date).toLocaleDateString()}
+                {tradingData?.atl_date
+                  ? new Date(tradingData.atl_date).toLocaleDateString()
+                  : "N/A"}
               </div>
             </td>
           </tr>
         </tbody>
       </table>
-      <div className="trading-widget" id="trading_widget" />
+      <div className="trading-widget">
+        <div id="trading_widget" />
+      </div>
     </div>
   );
 };

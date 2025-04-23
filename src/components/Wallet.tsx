@@ -1,36 +1,48 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useWeb3 } from "../contexts/Web3ModalContext";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import { createPortal } from "react-dom";
 import "../styles/wallet.css";
 import strings from "../i18n/wallet.json";
 import { WALLET_CONFIG } from "../config/wallet";
 import { useConnect } from "wagmi";
+import { CreateConnectorFn } from "wagmi";
 
-declare global {
-  interface Window {
-    ethereum?: any;
-    phantom?: {
-      solana: {
-        connect: () => Promise<any>;
-        disconnect: () => Promise<void>;
-        on: (event: string, callback: () => void) => void;
-        removeAllListeners: () => void;
-        request: (params: { method: string; params: any[] }) => Promise<any>;
-      };
-    };
-    solana?: any;
-  }
+type WalletProvider = {
+  isMetaMask?: boolean;
+  isBraveWallet?: boolean;
+  isRainbow?: boolean;
+  providers?: WalletProvider[];
+};
+
+interface SolanaRequestParams {
+  method: string;
+  params: unknown[];
+}
+
+interface SolanaProvider {
+  connect: () => Promise<{ publicKey: string }>;
+  disconnect: () => Promise<void>;
+  on: (event: string, callback: () => void) => void;
+  removeAllListeners: () => void;
+  request: (params: SolanaRequestParams) => Promise<unknown>;
+}
+
+interface Window {
+  ethereum?: WalletProvider;
+  phantom?: {
+    solana: SolanaProvider;
+  };
+  solana?: SolanaProvider;
 }
 
 interface WalletOption {
   name: string;
   icon: string;
-  description: string;
   id: string;
   isAvailable: boolean;
   downloadUrl?: string;
-  connector?: any;
+  connector?: CreateConnectorFn;
 }
 
 const Wallet: React.FC = () => {
@@ -41,99 +53,82 @@ const Wallet: React.FC = () => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [availableWallets, setAvailableWallets] = useState<WalletOption[]>([]);
   const [selectedWallet, setSelectedWallet] = useState<string | null>(null);
-  const navigate = useNavigate();
+  const router = useRouter();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
 
   const checkWallets = useCallback(() => {
-    const isMetaMaskAvailable = Boolean(
-      typeof window.ethereum !== "undefined" &&
-        (window.ethereum.isMetaMask ||
-          window.ethereum.providers?.some(
-            (p: { isMetaMask: boolean }) => p.isMetaMask,
-          )),
-    );
-
-    const isBraveAvailable = Boolean(
-      typeof window.ethereum !== "undefined" &&
-        (window.ethereum.isBraveWallet ||
-          window.ethereum.providers?.some(
-            (p: { isBraveWallet: boolean }) => p.isBraveWallet,
-          )),
-    );
-
-    const isPhantomAvailable = Boolean(
-      typeof window.phantom !== "undefined" ||
-        typeof window.solana !== "undefined",
-    );
+    const { ethereum } = window;
+    if (!ethereum) return;
 
     // Handle multiple providers
-    if (window.ethereum?.providers?.length > 1) {
+    if (ethereum.providers && ethereum.providers.length > 1) {
       setError(WALLET_CONFIG.ERRORS.MULTIPLE_PROVIDERS);
-      window.ethereum = window.ethereum.providers[0];
+      window.ethereum = ethereum.providers[0];
+      return;
     }
 
-    setAvailableWallets([
-      {
+    const isWalletAvailable = (walletName: keyof WalletProvider) =>
+      Boolean(
+        ethereum[walletName] ||
+          ethereum.providers?.some((p: WalletProvider) => p[walletName]),
+      );
+
+    const isPhantomAvailable = Boolean(
+      window.phantom || (window as Window & { solana?: SolanaProvider }).solana,
+    );
+
+    const detectedWallets: WalletOption[] = [];
+
+    // Add wallets based on availability
+    if (isWalletAvailable("isMetaMask")) {
+      detectedWallets.push({
         name: WALLET_CONFIG.METAMASK.NAME,
         icon: WALLET_CONFIG.METAMASK.ICON,
-        description: strings.en.metamaskDescription,
         id: "injected",
-        isAvailable: isMetaMaskAvailable,
+        isAvailable: true,
         downloadUrl: WALLET_CONFIG.METAMASK.DOWNLOAD_URL,
         connector: WALLET_CONFIG.METAMASK.CONNECTOR,
-      },
-      {
-        name: WALLET_CONFIG.WALLETCONNECT.NAME,
-        icon: WALLET_CONFIG.WALLETCONNECT.ICON,
-        description: strings.en.walletConnectDescription,
-        id: "walletConnect",
-        isAvailable: true,
-        connector: WALLET_CONFIG.WALLETCONNECT.CONNECTOR,
-      },
-      {
-        name: WALLET_CONFIG.COINBASE.NAME,
-        icon: WALLET_CONFIG.COINBASE.ICON,
-        description: strings.en.coinbaseDescription,
-        id: "coinbase",
-        isAvailable: true,
-        downloadUrl: WALLET_CONFIG.COINBASE.DOWNLOAD_URL,
-        connector: WALLET_CONFIG.COINBASE.CONNECTOR,
-      },
-      {
-        name: WALLET_CONFIG.TRUST.NAME,
-        icon: WALLET_CONFIG.TRUST.ICON,
-        description: strings.en.trustDescription,
-        id: "trust",
-        isAvailable: true,
-        downloadUrl: WALLET_CONFIG.TRUST.DOWNLOAD_URL,
-        connector: WALLET_CONFIG.TRUST.CONNECTOR,
-      },
-      {
+      });
+    }
+
+    if (isWalletAvailable("isBraveWallet")) {
+      detectedWallets.push({
         name: WALLET_CONFIG.BRAVE.NAME,
         icon: WALLET_CONFIG.BRAVE.ICON,
-        description: strings.en.braveDescription,
         id: "brave",
-        isAvailable: isBraveAvailable,
+        isAvailable: true,
         downloadUrl: WALLET_CONFIG.BRAVE.DOWNLOAD_URL,
         connector: WALLET_CONFIG.BRAVE.CONNECTOR,
-      },
-      {
+      });
+    }
+
+    if (isPhantomAvailable) {
+      detectedWallets.push({
+        name: WALLET_CONFIG.PHANTOM.NAME,
+        icon: WALLET_CONFIG.PHANTOM.ICON,
+        id: "phantom",
+        isAvailable: true,
+        downloadUrl: WALLET_CONFIG.PHANTOM.DOWNLOAD_URL,
+      });
+    }
+
+    if (isWalletAvailable("isRainbow")) {
+      detectedWallets.push({
         name: WALLET_CONFIG.RAINBOW.NAME,
         icon: WALLET_CONFIG.RAINBOW.ICON,
-        description: strings.en.rainbowDescription,
         id: "rainbow",
         isAvailable: true,
         downloadUrl: WALLET_CONFIG.RAINBOW.DOWNLOAD_URL,
         connector: WALLET_CONFIG.RAINBOW.CONNECTOR,
-      },
-      {
-        name: WALLET_CONFIG.PHANTOM.NAME,
-        icon: WALLET_CONFIG.PHANTOM.ICON,
-        description: strings.en.phantomDescription,
-        id: "phantom",
-        isAvailable: isPhantomAvailable,
-        downloadUrl: WALLET_CONFIG.PHANTOM.DOWNLOAD_URL,
-      },
-    ]);
+      });
+    }
+
+    setAvailableWallets(detectedWallets);
   }, []);
 
   useEffect(() => {
@@ -150,98 +145,105 @@ const Wallet: React.FC = () => {
     return `${address.slice(0, WALLET_CONFIG.ADDRESS.PREFIX_LENGTH)}...${address.slice(-WALLET_CONFIG.ADDRESS.SUFFIX_LENGTH)}`;
   }, []);
 
-  const handleDisconnect = useCallback(() => {
-    disconnect();
-    navigate("/");
-  }, [disconnect, navigate]);
-
-  const handleConnect = useCallback(async () => {
-    if (!selectedWallet) return;
-
+  const handleDisconnect = useCallback(async () => {
     try {
       setError(null);
-      setIsConnecting(true);
-
-      const wallet = availableWallets.find((w) => w.id === selectedWallet);
-      if (!wallet) throw new Error("Wallet not found");
-
-      if (selectedWallet === "phantom") {
-        if (window.phantom?.solana) {
-          await window.phantom.solana.connect();
-        }
-      } else if (wallet.connector) {
-        await connect({ connector: wallet.connector });
-      } else {
-        throw new Error("Unsupported wallet");
-      }
-
-      setShowModal(false);
+      await disconnect();
+      setSelectedWallet(null);
+      router.push("/");
+      window.location.reload();
     } catch (error) {
       setError(
         error instanceof Error ? error.message : strings.en.connectionError,
       );
-    } finally {
-      setIsConnecting(false);
     }
-  }, [connect, selectedWallet, availableWallets]);
+  }, [disconnect, router]);
 
   const handleWalletClick = useCallback(
-    (walletId: string) => {
+    async (walletId: string) => {
       const wallet = availableWallets.find((w) => w.id === walletId);
-      if (wallet?.downloadUrl && !wallet.isAvailable) {
+      if (!wallet) return;
+
+      if (wallet.downloadUrl && !wallet.isAvailable) {
         window.open(wallet.downloadUrl, "_blank");
         return;
       }
+
       setSelectedWallet(walletId);
-      handleConnect();
+      setIsConnecting(true);
+      setError(null);
+
+      try {
+        if (walletId === "phantom") {
+          if (!window.phantom?.solana) {
+            throw new Error(strings.en.phantomNotInstalled);
+          }
+
+          const response = await window.phantom.solana.connect();
+          if (!response?.publicKey) {
+            throw new Error(strings.en.phantomConnectionFailed);
+          }
+        } else if (wallet.connector) {
+          await connect({ connector: wallet.connector });
+        } else {
+          throw new Error(strings.en.unsupportedWallet);
+        }
+
+        setShowModal(false);
+      } catch (error) {
+        setError(
+          error instanceof Error ? error.message : strings.en.connectionError,
+        );
+      } finally {
+        setIsConnecting(false);
+      }
     },
-    [availableWallets, handleConnect],
+    [availableWallets, connect],
   );
 
   const renderModal = useCallback(() => {
-    if (!showModal) return null;
+    if (!showModal || !mounted) return null;
+
+    const availableWalletsList = availableWallets.filter(
+      (wallet) => wallet.isAvailable,
+    );
 
     return createPortal(
-      <div className="wallet-modal-overlay" onClick={() => setShowModal(false)}>
-        <div className="wallet-modal" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="wallet-modal-overlay"
+        onClick={(e) => {
+          if (e.target === e.currentTarget) {
+            setShowModal(false);
+          }
+        }}
+      >
+        <div className="wallet-modal">
           <div className="wallet-modal-header">
             <h2>{strings.en.connectWallet}</h2>
             <button
               className="close-button"
               onClick={() => setShowModal(false)}
+              aria-label={strings.en.close}
             >
-              {strings.en.closeButton}
+              ×
             </button>
           </div>
           {error && <div className="wallet-modal-error">{error}</div>}
           <div className="wallet-list">
-            {availableWallets.map((wallet) => (
+            {availableWalletsList.map((wallet) => (
               <button
                 key={wallet.id}
-                className={`wallet-option ${!wallet.isAvailable ? "disabled" : ""}`}
+                className="wallet-option"
                 onClick={() => handleWalletClick(wallet.id)}
-                disabled={!wallet.isAvailable || isConnecting}
+                disabled={isConnecting}
+                aria-label={`${strings.en.connectWalletLabel} ${wallet.name}`}
               >
                 <span className="wallet-icon">{wallet.icon}</span>
                 <div className="wallet-info">
                   <span className="wallet-name">{wallet.name}</span>
-                  <span className="wallet-description">
-                    {wallet.description}
-                  </span>
                 </div>
                 {isConnecting && selectedWallet === wallet.id && (
                   <div className="wallet-loading">{strings.en.connecting}</div>
-                )}
-                {!wallet.isAvailable && (
-                  <div className="wallet-unavailable">
-                    <a
-                      href={wallet.downloadUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {strings.en.download}
-                    </a>
-                  </div>
                 )}
               </button>
             ))}
@@ -257,7 +259,10 @@ const Wallet: React.FC = () => {
     isConnecting,
     selectedWallet,
     handleWalletClick,
+    mounted,
   ]);
+
+  if (!mounted) return null;
 
   if (isConnected) {
     return (
@@ -266,7 +271,11 @@ const Wallet: React.FC = () => {
           <span className="wallet-address">
             {ensName || formatAddress(address)}
           </span>
-          <button onClick={handleDisconnect} className="disconnect-button">
+          <button
+            onClick={handleDisconnect}
+            className="disconnect-button"
+            aria-label={strings.en.disconnectWalletLabel}
+          >
             {strings.en.disconnect}
           </button>
         </div>
@@ -280,6 +289,7 @@ const Wallet: React.FC = () => {
         onClick={() => setShowModal(true)}
         className="connect-button"
         disabled={isConnecting}
+        aria-label={strings.en.connectWalletLabel}
       >
         {isConnecting ? strings.en.connecting : strings.en.connectWalletButton}
       </button>

@@ -2,7 +2,7 @@ import React from "react";
 import "../styles/about.css";
 import strings from "../i18n/about.json";
 
-const About: React.FC = () => {
+export default function About() {
   return (
     <div className="aboutContainer">
       <h1 className="page-title">{strings.en.about.title}</h1>
@@ -12,6 +12,4 @@ const About: React.FC = () => {
       </section>
     </div>
   );
-};
-
-export default About;
+}
