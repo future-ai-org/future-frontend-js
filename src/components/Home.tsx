@@ -21,7 +21,7 @@ export default function Home() {
   if (!mounted) {
     return (
       <div className="landing-container">
-        <h1 className="landing-title">{strings.en.title}</h1>
+        <h1 className="landing-title">{strings.en.title.toUpperCase()}</h1>
         <h2 className="landing-subtitle">{strings.en.subtitle}</h2>
         <div className="landing-feature-grid">
           <div className="landing-feature-card">
@@ -55,7 +55,7 @@ export default function Home() {
 
   return (
     <div className="landing-container">
-      <h1 className="landing-title">{strings.en.title}</h1>
+      <h1 className="landing-title">{strings.en.title.toUpperCase()}</h1>
       <h2 className="landing-subtitle">{strings.en.subtitle}</h2>
       {isConnected && (
         <div className="wallet-info">
