@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect, useCallback } from "react";
 import * as d3 from "d3";
 import {
@@ -13,7 +15,7 @@ import { useTheme } from "../contexts/ThemeContext";
 import strings from "../i18n/astrology.json";
 import "../styles/astrology.css";
 
-const Astrology: React.FC = () => {
+export default function Astrology() {
   const { theme } = useTheme();
   const [birthDate, setBirthDate] = useState("");
   const [birthTime, setBirthTime] = useState("");
@@ -52,18 +54,25 @@ const Astrology: React.FC = () => {
         const data = await response.json();
         const seen = new Set();
         const formattedData = data
-          .map((item: any) => {
-            const cityName =
-              item.name || item.display_name.split(",")[0].trim();
-            const parts = item.display_name.split(",");
-            const country = parts[parts.length - 1].trim();
+          .map(
+            (item: {
+              name?: string;
+              display_name: string;
+              lat: string;
+              lon: string;
+            }) => {
+              const cityName =
+                item.name || item.display_name.split(",")[0].trim();
+              const parts = item.display_name.split(",");
+              const country = parts[parts.length - 1].trim();
 
-            return {
-              display_name: `${cityName.toLowerCase()}, ${country.toLowerCase()}`,
-              lat: item.lat,
-              lon: item.lon,
-            };
-          })
+              return {
+                display_name: `${cityName.toLowerCase()}, ${country.toLowerCase()}`,
+                lat: item.lat,
+                lon: item.lon,
+              };
+            },
+          )
           .filter((item: { display_name: string }) => {
             const key = item.display_name.toLowerCase();
             if (seen.has(key)) {
@@ -249,8 +258,8 @@ const Astrology: React.FC = () => {
       .style("font-size", "16px")
       .style("fill", "var(--color-primary)");
 
-    for (let i = 0; i < 12; i++) {
-      const angle = ((i * 30 - 90 + 15) * Math.PI) / 180;
+    for (let index = 0; index < 12; index++) {
+      const angle = ((index * 30 - 90 + 15) * Math.PI) / 180;
       const x = zodiacRadius * Math.cos(angle);
       const y = zodiacRadius * Math.sin(angle);
 
@@ -259,7 +268,7 @@ const Astrology: React.FC = () => {
         .attr("y", y)
         .attr("text-anchor", "middle")
         .attr("dy", "0.35em")
-        .text(zodiacSymbols[i])
+        .text(zodiacSymbols[index])
         .style("font-size", "16px")
         .style("fill", "var(--color-primary)")
         .style("opacity", "0.8")
@@ -280,7 +289,7 @@ const Astrology: React.FC = () => {
         });
     }
 
-    chartData.houses.forEach((angle, i) => {
+    chartData.houses.forEach((angle) => {
       const x = radius * Math.cos(((angle - 90) * Math.PI) / 180);
       const y = radius * Math.sin(((angle - 90) * Math.PI) / 180);
 
@@ -476,6 +485,4 @@ const Astrology: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default Astrology;
+}

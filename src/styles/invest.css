@@ -1,5 +1,3 @@
-@import "../index.css";
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -68,7 +66,7 @@
 }
 
 .dashboard-container {
-  padding: 30px;
+  padding: 20px;
   background-color: var(--background-color);
   color: var(--color-primary);
   width: 100%;
@@ -81,8 +79,8 @@
 .table {
   width: 100%;
   max-width: 1400px;
-  margin: 40px auto;
-  padding: 30px 20px;
+  margin: 30px auto;
+  padding: 20px 10px;
   border-collapse: collapse;
   border-spacing: 0;
   table-layout: fixed;
@@ -90,6 +88,13 @@
   box-sizing: border-box;
   flex: 1;
 }
+
+.table th:nth-child(1) { width: 25%; } /* Asset column */
+.table th:nth-child(2) { width: 15%; } /* Price column */
+.table th:nth-child(3) { width: 15%; } /* Change column */
+.table th:nth-child(4) { width: 15%; } /* Market cap column */
+.table th:nth-child(5) { width: 15%; } /* ATH column */
+.table th:nth-child(6) { width: 15%; } /* Chart column */
 
 .table-header {
   padding: 15px;
@@ -153,8 +158,8 @@
   transition: all var(--transition-duration) var(--transition-timing);
   overflow: visible;
   padding: 0;
-  width: 50px;
-  height: 20px;
+  width: 100px;
+  height: 40px;
   position: relative;
   margin: 0 auto;
   z-index: 1000;
@@ -167,8 +172,8 @@
   margin: 0 auto;
   transform: scale(1);
   transform-origin: center;
-  width: 120px;
-  height: 30px;
+  width: 200px;
+  height: 50px;
   transition: transform 0.3s ease;
 }
 
@@ -499,4 +504,21 @@
 
 .floating-graph .tooltip.visible {
   opacity: 1;
+}
+
+.crypto-ath-cell {
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ath-date {
+  font-size: 0.6rem;
+  opacity: 0.7;
+  margin-top: 0.05rem;
+  text-align: center;
 }

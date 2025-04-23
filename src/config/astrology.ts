@@ -124,7 +124,7 @@ export function calculateChart(
   }));
 
   // Calculate house cusps using whole house system
-  const houses = calculateHouses(ascendant, latitude, localSiderealTime);
+  const houses = calculateHouses(ascendant);
 
   // Calculate aspects
   const aspects: Aspect[] = [];
@@ -434,7 +434,7 @@ function calculatePlanetPosition(
     const longitude = (v + w) % 360;
 
     // Calculate final position
-    let position = (longitude + 360) % 360;
+    const position = (longitude + 360) % 360;
 
     // Calculate the sign based on the actual zodiac boundaries
     const signIndex = Math.floor(position / 30);
@@ -450,8 +450,6 @@ function calculatePlanetPosition(
   }
 
   // For other planets, use the simplified calculation
-  let position = 0;
-
   // Basic orbital periods (in days)
   const periods: { [key: string]: number } = {
     moon: 27.3217,
@@ -465,7 +463,7 @@ function calculatePlanetPosition(
     pluto: 90560,
   };
 
-  position = ((julianDay / periods[planet]) % 1) * 360;
+  const position = ((julianDay / periods[planet]) % 1) * 360;
 
   const signIndex = Math.floor(position / 30);
   const sign = ZODIAC_SIGNS[signIndex];
@@ -479,14 +477,10 @@ function calculatePlanetPosition(
   };
 }
 
-function calculateHouses(
-  ascendant: number,
-  latitude: number,
-  siderealTime: number,
-): number[] {
+function calculateHouses(ascendant: number): number[] {
   const houses: number[] = [];
   for (let i = 0; i < 12; i++) {
-    const houseCusp = (240 + i * 30) % 360;
+    const houseCusp = (ascendant + i * 30) % 360;
     houses.push(houseCusp);
   }
 
@@ -510,7 +504,6 @@ export function printChartInfo(
   latitude: number,
   longitude: number,
   city: string,
-  showEmpty: boolean = false,
 ): string {
   const chart = calculateChart(birthDate, birthTime, latitude, longitude);
   const date = new Date(`${birthDate}T${birthTime}`);
