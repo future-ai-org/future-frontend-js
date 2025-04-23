@@ -1,0 +1,188 @@
+@import "../index.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 var(--glow-shadow);
+  }
+  70% {
+    box-shadow: 0 0 0 10px var(--glow-shadow-hover);
+  }
+  100% {
+    box-shadow: 0 0 0 0 var(--glow-shadow-hover);
+  }
+}
+
+.trading-container {
+  padding: 72px 32px 16px;
+  color: var(--bullish-color);
+  background-color: var(--background-color);
+  min-height: calc(100vh - 120px);
+  font-family: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.chart-container {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  background-color: var(--background-color);
+  padding: 8px;
+  box-sizing: border-box;
+  height: calc(100% - 90px);
+}
+
+.info-grid {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 24px 0;
+  padding: 10;
+  border: 1px solid var(--border-color);
+  border-top: 1px solid var(--border-color);
+  border-spacing: 0;
+  table-layout: fixed;
+  text-align: center;
+  box-sizing: border-box;
+  overflow-x: auto;
+  white-space: nowrap;
+  background-color: var(--background-color);
+}
+
+.info-grid::-webkit-scrollbar {
+  height: 2px;
+}
+
+.info-grid::-webkit-scrollbar-track {
+  background: var(--scroll-track);
+}
+
+.info-grid::-webkit-scrollbar-thumb {
+  background: var(--bullish-color);
+  border-radius: 1px;
+}
+
+.info-card {
+  display: table-cell;
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--border-color);
+  font-family: var(--base-font);
+  overflow: visible;
+  white-space: nowrap;
+  text-align: center;
+  vertical-align: middle;
+  height: 28px;
+  background-color: var(--background-color);
+  transition: all 0.2s ease;
+  min-width: 80px;
+  max-width: 120px;
+}
+
+.info-card:hover {
+  background-color: var(--scroll-track);
+}
+
+.info-label {
+  color: var(--text-color);
+  font-size: 0.65rem;
+  margin-bottom: 1px;
+  opacity: 0.8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+  width: 100%;
+}
+
+.info-value {
+  color: var(--bullish-color);
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+}
+
+.trading-widget {
+  width: 100%;
+  flex: 1;
+  min-height: 400px;
+  max-height: 600px;
+  background-color: var(--background-color);
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+/* TradingView widget specific styles */
+.trading-widget iframe,
+.trading-widget div[class*="chart-container"],
+.trading-widget div[class*="pane"],
+.trading-widget div[class*="toolbar"] {
+  background-color: var(--background-color) !important;
+  border-radius: 4px;
+  height: 100% !important;
+}
+
+.trading-widget div[class*="chart-container"] {
+  background-color: var(--background-color) !important;
+}
+
+.trading-widget div[class*="pane"] {
+  background-color: var(--background-color) !important;
+}
+
+.trading-widget div[class*="toolbar"] {
+  background-color: var(--background-color) !important;
+}
+
+.price-change-positive {
+  color: var(--bullish-color);
+}
+
+.price-change-negative {
+  color: var(--bearish-color);
+}
+
+@media (max-width: 1200px) {
+  .info-card {
+    min-width: 70px;
+    max-width: 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .trading-container {
+    padding: 48px 20px 20px;
+    gap: 10px;
+  }
+
+  .info-grid {
+    margin: 0 0 16px 0;
+  }
+
+  .info-card {
+    min-width: 60px;
+    max-width: 90px;
+    padding: 3px 4px;
+  }
+
+  .info-label {
+    font-size: 0.6rem;
+  }
+
+  .info-value {
+    font-size: 0.7rem;
+  }
+
+  .trading-widget {
+    min-height: 350px;
+    max-height: 500px;
+  }
+}

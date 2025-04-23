@@ -1,0 +1,68 @@
+@import "../index.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.slider-container {
+  display: flex;
+  overflow: hidden;
+  gap: 20px;
+  padding: 10px 0;
+  background-color: var(--background-color);
+  position: relative;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+}
+
+.price-items-container {
+  display: flex;
+  gap: 20px;
+  animation: flow 30s linear infinite;
+  min-width: 300%;
+  white-space: nowrap;
+}
+
+.price-items-container:hover {
+  animation-play-state: paused;
+}
+
+.price-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  padding: 5px 10px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.price-item .symbol,
+.price-item .price {
+  color: var(--primary-color);
+}
+
+.price-item .price-change {
+  color: inherit;
+}
+
+.price-item.positive .price-change {
+  color: var(--bullish-color);
+}
+
+.price-item.negative .price-change {
+  color: var(--bearish-color);
+}
+
+@keyframes flow {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.33%);
+  }
+}

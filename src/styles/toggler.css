@@ -1,0 +1,59 @@
+@import "../index.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.theme-toggler {
+  position: relative;
+  width: 60px;
+  height: 30px;
+  margin-left: 1rem;
+  cursor: pointer;
+}
+
+.theme-toggler-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--card-bg);
+  border-radius: 15px;
+  border: 1px solid var(--border-color);
+  transition: all var(--transition-duration) var(--transition-timing);
+}
+
+.theme-toggler-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  transition: transform var(--transition-duration) var(--transition-timing);
+  box-shadow: var(--glow-shadow);
+}
+
+.theme-toggler.dark .theme-toggler-thumb {
+  transform: translateX(30px);
+}
+
+.theme-toggler:hover .theme-toggler-track {
+  border-color: var(--primary-color);
+  box-shadow: var(--glow-shadow);
+}
+
+.theme-toggler:hover .theme-toggler-thumb {
+  box-shadow: var(--glow-shadow-hover);
+  transform: scale(1.1);
+}
+
+.theme-toggler.dark:hover .theme-toggler-thumb {
+  transform: translateX(30px) scale(1.1);
+}

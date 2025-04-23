@@ -1,0 +1,28 @@
+{
+  "en": {
+    "errors": {
+      "cityNotFound": "city not found",
+      "fetchCoordinatesFailed": "failed to fetch city coordinates",
+      "unknownError": "an error occurred"
+    },
+    "labels": {
+      "birthDate": "birth date",
+      "birthTime": "birth time",
+      "birthCity": "birth city",
+      "cityPlaceholder": "e.g., new york"
+    },
+    "loading": {
+      "generatingChart": "calculating..."
+    },
+    "buttons": {
+      "generateChart": "generate chart",
+      "back": "back"
+    },
+    "infoPanel": {
+      "title": "planet information",
+      "sign": "sign",
+      "house": "house",
+      "position": "position"
+    }
+  }
+}

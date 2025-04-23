@@ -1,0 +1,10 @@
+{
+  "en": {
+    "errors": {
+      "fetchFailed": "failed to fetch prices",
+      "noValidPrices": "no valid prices received",
+      "httpError": "http error! status: {status}"
+    },
+    "currencyPair": "{symbol}/usdt"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "en": {
+    "title": "welcome to LILIT",
+    "subtitle": "the next generation predictive platform",
+    "cta": {
+      "learnMore": "learn more",
+      "getStarted": "get started"
+    },
+    "features": {
+      "one": {
+        "title": "feature one",
+        "description": "description for feature one"
+      },
+      "two": {
+        "title": "feature two",
+        "description": "description for feature two"
+      },
+      "three": {
+        "title": "feature three",
+        "description": "description for feature three"
+      }
+    }
+  }
+}

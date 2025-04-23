@@ -1,0 +1,12 @@
+{
+  "en": {
+    "title": "LILIT",
+    "nav": {
+      "home": "home",
+      "invest": "invest",
+      "about": "about",
+      "astrology": "astrology",
+      "dashboard": "dashboard"
+    }
+  }
+}

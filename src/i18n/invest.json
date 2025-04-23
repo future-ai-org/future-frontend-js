@@ -1,0 +1,21 @@
+{
+  "en": {
+    "error": {
+      "title": "error loading data",
+      "refresh": "please try refreshing the page",
+      "apiError": "failed to fetch data from one or more endpoints",
+      "invalidData": "invalid data format received from api",
+      "trendingError": "failed to fetch trending details",
+      "connectionError": "failed to fetch data. please check your internet connection."
+    },
+    "table": {
+      "headers": {
+        "asset": "asset",
+        "price": "price",
+        "change": "24h change",
+        "marketCap": "market cap",
+        "chart": "zoom in to trade"
+      }
+    }
+  }
+}

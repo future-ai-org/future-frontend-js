@@ -1,0 +1,502 @@
+@import "../index.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 var(--color-glow-shadow);
+  }
+  70% {
+    box-shadow: 0 0 0 10px var(--color-glow-shadow-hover);
+  }
+  100% {
+    box-shadow: 0 0 0 0 var(--color-glow-shadow-hover);
+  }
+}
+
+@keyframes text-glow {
+  0% {
+    text-shadow: var(--color-text-glow-normal);
+  }
+  50% {
+    text-shadow: var(--color-text-glow-hover);
+  }
+  100% {
+    text-shadow: var(--color-text-glow-normal);
+  }
+}
+
+@keyframes pulseGreen {
+  0% {
+    transform: scale(1) rotate(-5deg);
+  }
+  50% {
+    transform: scale(1.1) rotate(5deg);
+  }
+  100% {
+    transform: scale(1) rotate(-5deg);
+  }
+}
+
+@keyframes trendingPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 20px var(--trending-shadow-light);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px var(--trending-shadow-light);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px var(--trending-shadow-light);
+  }
+}
+
+@keyframes arrowFloat {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.dashboard-container {
+  padding: 30px;
+  background-color: var(--background-color);
+  color: var(--color-primary);
+  width: 100%;
+  box-sizing: border-box;
+  min-height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+}
+
+.table {
+  width: 100%;
+  max-width: 1400px;
+  margin: 40px auto;
+  padding: 30px 20px;
+  border-collapse: collapse;
+  border-spacing: 0;
+  table-layout: fixed;
+  text-align: center;
+  box-sizing: border-box;
+  flex: 1;
+}
+
+.table-header {
+  padding: 15px;
+  font-size: 0.8rem;
+  text-align: center;
+  color: var(--color-primary);
+  font-weight: 1000;
+  text-transform: uppercase;
+  padding-bottom: 25px;
+  width: 100%;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.table-cell {
+  padding: 1px;
+  font-family: var(--base-font);
+  overflow: visible;
+  white-space: nowrap;
+  text-align: center;
+  vertical-align: middle;
+  height: 20px;
+  font-weight: 600;
+}
+
+.table-row:hover {
+  background-color: var(--scroll-track);
+}
+
+.table-row:hover .table-cell {
+  background-color: transparent;
+}
+
+.table-row:hover .chart-container {
+  background-color: transparent;
+}
+
+.chart-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%' x='50%' dy='.35em' text-anchor='middle'>🔍</text></svg>")
+      12 12,
+    auto;
+  transition: all var(--transition-duration) var(--transition-timing);
+  position: relative;
+  z-index: 1000;
+}
+
+.chart-link:hover {
+  z-index: 1001;
+}
+
+.chart-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border-radius: 4px;
+  transition: all var(--transition-duration) var(--transition-timing);
+  overflow: visible;
+  padding: 0;
+  width: 50px;
+  height: 20px;
+  position: relative;
+  margin: 0 auto;
+  z-index: 1000;
+}
+
+.chart-container svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  margin: 0 auto;
+  transform: scale(1);
+  transform-origin: center;
+  width: 120px;
+  height: 30px;
+  transition: transform 0.3s ease;
+}
+
+.chart-container:hover svg {
+  transform: scale(1.5);
+}
+
+.chart-container svg .chart-line {
+  stroke-width: 1.2;
+  stroke-opacity: 0.9;
+}
+
+.chart-container svg polyline {
+  fill: none;
+  stroke-width: 1.5;
+  stroke-opacity: 0.9;
+}
+
+.chart-container svg polyline.positive {
+  stroke: var(--bullish-color);
+}
+
+.chart-container svg polyline.negative {
+  stroke: var(--bearish-color);
+}
+
+.chart-container:hover svg polyline.positive {
+  stroke: var(--color-primary);
+}
+
+.chart-container:hover svg polyline.negative {
+  stroke: var(--color-primary);
+}
+
+.chart-container svg text {
+  font-size: 10px;
+  text-anchor: middle;
+}
+
+.chart-container svg text.positive {
+  fill: var(--bullish-color);
+}
+
+.chart-container svg text.negative {
+  fill: var(--bearish-color);
+}
+
+.chart-container:hover {
+  background-color: transparent;
+}
+
+.crypto-name-cell {
+  white-space: normal;
+  overflow: visible;
+  text-align: center;
+  padding-left: 30px;
+  position: relative;
+  min-height: 40px;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.crypto-name-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  position: relative;
+  flex-wrap: wrap;
+}
+
+.crypto-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  font-weight: bold;
+  min-width: 24px;
+  height: 24px;
+  text-shadow: var(--text-glow);
+  transition: all var(--transition-duration) var(--transition-timing);
+  margin-right: 4px;
+}
+
+.crypto-icon.positive {
+  color: var(--bullish-color);
+}
+
+.crypto-icon.negative {
+  color: var(--bearish-color);
+}
+
+.crypto-name-cell:hover .crypto-icon {
+  text-shadow: var(--text-glow-hover);
+}
+
+.crypto-name-cell.positive .crypto-icon,
+.crypto-name-cell.negative .crypto-icon {
+  color: inherit;
+}
+
+.crypto-name-cell.positive .crypto-icon {
+  color: var(--bullish-color);
+}
+
+.crypto-name-cell.negative .crypto-icon {
+  color: var(--bearish-color) !important;
+}
+
+.crypto-full-name {
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+  font-size: clamp(0.9em, 1.1em, 1.2em);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  transition: all var(--transition-duration) var(--transition-timing);
+  max-width: 100%;
+  gap: 4px;
+}
+
+.crypto-full-name:hover {
+  white-space: normal;
+  overflow: visible;
+  position: relative;
+  z-index: 1;
+}
+
+.crypto-full-name .symbol {
+  font-size: 0.7em;
+  opacity: 0.8;
+  margin-left: 4px;
+  display: inline;
+  vertical-align: text-bottom;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.glowing-emoji {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  animation: pulseGreen 2s infinite;
+  text-shadow:
+    0 0 15px var(--text-glow),
+    0 0 30px var(--text-glow-hover);
+  transition: all var(--transition-duration) var(--transition-timing);
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  background: transparent;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  margin-right: 4px;
+}
+
+.glowing-emoji.trending {
+  animation: trendingPulse 2s infinite;
+  color: var(--bullish-color);
+}
+
+.crypto-name-cell.positive .glowing-emoji,
+.crypto-name-cell.negative .glowing-emoji {
+  color: var(--bullish-color);
+}
+
+.crypto-name-cell.negative .glowing-emoji {
+  color: var(--bearish-color);
+}
+
+.zoom-link {
+  color: var(--bullish-color);
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: all var(--transition-duration) var(--transition-timing);
+}
+
+.zoom-link:hover {
+  text-shadow: var(--text-glow);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.crypto-change-cell {
+  font-size: 1.2rem;
+  text-align: center;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 40px;
+  padding: 0;
+  margin: 0;
+}
+
+.crypto-change-cell .decimal-part {
+  font-size: 0.8em;
+  opacity: 0.8;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+
+.crypto-symbol-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  font-weight: 800;
+  min-width: 24px;
+  height: 24px;
+  margin-right: 4px;
+  text-shadow: var(--text-glow);
+  transition: all var(--transition-duration) var(--transition-timing);
+}
+
+.crypto-symbol-cell:hover .crypto-symbol-icon {
+  text-shadow: var(--text-glow-hover);
+}
+
+@keyframes glow {
+  0% {
+    text-shadow: var(--color-text-glow-normal);
+  }
+  50% {
+    text-shadow: var(--color-text-glow-hover);
+  }
+  100% {
+    text-shadow: var(--color-text-glow-normal);
+  }
+}
+
+.crypto-price-cell {
+  font-size: 1.2rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.crypto-price-cell .decimal-part {
+  font-size: 0.8em;
+  opacity: 0.8;
+}
+
+.crypto-market-cap-cell {
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.1em;
+}
+
+.crypto-price-cell.positive,
+.crypto-change-cell.positive,
+.crypto-market-cap-cell.positive {
+  color: var(--bullish-color);
+}
+
+.crypto-price-cell.negative,
+.crypto-change-cell.negative,
+.crypto-market-cap-cell.negative {
+  color: var(--bearish-color);
+}
+
+.floating-graph {
+  position: fixed;
+  z-index: 10000;
+  background: var(--background-color);
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 0 20px var(--trending-shadow-light);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  width: 300px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.floating-graph.visible {
+  opacity: 1;
+}
+
+.floating-graph-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+.floating-graph-content {
+  flex: 1;
+  position: relative;
+}
+
+.floating-graph svg {
+  width: 100%;
+  height: 100%;
+}
+
+.floating-graph polyline {
+  fill: none;
+  stroke-width: 2;
+  stroke: var(--bullish-color);
+}
+
+.floating-graph .tooltip {
+  position: absolute;
+  background: var(--background-color);
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  box-shadow: 0 0 10px var(--trending-shadow-light);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.floating-graph .tooltip.visible {
+  opacity: 1;
+}
