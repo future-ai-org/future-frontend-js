@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import "../styles/header.css";
+import styles from "../styles/header.module.css";
 import strings from "../i18n/header.json";
 import { Toggler } from "./Toggler";
 import Wallet from "./Wallet";
@@ -23,8 +23,8 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="header">
-      <div className="header-content">
+    <header className={styles.header}>
+      <div className={styles.headerContent}>
         <Link
           href="/"
           style={{
@@ -43,39 +43,39 @@ const Header: React.FC = () => {
             priority
             style={{ width: "30px", height: "30px" }}
           />
-          <div className="header-title-container">
-            <h1 className="header-title">{strings.en.title}</h1>
+          <div className={styles.headerTitleContainer}>
+            <h1 className={styles.headerTitle}>{strings.en.title}</h1>
           </div>
         </Link>
-        <nav className="header-nav">
+        <nav className={styles.headerNav}>
           <Link
             href="/astrology"
-            className={`nav-link ${isActive("/astrology") ? "active" : ""}`}
+            className={`${styles.navLink} ${isActive("/astrology") ? styles.active : ""}`}
           >
             {strings.en.nav.astrology}
           </Link>
           <Link
             href="/invest"
-            className={`nav-link ${isActive("/invest") ? "active" : ""}`}
+            className={`${styles.navLink} ${isActive("/invest") ? styles.active : ""}`}
           >
             {strings.en.nav.invest}
           </Link>
           <Link
             href="/about"
-            className={`nav-link ${isActive("/about") ? "active" : ""}`}
+            className={`${styles.navLink} ${isActive("/about") ? styles.active : ""}`}
           >
             {strings.en.nav.about}
           </Link>
           {isConnected && (
             <Link
               href="/dashboard"
-              className={`nav-link ${isActive("/dashboard") ? "active" : ""}`}
+              className={`${styles.navLink} ${isActive("/dashboard") ? styles.active : ""}`}
             >
               {strings.en.nav.dashboard}
             </Link>
           )}
         </nav>
-        <div className="header-right">
+        <div className={styles.headerRight}>
           <Wallet />
           <Toggler />
         </div>
