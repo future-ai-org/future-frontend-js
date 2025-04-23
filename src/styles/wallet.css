@@ -114,15 +114,22 @@
 .close-button {
   background: none;
   border: none;
-  color: var(--color-text);
+  color: var(--text-color);
   cursor: pointer;
-  padding: 6px;
+  padding: 8px;
   border-radius: 50%;
-  transition: background-color 0.2s;
+  transition: all var(--transition-duration) var(--transition-timing);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
 }
 
 .close-button:hover {
   background-color: var(--color-info-bg);
+  transform: scale(1.1);
+  box-shadow: var(--glow-shadow);
 }
 
 .wallet-list {
@@ -188,7 +195,8 @@
   font-size: 1rem;
   border: none !important;
   text-shadow: var(--text-glow);
-  outline: none;
+  outline: none !important;
+  transition: none !important;
 }
 
 .wallet-loading {
