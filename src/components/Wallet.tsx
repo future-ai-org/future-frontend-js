@@ -141,64 +141,44 @@ const Wallet: React.FC = () => {
     }
   }, [disconnect, router]);
 
-  const handleConnect = useCallback(async () => {
-    if (!selectedWallet) return;
-
-    try {
-      setError(null);
-      setIsConnecting(true);
-
-      const wallet = availableWallets.find((w) => w.id === selectedWallet);
-      if (!wallet) throw new Error(strings.en.walletNotFound);
-
-      if (selectedWallet === "phantom") {
-        if (!window.phantom?.solana) {
-          throw new Error(strings.en.phantomNotInstalled);
-        }
-        
-        try {
-          // Request connection
-          const response = await window.phantom.solana.connect();
-          console.log("Phantom connection response:", response);
-
-          if (!response?.publicKey) {
-            console.error("No public key in Phantom response");
-            throw new Error(strings.en.phantomConnectionFailed);
-          }
-
-          console.log("Successfully connected to Phantom wallet with public key:", response.publicKey);
-        } catch (error) {
-          console.error("Phantom connection error:", error);
-          if (error instanceof Error) {
-            throw new Error(`${strings.en.phantomConnectionError} (${error.message})`);
-          }
-          throw new Error(strings.en.phantomConnectionError);
-        }
-      } else if (wallet.connector) {
-        await connect({ connector: wallet.connector });
-      } else {
-        throw new Error(strings.en.unsupportedWallet);
-      }
-
-      setShowModal(false);
-    } catch (error) {
-      setError(error instanceof Error ? error.message : strings.en.connectionError);
-    } finally {
-      setIsConnecting(false);
-    }
-  }, [connect, selectedWallet, availableWallets]);
-
   const handleWalletClick = useCallback(
-    (walletId: string) => {
+    async (walletId: string) => {
       const wallet = availableWallets.find((w) => w.id === walletId);
-      if (wallet?.downloadUrl && !wallet.isAvailable) {
+      if (!wallet) return;
+
+      if (wallet.downloadUrl && !wallet.isAvailable) {
         window.open(wallet.downloadUrl, "_blank");
         return;
       }
+
       setSelectedWallet(walletId);
-      handleConnect();
+      setIsConnecting(true);
+      setError(null);
+
+      try {
+        if (walletId === "phantom") {
+          if (!window.phantom?.solana) {
+            throw new Error(strings.en.phantomNotInstalled);
+          }
+          
+          const response = await window.phantom.solana.connect();
+          if (!response?.publicKey) {
+            throw new Error(strings.en.phantomConnectionFailed);
+          }
+        } else if (wallet.connector) {
+          await connect({ connector: wallet.connector });
+        } else {
+          throw new Error(strings.en.unsupportedWallet);
+        }
+
+        setShowModal(false);
+      } catch (error) {
+        setError(error instanceof Error ? error.message : strings.en.connectionError);
+      } finally {
+        setIsConnecting(false);
+      }
     },
-    [availableWallets, handleConnect],
+    [availableWallets, connect],
   );
 
   const renderModal = useCallback(() => {
@@ -207,8 +187,15 @@ const Wallet: React.FC = () => {
     const availableWalletsList = availableWallets.filter(wallet => wallet.isAvailable);
 
     return createPortal(
-      <div className="modal-overlay" onClick={() => setShowModal(false)}>
-        <div className="modal" onClick={(e) => e.stopPropagation()}>
+      <div 
+        className="modal-overlay" 
+        onClick={(e) => {
+          if (e.target === e.currentTarget) {
+            setShowModal(false);
+          }
+        }}
+      >
+        <div className="modal">
           <div className="modal-header">
             <h2>{strings.en.connectWallet}</h2>
             <button
@@ -225,10 +212,7 @@ const Wallet: React.FC = () => {
               <button
                 key={wallet.id}
                 className="flex items-center gap-4 p-4 rounded-lg border border-border hover:border-primary hover:shadow-glow-hover transition-all duration-default ease-default w-full hover:-translate-y-0.5 hover:bg-primary hover:text-background text-glow"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleWalletClick(wallet.id);
-                }}
+                onClick={() => handleWalletClick(wallet.id)}
                 disabled={isConnecting}
                 aria-label={`${strings.en.connectWalletLabel} ${wallet.name}`}
               >
