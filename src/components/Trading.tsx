@@ -273,7 +273,18 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
               yAxisId="left" 
               stroke={colors.bullish}
               tick={{ fill: colors.bullish }}
-              domain={[(dataMin: number) => Math.floor(dataMin * 0.95), (dataMax: number) => Math.ceil(dataMax * 1.05)]}
+              domain={[
+                () => {
+                  const min = Math.min(...chartData.map(d => d.low));
+                  const range = Math.max(...chartData.map(d => d.high)) - min;
+                  return Math.floor(min - range * 0.05);
+                },
+                () => {
+                  const max = Math.max(...chartData.map(d => d.high));
+                  const range = max - Math.min(...chartData.map(d => d.low));
+                  return Math.ceil(max + range * 0.05);
+                }
+              ]}
               tickFormatter={(value) => `$${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
             />
             <Tooltip
