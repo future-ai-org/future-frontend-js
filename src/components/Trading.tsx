@@ -42,12 +42,13 @@ interface CandlestickProps {
 const CustomCandlestick = (props: CandlestickProps) => {
   const { x, y, width, open, close, high, low, fill, stroke } = props;
   const isGrowing = close >= open;
+  const bodyHeight = Math.abs(y(close) - y(open));
   const bodyY = isGrowing ? y(close) : y(open);
   
   return (
     <g>
       {/* High-Low line */}
-      <Line
+      <line
         x1={x + width / 2}
         y1={y(high)}
         x2={x + width / 2}
@@ -56,13 +57,13 @@ const CustomCandlestick = (props: CandlestickProps) => {
         strokeWidth={1}
       />
       {/* Body */}
-      <Line
-        x1={x}
-        y1={bodyY}
-        x2={x + width}
-        y2={bodyY}
+      <rect
+        x={x}
+        y={bodyY}
+        width={width}
+        height={bodyHeight}
+        fill={isGrowing ? fill : stroke}
         stroke={isGrowing ? fill : stroke}
-        strokeWidth={width}
       />
     </g>
   );
@@ -216,7 +217,20 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
               tick={{ fill: colors.bullish }}
               tickFormatter={(value) => {
                 const date = new Date(value);
-                return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                switch (timePeriod) {
+                  case "1D":
+                    return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+                  case "1W":
+                    return date.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric' });
+                  case "1M":
+                  case "3M":
+                    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                  case "1Y":
+                  case "ALL":
+                    return date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+                  default:
+                    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                }
               }}
             />
             <YAxis 
@@ -236,16 +250,6 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
             />
             <Legend />
             <ReferenceLine yAxisId="left" y={0} stroke={colors.bullish + "1a"} />
-            
-            {/* Add a line chart for the closing prices */}
-            <Line
-              type="monotone"
-              dataKey="close"
-              stroke={colors.bullish}
-              strokeWidth={2}
-              dot={false}
-              yAxisId="left"
-            />
             
             {/* Candlesticks */}
             {chartData.length > 0 && chartData.map((entry, index) => {
@@ -272,6 +276,16 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
                 />
               );
             })}
+            
+            {/* Add a line chart for the closing prices */}
+            <Line
+              type="monotone"
+              dataKey="close"
+              stroke={colors.bullish + "80"}
+              strokeWidth={1}
+              dot={false}
+              yAxisId="left"
+            />
           </ComposedChart>
         </ResponsiveContainer>
       </div>
