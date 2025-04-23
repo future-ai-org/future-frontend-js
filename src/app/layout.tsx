@@ -3,6 +3,7 @@ import "../styles/global.css";
 import dynamic from "next/dynamic";
 import { ThemeProvider } from "../contexts/ThemeContext";
 import { Web3Provider } from "../contexts/Web3ModalContext";
+import strings from "../i18n/header.json";
 
 const Header = dynamic(() => import("../components/Header"), { ssr: false });
 const Footer = dynamic(
@@ -11,8 +12,8 @@ const Footer = dynamic(
 );
 
 export const metadata: Metadata = {
-  title: "LILIT",
-  description: "Next Generation Predictive Platform",
+  title: strings.en.browserTitle,
+  description: strings.en.description,
 };
 
 export default function RootLayout({

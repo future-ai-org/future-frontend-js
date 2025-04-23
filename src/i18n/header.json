@@ -1,6 +1,8 @@
 {
   "en": {
     "title": "LILIT",
+    "browserTitle": "LILIT - Smart Prediction Platform",
+    "description": "Next Generation Predictive Platform",
     "nav": {
       "home": "home",
       "invest": "invest",
