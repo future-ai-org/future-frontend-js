@@ -14,6 +14,23 @@ interface TradingProps {
   assetId: string;
 }
 
+interface TradingViewWidgetConfig {
+  symbol: string;
+  theme: string;
+  toolbar_bg: string;
+  overrides: Record<string, string | number | boolean>;
+  studies_overrides: Record<string, string | number | boolean>;
+  container_id: string;
+}
+
+declare global {
+  interface Window {
+    TradingView: {
+      widget: new (config: TradingViewWidgetConfig) => void;
+    };
+  }
+}
+
 export const Trading: React.FC<TradingProps> = ({ assetId }) => {
   const [tradingData, setTradingData] = useState<TradingData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -123,34 +140,65 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
 
     const initializeTrading = () => {
       if (!tradingData) return;
-      new (window as any).TradingView.widget({
+      new window.TradingView.widget({
         ...TRADING_CONFIG.WIDGET,
         theme: theme,
-        toolbar_bg: getComputedStyle(document.documentElement).getPropertyValue('--color-background'),
+        toolbar_bg: getComputedStyle(document.documentElement).getPropertyValue(
+          "--color-background",
+        ),
         overrides: {
           ...TRADING_CONFIG.WIDGET.overrides,
-          "paneProperties.background": getComputedStyle(document.documentElement).getPropertyValue('--color-background'),
-          "scalesProperties.backgroundColor": getComputedStyle(document.documentElement).getPropertyValue('--color-background'),
-          "mainSeriesProperties.candleStyle.upColor": getComputedStyle(document.documentElement).getPropertyValue('--color-bullish'),
-          "mainSeriesProperties.candleStyle.downColor": getComputedStyle(document.documentElement).getPropertyValue('--color-bearish'),
-          "mainSeriesProperties.candleStyle.borderUpColor": getComputedStyle(document.documentElement).getPropertyValue('--color-bullish'),
-          "mainSeriesProperties.candleStyle.borderDownColor": getComputedStyle(document.documentElement).getPropertyValue('--color-bearish'),
-          "mainSeriesProperties.candleStyle.wickUpColor": getComputedStyle(document.documentElement).getPropertyValue('--color-bullish'),
-          "mainSeriesProperties.candleStyle.wickDownColor": getComputedStyle(document.documentElement).getPropertyValue('--color-bearish'),
-          "paneProperties.vertGridProperties.color": `${getComputedStyle(document.documentElement).getPropertyValue('--color-bullish')}1a`,
-          "paneProperties.horzGridProperties.color": `${getComputedStyle(document.documentElement).getPropertyValue('--color-bullish')}1a`,
-          "scalesProperties.textColor": getComputedStyle(document.documentElement).getPropertyValue('--color-bullish'),
-          "mainSeriesProperties.background": getComputedStyle(document.documentElement).getPropertyValue('--color-background'),
-          "mainSeriesProperties.gridColor": `${getComputedStyle(document.documentElement).getPropertyValue('--color-bullish')}1a`,
-          "mainSeriesProperties.crossHairProperties.color": getComputedStyle(document.documentElement).getPropertyValue('--color-bullish'),
+          "paneProperties.background": getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--color-background"),
+          "scalesProperties.backgroundColor": getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--color-background"),
+          "mainSeriesProperties.candleStyle.upColor": getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--color-bullish"),
+          "mainSeriesProperties.candleStyle.downColor": getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--color-bearish"),
+          "mainSeriesProperties.candleStyle.borderUpColor": getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--color-bullish"),
+          "mainSeriesProperties.candleStyle.borderDownColor": getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--color-bearish"),
+          "mainSeriesProperties.candleStyle.wickUpColor": getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--color-bullish"),
+          "mainSeriesProperties.candleStyle.wickDownColor": getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--color-bearish"),
+          "paneProperties.vertGridProperties.color": `${getComputedStyle(document.documentElement).getPropertyValue("--color-bullish")}1a`,
+          "paneProperties.horzGridProperties.color": `${getComputedStyle(document.documentElement).getPropertyValue("--color-bullish")}1a`,
+          "scalesProperties.textColor": getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--color-bullish"),
+          "mainSeriesProperties.background": getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--color-background"),
+          "mainSeriesProperties.gridColor": `${getComputedStyle(document.documentElement).getPropertyValue("--color-bullish")}1a`,
+          "mainSeriesProperties.crossHairProperties.color": getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--color-bullish"),
           "mainSeriesProperties.crossHairProperties.width": 1,
           "mainSeriesProperties.crossHairProperties.style": 2,
           "mainSeriesProperties.crossHairProperties.visible": true,
-          "mainSeriesProperties.crossHairProperties.labelBackgroundColor": getComputedStyle(document.documentElement).getPropertyValue('--color-background'),
+          "mainSeriesProperties.crossHairProperties.labelBackgroundColor":
+            getComputedStyle(document.documentElement).getPropertyValue(
+              "--color-background",
+            ),
         },
         studies_overrides: {
-          "volume.volume.color.0": getComputedStyle(document.documentElement).getPropertyValue('--color-bullish'),
-          "volume.volume.color.1": getComputedStyle(document.documentElement).getPropertyValue('--color-bearish'),
+          "volume.volume.color.0": getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--color-bullish"),
+          "volume.volume.color.1": getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--color-bearish"),
           "volume.volume.transparency": 70,
         },
         symbol: `${TRADING_CONFIG.SYMBOL_FORMAT.EXCHANGE}${TRADING_CONFIG.SYMBOL_FORMAT.SEPARATOR}${tradingData.symbol.toUpperCase()}${TRADING_CONFIG.SYMBOL_FORMAT.QUOTE}`,
@@ -194,7 +242,7 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
             <td className="info-card">
               <div className="info-label">{strings.en.labels.currentPrice}</div>
               <div className="info-value">
-                ${tradingData?.current_price?.toLocaleString() ?? 'N/A'}
+                ${tradingData?.current_price?.toLocaleString() ?? "N/A"}
               </div>
             </td>
             <td className="info-card">
@@ -205,51 +253,55 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
                 className={`info-value ${tradingData?.price_change_percentage_24h >= 0 ? "price-change-positive" : "price-change-negative"}`}
               >
                 {tradingData?.price_change_percentage_24h >= 0 ? "+" : ""}
-                {tradingData?.price_change_percentage_24h?.toFixed(2) ?? 'N/A'}%
+                {tradingData?.price_change_percentage_24h?.toFixed(2) ?? "N/A"}%
               </div>
             </td>
             <td className="info-card">
               <div className="info-label">{strings.en.labels.marketCap}</div>
               <div className="info-value">
-                ${tradingData?.market_cap?.toLocaleString() ?? 'N/A'}
+                ${tradingData?.market_cap?.toLocaleString() ?? "N/A"}
               </div>
             </td>
             <td className="info-card">
               <div className="info-label">{strings.en.labels.volume24h}</div>
               <div className="info-value">
-                ${tradingData?.total_volume?.toLocaleString() ?? 'N/A'}
+                ${tradingData?.total_volume?.toLocaleString() ?? "N/A"}
               </div>
             </td>
             <td className="info-card">
               <div className="info-label">{strings.en.labels.high24h}</div>
               <div className="info-value">
-                ${tradingData?.high_24h?.toLocaleString() ?? 'N/A'}
+                ${tradingData?.high_24h?.toLocaleString() ?? "N/A"}
               </div>
             </td>
             <td className="info-card">
               <div className="info-label">{strings.en.labels.low24h}</div>
               <div className="info-value">
-                ${tradingData?.low_24h?.toLocaleString() ?? 'N/A'}
+                ${tradingData?.low_24h?.toLocaleString() ?? "N/A"}
               </div>
             </td>
             <td className="info-card">
               <div className="info-label">{strings.en.labels.allTimeHigh}</div>
               <div className="info-value">
-                ${tradingData?.ath?.toLocaleString() ?? 'N/A'}
+                ${tradingData?.ath?.toLocaleString() ?? "N/A"}
               </div>
               <div className="info-label">
                 {strings.en.labels.date}:{" "}
-                {tradingData?.ath_date ? new Date(tradingData.ath_date).toLocaleDateString() : 'N/A'}
+                {tradingData?.ath_date
+                  ? new Date(tradingData.ath_date).toLocaleDateString()
+                  : "N/A"}
               </div>
             </td>
             <td className="info-card">
               <div className="info-label">{strings.en.labels.allTimeLow}</div>
               <div className="info-value">
-                ${tradingData?.atl?.toLocaleString() ?? 'N/A'}
+                ${tradingData?.atl?.toLocaleString() ?? "N/A"}
               </div>
               <div className="info-label">
                 {strings.en.labels.date}:{" "}
-                {tradingData?.atl_date ? new Date(tradingData.atl_date).toLocaleDateString() : 'N/A'}
+                {tradingData?.atl_date
+                  ? new Date(tradingData.atl_date).toLocaleDateString()
+                  : "N/A"}
               </div>
             </td>
           </tr>

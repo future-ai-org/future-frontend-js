@@ -188,8 +188,9 @@
   font-weight: 600;
   color: var(--text-color);
   font-size: 1rem;
-  border: none;
+  border: none !important;
   text-shadow: var(--text-glow);
+  outline: none;
 }
 
 .wallet-loading {

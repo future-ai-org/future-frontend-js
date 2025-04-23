@@ -7,6 +7,7 @@ build:
 	yarn build
 
 server:
+	yarn build
 	yarn start
 
 clean:
@@ -21,6 +22,4 @@ clean:
 
 lint:
 	yarn lint
-
-format:
 	yarn prettier --write "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}"

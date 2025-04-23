@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useEffect, useState, useMemo, useCallback } from "react";
 import "../styles/slider.css";
@@ -9,6 +9,12 @@ interface CryptoPrice {
   symbol: string;
   price: number;
   change: number;
+}
+
+interface CoinData {
+  current_price: number;
+  symbol: string;
+  price_change_percentage_24h?: number;
 }
 
 const formatPrice = (price: number): string => {
@@ -57,10 +63,10 @@ export const Slider: React.FC = () => {
         const data = await response.json();
         const formattedPrices = data
           .filter(
-            (coin: any) =>
+            (coin: CoinData) =>
               coin.current_price > 0 && coin.symbol.toUpperCase() !== "USDT",
           )
-          .map((coin: any) => ({
+          .map((coin: CoinData) => ({
             symbol: coin.symbol.toUpperCase(),
             price: coin.current_price,
             change: coin.price_change_percentage_24h || 0,

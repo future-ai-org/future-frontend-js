@@ -1,4 +1,4 @@
-import Dashboard from '../../components/Dashboard'
+import Dashboard from "../../components/Dashboard";
 
 export default function DashboardPage() {
   return (
@@ -8,4 +8,4 @@ export default function DashboardPage() {
   );
 }
 
-export const dynamic = 'force-dynamic' 
+export const dynamic = "force-dynamic";

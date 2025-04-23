@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useEffect, useState, useCallback } from "react";
 import "../styles/invest.css";
@@ -16,6 +16,12 @@ interface CryptoData {
   market_cap: number;
   sparkline_in_7d?: {
     price: number[];
+  };
+}
+
+interface TrendingCoin {
+  item: {
+    id: string;
   };
 }
 
@@ -132,7 +138,7 @@ export default function Invest() {
           (crypto) => crypto.id !== "dogecoin",
         );
         const trendingIds = trendingData.coins
-          .map((coin: any) => coin.item.id)
+          .map((coin: TrendingCoin) => coin.item.id)
           .join(",");
 
         const trendingDetailsResponse = await fetch(

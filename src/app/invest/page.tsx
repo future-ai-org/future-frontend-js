@@ -1,4 +1,4 @@
-import Invest from '../../components/Invest'
+import Invest from "../../components/Invest";
 
 export default function InvestPage() {
   return (
@@ -8,4 +8,4 @@ export default function InvestPage() {
   );
 }
 
-export const dynamic = 'force-dynamic' 
+export const dynamic = "force-dynamic";

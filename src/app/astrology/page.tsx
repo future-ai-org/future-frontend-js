@@ -1,4 +1,4 @@
-import Astrology from '../../components/Astrology'
+import Astrology from "../../components/Astrology";
 
 export default function AstrologyPage() {
   return (
@@ -8,4 +8,4 @@ export default function AstrologyPage() {
   );
 }
 
-export const dynamic = 'force-dynamic' 
+export const dynamic = "force-dynamic";

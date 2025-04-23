@@ -20,15 +20,7 @@ make install
 
 <br>
 
-build:
-
-```bash
-make build
-```
-
-<br>
-
-start local server:
+build and start local server:
 
 ```
 make server

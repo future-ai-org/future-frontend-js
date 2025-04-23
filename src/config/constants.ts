@@ -96,7 +96,8 @@ export const TRADING_CONFIG = {
       "mainSeriesProperties.candleStyle.upColor": "var(--color-bullish)",
       "mainSeriesProperties.candleStyle.downColor": "var(--color-bearish)",
       "mainSeriesProperties.candleStyle.borderUpColor": "var(--color-bullish)",
-      "mainSeriesProperties.candleStyle.borderDownColor": "var(--color-bearish)",
+      "mainSeriesProperties.candleStyle.borderDownColor":
+        "var(--color-bearish)",
       "mainSeriesProperties.candleStyle.wickUpColor": "var(--color-bullish)",
       "mainSeriesProperties.candleStyle.wickDownColor": "var(--color-bearish)",
       "paneProperties.background": "var(--color-background)",
@@ -110,7 +111,8 @@ export const TRADING_CONFIG = {
       "mainSeriesProperties.crossHairProperties.width": 1,
       "mainSeriesProperties.crossHairProperties.style": 2,
       "mainSeriesProperties.crossHairProperties.visible": true,
-      "mainSeriesProperties.crossHairProperties.labelBackgroundColor": "var(--color-background)",
+      "mainSeriesProperties.crossHairProperties.labelBackgroundColor":
+        "var(--color-background)",
     },
     studies_overrides: {
       "volume.volume.color.0": "var(--color-bullish)",

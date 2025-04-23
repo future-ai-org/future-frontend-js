@@ -1,4 +1,4 @@
-import About from '../../components/About'
+import About from "../../components/About";
 
 export default function AboutPage() {
   return (
@@ -8,4 +8,4 @@ export default function AboutPage() {
   );
 }
 
-export const dynamic = 'force-dynamic' 
+export const dynamic = "force-dynamic";

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   createContext,
@@ -95,7 +95,11 @@ const Web3ProviderInner: React.FC<{ children: ReactNode }> = ({ children }) => {
       }
 
       // Handle multiple providers
-      if (window.ethereum?.providers?.length > 1) {
+      if (
+        window.ethereum &&
+        Array.isArray(window.ethereum.providers) &&
+        window.ethereum.providers.length > 1
+      ) {
         window.ethereum = window.ethereum.providers[0];
       }
 
