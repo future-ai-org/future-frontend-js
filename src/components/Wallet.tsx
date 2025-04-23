@@ -157,10 +157,12 @@ const Wallet: React.FC = () => {
 
   const handleDisconnect = useCallback(async () => {
     try {
+      setError(null);
       await disconnect();
+      setSelectedWallet(null);
       router.push("/");
+      window.location.reload();
     } catch (error) {
-      console.error("Error disconnecting wallet:", error);
       setError(error instanceof Error ? error.message : strings.en.connectionError);
     }
   }, [disconnect, router]);
@@ -211,6 +213,8 @@ const Wallet: React.FC = () => {
   const renderModal = useCallback(() => {
     if (!showModal || !mounted) return null;
 
+    const availableWalletsList = availableWallets.filter(wallet => wallet.isAvailable);
+
     return createPortal(
       <div className="wallet-modal-overlay" onClick={() => setShowModal(false)}>
         <div className="wallet-modal" onClick={(e) => e.stopPropagation()}>
@@ -225,12 +229,12 @@ const Wallet: React.FC = () => {
           </div>
           {error && <div className="wallet-modal-error">{error}</div>}
           <div className="wallet-list">
-            {availableWallets.map((wallet) => (
+            {availableWalletsList.map((wallet) => (
               <button
                 key={wallet.id}
-                className={`wallet-option ${!wallet.isAvailable ? "disabled" : ""}`}
+                className="wallet-option"
                 onClick={() => handleWalletClick(wallet.id)}
-                disabled={!wallet.isAvailable || isConnecting}
+                disabled={isConnecting}
               >
                 <span className="wallet-icon">{wallet.icon}</span>
                 <div className="wallet-info">
@@ -241,17 +245,6 @@ const Wallet: React.FC = () => {
                 </div>
                 {isConnecting && selectedWallet === wallet.id && (
                   <div className="wallet-loading">{strings.en.connecting}</div>
-                )}
-                {!wallet.isAvailable && (
-                  <div className="wallet-unavailable">
-                    <a
-                      href={wallet.downloadUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {strings.en.download}
-                    </a>
-                  </div>
                 )}
               </button>
             ))}
