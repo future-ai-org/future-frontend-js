@@ -42,6 +42,11 @@ const Wallet: React.FC = () => {
   const [availableWallets, setAvailableWallets] = useState<WalletOption[]>([]);
   const [selectedWallet, setSelectedWallet] = useState<string | null>(null);
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const checkWallets = useCallback(() => {
     const isMetaMaskAvailable = Boolean(
@@ -199,7 +204,7 @@ const Wallet: React.FC = () => {
   );
 
   const renderModal = useCallback(() => {
-    if (!showModal) return null;
+    if (!showModal || !mounted) return null;
 
     return createPortal(
       <div className="wallet-modal-overlay" onClick={() => setShowModal(false)}>
@@ -248,16 +253,13 @@ const Wallet: React.FC = () => {
           </div>
         </div>
       </div>,
-      document.body,
+      document.body
     );
-  }, [
-    showModal,
-    error,
-    availableWallets,
-    isConnecting,
-    selectedWallet,
-    handleWalletClick,
-  ]);
+  }, [showModal, error, availableWallets, isConnecting, selectedWallet, handleWalletClick, mounted]);
+
+  if (!mounted) {
+    return null;
+  }
 
   if (isConnected) {
     return (

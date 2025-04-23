@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import "../styles/header.css";
 import strings from "../i18n/header.json";
@@ -34,9 +35,12 @@ const Header: React.FC = () => {
             gap: "12px",
           }}
         >
-          <img
+          <Image
             src={logo}
-            alt="Logo"
+            alt="LILIT Logo"
+            width={30}
+            height={30}
+            priority
             style={{ width: "30px", height: "30px" }}
           />
           <div className="header-title-container">
