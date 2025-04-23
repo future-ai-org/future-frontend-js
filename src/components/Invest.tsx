@@ -14,6 +14,8 @@ interface CryptoData {
   current_price: number;
   price_change_percentage_24h: number;
   market_cap: number;
+  ath: number;
+  ath_date: string;
   sparkline_in_7d?: {
     price: number[];
   };
@@ -209,6 +211,7 @@ export default function Invest() {
               <th className="table-header">{t.table.headers.price}</th>
               <th className="table-header">{t.table.headers.change}</th>
               <th className="table-header">{t.table.headers.marketCap}</th>
+              <th className="table-header">{t.table.headers.ath}</th>
               <th className="table-header">{t.table.headers.chart}</th>
             </tr>
           </thead>
@@ -280,6 +283,16 @@ export default function Invest() {
                     className={`table-cell crypto-market-cap-cell ${colorClass}`}
                   >
                     ${(crypto.market_cap / 1000000000).toFixed(2)}B
+                  </td>
+                  <td className={`table-cell crypto-ath-cell ${colorClass}`}>
+                    $
+                    {crypto.ath.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 6,
+                    })}
+                    <div className="ath-date">
+                      {new Date(crypto.ath_date).toLocaleDateString()}
+                    </div>
                   </td>
                   <td className="table-cell">
                     {crypto.sparkline_in_7d?.price ? (
