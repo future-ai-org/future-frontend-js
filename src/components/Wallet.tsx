@@ -18,7 +18,7 @@ interface Window {
   ethereum?: WalletProvider;
   phantom?: {
     solana: {
-      connect: () => Promise<any>;
+      connect: () => Promise<{ publicKey: string }>;
       disconnect: () => Promise<void>;
       on: (event: string, callback: () => void) => void;
       removeAllListeners: () => void;
@@ -149,16 +149,35 @@ const Wallet: React.FC = () => {
       setIsConnecting(true);
 
       const wallet = availableWallets.find((w) => w.id === selectedWallet);
-      if (!wallet) throw new Error("Wallet not found");
+      if (!wallet) throw new Error(strings.en.walletNotFound);
 
       if (selectedWallet === "phantom") {
-        if (window.phantom?.solana) {
-          await window.phantom.solana.connect();
+        if (!window.phantom?.solana) {
+          throw new Error(strings.en.phantomNotInstalled);
+        }
+        
+        try {
+          // Request connection
+          const response = await window.phantom.solana.connect();
+          console.log("Phantom connection response:", response);
+
+          if (!response?.publicKey) {
+            console.error("No public key in Phantom response");
+            throw new Error(strings.en.phantomConnectionFailed);
+          }
+
+          console.log("Successfully connected to Phantom wallet with public key:", response.publicKey);
+        } catch (error) {
+          console.error("Phantom connection error:", error);
+          if (error instanceof Error) {
+            throw new Error(`${strings.en.phantomConnectionError} (${error.message})`);
+          }
+          throw new Error(strings.en.phantomConnectionError);
         }
       } else if (wallet.connector) {
         await connect({ connector: wallet.connector });
       } else {
-        throw new Error("Unsupported wallet");
+        throw new Error(strings.en.unsupportedWallet);
       }
 
       setShowModal(false);
@@ -188,34 +207,35 @@ const Wallet: React.FC = () => {
     const availableWalletsList = availableWallets.filter(wallet => wallet.isAvailable);
 
     return createPortal(
-      <div className="wallet-modal-overlay" onClick={() => setShowModal(false)}>
-        <div className="wallet-modal" onClick={(e) => e.stopPropagation()}>
-          <div className="wallet-modal-header">
+      <div className="modal-overlay" onClick={() => setShowModal(false)}>
+        <div className="modal" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-header">
             <h2>{strings.en.connectWallet}</h2>
             <button
-              className="close-button"
+              className="close-button text-primary hover:text-text transition-colors duration-300"
               onClick={() => setShowModal(false)}
-              aria-label="Close"
+              aria-label={strings.en.close}
             >
               ×
             </button>
           </div>
-          {error && <div className="wallet-modal-error">{error}</div>}
-          <div className="wallet-list">
+          {error && <div className="text-bearish mb-4">{error}</div>}
+          <div className="flex flex-col gap-4">
             {availableWalletsList.map((wallet) => (
               <button
                 key={wallet.id}
-                className="wallet-option"
-                onClick={() => handleWalletClick(wallet.id)}
+                className="flex items-center gap-4 p-4 rounded-lg border border-border hover:border-primary hover:shadow-glow-hover transition-all duration-default ease-default w-full hover:-translate-y-0.5 hover:bg-primary hover:text-background text-glow"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleWalletClick(wallet.id);
+                }}
                 disabled={isConnecting}
-                aria-label={`Connect ${wallet.name}`}
+                aria-label={`${strings.en.connectWalletLabel} ${wallet.name}`}
               >
-                <span className="wallet-icon">{wallet.icon}</span>
-                <div className="wallet-info">
-                  <span className="wallet-name">{wallet.name}</span>
-                </div>
+                <span className="text-2xl">{wallet.icon}</span>
+                <span className="font-medium">{wallet.name}</span>
                 {isConnecting && selectedWallet === wallet.id && (
-                  <div className="wallet-loading">{strings.en.connecting}</div>
+                  <div className="ml-auto animate-pulse">{strings.en.connecting}</div>
                 )}
               </button>
             ))}
@@ -238,7 +258,7 @@ const Wallet: React.FC = () => {
           <button 
             onClick={handleDisconnect} 
             className="disconnect-button"
-            aria-label="Disconnect wallet"
+            aria-label={strings.en.disconnectWalletLabel}
           >
             {strings.en.disconnect}
           </button>
@@ -253,7 +273,7 @@ const Wallet: React.FC = () => {
         onClick={() => setShowModal(true)}
         className="connect-button"
         disabled={isConnecting}
-        aria-label="Connect wallet"
+        aria-label={strings.en.connectWalletLabel}
       >
         {isConnecting ? strings.en.connecting : strings.en.connectWalletButton}
       </button>
