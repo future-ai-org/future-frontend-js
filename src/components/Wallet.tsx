@@ -188,38 +188,40 @@ const Wallet: React.FC = () => {
 
     return createPortal(
       <div 
-        className="modal-overlay" 
+        className="wallet-modal-overlay" 
         onClick={(e) => {
           if (e.target === e.currentTarget) {
             setShowModal(false);
           }
         }}
       >
-        <div className="modal">
-          <div className="modal-header">
+        <div className="wallet-modal">
+          <div className="wallet-modal-header">
             <h2>{strings.en.connectWallet}</h2>
             <button
-              className="close-button text-primary hover:text-text transition-colors duration-300"
+              className="close-button"
               onClick={() => setShowModal(false)}
               aria-label={strings.en.close}
             >
               ×
             </button>
           </div>
-          {error && <div className="text-bearish mb-4">{error}</div>}
-          <div className="flex flex-col gap-4">
+          {error && <div className="wallet-modal-error">{error}</div>}
+          <div className="wallet-list">
             {availableWalletsList.map((wallet) => (
               <button
                 key={wallet.id}
-                className="flex items-center gap-4 p-4 rounded-lg border border-border hover:border-primary hover:shadow-glow-hover transition-all duration-default ease-default w-full hover:-translate-y-0.5 hover:bg-primary hover:text-background text-glow"
+                className="wallet-option"
                 onClick={() => handleWalletClick(wallet.id)}
                 disabled={isConnecting}
                 aria-label={`${strings.en.connectWalletLabel} ${wallet.name}`}
               >
-                <span className="text-2xl">{wallet.icon}</span>
-                <span className="font-medium">{wallet.name}</span>
+                <span className="wallet-icon">{wallet.icon}</span>
+                <div className="wallet-info">
+                  <span className="wallet-name">{wallet.name}</span>
+                </div>
                 {isConnecting && selectedWallet === wallet.id && (
-                  <div className="ml-auto animate-pulse">{strings.en.connecting}</div>
+                  <div className="wallet-loading">{strings.en.connecting}</div>
                 )}
               </button>
             ))}
