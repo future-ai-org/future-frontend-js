@@ -153,8 +153,8 @@
   transition: all var(--transition-duration) var(--transition-timing);
   overflow: visible;
   padding: 0;
-  width: 50px;
-  height: 20px;
+  width: 100px;
+  height: 40px;
   position: relative;
   margin: 0 auto;
   z-index: 1000;
@@ -167,8 +167,8 @@
   margin: 0 auto;
   transform: scale(1);
   transform-origin: center;
-  width: 120px;
-  height: 30px;
+  width: 200px;
+  height: 50px;
   transition: transform 0.3s ease;
 }
 
