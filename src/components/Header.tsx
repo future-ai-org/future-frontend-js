@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import styles from "../styles/header.module.css";
+import styles from "src/styles/header.module.css";
 import strings from "../i18n/header.json";
 import { Toggler } from "./Toggler";
 import Wallet from "./Wallet";
