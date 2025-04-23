@@ -1,4 +1,4 @@
-.PHONY: build install server clean lint check format test
+.PHONY: build install server clean lint format
 
 install:
 	yarn install
@@ -22,11 +22,5 @@ clean:
 lint:
 	yarn lint
 
-check:
-	yarn tsc --noEmit
-
 format:
 	yarn prettier --write "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}"
-
-test:
-	yarn test

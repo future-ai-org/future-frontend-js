@@ -12,9 +12,25 @@
 
 <br>
 
+install dependencies:
+
 ```bash
 make install
+```
+
+<br>
+
+build:
+
+```bash
 make build
+```
+
+<br>
+
+start local server:
+
+```
 make server
 ```
 
@@ -26,10 +42,9 @@ make server
 
 <br>
 
+make sure to lint the code with:
+
 ```bash
-make clean
 make lint
-make check
 make format
-make test
 ```
