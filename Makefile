@@ -16,7 +16,11 @@ install:
 build:
 	yarn build
 
-server:
+dev:
+	yarn build
+	yarn dev
+
+prod:
 	yarn build
 	yarn start
 
