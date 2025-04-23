@@ -91,6 +91,12 @@
   flex: 1;
 }
 
+.table th:nth-child(1) { width: 25%; } /* Asset column */
+.table th:nth-child(2) { width: 18.75%; } /* Price column */
+.table th:nth-child(3) { width: 18.75%; } /* Change column */
+.table th:nth-child(4) { width: 18.75%; } /* Market cap column */
+.table th:nth-child(5) { width: 18.75%; } /* Chart column */
+
 .table-header {
   padding: 15px;
   font-size: 0.8rem;
