@@ -72,19 +72,19 @@ const CustomCandlestick = (props: CandlestickProps) => {
 const getTimePeriodConfig = (period: TimePeriod) => {
   switch (period) {
     case "1D":
-      return { days: 1, dataPoints: 24 };
+      return { days: 1, dataPoints: 24, interval: 'hourly' };
     case "1W":
-      return { days: 7, dataPoints: 7 };
+      return { days: 7, dataPoints: 7, interval: 'daily' };
     case "1M":
-      return { days: 30, dataPoints: 30 };
+      return { days: 30, dataPoints: 30, interval: 'daily' };
     case "3M":
-      return { days: 90, dataPoints: 90 };
+      return { days: 90, dataPoints: 90, interval: 'daily' };
     case "1Y":
-      return { days: 365, dataPoints: 365 };
+      return { days: 365, dataPoints: 365, interval: 'daily' };
     case "ALL":
-      return { days: 365 * 2, dataPoints: 730 };
+      return { days: 'max', dataPoints: 365 * 2, interval: 'daily' };
     default:
-      return { days: 30, dataPoints: 30 };
+      return { days: 30, dataPoints: 30, interval: 'daily' };
   }
 };
 
@@ -101,12 +101,12 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
 
   const fetchHistoricalData = useCallback(async (period: TimePeriod) => {
     try {
-      const { days, dataPoints } = getTimePeriodConfig(period);
+      const { days, dataPoints, interval } = getTimePeriodConfig(period);
       console.log('Fetching data with config:', { days, dataPoints, period, assetId });
 
       // Simple CoinGecko API call
       const response = await fetch(
-        `https://api.coingecko.com/api/v3/coins/${assetId.toLowerCase()}/market_chart?vs_currency=usd&days=${days}&interval=daily`,
+        `https://api.coingecko.com/api/v3/coins/${assetId.toLowerCase()}/market_chart?vs_currency=usd&days=${days}&interval=${interval}`,
         {
           method: 'GET',
           headers: {
@@ -143,7 +143,7 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
         const low = Math.min(open, close);
 
         return {
-          date: new Date(timestamp).toISOString().split('T')[0],
+          date: new Date(timestamp).toISOString(),
           open,
           high,
           low,
@@ -153,12 +153,46 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
       });
 
       console.log('Processed data points:', processedData.length);
-      setChartData(processedData.slice(-dataPoints));
+      
+      // For 1Y period, we want to show monthly data points
+      if (period === "1Y") {
+        // Group data by month
+        const monthlyData = processedData.reduce((acc: { [key: string]: CandleData[] }, curr: CandleData) => {
+          const date = new Date(curr.date);
+          const monthKey = `${date.getFullYear()}-${date.getMonth()}`;
+          if (!acc[monthKey]) {
+            acc[monthKey] = [];
+          }
+          acc[monthKey].push(curr);
+          return acc;
+        }, {});
+
+        // Create monthly candles
+        const monthlyCandles = (Object.values(monthlyData) as CandleData[][]).map((monthData: CandleData[]) => {
+          const firstDay = monthData[0];
+          const lastDay = monthData[monthData.length - 1];
+          return {
+            date: firstDay.date,
+            open: firstDay.open,
+            close: lastDay.close,
+            high: Math.max(...monthData.map((d: CandleData) => d.high)),
+            low: Math.min(...monthData.map((d: CandleData) => d.low)),
+            volume: monthData.reduce((sum: number, d: CandleData) => sum + d.volume, 0)
+          };
+        });
+
+        setChartData(monthlyCandles);
+      } else {
+        // For other periods, use the existing sampling logic
+        const step = Math.max(1, Math.floor(processedData.length / dataPoints));
+        const sampledData = processedData.filter((_: CandleData, index: number) => index % step === 0);
+        setChartData(sampledData);
+      }
     } catch (err) {
       console.error('Error in fetchHistoricalData:', err);
       // Set some sample data for debugging
       const sampleData = Array.from({ length: 30 }, (_, i) => ({
-        date: new Date(Date.now() - (30 - i) * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        date: new Date(Date.now() - (30 - i) * 24 * 60 * 60 * 1000).toISOString(),
         open: 100 + Math.random() * 10,
         high: 110 + Math.random() * 10,
         low: 90 + Math.random() * 10,
@@ -223,9 +257,11 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
                   case "1W":
                     return date.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric' });
                   case "1M":
+                    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
                   case "3M":
                     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
                   case "1Y":
+                    return date.toLocaleDateString('en-US', { month: 'short' }).slice(0, 3);
                   case "ALL":
                     return date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
                   default:
