@@ -12,6 +12,7 @@ import {
   Rectangle,
 } from "recharts";
 import { Loading } from "./Loading";
+import { API_CONFIG } from "../config/constants";
 import "../styles/trading.css";
 
 interface TradingProps {
@@ -25,8 +26,6 @@ interface CandleData {
   low: number;
   close: number;
   volume: number;
-  ma5?: number;
-  ma10?: number;
   rsi?: number;
 }
 
@@ -58,7 +57,7 @@ const CustomCandlestick = (props: CandlestickProps) => {
         y1={y(high)}
         x2={x + width / 2}
         y2={y(low)}
-        stroke={stroke}
+        stroke={isGrowing ? fill : stroke}
         strokeWidth={1}
       />
       {/* Body */}
@@ -68,123 +67,207 @@ const CustomCandlestick = (props: CandlestickProps) => {
         width={width}
         height={bodyHeight}
         fill={isGrowing ? fill : stroke}
-        stroke={stroke}
+        stroke={isGrowing ? fill : stroke}
         strokeWidth={1}
       />
     </g>
   );
 };
 
-export const Trading: React.FC<TradingProps> = () => {
+export const Trading: React.FC<TradingProps> = ({ assetId }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [chartData, setChartData] = useState<CandleData[]>([]);
   const [timePeriod, setTimePeriod] = useState<TimePeriod>("1M");
+  const [error, setError] = useState<string | null>(null);
 
-  // Generate sample data for different time periods
-  const generateData = (period: TimePeriod): CandleData[] => {
-    const now = new Date();
-    const data: CandleData[] = [];
-    let startDate: Date;
-    let interval: number;
+  const fetchHistoricalData = async (period: TimePeriod) => {
+    try {
+      setIsLoading(true);
+      setError(null);
 
-    switch (period) {
-      case "1D":
-        startDate = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-        interval = 5 * 60 * 1000; // 5 minutes
-        break;
-      case "1W":
-        startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-        interval = 30 * 60 * 1000; // 30 minutes
-        break;
-      case "1M":
-        startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-        interval = 2 * 60 * 60 * 1000; // 2 hours
-        break;
-      case "3M":
-        startDate = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
-        interval = 6 * 60 * 60 * 1000; // 6 hours
-        break;
-      case "1Y":
-        startDate = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
-        interval = 24 * 60 * 60 * 1000; // 1 day
-        break;
-      case "ALL":
-        startDate = new Date(now.getTime() - 2 * 365 * 24 * 60 * 60 * 1000);
-        interval = 7 * 24 * 60 * 60 * 1000; // 1 week
-        break;
-    }
+      let days = 1;
+      let interval = "daily"; // Default to daily interval
+      let dataPoints = 30; // Default number of data points
+      
+      switch (period) {
+        case "1D":
+          days = 1;
+          interval = "daily";
+          dataPoints = 24;
+          break;
+        case "1W":
+          days = 7;
+          interval = "daily";
+          dataPoints = 7;
+          break;
+        case "1M":
+          days = 30;
+          interval = "daily";
+          dataPoints = 30;
+          break;
+        case "3M":
+          days = 90;
+          interval = "daily";
+          dataPoints = 90;
+          break;
+        case "1Y":
+          days = 365;
+          interval = "daily";
+          dataPoints = 365;
+          break;
+        case "ALL":
+          days = 365 * 2;
+          interval = "daily";
+          dataPoints = 730;
+          break;
+      }
 
-    let currentPrice = 100;
-    let currentDate = startDate;
+      console.log(`Fetching data for period ${period} with days=${days}, interval=${interval}`);
 
-    while (currentDate <= now) {
-      const volatility = Math.random() * 0.02;
-      const change = (Math.random() - 0.5) * volatility * currentPrice;
-      const open = currentPrice;
-      const close = currentPrice + change;
-      const high = Math.max(open, close) * (1 + Math.random() * 0.01);
-      const low = Math.min(open, close) * (1 - Math.random() * 0.01);
-      const volume = Math.floor(Math.random() * 1000) + 500;
+      // Add a small delay to avoid rate limiting
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
-      data.push({
-        date: currentDate.toISOString().split('T')[0],
-        open,
-        high,
-        low,
-        close,
-        volume,
+      const response = await fetch(
+        `${API_CONFIG.COINGECKO.BASE_URL}/coins/${assetId}/market_chart?vs_currency=usd&days=${days}&interval=${interval}`,
+        {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          }
+        }
+      );
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('API Error Response:', errorText);
+        throw new Error(`API Error: ${response.status} - ${errorText}`);
+      }
+
+      const data = await response.json();
+      
+      if (!data.prices || !Array.isArray(data.prices) || data.prices.length === 0) {
+        throw new Error("Invalid data format received from API");
+      }
+
+      console.log(`Received ${data.prices.length} price points for ${period}`);
+
+      // Process the data to match our CandleData format
+      const processedData: CandleData[] = data.prices.map((price: [number, number], index: number) => {
+        if (!Array.isArray(price) || price.length < 2) {
+          console.warn(`Invalid price data at index ${index}:`, price);
+          return null;
+        }
+
+        const timestamp = price[0];
+        const close = price[1];
+        const open = index > 0 ? data.prices[index - 1][1] : close;
+        
+        // Calculate high and low based on the interval
+        let high = close;
+        let low = close;
+        
+        if (period === "1D") {
+          // For 1D, look at the last 4 data points
+          const lookback = Math.min(4, index);
+          high = data.prices
+            .slice(Math.max(0, index - lookback), index + 1)
+            .reduce((max: number, p: [number, number]) => Math.max(max, p[1]), close);
+          low = data.prices
+            .slice(Math.max(0, index - lookback), index + 1)
+            .reduce((min: number, p: [number, number]) => Math.min(min, p[1]), close);
+        } else if (period === "1W") {
+          // For 1W, look at the last 2 data points
+          const lookback = Math.min(2, index);
+          high = data.prices
+            .slice(Math.max(0, index - lookback), index + 1)
+            .reduce((max: number, p: [number, number]) => Math.max(max, p[1]), close);
+          low = data.prices
+            .slice(Math.max(0, index - lookback), index + 1)
+            .reduce((min: number, p: [number, number]) => Math.min(min, p[1]), close);
+        } else {
+          // For other periods, use the daily high/low
+          high = data.prices[index][1];
+          low = data.prices[index][1];
+        }
+
+        const volume = data.total_volumes?.[index]?.[1] || 0;
+
+        return {
+          date: new Date(timestamp).toISOString().split('T')[0],
+          open,
+          high,
+          low,
+          close,
+          volume,
+        };
+      }).filter((item: CandleData | null): item is CandleData => item !== null);
+
+      if (processedData.length === 0) {
+        throw new Error("No valid data points after processing");
+      }
+
+      console.log(`Processed ${processedData.length} data points for ${period}`);
+
+      // Limit the number of data points to show
+      const limitedData = processedData.slice(-dataPoints);
+
+      // Calculate indicators
+      const dataWithIndicators = limitedData.map((item: CandleData, index: number) => {
+        // Calculate RSI
+        if (index >= 14) {
+          const gains = [];
+          const losses = [];
+          for (let i = index - 13; i <= index; i++) {
+            const change = limitedData[i].close - limitedData[i - 1].close;
+            gains.push(change > 0 ? change : 0);
+            losses.push(change < 0 ? -change : 0);
+          }
+          const avgGain = gains.reduce((a, b) => a + b, 0) / 14;
+          const avgLoss = losses.reduce((a, b) => a + b, 0) / 14;
+          const rs = avgGain / avgLoss;
+          item.rsi = 100 - (100 / (1 + rs));
+        }
+
+        return item;
       });
 
-      currentPrice = close;
-      currentDate = new Date(currentDate.getTime() + interval);
+      console.log(`Final data points with indicators: ${dataWithIndicators.length}`);
+      setChartData(dataWithIndicators);
+    } catch (err) {
+      console.error(`Error in fetchHistoricalData for period ${period}:`, err);
+      setError(err instanceof Error ? err.message : "Failed to fetch market data. Please try again later.");
+    } finally {
+      setIsLoading(false);
     }
-
-    return data;
   };
 
   useEffect(() => {
-    const data = generateData(timePeriod);
-    
-    // Calculate indicators
-    const dataWithIndicators = data.map((item, index) => {
-      // Calculate MA5
-      if (index >= 4) {
-        const ma5Sum = data.slice(index - 4, index + 1).reduce((sum, d) => sum + d.close, 0);
-        item.ma5 = ma5Sum / 5;
-      }
-
-      // Calculate MA10
-      if (index >= 9) {
-        const ma10Sum = data.slice(index - 9, index + 1).reduce((sum, d) => sum + d.close, 0);
-        item.ma10 = ma10Sum / 10;
-      }
-
-      // Calculate RSI
-      if (index >= 14) {
-        const gains = [];
-        const losses = [];
-        for (let i = index - 13; i <= index; i++) {
-          const change = data[i].close - data[i - 1].close;
-          gains.push(change > 0 ? change : 0);
-          losses.push(change < 0 ? -change : 0);
-        }
-        const avgGain = gains.reduce((a, b) => a + b, 0) / 14;
-        const avgLoss = losses.reduce((a, b) => a + b, 0) / 14;
-        const rs = avgGain / avgLoss;
-        item.rsi = 100 - (100 / (1 + rs));
-      }
-
-      return item;
-    });
-
-    setChartData(dataWithIndicators);
-    setIsLoading(false);
-  }, [timePeriod]);
+    fetchHistoricalData(timePeriod);
+  }, [assetId, timePeriod]);
 
   if (isLoading) {
     return (
       <div className="trading-container">
         <Loading />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="trading-container">
+        <div className="error-message">
+          <p>{error}</p>
+          <button 
+            onClick={() => {
+              setError(null);
+              fetchHistoricalData(timePeriod);
+            }}
+            className="retry-button"
+          >
+            Retry
+          </button>
+        </div>
       </div>
     );
   }
@@ -218,7 +301,7 @@ export const Trading: React.FC<TradingProps> = () => {
               top: 20,
               right: 20,
               bottom: 20,
-              left: 20,
+              left: 40,
             }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke={colors.bullish + "1a"} />
@@ -247,7 +330,7 @@ export const Trading: React.FC<TradingProps> = () => {
             {chartData.map((entry, index) => (
               <CustomCandlestick
                 key={index}
-                x={index * 20 - 7.5}
+                x={index * 20}
                 y={(value: number) => value}
                 width={15}
                 open={entry.open}
