@@ -248,3 +248,13 @@ button {
   opacity: var(--opacity-light);
   text-align: center;
 }
+
+.main-content-wrapper {
+  padding-top: 80px;
+  min-height: calc(100vh - 80px);
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}

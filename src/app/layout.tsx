@@ -23,7 +23,9 @@ export default function RootLayout({
         <ThemeProvider>
           <Web3Provider>
             <Header />
-            {children}
+            <div className="main-content-wrapper">
+              {children}
+            </div>
             <Footer />
           </Web3Provider>
         </ThemeProvider>
