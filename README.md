@@ -2,12 +2,6 @@
 
 <br>
 
-#### frontend for <a href="https://lilit.ai">lilit.ai</a>, deployed on vercel
-
-<br>
-
----
-
 ### running locally
 
 <br>
@@ -22,21 +16,8 @@ make install
 
 build and start local server:
 
-```
+```bash
 make server
 ```
 
 <br>
-
----
-
-### pushing new dev changes
-
-<br>
-
-make sure to lint the code with:
-
-```bash
-make lint
-make format
-```

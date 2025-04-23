@@ -1,14 +1,4 @@
-.PHONY: build install server clean lint format
-
-install:
-	yarn install
-
-build:
-	yarn build
-
-server:
-	yarn build
-	yarn start
+.PHONY: clean install build server lint
 
 clean:
 	rm -rf dist/
@@ -19,6 +9,17 @@ clean:
 	rm -rf node_modules/
 	yarn cache clean
 	rm -f yarn.lock
+
+install:
+	make clean
+	yarn install
+
+build:
+	yarn build
+
+server:
+	yarn build
+	yarn start
 
 lint:
 	yarn lint
