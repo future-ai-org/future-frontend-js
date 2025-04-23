@@ -1,16 +1,15 @@
-import Link from "next/link";
+import strings from "../i18n/404.json";
 
 export default function NotFound() {
   return (
-    <main className="min-h-screen flex items-center justify-center">
-      <div className="text-center">
-        <h2 className="text-2xl font-bold mb-4">404 - Page Not Found</h2>
-        <p className="text-gray-600 mb-4">
-          The page you are looking for does not exist.
-        </p>
-        <Link href="/" className="text-blue-500 hover:text-blue-700">
-          Return to Home
-        </Link>
+    <main className="min-h-screen flex items-center justify-center bg-background">
+      <div className="text-center p-8 max-w-md">
+        <h1 className="text-4xl font-bold mb-6 text-primary">
+          {strings.en.title}
+        </h1>
+        <h2 className="text-2xl font-semibold mb-4 text-text-primary">
+          {strings.en.subtitle}
+        </h2>
       </div>
     </main>
   );
