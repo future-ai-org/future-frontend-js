@@ -1,7 +1,6 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { injectColorVariables } from "../styles/colors";
 
 type Theme = "light" | "dark";
 
@@ -15,20 +14,19 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [theme, setTheme] = useState<Theme>("light");
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") as Theme;
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const initialTheme = savedTheme || (prefersDark ? "dark" : "light");
-    setTheme(initialTheme);
-  }, []);
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem("theme") as Theme;
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      return savedTheme || (prefersDark ? "dark" : "light");
+    }
+    return "light";
+  });
 
   useEffect(() => {
     localStorage.setItem("theme", theme);
     document.documentElement.classList.remove("light", "dark");
     document.documentElement.classList.add(theme);
-    injectColorVariables(theme);
   }, [theme]);
 
   const toggleTheme = () => {

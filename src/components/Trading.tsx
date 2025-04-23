@@ -8,7 +8,6 @@ import {
 import strings from "../i18n/trading.json";
 import { Loading } from "./Loading";
 import { useTheme } from "../contexts/ThemeContext";
-import { colors } from "../styles/colors";
 import "../styles/trading.css";
 
 interface TradingProps {
@@ -124,43 +123,34 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
 
     const initializeTrading = () => {
       if (!tradingData) return;
-      const currentThemeColors = colors[theme];
       new (window as any).TradingView.widget({
         ...TRADING_CONFIG.WIDGET,
         theme: theme,
-        toolbar_bg: currentThemeColors.background,
+        toolbar_bg: getComputedStyle(document.documentElement).getPropertyValue('--color-background'),
         overrides: {
           ...TRADING_CONFIG.WIDGET.overrides,
-          "paneProperties.background": currentThemeColors.background,
-          "scalesProperties.backgroundColor": currentThemeColors.background,
-          "mainSeriesProperties.candleStyle.upColor":
-            currentThemeColors.bullish,
-          "mainSeriesProperties.candleStyle.downColor":
-            currentThemeColors.bearish,
-          "mainSeriesProperties.candleStyle.borderUpColor":
-            currentThemeColors.bullish,
-          "mainSeriesProperties.candleStyle.borderDownColor":
-            currentThemeColors.bearish,
-          "mainSeriesProperties.candleStyle.wickUpColor":
-            currentThemeColors.bullish,
-          "mainSeriesProperties.candleStyle.wickDownColor":
-            currentThemeColors.bearish,
-          "paneProperties.vertGridProperties.color": `${currentThemeColors.bullish}1a`,
-          "paneProperties.horzGridProperties.color": `${currentThemeColors.bullish}1a`,
-          "scalesProperties.textColor": currentThemeColors.bullish,
-          "mainSeriesProperties.background": currentThemeColors.background,
-          "mainSeriesProperties.gridColor": `${currentThemeColors.bullish}1a`,
-          "mainSeriesProperties.crossHairProperties.color":
-            currentThemeColors.bullish,
+          "paneProperties.background": getComputedStyle(document.documentElement).getPropertyValue('--color-background'),
+          "scalesProperties.backgroundColor": getComputedStyle(document.documentElement).getPropertyValue('--color-background'),
+          "mainSeriesProperties.candleStyle.upColor": getComputedStyle(document.documentElement).getPropertyValue('--color-bullish'),
+          "mainSeriesProperties.candleStyle.downColor": getComputedStyle(document.documentElement).getPropertyValue('--color-bearish'),
+          "mainSeriesProperties.candleStyle.borderUpColor": getComputedStyle(document.documentElement).getPropertyValue('--color-bullish'),
+          "mainSeriesProperties.candleStyle.borderDownColor": getComputedStyle(document.documentElement).getPropertyValue('--color-bearish'),
+          "mainSeriesProperties.candleStyle.wickUpColor": getComputedStyle(document.documentElement).getPropertyValue('--color-bullish'),
+          "mainSeriesProperties.candleStyle.wickDownColor": getComputedStyle(document.documentElement).getPropertyValue('--color-bearish'),
+          "paneProperties.vertGridProperties.color": `${getComputedStyle(document.documentElement).getPropertyValue('--color-bullish')}1a`,
+          "paneProperties.horzGridProperties.color": `${getComputedStyle(document.documentElement).getPropertyValue('--color-bullish')}1a`,
+          "scalesProperties.textColor": getComputedStyle(document.documentElement).getPropertyValue('--color-bullish'),
+          "mainSeriesProperties.background": getComputedStyle(document.documentElement).getPropertyValue('--color-background'),
+          "mainSeriesProperties.gridColor": `${getComputedStyle(document.documentElement).getPropertyValue('--color-bullish')}1a`,
+          "mainSeriesProperties.crossHairProperties.color": getComputedStyle(document.documentElement).getPropertyValue('--color-bullish'),
           "mainSeriesProperties.crossHairProperties.width": 1,
           "mainSeriesProperties.crossHairProperties.style": 2,
           "mainSeriesProperties.crossHairProperties.visible": true,
-          "mainSeriesProperties.crossHairProperties.labelBackgroundColor":
-            currentThemeColors.background,
+          "mainSeriesProperties.crossHairProperties.labelBackgroundColor": getComputedStyle(document.documentElement).getPropertyValue('--color-background'),
         },
         studies_overrides: {
-          "volume.volume.color.0": currentThemeColors.bullish,
-          "volume.volume.color.1": currentThemeColors.bearish,
+          "volume.volume.color.0": getComputedStyle(document.documentElement).getPropertyValue('--color-bullish'),
+          "volume.volume.color.1": getComputedStyle(document.documentElement).getPropertyValue('--color-bearish'),
           "volume.volume.transparency": 70,
         },
         symbol: `${TRADING_CONFIG.SYMBOL_FORMAT.EXCHANGE}${TRADING_CONFIG.SYMBOL_FORMAT.SEPARATOR}${tradingData.symbol.toUpperCase()}${TRADING_CONFIG.SYMBOL_FORMAT.QUOTE}`,
