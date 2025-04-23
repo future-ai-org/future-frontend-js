@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useState, useMemo, useCallback } from "react";
 import "../styles/slider.css";
 import pricesData from "../i18n/slider.json";

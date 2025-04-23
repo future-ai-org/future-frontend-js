@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useState, useCallback } from "react";
 import "../styles/invest.css";
 import strings from "../i18n/invest.json";
@@ -17,7 +19,7 @@ interface CryptoData {
   };
 }
 
-export const Invest: React.FC = () => {
+export default function Invest() {
   const [cryptoData, setCryptoData] = useState<CryptoData[]>([]);
   const [memecoinData, setMemecoinData] = useState<CryptoData[]>([]);
   const [trendingData, setTrendingData] = useState<CryptoData[]>([]);
@@ -315,4 +317,4 @@ export const Invest: React.FC = () => {
       )}
     </div>
   );
-};
+}

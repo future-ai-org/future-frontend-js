@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
 import {
   TradingData,
   API_CONFIG,
@@ -12,8 +11,11 @@ import { useTheme } from "../contexts/ThemeContext";
 import { colors } from "../styles/colors";
 import "../styles/trading.css";
 
-export const Trading: React.FC = () => {
-  const { assetId } = useParams<{ assetId: string }>();
+interface TradingProps {
+  assetId: string;
+}
+
+export const Trading: React.FC<TradingProps> = ({ assetId }) => {
   const [tradingData, setTradingData] = useState<TradingData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { theme } = useTheme();
@@ -195,13 +197,14 @@ export const Trading: React.FC = () => {
 
   return (
     <div className="trading-container">
+      <h1>Trading {assetId}</h1>
       <table className="info-grid">
         <tbody>
           <tr>
             <td className="info-card">
               <div className="info-label">{strings.en.labels.currentPrice}</div>
               <div className="info-value">
-                ${tradingData.current_price.toLocaleString()}
+                ${tradingData?.current_price?.toLocaleString() ?? 'N/A'}
               </div>
             </td>
             <td className="info-card">
@@ -209,54 +212,54 @@ export const Trading: React.FC = () => {
                 {strings.en.labels.priceChange24h}
               </div>
               <div
-                className={`info-value ${tradingData.price_change_percentage_24h >= 0 ? "price-change-positive" : "price-change-negative"}`}
+                className={`info-value ${tradingData?.price_change_percentage_24h >= 0 ? "price-change-positive" : "price-change-negative"}`}
               >
-                {tradingData.price_change_percentage_24h >= 0 ? "+" : ""}
-                {tradingData.price_change_percentage_24h.toFixed(2)}%
+                {tradingData?.price_change_percentage_24h >= 0 ? "+" : ""}
+                {tradingData?.price_change_percentage_24h?.toFixed(2) ?? 'N/A'}%
               </div>
             </td>
             <td className="info-card">
               <div className="info-label">{strings.en.labels.marketCap}</div>
               <div className="info-value">
-                ${tradingData.market_cap.toLocaleString()}
+                ${tradingData?.market_cap?.toLocaleString() ?? 'N/A'}
               </div>
             </td>
             <td className="info-card">
               <div className="info-label">{strings.en.labels.volume24h}</div>
               <div className="info-value">
-                ${tradingData.total_volume.toLocaleString()}
+                ${tradingData?.total_volume?.toLocaleString() ?? 'N/A'}
               </div>
             </td>
             <td className="info-card">
               <div className="info-label">{strings.en.labels.high24h}</div>
               <div className="info-value">
-                ${tradingData.high_24h.toLocaleString()}
+                ${tradingData?.high_24h?.toLocaleString() ?? 'N/A'}
               </div>
             </td>
             <td className="info-card">
               <div className="info-label">{strings.en.labels.low24h}</div>
               <div className="info-value">
-                ${tradingData.low_24h.toLocaleString()}
+                ${tradingData?.low_24h?.toLocaleString() ?? 'N/A'}
               </div>
             </td>
             <td className="info-card">
               <div className="info-label">{strings.en.labels.allTimeHigh}</div>
               <div className="info-value">
-                ${tradingData.ath.toLocaleString()}
+                ${tradingData?.ath?.toLocaleString() ?? 'N/A'}
               </div>
               <div className="info-label">
                 {strings.en.labels.date}:{" "}
-                {new Date(tradingData.ath_date).toLocaleDateString()}
+                {tradingData?.ath_date ? new Date(tradingData.ath_date).toLocaleDateString() : 'N/A'}
               </div>
             </td>
             <td className="info-card">
               <div className="info-label">{strings.en.labels.allTimeLow}</div>
               <div className="info-value">
-                ${tradingData.atl.toLocaleString()}
+                ${tradingData?.atl?.toLocaleString() ?? 'N/A'}
               </div>
               <div className="info-label">
                 {strings.en.labels.date}:{" "}
-                {new Date(tradingData.atl_date).toLocaleDateString()}
+                {tradingData?.atl_date ? new Date(tradingData.atl_date).toLocaleDateString() : 'N/A'}
               </div>
             </td>
           </tr>

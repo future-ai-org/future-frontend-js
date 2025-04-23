@@ -1,9 +1,11 @@
+'use client';
+
 import React from "react";
 import "../styles/home.css";
 import strings from "../i18n/home.json";
 import { useWeb3 } from "../contexts/Web3ModalContext";
 
-export const Home: React.FC = () => {
+export default function Home() {
   const { ensName, address, isConnected } = useWeb3();
 
   const formatAddress = (address: string | undefined) => {
@@ -51,4 +53,4 @@ export const Home: React.FC = () => {
       </div>
     </div>
   );
-};
+}

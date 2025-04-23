@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useWeb3 } from "../contexts/Web3ModalContext";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import { createPortal } from "react-dom";
 import "../styles/wallet.css";
 import strings from "../i18n/wallet.json";
@@ -41,7 +41,7 @@ const Wallet: React.FC = () => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [availableWallets, setAvailableWallets] = useState<WalletOption[]>([]);
   const [selectedWallet, setSelectedWallet] = useState<string | null>(null);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const checkWallets = useCallback(() => {
     const isMetaMaskAvailable = Boolean(
@@ -152,8 +152,8 @@ const Wallet: React.FC = () => {
 
   const handleDisconnect = useCallback(() => {
     disconnect();
-    navigate("/");
-  }, [disconnect, navigate]);
+    router.push("/");
+  }, [disconnect, router]);
 
   const handleConnect = useCallback(async () => {
     if (!selectedWallet) return;

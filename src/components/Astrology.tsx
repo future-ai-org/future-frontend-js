@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect, useCallback } from "react";
 import * as d3 from "d3";
 import {
@@ -13,7 +15,7 @@ import { useTheme } from "../contexts/ThemeContext";
 import strings from "../i18n/astrology.json";
 import "../styles/astrology.css";
 
-const Astrology: React.FC = () => {
+export default function Astrology() {
   const { theme } = useTheme();
   const [birthDate, setBirthDate] = useState("");
   const [birthTime, setBirthTime] = useState("");
@@ -476,6 +478,4 @@ const Astrology: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default Astrology;
+}

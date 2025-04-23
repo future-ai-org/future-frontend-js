@@ -1,5 +1,8 @@
+'use client';
+
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import "../styles/header.css";
 import strings from "../i18n/header.json";
 import { Toggler } from "./Toggler";
@@ -9,20 +12,20 @@ import logo from "../assets/logo.svg";
 
 const Header: React.FC = () => {
   const { isConnected } = useWeb3();
-  const location = useLocation();
+  const pathname = usePathname();
 
   const isActive = (path: string) => {
     if (path === "/") {
-      return location.pathname === path;
+      return pathname === path;
     }
-    return location.pathname.startsWith(path);
+    return pathname?.startsWith(path);
   };
 
   return (
     <header className="header">
       <div className="header-content">
         <Link
-          to="/"
+          href="/"
           style={{
             textDecoration: "none",
             color: "var(--primary-color)",
@@ -42,26 +45,26 @@ const Header: React.FC = () => {
         </Link>
         <nav className="header-nav">
           <Link
-            to="/astrology"
+            href="/astrology"
             className={`nav-link ${isActive("/astrology") ? "active" : ""}`}
           >
             {strings.en.nav.astrology}
           </Link>
           <Link
-            to="/invest"
+            href="/invest"
             className={`nav-link ${isActive("/invest") ? "active" : ""}`}
           >
             {strings.en.nav.invest}
           </Link>
           <Link
-            to="/about"
+            href="/about"
             className={`nav-link ${isActive("/about") ? "active" : ""}`}
           >
             {strings.en.nav.about}
           </Link>
           {isConnected && (
             <Link
-              to="/"
+              href="/"
               className={`nav-link ${isActive("/") ? "active" : ""}`}
             >
               {strings.en.nav.dashboard}
