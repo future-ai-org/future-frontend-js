@@ -465,11 +465,15 @@ export default function Logia() {
                   <div key={planet.name} className="astrology-planet-info">
                     <div>
                       <strong>{planet.name}</strong>{" "}
-                      {getPlanetSymbol(planet.name)}
+                      <span className="planet-symbol">
+                        {getPlanetSymbol(planet.name)}
+                      </span>
                     </div>
                     <div>
                       {t.infoPanel.sign}: {planet.sign}{" "}
-                      {getZodiacSymbol(planet.sign)}
+                      <span className="zodiac-symbol">
+                        {getZodiacSymbol(planet.sign)}
+                      </span>
                     </div>
                     <div>
                       {t.infoPanel.house}: {planet.house}

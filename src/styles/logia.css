@@ -411,6 +411,18 @@
   opacity: 1;
   font-weight: 900;
   filter: brightness(0.7);
+  font-size: 1.2em;
+  display: inline-block;
+  margin-left: 0.2em;
+}
+
+.astrology-position-value .planet-symbol {
+  color: var(--color-primary);
+  opacity: 1;
+  font-weight: 900;
+  font-size: 1.2em;
+  display: inline-block;
+  margin-right: 0.2em;
 }
 
 .astrology-chart-header {
