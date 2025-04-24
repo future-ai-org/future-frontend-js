@@ -17,7 +17,13 @@ make install
 build and start local server:
 
 ```bash
-make server
+make dev
 ```
 
 <br>
+
+or
+
+```bash
+make prod
+```

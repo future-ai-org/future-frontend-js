@@ -10,12 +10,12 @@ import {
   OPENSTREETMAP_API_URL,
   printChartInfo,
   ZODIAC_SIGNS,
-} from "../config/astrology";
+} from "../config/logia";
 import { useTheme } from "../contexts/ThemeContext";
-import strings from "../i18n/astrology.json";
-import "../styles/astrology.css";
+import strings from "../i18n/logia.json";
+import "../styles/logia.css";
 
-export default function Astrology() {
+export default function Logia() {
   const { theme } = useTheme();
   const [birthDate, setBirthDate] = useState("");
   const [birthTime, setBirthTime] = useState("");
