@@ -60,7 +60,7 @@
   border: 1px solid var(--border-color);
   transition: all var(--transition-duration) var(--transition-timing);
   min-height: 160px;
-  background-color: rgba(147, 112, 219, 0.05);
+  background-color: var(--card-bg);
   display: flex;
   flex-direction: column;
   align-items: center;

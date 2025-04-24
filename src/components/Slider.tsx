@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
 import "../styles/slider.css";
 import pricesData from "../i18n/slider.json";
-import { PRICE_SLIDER_CONFIG } from "../config/constants";
+import { PRICE_SLIDER_CONFIG } from "../config/price-slider";
 
 interface CryptoPrice {
   symbol: string;
