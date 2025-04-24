@@ -1,9 +1,7 @@
 {
   "en": {
-    "info": {
-      "title": "info",
-      "welcome": "Welcome to our platform",
-      "mission": "Our mission is to provide valuable information"
+    "description": {
+      "first_paragraph": "(to be added soon)"
     }
   }
 }
