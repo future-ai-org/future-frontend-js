@@ -30,7 +30,7 @@ const FeatureCard = ({
     <div className="landing-feature-card">
       <div className="landing-feature-number">{number}</div>
       <h3 className="landing-feature-title">
-        {isConnected && number === "I"
+        {isConnected && number === strings.en.numbers.one
           ? strings.en.features.one.signedIn.replace(
               "{ensName}",
               ensName || formatAddress(address),
@@ -48,14 +48,14 @@ export default function Home() {
   const renderFeatureCards = () => (
     <div className="landing-feature-grid">
       <FeatureCard
-        number="I"
+        number={strings.en.numbers.one}
         title={strings.en.features.one.title.toLowerCase()}
         description={
           isConnected ? (
             <span>
-              {strings.en.hello.connectedAs.split("reading the about")[0]}
-              <Link href="/about">reading the about</Link>
-              {strings.en.hello.connectedAs.split("reading the about")[1]}
+              {strings.en.hello.connectedAs.prefix}{" "}
+              <Link href="/info">{strings.en.hello.connectedAs.link}</Link>{" "}
+              {strings.en.hello.connectedAs.suffix}
             </span>
           ) : (
             <span onClick={() => connect()}>
@@ -68,18 +68,18 @@ export default function Home() {
         address={address}
       />
       <FeatureCard
-        number="II"
+        number={strings.en.numbers.two}
         title={strings.en.features.two.title.toLowerCase()}
         description={
           <>
             <Link href="/logia">
-              {strings.en.features.two.description.split("and")[0].trim()}
+              {strings.en.links.logia}
             </Link>
             {isConnected && (
               <>
-                {" and "}
+                {strings.en.text.and}
                 <Link href="/dashboard">
-                  {strings.en.features.two.description.split("and")[1].trim()}
+                  {strings.en.links.dashboard}
                 </Link>
               </>
             )}
@@ -88,12 +88,12 @@ export default function Home() {
         isConnected={isConnected}
       />
       <FeatureCard
-        number="III"
+        number={strings.en.numbers.three}
         title={strings.en.features.three.title.toLowerCase()}
         description={
           <>
-            leverage smart <Link href="/predict">predictive</Link> intel from
-            our oracle agents
+            <Link href="/predict">{strings.en.links.predict}</Link>{" "}
+            {strings.en.text.intelFromOracle}
           </>
         }
         isConnected={isConnected}

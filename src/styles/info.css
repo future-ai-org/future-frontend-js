@@ -2,25 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
-.aboutContainer {
+.infoContainer {
   padding: 40px;
   max-width: 800px;
   margin: 0 auto;
   color: var(--primary-color);
 }
 
-.aboutTitle {
+.infoTitle {
   font-size: 2.5em;
   margin-bottom: 30px;
   border-bottom: 2px solid var(--primary-color);
   padding-bottom: 10px;
 }
 
-.aboutSection {
+.infoSection {
   margin-bottom: 30px;
 }
 
-.aboutParagraph {
+.infoParagraph {
   line-height: 1.6;
   margin-bottom: 15px;
 }

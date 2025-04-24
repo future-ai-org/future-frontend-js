@@ -1,9 +1,9 @@
-import About from "../../components/About";
+import Info from "../../components/Info";
 
-export default function AboutPage() {
+export default function InfoPage() {
   return (
     <main className="min-h-screen">
-      <About />
+      <Info />
     </main>
   );
 }

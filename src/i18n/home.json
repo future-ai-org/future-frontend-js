@@ -7,7 +7,11 @@
       "getStarted": "get started"
     },
     "hello": {
-      "connectedAs": "get started by reading the about and enjoy your new powers",
+      "connectedAs": {
+        "prefix": "get started by",
+        "link": "reading the info",
+        "suffix": "to learn about your new powers"
+      },
       "anonymous": "anon"
     },
     "features": {
@@ -29,6 +33,16 @@
       "one": "I",
       "two": "II",
       "three": "III"
+    },
+    "links": {
+      "info": "reading the info",
+      "logia": "calculate your logia data",
+      "dashboard": "setup your profile",
+      "predict": "leverage smart predictive"
+    },
+    "text": {
+      "and": " and ",
+      "intelFromOracle": "intel from our oracle agents"
     }
   }
 }
