@@ -31,7 +31,10 @@ export default function Home() {
             <div className="landing-feature-number">I</div>
             <h3 className="landing-feature-title">
               {isConnected
-                ? strings.en.features.one.signedIn.replace("{ensName}", ensName || formatAddress(address))
+                ? strings.en.features.one.signedIn.replace(
+                    "{ensName}",
+                    ensName || formatAddress(address),
+                  )
                 : strings.en.features.one.title.toUpperCase()}
             </h3>
             <p className="landing-feature-description">
@@ -105,7 +108,10 @@ export default function Home() {
           <div className="landing-feature-number">I</div>
           <h3 className="landing-feature-title">
             {isConnected
-              ? strings.en.features.one.signedIn.replace("{ensName}", ensName || formatAddress(address))
+              ? strings.en.features.one.signedIn.replace(
+                  "{ensName}",
+                  ensName || formatAddress(address),
+                )
               : strings.en.features.one.title.toLowerCase()}
           </h3>
           <p className="landing-feature-description">

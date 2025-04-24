@@ -89,12 +89,24 @@
   flex: 1;
 }
 
-.table th:nth-child(1) { width: 22%; } /* Asset column */
-.table th:nth-child(2) { width: 15%; } /* Price column */
-.table th:nth-child(3) { width: 15%; } /* Change column */
-.table th:nth-child(4) { width: 15%; } /* Market cap column */
-.table th:nth-child(5) { width: 15%; } /* ATH column */
-.table th:nth-child(6) { width: 18%; } /* Chart column */
+.table th:nth-child(1) {
+  width: 22%;
+} /* Asset column */
+.table th:nth-child(2) {
+  width: 15%;
+} /* Price column */
+.table th:nth-child(3) {
+  width: 15%;
+} /* Change column */
+.table th:nth-child(4) {
+  width: 15%;
+} /* Market cap column */
+.table th:nth-child(5) {
+  width: 15%;
+} /* ATH column */
+.table th:nth-child(6) {
+  width: 18%;
+} /* Chart column */
 
 .table-header {
   padding: 15px;
