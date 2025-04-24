@@ -1,14 +1,14 @@
 {
   "en": {
     "title": "LILIT",
-    "browserTitle": "LILIT - Smart Prediction Platform",
+    "browserTitle": "LILIT - Smart Predictions",
     "description": "Next Generation Predictive Platform",
     "nav": {
       "home": "home",
       "invest": "invest",
       "about": "about",
-      "astrology": "astrology",
-      "dashboard": "dashboard"
+      "dashboard": "dashboard",
+      "logia": "logia"
     }
   }
 }
