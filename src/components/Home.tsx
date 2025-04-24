@@ -27,11 +27,7 @@ export default function Home() {
           {strings.en.subtitle.toUpperCase()}
         </h2>
         <div className="landing-feature-grid">
-          <div
-            className={`landing-feature-card ${!isConnected ? "clickable" : ""}`}
-            onClick={!isConnected ? connect : undefined}
-            style={{ cursor: !isConnected ? "pointer" : "default" }}
-          >
+          <div className="landing-feature-card">
             <div className="landing-feature-number">I</div>
             <h3 className="landing-feature-title">
               {isConnected
@@ -42,11 +38,18 @@ export default function Home() {
               {isConnected ? (
                 <span
                   dangerouslySetInnerHTML={{
-                    __html: `${strings.en.wallet.connectedAs.toUpperCase()} ${ensName || formatAddress(address)}`,
+                    __html: `${strings.en.wallet.connectedAs} ${ensName || formatAddress(address)}`,
                   }}
                 />
               ) : (
-                strings.en.features.one.description.toUpperCase()
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: strings.en.features.one.description.replace(
+                      "onclick='connectWallet()'",
+                      `onclick='(${connect.toString()})(); return false;'`,
+                    ),
+                  }}
+                />
               )}
             </p>
           </div>
@@ -98,11 +101,7 @@ export default function Home() {
       <h1 className="landing-title">{strings.en.title.toUpperCase()}</h1>
       <h2 className="landing-subtitle">{strings.en.subtitle.toUpperCase()}</h2>
       <div className="landing-feature-grid">
-        <div
-          className={`landing-feature-card ${!isConnected ? "clickable" : ""}`}
-          onClick={!isConnected ? connect : undefined}
-          style={{ cursor: !isConnected ? "pointer" : "default" }}
-        >
+        <div className="landing-feature-card">
           <div className="landing-feature-number">I</div>
           <h3 className="landing-feature-title">
             {isConnected
@@ -113,11 +112,18 @@ export default function Home() {
             {isConnected ? (
               <span
                 dangerouslySetInnerHTML={{
-                  __html: `${strings.en.wallet.connectedAs.toLowerCase()} ${ensName || formatAddress(address)}`,
+                  __html: `${strings.en.wallet.connectedAs} ${ensName || formatAddress(address)}`,
                 }}
               />
             ) : (
-              strings.en.features.one.description.toLowerCase()
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: strings.en.features.one.description.replace(
+                    "onclick='connectWallet()'",
+                    `onclick='(${connect.toString()})(); return false;'`,
+                  ),
+                }}
+              />
             )}
           </p>
         </div>

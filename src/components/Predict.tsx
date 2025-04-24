@@ -9,10 +9,11 @@ export default function Predict() {
       <h1 className="predict-title">Predict</h1>
       <div className="predict-content">
         <p className="predict-description">
-          Make predictions about cryptocurrency prices and earn rewards for accurate forecasts.
+          Make predictions about cryptocurrency prices and earn rewards for
+          accurate forecasts.
         </p>
         {/* More content will be added here */}
       </div>
     </div>
   );
-} 
+}

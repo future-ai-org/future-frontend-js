@@ -8,4 +8,4 @@ export default function PredictPage() {
   );
 }
 
-export const dynamic = "force-dynamic"; 
+export const dynamic = "force-dynamic";

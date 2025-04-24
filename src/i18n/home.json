@@ -14,11 +14,11 @@
       "one": {
         "title": "sign in",
         "signedIn": "hello there",
-        "description": "connect with your favorite wallet to start your avatar"
+        "description": "<a href='#' onclick='document.querySelector(\".connect-button\").click(); return false;'>connect with your favorite  wallet</a> to start your avatar"
       },
       "two": {
         "title": "customize",
-        "description": "<a href='/logia'>calculate your logia data</a> and <a href='/dashboard'>setup your avatar</a>"
+        "description": "<a href='/logia'>calculate your logia data</a> and <a href='/dashboard'>setup your profile</a>"
       },
       "three": {
         "title": "predict",
