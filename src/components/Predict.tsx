@@ -2,16 +2,13 @@
 
 import React from "react";
 import "../styles/predict.css";
+import strings from "../i18n/predict.json";
 
 export default function Predict() {
   return (
     <div className="predict-container">
-      <h1 className="predict-title">Predict</h1>
       <div className="predict-content">
-        <p className="predict-description">
-          Make predictions about cryptocurrency prices and earn rewards for
-          accurate forecasts.
-        </p>
+        <p className="predict-description">{strings.en.description}</p>
         {/* More content will be added here */}
       </div>
     </div>

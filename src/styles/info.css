@@ -3,24 +3,54 @@
 @tailwind utilities;
 
 .infoContainer {
-  padding: 40px;
-  max-width: 800px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-color);
+  padding: 2rem;
+  max-width: 1200px;
   margin: 0 auto;
-  color: var(--primary-color);
 }
 
 .infoTitle {
-  font-size: 2.5em;
-  margin-bottom: 30px;
-  border-bottom: 2px solid var(--primary-color);
-  padding-bottom: 10px;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: var(--primary-color);
+  text-align: center;
+  text-shadow: var(--text-glow);
 }
 
 .infoSection {
-  margin-bottom: 30px;
+  text-align: center;
+  padding: 2rem;
+  max-width: 32rem;
+  background: rgba(var(--primary-color-rgb), 0.05);
+  border-radius: 12px;
+  box-shadow: var(--glow-shadow);
+  margin: 0 auto;
 }
 
 .infoParagraph {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
   line-height: 1.6;
-  margin-bottom: 15px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .infoContainer {
+    padding: 1rem;
+  }
+
+  .infoTitle {
+    font-size: 2rem;
+  }
+
+  .infoSection {
+    padding: 1.5rem;
+  }
 }

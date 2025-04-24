@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# Run make lint
+make lint
+
+# Store the exit code
+RESULT=$?
+
+# If make lint failed, prevent the commit
+if [ $RESULT -ne 0 ]; then
+  echo "❌ linting failed..."
+  exit 1
+fi
+
+# If we get here, linting passed
+echo "✅ linting passed!"
+exit 0 
