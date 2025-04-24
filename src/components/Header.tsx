@@ -49,10 +49,10 @@ const Header: React.FC = () => {
         </Link>
         <nav className={styles.headerNav}>
           <Link
-            href="/about"
-            className={`${styles.navLink} ${isActive("/about") ? styles.active : ""}`}
+            href="/info"
+            className={`${styles.navLink} ${isActive("/info") ? styles.active : ""}`}
           >
-            {strings.en.nav.about}
+            {strings.en.nav.info}
           </Link>
           <Link
             href="/logia"
