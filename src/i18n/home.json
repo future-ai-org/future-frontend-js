@@ -6,14 +6,14 @@
       "learnMore": "learn more",
       "getStarted": "get started"
     },
-    "wallet": {
-      "connectedAs": "get started by <a href='/about'>reading the about</a> and enjoy the fun,",
+    "hello": {
+      "connectedAs": "get started by <a href='/about'>reading the about</a> and enjoy your new powers",
       "anonymous": "anon"
     },
     "features": {
       "one": {
         "title": "sign in",
-        "signedIn": "hello there",
+        "signedIn": "hello, {ensName}",
         "description": "<a href='#' onclick='document.querySelector(\".connect-button\").click(); return false;'>connect with your favorite  wallet</a> to start your avatar"
       },
       "two": {

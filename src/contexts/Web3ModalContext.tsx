@@ -264,7 +264,7 @@ const Web3ProviderInner: React.FC<{ children: ReactNode }> = ({ children }) => {
   const value = {
     address,
     account: address || null,
-    ensName: ensName || strings.en.wallet.anonymous,
+    ensName: ensName || strings.en.hello.anonymous,
     isConnected,
     connect: async () => {
       try {
