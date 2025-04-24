@@ -26,17 +26,17 @@ const FeatureCard = ({
     return `${address.slice(0, 6)}...${address.slice(-4)}`;
   };
 
+  const displayTitle = isConnected && number === strings.en.numbers.one
+    ? strings.en.features.one.signedIn.replace(
+        "{ensName}",
+        ensName || formatAddress(address),
+      )
+    : title;
+
   return (
     <div className="landing-feature-card">
       <div className="landing-feature-number">{number}</div>
-      <h3 className="landing-feature-title">
-        {isConnected && number === strings.en.numbers.one
-          ? strings.en.features.one.signedIn.replace(
-              "{ensName}",
-              ensName || formatAddress(address),
-            )
-          : title}
-      </h3>
+      <h3 className="landing-feature-title">{displayTitle}</h3>
       <p className="landing-feature-description">{description}</p>
     </div>
   );
@@ -72,15 +72,11 @@ export default function Home() {
         title={strings.en.features.two.title.toLowerCase()}
         description={
           <>
-            <Link href="/logia">
-              {strings.en.links.logia}
-            </Link>
+            <Link href="/logia">{strings.en.links.logia}</Link>
             {isConnected && (
               <>
                 {strings.en.text.and}
-                <Link href="/dashboard">
-                  {strings.en.links.dashboard}
-                </Link>
+                <Link href="/dashboard">{strings.en.links.dashboard}</Link>
               </>
             )}
           </>
