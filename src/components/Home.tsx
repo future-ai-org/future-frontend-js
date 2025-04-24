@@ -62,7 +62,10 @@ export default function Home() {
       {isConnected && (
         <div className="wallet-info">
           <span className="wallet-label">{strings.en.wallet.connectedAs}</span>
-          <span className="wallet-address">
+          <span
+            className="wallet-address"
+            data-ens={ensName ? "true" : undefined}
+          >
             {ensName || formatAddress(address)}
           </span>
         </div>
