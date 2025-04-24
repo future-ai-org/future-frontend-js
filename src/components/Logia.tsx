@@ -142,25 +142,32 @@ export default function Logia() {
     e.preventDefault();
     if (!birthDate || !birthTime || !city) return;
 
+    setIsGeneratingChart(true);
+    setError(null);
+
     try {
-      setIsGeneratingChart(true);
-      setError(null);
+      const coordinates = await geocodeCity(city);
+      if (!coordinates) {
+        throw new Error(t.errors.cityNotFound);
+      }
 
-      const coords = await geocodeCity(city);
-      if (!coords) return;
-
-      const data = calculateChart(birthDate, birthTime, coords.lat, coords.lon);
-      setChartData(data);
-
-      // Generate and set the chart info message
-      const info = printChartInfo(
+      const chart = calculateChart(
         birthDate,
         birthTime,
-        coords.lat,
-        coords.lon,
-        city,
+        coordinates.lat,
+        coordinates.lon,
       );
-      setChartInfo(info);
+      setChartData(chart);
+      setChartInfo(
+        printChartInfo(
+          birthDate,
+          birthTime,
+          coordinates.lat,
+          coordinates.lon,
+          city,
+          t,
+        ),
+      );
     } catch (err) {
       setError(err instanceof Error ? err.message : t.errors.unknownError);
     } finally {
@@ -275,13 +282,13 @@ export default function Logia() {
         .style("font-weight", "500")
         .style("text-shadow", "0 0 8px var(--color-primary)")
         .style("transition", "all 0.3s ease")
-        .on("mouseover", function() {
+        .on("mouseover", function () {
           d3.select(this)
             .style("opacity", "1")
             .style("font-size", "20px")
             .style("text-shadow", "0 0 12px var(--color-primary)");
         })
-        .on("mouseout", function() {
+        .on("mouseout", function () {
           d3.select(this)
             .style("opacity", "0.8")
             .style("font-size", "16px")

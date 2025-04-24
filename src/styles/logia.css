@@ -3,8 +3,9 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: 'Astrology';
-  src: url('https://cdn.jsdelivr.net/gh/google/fonts/ofl/astrology/Astrology-Regular.ttf') format('truetype');
+  font-family: "Astrology";
+  src: url("https://cdn.jsdelivr.net/gh/google/fonts/ofl/astrology/Astrology-Regular.ttf")
+    format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -282,16 +283,17 @@
 }
 
 .astrology-info-box {
-  padding: 0.5rem;
+  padding: 0.5rem 2rem;
   border-radius: 0.5rem;
   border: 1px solid var(--border-color);
   transition: var(--transition-all);
   margin-bottom: 1.5rem;
-  width: 100%;
+  width: 120%;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: var(--card-bg);
+  margin-left: -10%;
 }
 
 .astrology-info-box:hover {
@@ -330,6 +332,7 @@
   overflow: hidden;
   border: 1px solid var(--border-color);
   text-align: center;
+  padding: 0 1rem;
 }
 
 .astrology-table th,
@@ -363,7 +366,10 @@
 }
 
 .astrology-table td:last-child {
-  text-align: center;
+  text-align: left;
+  padding: 0.35rem 1rem;
+  max-width: 200px;
+  word-wrap: break-word;
 }
 
 .astrology-positions {

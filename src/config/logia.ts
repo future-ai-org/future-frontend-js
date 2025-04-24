@@ -16,6 +16,20 @@ export const ZODIAC_SIGNS = [
   "aries",
 ] as const;
 
+export const ASTROLOGY_EFFECTS = [
+  "neutral",
+  "expand",
+  "expand",
+  "expand",
+  "neutral",
+  "contract",
+  "contract",
+  "contract",
+  "contract",
+  "contract",
+  "contract",
+] as const;
+
 export interface PlanetPosition {
   name: string;
   position: number;
@@ -504,6 +518,7 @@ export function printChartInfo(
   latitude: number,
   longitude: number,
   city: string,
+  t: any,
 ): string {
   const chart = calculateChart(birthDate, birthTime, latitude, longitude);
   const date = new Date(`${birthDate}T${birthTime}`);
@@ -535,10 +550,11 @@ export function printChartInfo(
     <table class="astrology-table">
       <thead>
         <tr>
-          <th>Planet</th>
-          <th>Sign</th>
-          <th>Angle</th>
-          <th>House</th>
+          <th>${t.table.planet.toLowerCase()}</th>
+          <th>${t.table.sign.toLowerCase()}</th>
+          <th>${t.table.angle.toLowerCase()}</th>
+          <th>${t.table.house.toLowerCase()}</th>
+          <th>${t.table.effects.toLowerCase()}</th>
         </tr>
       </thead>
       <tbody>
@@ -547,15 +563,17 @@ export function printChartInfo(
           <td>${getZodiacSymbol(ascendantSign)}</td>
           <td>${ascendantDegree.toFixed(2)}°</td>
           <td>1</td>
+          <td>${ASTROLOGY_EFFECTS[0]}</td>
         </tr>
         ${chart.planets
           .map(
-            (planet) => `
+            (planet, index) => `
         <tr>
           <td>${getPlanetSymbol(planet.name)}</td>
           <td>${getZodiacSymbol(planet.sign)}</td>
           <td>${(planet.position % 30).toFixed(2)}°</td>
           <td>${planet.house}</td>
+          <td>${ASTROLOGY_EFFECTS[index + 1]}</td>
         </tr>
       `,
           )
