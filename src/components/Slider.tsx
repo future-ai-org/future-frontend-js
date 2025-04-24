@@ -34,10 +34,12 @@ const formatChange = (change: number): string => {
 export const Slider: React.FC = () => {
   const [prices, setPrices] = useState<CryptoPrice[]>([]);
   const [retryCount, setRetryCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchPrices = useCallback(
     async (isRetry = false) => {
       try {
+        setIsLoading(true);
         const queryParams = new URLSearchParams({
           vs_currency: PRICE_SLIDER_CONFIG.API.PARAMS.VS_CURRENCY,
           ids: PRICE_SLIDER_CONFIG.API.CRYPTO_IDS.join(","),
@@ -80,6 +82,7 @@ export const Slider: React.FC = () => {
         if (isRetry) {
           setRetryCount(0);
         }
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching prices:", error);
 
@@ -132,15 +135,28 @@ export const Slider: React.FC = () => {
     [],
   );
 
+  const renderLoadingItem = useCallback(
+    (index: number) => (
+      <div className="price-item loading" key={`loading-${index}`}>
+        <span className="symbol">---/USDT</span>
+        <span className="price">$0.00</span>
+        <span className="price-change">↑ 0.00%</span>
+      </div>
+    ),
+    [],
+  );
+
   const displayPrices = useMemo(
-    () => (validPrices.length === 0 ? [] : duplicatedPrices),
-    [validPrices, duplicatedPrices],
+    () => (isLoading ? Array(10).fill(null) : duplicatedPrices),
+    [isLoading, duplicatedPrices],
   );
 
   return (
     <div className="slider-container">
       <div className="price-items-container">
-        {displayPrices.map(renderPriceItem)}
+        {displayPrices.map((price, index) =>
+          isLoading ? renderLoadingItem(index) : renderPriceItem(price, index)
+        )}
       </div>
     </div>
   );

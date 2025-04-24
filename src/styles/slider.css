@@ -56,6 +56,23 @@
   color: var(--bearish-color);
 }
 
+.price-item.loading {
+  opacity: 0.5;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
 @keyframes flow {
   0% {
     transform: translateX(0);
