@@ -16,11 +16,11 @@
         "description": "connect with your favorite wallet and create your profile"
       },
       "two": {
-        "title": "customize your avatar",
-        "description": "setup your preferences and calculate your logia chart"
+        "title": "customize",
+        "description": "calculate your logia chart and setup your avatar"
       },
       "three": {
-        "title": "predict the future",
+        "title": "predict",
         "description": "leverage the next generation of predictive intel from our oracle agents"
       }
     }
