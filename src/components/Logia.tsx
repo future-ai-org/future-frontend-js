@@ -142,25 +142,32 @@ export default function Logia() {
     e.preventDefault();
     if (!birthDate || !birthTime || !city) return;
 
+    setIsGeneratingChart(true);
+    setError(null);
+
     try {
-      setIsGeneratingChart(true);
-      setError(null);
+      const coordinates = await geocodeCity(city);
+      if (!coordinates) {
+        throw new Error(t.errors.cityNotFound);
+      }
 
-      const coords = await geocodeCity(city);
-      if (!coords) return;
-
-      const data = calculateChart(birthDate, birthTime, coords.lat, coords.lon);
-      setChartData(data);
-
-      // Generate and set the chart info message
-      const info = printChartInfo(
+      const chart = calculateChart(
         birthDate,
         birthTime,
-        coords.lat,
-        coords.lon,
-        city,
+        coordinates.lat,
+        coordinates.lon,
       );
-      setChartInfo(info);
+      setChartData(chart);
+      setChartInfo(
+        printChartInfo(
+          birthDate,
+          birthTime,
+          coordinates.lat,
+          coordinates.lon,
+          city,
+          t,
+        ),
+      );
     } catch (err) {
       setError(err instanceof Error ? err.message : t.errors.unknownError);
     } finally {
@@ -465,11 +472,15 @@ export default function Logia() {
                   <div key={planet.name} className="astrology-planet-info">
                     <div>
                       <strong>{planet.name}</strong>{" "}
-                      {getPlanetSymbol(planet.name)}
+                      <span className="planet-symbol">
+                        {getPlanetSymbol(planet.name)}
+                      </span>
                     </div>
                     <div>
                       {t.infoPanel.sign}: {planet.sign}{" "}
-                      {getZodiacSymbol(planet.sign)}
+                      <span className="zodiac-symbol" data-sign={planet.sign}>
+                        {getZodiacSymbol(planet.sign)}
+                      </span>
                     </div>
                     <div>
                       {t.infoPanel.house}: {planet.house}

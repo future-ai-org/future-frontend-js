@@ -16,6 +16,20 @@ export const ZODIAC_SIGNS = [
   "aries",
 ] as const;
 
+export const ASTROLOGY_EFFECTS = [
+  "neutral",
+  "expand",
+  "expand",
+  "expand",
+  "neutral",
+  "contract",
+  "contract",
+  "contract",
+  "contract",
+  "contract",
+  "contract",
+] as const;
+
 export interface PlanetPosition {
   name: string;
   position: number;
@@ -50,18 +64,18 @@ const PLANET_SYMBOLS = {
 } as const;
 
 const ZODIAC_SYMBOLS = {
-  aries: "♈︎",
-  taurus: "♉︎",
-  gemini: "♊︎",
-  cancer: "♋︎",
-  leo: "♌︎",
-  virgo: "♍︎",
-  libra: "♎︎",
-  scorpio: "♏︎",
-  sagittarius: "♐︎",
-  capricorn: "♑︎",
-  aquarius: "♒︎",
-  pisces: "♓︎",
+  aries: "♈",
+  taurus: "♉",
+  gemini: "♊",
+  cancer: "♋",
+  leo: "♌",
+  virgo: "♍",
+  libra: "♎",
+  scorpio: "♏",
+  sagittarius: "♐",
+  capricorn: "♑",
+  aquarius: "♒",
+  pisces: "♓",
 } as const;
 
 const ASPECTS = [
@@ -71,6 +85,16 @@ const ASPECTS = [
   { name: "trine", degrees: 120, orb: 8 },
   { name: "opposition", degrees: 180, orb: 8 },
 ] as const;
+
+interface Translation {
+  table: {
+    planet: string;
+    angle: string;
+    sign: string;
+    house: string;
+    effects: string;
+  };
+}
 
 export function calculateChart(
   birthDate: string,
@@ -504,11 +528,11 @@ export function printChartInfo(
   latitude: number,
   longitude: number,
   city: string,
+  t: Translation,
 ): string {
   const chart = calculateChart(birthDate, birthTime, latitude, longitude);
   const date = new Date(`${birthDate}T${birthTime}`);
   const formattedDate = date.toLocaleDateString("en-us", {
-    weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -516,7 +540,6 @@ export function printChartInfo(
   const formattedTime = date.toLocaleTimeString("en-us", {
     hour: "2-digit",
     minute: "2-digit",
-    timeZoneName: "short",
   });
 
   // Calculate ascendant directly from birth data
@@ -533,33 +556,48 @@ export function printChartInfo(
   const ascendantDegree = ascendant % 30;
   const ascendantSign = ZODIAC_SIGNS[Math.floor(ascendant / 30)];
 
-  const planetPositions = chart.planets
-    .map((planet) => {
-      const housePosition = planet.position % 30;
-      return `
-    <div class="astrology-position">
-      <span class="astrology-position-label">${getPlanetSymbol(planet.name)} ${planet.name.toLowerCase()}</span>
-      <span class="astrology-position-value">${planet.sign.toLowerCase()} ${housePosition.toFixed(2)}° h${planet.house} ${getZodiacSymbol(planet.sign)}</span>
-    </div>
+  const planetTable = `
+    <table class="astrology-table">
+      <thead>
+        <tr>
+          <th>${t.table.planet.toLowerCase()}</th>
+          <th>${t.table.angle.toLowerCase()}</th>
+          <th>${t.table.sign.toLowerCase()}</th>
+          <th>${t.table.house.toLowerCase()}</th>
+          <th>${t.table.effects.toLowerCase()}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>ASC</td>
+          <td>${ascendantDegree.toFixed(2)}°</td>
+          <td>${getZodiacSymbol(ascendantSign)}</td>
+          <td>1</td>
+          <td>${ASTROLOGY_EFFECTS[0]}</td>
+        </tr>
+        ${chart.planets
+          .map(
+            (planet, index) => `
+        <tr>
+          <td>${getPlanetSymbol(planet.name)}</td>
+          <td>${(planet.position % 30).toFixed(2)}°</td>
+          <td>${getZodiacSymbol(planet.sign)}</td>
+          <td>${planet.house}</td>
+          <td>${ASTROLOGY_EFFECTS[index + 1]}</td>
+        </tr>
+      `,
+          )
+          .join("")}
+      </tbody>
+    </table>
   `;
-    })
-    .join("");
 
   return `
     <div class="astrology-chart-header">
       <div class="astrology-chart-date">${formattedDate.toLowerCase()}</div>
-      <div class="astrology-chart-time">${formattedTime.toLowerCase()}</div>
-      <div class="astrology-chart-location">
-        <span class="astrology-chart-city">${city.toLowerCase()}</span>
-      </div>
+      <div class="astrology-chart-time">${formattedTime.toLowerCase()}<span class="at-text"> at </span>${city.toLowerCase()}</div>
     </div>
-    <div class="astrology-positions">
-      <div class="astrology-position">
-        <span class="astrology-position-label">ascendant</span>
-        <span class="astrology-position-value">${ascendantSign.toLowerCase()} ${getZodiacSymbol(ascendantSign)}, ${ascendantDegree.toFixed(2)}° ASC</span>
-      </div>
-      ${planetPositions}
-    </div>
+    ${planetTable}
   `;
 }
 

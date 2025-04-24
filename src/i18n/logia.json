@@ -23,6 +23,13 @@
       "sign": "sign",
       "house": "house",
       "position": "position"
+    },
+    "table": {
+      "planet": "Planet",
+      "sign": "Sign",
+      "angle": "Angle",
+      "house": "House",
+      "effects": "Effects"
     }
   }
 }
