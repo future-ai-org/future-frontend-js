@@ -13,15 +13,15 @@
     "features": {
       "one": {
         "title": "sign in",
-        "description": "connect with your favorite wallet and create your profile"
+        "description": "connect with your favorite wallet to start your avatar"
       },
       "two": {
         "title": "customize",
-        "description": "calculate your logia chart and setup your avatar"
+        "description": "calculate your logia data and setup your profile"
       },
       "three": {
         "title": "predict",
-        "description": "leverage the next generation of predictive intel from our oracle agents"
+        "description": "leverage smart predictive intel from our oracle agents"
       }
     }
   }

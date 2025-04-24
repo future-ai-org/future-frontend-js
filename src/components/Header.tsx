@@ -49,22 +49,22 @@ const Header: React.FC = () => {
         </Link>
         <nav className={styles.headerNav}>
           <Link
+            href="/about"
+            className={`${styles.navLink} ${isActive("/about") ? styles.active : ""}`}
+          >
+            {strings.en.nav.about}
+          </Link>
+          <Link
             href="/logia"
             className={`${styles.navLink} ${isActive("/logia") ? styles.active : ""}`}
           >
             {strings.en.nav.logia}
           </Link>
           <Link
-            href="/invest"
-            className={`${styles.navLink} ${isActive("/invest") ? styles.active : ""}`}
+            href="/predict"
+            className={`${styles.navLink} ${isActive("/predict") ? styles.active : ""}`}
           >
-            {strings.en.nav.invest}
-          </Link>
-          <Link
-            href="/about"
-            className={`${styles.navLink} ${isActive("/about") ? styles.active : ""}`}
-          >
-            {strings.en.nav.about}
+            {strings.en.nav.predict}
           </Link>
           {isConnected && (
             <Link
