@@ -327,63 +327,37 @@
 .astrology-table {
   width: 100%;
   border-collapse: collapse;
-  margin: 0.5rem auto;
-  border-radius: 0.4rem;
-  overflow: hidden;
-  border: 1px solid var(--border-color);
-  text-align: center;
-  padding: 0 1rem;
+  margin-top: 1rem;
+  font-size: 0.9rem;
 }
 
 .astrology-table th,
 .astrology-table td {
-  padding: 0.25rem 0.75rem;
+  padding: 0.5rem;
   text-align: center;
-  border-bottom: 1px solid var(--border-color);
+  border: 1px solid var(--color-primary);
   color: var(--color-primary);
-  font-size: 0.8rem;
 }
 
 .astrology-table th {
-  background-color: var(--scroll-track);
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  padding: 0.35rem 0.75rem;
-}
-
-.astrology-table tr:last-child td {
-  border-bottom: none;
-}
-
-.astrology-table tr:hover td {
+  font-weight: bold;
   background-color: var(--scroll-track);
 }
 
-.astrology-table td:first-child {
-  font-size: 1.2rem;
-  padding: 0.35rem 0.75rem;
-}
-
-.astrology-table td:nth-child(2) {
-  font-size: 0.9rem;
-  padding: 0.35rem 0.75rem;
-}
-
-.astrology-table td:nth-child(3) {
-  font-size: 1.2rem;
-  padding: 0.35rem 0.75rem;
+.astrology-table td {
+  font-weight: 500;
 }
 
 .astrology-table td:nth-child(4) {
-  font-size: 1rem;
-  padding: 0.35rem 0.75rem;
-}
-
-.astrology-table td:last-child {
-  text-align: left;
-  padding: 0.35rem 1rem;
-  max-width: 200px;
-  word-wrap: break-word;
+  font-size: 1.2em;
+  font-weight: 900;
+  filter: brightness(0.7);
+  font-family: monospace;
+  -webkit-font-feature-settings: "liga" 0;
+  font-feature-settings: "liga" 0;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .astrology-positions {
