@@ -12,16 +12,16 @@
   color: var(--text-color);
   text-align: center;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 3rem auto 0;
 }
 
 .landing-title {
-  font-size: 4rem;
-  margin-bottom: 1rem;
+  font-size: 6rem;
+  margin-bottom: 2rem;
   text-shadow: var(--text-glow);
   animation: glow 2s ease-in-out infinite alternate;
   line-height: 1.2;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 @keyframes glow {
@@ -37,17 +37,18 @@
 
 .landing-subtitle {
   font-size: 1.5rem;
-  margin-bottom: 3rem;
+  margin-bottom: 4rem;
   opacity: var(--opacity-light);
   max-width: 800px;
   line-height: 1.6;
+  font-weight: 700;
 }
 
 .landing-feature-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2.5rem;
-  margin-top: 3rem;
+  margin-top: 4rem;
   width: 100%;
   max-width: 1200px;
   padding: 0 1rem;
@@ -59,6 +60,7 @@
   background-color: var(--card-bg);
   border: 1px solid var(--border-color);
   transition: all var(--transition-duration) var(--transition-timing);
+  min-height: 200px;
 }
 
 .landing-feature-card:hover {

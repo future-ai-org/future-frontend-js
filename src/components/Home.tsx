@@ -22,7 +22,9 @@ export default function Home() {
     return (
       <div className="landing-container">
         <h1 className="landing-title">{strings.en.title.toUpperCase()}</h1>
-        <h2 className="landing-subtitle">{strings.en.subtitle}</h2>
+        <h2 className="landing-subtitle">
+          {strings.en.subtitle.toUpperCase()}
+        </h2>
         <div className="landing-feature-grid">
           <div className="landing-feature-card">
             <h3 className="landing-feature-title">
@@ -56,7 +58,7 @@ export default function Home() {
   return (
     <div className="landing-container">
       <h1 className="landing-title">{strings.en.title.toUpperCase()}</h1>
-      <h2 className="landing-subtitle">{strings.en.subtitle}</h2>
+      <h2 className="landing-subtitle">{strings.en.subtitle.toUpperCase()}</h2>
       {isConnected && (
         <div className="wallet-info">
           <span className="wallet-label">Connected as:</span>

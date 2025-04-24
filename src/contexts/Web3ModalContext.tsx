@@ -67,6 +67,14 @@ const Web3ProviderInner: React.FC<{ children: ReactNode }> = ({ children }) => {
         throw new Error(WALLET_CONFIG.ERRORS.NO_PROVIDER);
       }
 
+      // Handle multiple providers
+      if (
+        Array.isArray(window.ethereum.providers) &&
+        window.ethereum.providers.length > 1
+      ) {
+        window.ethereum = window.ethereum.providers[0];
+      }
+
       const provider = new ethers.BrowserProvider(
         window.ethereum as ethers.Eip1193Provider,
       );
@@ -96,7 +104,6 @@ const Web3ProviderInner: React.FC<{ children: ReactNode }> = ({ children }) => {
 
       // Handle multiple providers
       if (
-        window.ethereum &&
         Array.isArray(window.ethereum.providers) &&
         window.ethereum.providers.length > 1
       ) {

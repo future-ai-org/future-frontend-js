@@ -8,16 +8,16 @@
     },
     "features": {
       "one": {
-        "title": "feature one",
-        "description": "description for feature one"
+        "title": "sign in",
+        "description": "connect with your favorite wallet"
       },
       "two": {
-        "title": "feature two",
-        "description": "description for feature two"
+        "title": "set your avatar",
+        "description": "calculate your astrospace chart"
       },
       "three": {
-        "title": "feature three",
-        "description": "description for feature three"
+        "title": "predict the future",
+        "description": "leverage the next generation of predictive intel"
       }
     }
   }
