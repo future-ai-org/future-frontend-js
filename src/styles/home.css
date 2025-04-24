@@ -79,6 +79,8 @@
   font-size: 1.25rem;
   font-weight: 700;
   text-align: center;
+  text-shadow: var(--text-glow);
+  animation: glow 2s ease-in-out infinite alternate;
 }
 
 .landing-feature-description {
@@ -87,6 +89,7 @@
   font-size: 0.9rem;
   line-height: 1.6;
   text-align: center;
+  font-weight: bold;
 }
 
 .wallet-info {
