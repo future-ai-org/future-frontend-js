@@ -86,6 +86,16 @@ const ASPECTS = [
   { name: "opposition", degrees: 180, orb: 8 },
 ] as const;
 
+interface Translation {
+  table: {
+    planet: string;
+    angle: string;
+    sign: string;
+    house: string;
+    effects: string;
+  };
+}
+
 export function calculateChart(
   birthDate: string,
   birthTime: string,
@@ -518,7 +528,7 @@ export function printChartInfo(
   latitude: number,
   longitude: number,
   city: string,
-  t: any,
+  t: Translation,
 ): string {
   const chart = calculateChart(birthDate, birthTime, latitude, longitude);
   const date = new Date(`${birthDate}T${birthTime}`);
@@ -551,8 +561,8 @@ export function printChartInfo(
       <thead>
         <tr>
           <th>${t.table.planet.toLowerCase()}</th>
-          <th>${t.table.sign.toLowerCase()}</th>
           <th>${t.table.angle.toLowerCase()}</th>
+          <th>${t.table.sign.toLowerCase()}</th>
           <th>${t.table.house.toLowerCase()}</th>
           <th>${t.table.effects.toLowerCase()}</th>
         </tr>
@@ -560,8 +570,8 @@ export function printChartInfo(
       <tbody>
         <tr>
           <td>ASC</td>
-          <td>${getZodiacSymbol(ascendantSign)}</td>
           <td>${ascendantDegree.toFixed(2)}°</td>
+          <td>${getZodiacSymbol(ascendantSign)}</td>
           <td>1</td>
           <td>${ASTROLOGY_EFFECTS[0]}</td>
         </tr>
@@ -570,8 +580,8 @@ export function printChartInfo(
             (planet, index) => `
         <tr>
           <td>${getPlanetSymbol(planet.name)}</td>
-          <td>${getZodiacSymbol(planet.sign)}</td>
           <td>${(planet.position % 30).toFixed(2)}°</td>
+          <td>${getZodiacSymbol(planet.sign)}</td>
           <td>${planet.house}</td>
           <td>${ASTROLOGY_EFFECTS[index + 1]}</td>
         </tr>

@@ -359,9 +359,23 @@
   background-color: var(--scroll-track);
 }
 
-.astrology-table td:first-child,
-.astrology-table td:nth-child(2) {
+.astrology-table td:first-child {
   font-size: 1.2rem;
+  padding: 0.35rem 0.75rem;
+}
+
+.astrology-table td:nth-child(2) {
+  font-size: 0.9rem;
+  padding: 0.35rem 0.75rem;
+}
+
+.astrology-table td:nth-child(3) {
+  font-size: 1.2rem;
+  padding: 0.35rem 0.75rem;
+}
+
+.astrology-table td:nth-child(4) {
+  font-size: 1rem;
   padding: 0.35rem 0.75rem;
 }
 
@@ -471,7 +485,7 @@
 
 .astrology-chart-date {
   font-weight: bold;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   margin-bottom: 0.15rem;
   text-transform: lowercase;
   text-shadow: none;
@@ -480,6 +494,7 @@
 
 .astrology-chart-time {
   opacity: 0.9;
+  margin-top: 0.5rem;
   margin-bottom: 0.15rem;
   text-transform: lowercase;
   font-size: 0.8rem;
