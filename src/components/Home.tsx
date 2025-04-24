@@ -55,16 +55,25 @@ export default function Home() {
             <h3 className="landing-feature-title">
               {strings.en.features.two.title.toUpperCase()}
             </h3>
-            <div className="landing-feature-description" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <Link href="/logia" style={{ textDecoration: 'none' }}>
-                <div className="landing-feature-action clickable" style={{ cursor: 'pointer' }}>
-                  {strings.en.features.two.description.split('and')[0].trim()}
+            <div
+              className="landing-feature-description"
+              style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+            >
+              <Link href="/logia" style={{ textDecoration: "none" }}>
+                <div
+                  className="landing-feature-action clickable"
+                  style={{ cursor: "pointer" }}
+                >
+                  {strings.en.features.two.description.split("and")[0].trim()}
                 </div>
               </Link>
               {isConnected && (
-                <Link href="/dashboard" style={{ textDecoration: 'none' }}>
-                  <div className="landing-feature-action clickable" style={{ cursor: 'pointer' }}>
-                    {strings.en.features.two.description.split('and')[1].trim()}
+                <Link href="/dashboard" style={{ textDecoration: "none" }}>
+                  <div
+                    className="landing-feature-action clickable"
+                    style={{ cursor: "pointer" }}
+                  >
+                    {strings.en.features.two.description.split("and")[1].trim()}
                   </div>
                 </Link>
               )}
@@ -118,15 +127,11 @@ export default function Home() {
             {strings.en.features.two.title.toLowerCase()}
           </h3>
           <p className="landing-feature-description">
-            <a href="/logia">calculate your logia data</a>
-            {isConnected && (
-              <>
-                {" and "}
-                <a href="/dashboard">
-                  {strings.en.features.two.description.split('and')[1].trim()}
-                </a>
-              </>
-            )}
+            <span
+              dangerouslySetInnerHTML={{
+                __html: strings.en.features.two.description,
+              }}
+            />
           </p>
         </div>
         <div className="landing-feature-card">
