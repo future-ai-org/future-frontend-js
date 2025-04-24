@@ -57,10 +57,10 @@
 .landing-feature-card {
   padding: 2rem;
   border-radius: 8px;
-  background-color: var(--card-bg);
   border: 1px solid var(--border-color);
   transition: all var(--transition-duration) var(--transition-timing);
   min-height: 200px;
+  background-color: rgba(147, 112, 219, 0.05);
 }
 
 .landing-feature-card:hover {
@@ -72,11 +72,15 @@
 .landing-feature-title {
   margin-bottom: 1rem;
   color: var(--text-color);
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
 .landing-feature-description {
   color: var(--text-color);
   opacity: var(--opacity-light);
+  font-size: 1.1rem;
+  line-height: 1.6;
 }
 
 .wallet-info {
