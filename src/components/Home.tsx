@@ -26,17 +26,21 @@ export default function Home() {
           {strings.en.subtitle.toUpperCase()}
         </h2>
         <div className="landing-feature-grid">
-          <div 
-            className={`landing-feature-card ${!isConnected ? 'clickable' : ''}`}
+          <div
+            className={`landing-feature-card ${!isConnected ? "clickable" : ""}`}
             onClick={!isConnected ? connect : undefined}
-            style={{ cursor: !isConnected ? 'pointer' : 'default' }}
+            style={{ cursor: !isConnected ? "pointer" : "default" }}
           >
             <div className="landing-feature-number">I</div>
             <h3 className="landing-feature-title">
-              {isConnected ? strings.en.features.one.signedIn.toUpperCase() : strings.en.features.one.title.toUpperCase()}
+              {isConnected
+                ? strings.en.features.one.signedIn.toUpperCase()
+                : strings.en.features.one.title.toUpperCase()}
             </h3>
             <p className="landing-feature-description">
-              {isConnected ? `${strings.en.wallet.connectedAs.toUpperCase()} ${ensName || formatAddress(address)}` : strings.en.features.one.description.toUpperCase()}
+              {isConnected
+                ? `${strings.en.wallet.connectedAs.toUpperCase()} ${ensName || formatAddress(address)}`
+                : strings.en.features.one.description.toUpperCase()}
             </p>
           </div>
           <div className="landing-feature-card">
@@ -66,29 +70,22 @@ export default function Home() {
     <div className="landing-container">
       <h1 className="landing-title">{strings.en.title.toUpperCase()}</h1>
       <h2 className="landing-subtitle">{strings.en.subtitle.toUpperCase()}</h2>
-      {isConnected && (
-        <div className="wallet-info">
-          <span className="wallet-label">{strings.en.wallet.connectedAs.toLowerCase()}</span>
-          <span
-            className="wallet-address"
-            data-ens={ensName ? "true" : undefined}
-          >
-            {ensName || formatAddress(address)}
-          </span>
-        </div>
-      )}
       <div className="landing-feature-grid">
-        <div 
-          className={`landing-feature-card ${!isConnected ? 'clickable' : ''}`}
+        <div
+          className={`landing-feature-card ${!isConnected ? "clickable" : ""}`}
           onClick={!isConnected ? connect : undefined}
-          style={{ cursor: !isConnected ? 'pointer' : 'default' }}
+          style={{ cursor: !isConnected ? "pointer" : "default" }}
         >
           <div className="landing-feature-number">I</div>
           <h3 className="landing-feature-title">
-            {isConnected ? strings.en.features.one.signedIn.toLowerCase() : strings.en.features.one.title.toLowerCase()}
+            {isConnected
+              ? strings.en.features.one.signedIn.toLowerCase()
+              : strings.en.features.one.title.toLowerCase()}
           </h3>
           <p className="landing-feature-description">
-            {isConnected ? `${strings.en.wallet.connectedAs.toLowerCase()} ${ensName || formatAddress(address)}` : strings.en.features.one.description.toLowerCase()}
+            {isConnected
+              ? `${strings.en.wallet.connectedAs.toLowerCase()} ${ensName || formatAddress(address)}`
+              : strings.en.features.one.description.toLowerCase()}
           </p>
         </div>
         <div className="landing-feature-card">
