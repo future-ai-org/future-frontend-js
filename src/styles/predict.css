@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .predict-container {
   padding: 2rem;
   max-width: 1200px;
@@ -26,6 +30,14 @@
   line-height: 1.6;
   text-align: center;
   margin-bottom: 2rem;
+}
+
+.infoParagraph {
+  color: var(--primary-color);
+  font-size: 1.2rem;
+  line-height: 1.6;
+  text-align: center;
+  margin-bottom: 1.5rem;
 }
 
 @media (max-width: 768px) {
