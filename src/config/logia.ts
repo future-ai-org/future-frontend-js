@@ -508,7 +508,6 @@ export function printChartInfo(
   const chart = calculateChart(birthDate, birthTime, latitude, longitude);
   const date = new Date(`${birthDate}T${birthTime}`);
   const formattedDate = date.toLocaleDateString("en-us", {
-    weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -516,7 +515,6 @@ export function printChartInfo(
   const formattedTime = date.toLocaleTimeString("en-us", {
     hour: "2-digit",
     minute: "2-digit",
-    timeZoneName: "short",
   });
 
   // Calculate ascendant directly from birth data
@@ -569,10 +567,7 @@ export function printChartInfo(
   return `
     <div class="astrology-chart-header">
       <div class="astrology-chart-date">${formattedDate.toLowerCase()}</div>
-      <div class="astrology-chart-time">${formattedTime.toLowerCase()}</div>
-      <div class="astrology-chart-location">
-        <span class="astrology-chart-city">${city.toLowerCase()}</span>
-      </div>
+      <div class="astrology-chart-time">${formattedTime.toLowerCase()}<span class="at-text"> at </span>${city.toLowerCase()}</div>
     </div>
     ${planetTable}
   `;
