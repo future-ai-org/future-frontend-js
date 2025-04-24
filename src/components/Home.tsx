@@ -118,7 +118,7 @@ export default function Home() {
             {strings.en.features.two.title.toLowerCase()}
           </h3>
           <p className="landing-feature-description">
-            calculate <a href="/logia">your logia data</a>
+            <a href="/logia">calculate your logia data</a>
             {isConnected && (
               <>
                 {" and "}

@@ -146,6 +146,10 @@
   text-shadow: var(--text-glow);
 }
 
+.landing-feature-description a:hover::after {
+  transform: scaleX(1);
+}
+
 .landing-feature-link {
   color: var(--primary-color);
   text-decoration: none;
