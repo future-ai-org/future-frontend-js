@@ -27,6 +27,7 @@ export default function Home() {
         </h2>
         <div className="landing-feature-grid">
           <div className="landing-feature-card">
+            <div className="landing-feature-number">1</div>
             <h3 className="landing-feature-title">
               {strings.en.features.one.title}
             </h3>
@@ -35,6 +36,7 @@ export default function Home() {
             </p>
           </div>
           <div className="landing-feature-card">
+            <div className="landing-feature-number">2</div>
             <h3 className="landing-feature-title">
               {strings.en.features.two.title}
             </h3>
@@ -43,6 +45,7 @@ export default function Home() {
             </p>
           </div>
           <div className="landing-feature-card">
+            <div className="landing-feature-number">3</div>
             <h3 className="landing-feature-title">
               {strings.en.features.three.title}
             </h3>
@@ -72,6 +75,7 @@ export default function Home() {
       )}
       <div className="landing-feature-grid">
         <div className="landing-feature-card">
+          <div className="landing-feature-number">1</div>
           <h3 className="landing-feature-title">
             {strings.en.features.one.title}
           </h3>
@@ -80,6 +84,7 @@ export default function Home() {
           </p>
         </div>
         <div className="landing-feature-card">
+          <div className="landing-feature-number">2</div>
           <h3 className="landing-feature-title">
             {strings.en.features.two.title}
           </h3>
@@ -88,6 +93,7 @@ export default function Home() {
           </p>
         </div>
         <div className="landing-feature-card">
+          <div className="landing-feature-number">3</div>
           <h3 className="landing-feature-title">
             {strings.en.features.three.title}
           </h3>
