@@ -26,12 +26,13 @@ const FeatureCard = ({
     return `${address.slice(0, 6)}...${address.slice(-4)}`;
   };
 
-  const displayTitle = isConnected && number === strings.en.numbers.one
-    ? strings.en.features.one.signedIn.replace(
-        "{ensName}",
-        ensName || formatAddress(address),
-      )
-    : title;
+  const displayTitle =
+    isConnected && number === strings.en.numbers.one
+      ? strings.en.features.one.signedIn.replace(
+          "{ensName}",
+          ensName || formatAddress(address),
+        )
+      : title;
 
   return (
     <div className="landing-feature-card">
