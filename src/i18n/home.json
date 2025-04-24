@@ -6,14 +6,17 @@
       "learnMore": "learn more",
       "getStarted": "get started"
     },
+    "wallet": {
+      "connectedAs": "enjoy the fun,"
+    },
     "features": {
       "one": {
         "title": "sign in",
-        "description": "connect with your favorite wallet"
+        "description": "connect with your favorite wallet and create your profile"
       },
       "two": {
-        "title": "set your avatar",
-        "description": "calculate your astrospace chart"
+        "title": "customize your avatar",
+        "description": "setup your preferences and calculate your astrospace chart"
       },
       "three": {
         "title": "predict the future",

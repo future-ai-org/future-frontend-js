@@ -1,8 +1,7 @@
 {
   "en": {
-    "connectWallet": "connect wallet",
-    "connectWalletButton": "connect wallet",
-    "disconnect": "disconnect",
+    "connectWallet": "sign in",
+    "disconnectWallet": "sign out",
     "closeButton": "×",
     "connecting": "connecting...",
     "connectionError": "connection error. please try again.",
@@ -11,8 +10,6 @@
     "phantomNotInstalled": "Phantom wallet not found. Please install Phantom wallet extension.",
     "phantomConnectionFailed": "Failed to connect to Phantom wallet",
     "phantomConnectionError": "Failed to connect to Phantom wallet. Please try again.",
-    "close": "Close",
-    "connectWalletLabel": "Connect wallet",
-    "disconnectWalletLabel": "Disconnect wallet"
+    "close": "close"
   }
 }

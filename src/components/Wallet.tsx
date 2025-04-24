@@ -236,7 +236,7 @@ const Wallet: React.FC = () => {
                 className="wallet-option"
                 onClick={() => handleWalletClick(wallet.id)}
                 disabled={isConnecting}
-                aria-label={`${strings.en.connectWalletLabel} ${wallet.name}`}
+                aria-label={`${strings.en.connectWallet} ${wallet.name}`}
               >
                 <span className="wallet-icon">{wallet.icon}</span>
                 <div className="wallet-info">
@@ -274,9 +274,9 @@ const Wallet: React.FC = () => {
           <button
             onClick={handleDisconnect}
             className="disconnect-button"
-            aria-label={strings.en.disconnectWalletLabel}
+            aria-label={strings.en.disconnectWallet}
           >
-            {strings.en.disconnect}
+            {strings.en.disconnectWallet}
           </button>
         </div>
       </div>
@@ -289,9 +289,9 @@ const Wallet: React.FC = () => {
         onClick={() => setShowModal(true)}
         className="connect-button"
         disabled={isConnecting}
-        aria-label={strings.en.connectWalletLabel}
+        aria-label={strings.en.connectWallet}
       >
-        {isConnecting ? strings.en.connecting : strings.en.connectWalletButton}
+        {isConnecting ? strings.en.connecting : strings.en.connectWallet}
       </button>
       {renderModal()}
     </div>

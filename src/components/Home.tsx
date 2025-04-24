@@ -61,7 +61,7 @@ export default function Home() {
       <h2 className="landing-subtitle">{strings.en.subtitle.toUpperCase()}</h2>
       {isConnected && (
         <div className="wallet-info">
-          <span className="wallet-label">Connected as:</span>
+          <span className="wallet-label">{strings.en.wallet.connectedAs}</span>
           <span className="wallet-address">
             {ensName || formatAddress(address)}
           </span>
