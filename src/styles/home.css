@@ -37,7 +37,7 @@
 
 .landing-subtitle {
   font-size: 2rem;
-  margin-bottom: 4rem;
+  margin-bottom: 5rem;
   opacity: var(--opacity-light);
   max-width: 1200px;
   line-height: 1.3;
@@ -127,27 +127,27 @@
   position: relative;
   transition: all var(--transition-duration) var(--transition-timing);
   display: inline-block;
-}
-
-.landing-feature-description a::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 1px;
-  bottom: -2px;
-  left: 0;
-  background-color: var(--primary-color);
-  transform: scaleX(0);
-  transform-origin: bottom left;
-  transition: transform 0.3s ease-out;
-}
-
-.landing-feature-description a:hover {
   text-shadow: var(--text-glow);
 }
 
+.landing-feature-description a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: -1px;
+  left: 50%;
+  background-color: var(--primary-color);
+  transform: translateX(-50%);
+  transition: width 0.3s ease-out;
+}
+
+.landing-feature-description a:hover {
+  text-shadow: var(--text-glow-hover);
+}
+
 .landing-feature-description a:hover::after {
-  transform: scaleX(1);
+  width: 80%;
 }
 
 .landing-feature-link {
