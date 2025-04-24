@@ -31,13 +31,34 @@ const formatChange = (change: number): string => {
   return `${change >= 0 ? "↑" : "↓"} ${Math.abs(change).toFixed(2)}%`;
 };
 
+const renderPriceItem = (crypto: CryptoPrice, index: number) => (
+  <div
+    className={`price-item ${crypto.change >= 0 ? "positive" : "negative"}`}
+    key={`${crypto.symbol}-${index}`}
+  >
+    <span className="symbol">{crypto.symbol}/USDT</span>
+    <span className="price">{formatPrice(crypto.price)}</span>
+    <span className="price-change">{formatChange(crypto.change)}</span>
+  </div>
+);
+
+const renderLoadingItem = (index: number) => (
+  <div className="price-item loading" key={`loading-${index}`}>
+    <span className="symbol">---/USDT</span>
+    <span className="price">$0.00</span>
+    <span className="price-change">↑ 0.00%</span>
+  </div>
+);
+
 export const Slider: React.FC = () => {
   const [prices, setPrices] = useState<CryptoPrice[]>([]);
   const [retryCount, setRetryCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchPrices = useCallback(
     async (isRetry = false) => {
       try {
+        setIsLoading(true);
         const queryParams = new URLSearchParams({
           vs_currency: PRICE_SLIDER_CONFIG.API.PARAMS.VS_CURRENCY,
           ids: PRICE_SLIDER_CONFIG.API.CRYPTO_IDS.join(","),
@@ -47,9 +68,15 @@ export const Slider: React.FC = () => {
           sparkline: PRICE_SLIDER_CONFIG.API.PARAMS.SPARKLINE.toString(),
         });
 
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
+
         const response = await fetch(
           `${PRICE_SLIDER_CONFIG.API.URL}?${queryParams.toString()}`,
+          { signal: controller.signal },
         );
+
+        clearTimeout(timeoutId);
 
         if (!response.ok) {
           throw new Error(
@@ -61,16 +88,24 @@ export const Slider: React.FC = () => {
         }
 
         const data = await response.json();
-        const formattedPrices = data
-          .filter(
-            (coin: CoinData) =>
-              coin.current_price > 0 && coin.symbol.toUpperCase() !== "USDT",
-          )
-          .map((coin: CoinData) => ({
-            symbol: coin.symbol.toUpperCase(),
-            price: coin.current_price,
-            change: coin.price_change_percentage_24h || 0,
-          }));
+
+        // Optimize data processing by using a single pass
+        const formattedPrices = data.reduce(
+          (acc: CryptoPrice[], coin: CoinData) => {
+            if (
+              coin.current_price > 0 &&
+              coin.symbol.toUpperCase() !== "USDT"
+            ) {
+              acc.push({
+                symbol: coin.symbol.toUpperCase(),
+                price: coin.current_price,
+                change: coin.price_change_percentage_24h || 0,
+              });
+            }
+            return acc;
+          },
+          [],
+        );
 
         if (formattedPrices.length === 0) {
           throw new Error(pricesData.en.errors.noValidPrices);
@@ -80,6 +115,7 @@ export const Slider: React.FC = () => {
         if (isRetry) {
           setRetryCount(0);
         }
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching prices:", error);
 
@@ -114,33 +150,20 @@ export const Slider: React.FC = () => {
 
   const duplicatedPrices = useMemo(
     () =>
-      Array(PRICE_SLIDER_CONFIG.DUPLICATION_FACTOR).fill(validPrices).flat(),
+      Array(PRICE_SLIDER_CONFIG.DUPLICATION_FACTOR * 2)
+        .fill(validPrices)
+        .flat(),
     [validPrices],
   );
 
-  const renderPriceItem = useCallback(
-    (crypto: CryptoPrice, index: number) => (
-      <div
-        className={`price-item ${crypto.change >= 0 ? "positive" : "negative"}`}
-        key={`${crypto.symbol}-${index}`}
-      >
-        <span className="symbol">{crypto.symbol}/USDT</span>
-        <span className="price">{formatPrice(crypto.price)}</span>
-        <span className="price-change">{formatChange(crypto.change)}</span>
-      </div>
-    ),
-    [],
-  );
-
-  const displayPrices = useMemo(
-    () => (validPrices.length === 0 ? [] : duplicatedPrices),
-    [validPrices, duplicatedPrices],
-  );
+  const displayPrices = isLoading ? Array(20).fill(null) : duplicatedPrices;
 
   return (
     <div className="slider-container">
       <div className="price-items-container">
-        {displayPrices.map(renderPriceItem)}
+        {displayPrices.map((price, index) =>
+          isLoading ? renderLoadingItem(index) : renderPriceItem(price, index),
+        )}
       </div>
     </div>
   );
