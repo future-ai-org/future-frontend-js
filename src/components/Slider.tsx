@@ -73,7 +73,7 @@ export const Slider: React.FC = () => {
 
         const response = await fetch(
           `${PRICE_SLIDER_CONFIG.API.URL}?${queryParams.toString()}`,
-          { signal: controller.signal }
+          { signal: controller.signal },
         );
 
         clearTimeout(timeoutId);
@@ -88,18 +88,24 @@ export const Slider: React.FC = () => {
         }
 
         const data = await response.json();
-        
+
         // Optimize data processing by using a single pass
-        const formattedPrices = data.reduce((acc: CryptoPrice[], coin: CoinData) => {
-          if (coin.current_price > 0 && coin.symbol.toUpperCase() !== "USDT") {
-            acc.push({
-              symbol: coin.symbol.toUpperCase(),
-              price: coin.current_price,
-              change: coin.price_change_percentage_24h || 0,
-            });
-          }
-          return acc;
-        }, []);
+        const formattedPrices = data.reduce(
+          (acc: CryptoPrice[], coin: CoinData) => {
+            if (
+              coin.current_price > 0 &&
+              coin.symbol.toUpperCase() !== "USDT"
+            ) {
+              acc.push({
+                symbol: coin.symbol.toUpperCase(),
+                price: coin.current_price,
+                change: coin.price_change_percentage_24h || 0,
+              });
+            }
+            return acc;
+          },
+          [],
+        );
 
         if (formattedPrices.length === 0) {
           throw new Error(pricesData.en.errors.noValidPrices);
@@ -144,7 +150,9 @@ export const Slider: React.FC = () => {
 
   const duplicatedPrices = useMemo(
     () =>
-      Array(PRICE_SLIDER_CONFIG.DUPLICATION_FACTOR * 2).fill(validPrices).flat(),
+      Array(PRICE_SLIDER_CONFIG.DUPLICATION_FACTOR * 2)
+        .fill(validPrices)
+        .flat(),
     [validPrices],
   );
 
@@ -154,7 +162,7 @@ export const Slider: React.FC = () => {
     <div className="slider-container">
       <div className="price-items-container">
         {displayPrices.map((price, index) =>
-          isLoading ? renderLoadingItem(index) : renderPriceItem(price, index)
+          isLoading ? renderLoadingItem(index) : renderPriceItem(price, index),
         )}
       </div>
     </div>
