@@ -7,23 +7,28 @@
       "getStarted": "get started"
     },
     "hello": {
-      "connectedAs": "get started by <a href='/about'>reading the about</a> and enjoy your new powers",
+      "connectedAs": "get started by reading the about and enjoy your new powers",
       "anonymous": "anon"
     },
     "features": {
       "one": {
         "title": "sign in",
         "signedIn": "hello, {ensName}",
-        "description": "<a href='#' onclick='document.querySelector(\".connect-button\").click(); return false;'>connect with your favorite  wallet</a> to start your avatar"
+        "description": "connect with your favorite wallet to start your avatar"
       },
       "two": {
         "title": "customize",
-        "description": "<a href='/logia'>calculate your logia data</a> and <a href='/dashboard'>setup your profile</a>"
+        "description": "calculate your logia data and setup your profile"
       },
       "three": {
         "title": "predict",
-        "description": "<a href='/predict'>leverage smart predictive intel</a> from our oracle agents"
+        "description": "leverage smart predictive intel from our oracle agents"
       }
+    },
+    "numbers": {
+      "one": "I",
+      "two": "II",
+      "three": "III"
     }
   }
 }

@@ -39,20 +39,15 @@ export default function Home() {
             </h3>
             <p className="landing-feature-description">
               {isConnected ? (
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: `${strings.en.hello.connectedAs}`,
-                  }}
-                />
+                <span>
+                  {strings.en.hello.connectedAs.split("reading the about")[0]}
+                  <Link href="/about">reading the about</Link>
+                  {strings.en.hello.connectedAs.split("reading the about")[1]}
+                </span>
               ) : (
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: strings.en.features.one.description.replace(
-                      "onclick='connectWallet()'",
-                      `onclick='(${connect.toString()})(); return false;'`,
-                    ),
-                  }}
-                />
+                <span onClick={() => connect()}>
+                  {strings.en.features.one.description}
+                </span>
               )}
             </p>
           </div>
@@ -61,29 +56,19 @@ export default function Home() {
             <h3 className="landing-feature-title">
               {strings.en.features.two.title.toUpperCase()}
             </h3>
-            <div
-              className="landing-feature-description"
-              style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
-            >
-              <Link href="/logia" style={{ textDecoration: "none" }}>
-                <div
-                  className="landing-feature-action clickable"
-                  style={{ cursor: "pointer" }}
-                >
-                  {strings.en.features.two.description.split("and")[0].trim()}
-                </div>
+            <p className="landing-feature-description">
+              <Link href="/logia">
+                {strings.en.features.two.description.split("and")[0].trim()}
               </Link>
               {isConnected && (
-                <Link href="/dashboard" style={{ textDecoration: "none" }}>
-                  <div
-                    className="landing-feature-action clickable"
-                    style={{ cursor: "pointer" }}
-                  >
+                <>
+                  {" and "}
+                  <Link href="/dashboard">
                     {strings.en.features.two.description.split("and")[1].trim()}
-                  </div>
-                </Link>
+                  </Link>
+                </>
               )}
-            </div>
+            </p>
           </div>
           <div className="landing-feature-card">
             <div className="landing-feature-number">III</div>
@@ -91,7 +76,8 @@ export default function Home() {
               {strings.en.features.three.title.toUpperCase()}
             </h3>
             <p className="landing-feature-description">
-              {strings.en.features.three.description.toUpperCase()}
+              leverage smart <Link href="/predict">predictive</Link> intel from
+              our oracle agents
             </p>
           </div>
         </div>
@@ -116,20 +102,15 @@ export default function Home() {
           </h3>
           <p className="landing-feature-description">
             {isConnected ? (
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: `${strings.en.hello.connectedAs}`,
-                }}
-              />
+              <span>
+                {strings.en.hello.connectedAs.split("reading the about")[0]}
+                <Link href="/about">reading the about</Link>
+                {strings.en.hello.connectedAs.split("reading the about")[1]}
+              </span>
             ) : (
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: strings.en.features.one.description.replace(
-                    "onclick='connectWallet()'",
-                    `onclick='(${connect.toString()})(); return false;'`,
-                  ),
-                }}
-              />
+              <span onClick={() => connect()}>
+                {strings.en.features.one.description}
+              </span>
             )}
           </p>
         </div>
@@ -139,11 +120,17 @@ export default function Home() {
             {strings.en.features.two.title.toLowerCase()}
           </h3>
           <p className="landing-feature-description">
-            <span
-              dangerouslySetInnerHTML={{
-                __html: strings.en.features.two.description,
-              }}
-            />
+            <Link href="/logia">
+              {strings.en.features.two.description.split("and")[0].trim()}
+            </Link>
+            {isConnected && (
+              <>
+                {" and "}
+                <Link href="/dashboard">
+                  {strings.en.features.two.description.split("and")[1].trim()}
+                </Link>
+              </>
+            )}
           </p>
         </div>
         <div className="landing-feature-card">
@@ -152,11 +139,8 @@ export default function Home() {
             {strings.en.features.three.title.toLowerCase()}
           </h3>
           <p className="landing-feature-description">
-            <span
-              dangerouslySetInnerHTML={{
-                __html: strings.en.features.three.description,
-              }}
-            />
+            leverage smart <Link href="/predict">predictive</Link> intel from
+            our oracle agents
           </p>
         </div>
       </div>
