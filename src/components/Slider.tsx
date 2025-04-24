@@ -31,6 +31,25 @@ const formatChange = (change: number): string => {
   return `${change >= 0 ? "↑" : "↓"} ${Math.abs(change).toFixed(2)}%`;
 };
 
+const renderPriceItem = (crypto: CryptoPrice, index: number) => (
+  <div
+    className={`price-item ${crypto.change >= 0 ? "positive" : "negative"}`}
+    key={`${crypto.symbol}-${index}`}
+  >
+    <span className="symbol">{crypto.symbol}/USDT</span>
+    <span className="price">{formatPrice(crypto.price)}</span>
+    <span className="price-change">{formatChange(crypto.change)}</span>
+  </div>
+);
+
+const renderLoadingItem = (index: number) => (
+  <div className="price-item loading" key={`loading-${index}`}>
+    <span className="symbol">---/USDT</span>
+    <span className="price">$0.00</span>
+    <span className="price-change">↑ 0.00%</span>
+  </div>
+);
+
 export const Slider: React.FC = () => {
   const [prices, setPrices] = useState<CryptoPrice[]>([]);
   const [retryCount, setRetryCount] = useState(0);
@@ -121,35 +140,7 @@ export const Slider: React.FC = () => {
     [validPrices],
   );
 
-  const renderPriceItem = useCallback(
-    (crypto: CryptoPrice, index: number) => (
-      <div
-        className={`price-item ${crypto.change >= 0 ? "positive" : "negative"}`}
-        key={`${crypto.symbol}-${index}`}
-      >
-        <span className="symbol">{crypto.symbol}/USDT</span>
-        <span className="price">{formatPrice(crypto.price)}</span>
-        <span className="price-change">{formatChange(crypto.change)}</span>
-      </div>
-    ),
-    [],
-  );
-
-  const renderLoadingItem = useCallback(
-    (index: number) => (
-      <div className="price-item loading" key={`loading-${index}`}>
-        <span className="symbol">---/USDT</span>
-        <span className="price">$0.00</span>
-        <span className="price-change">↑ 0.00%</span>
-      </div>
-    ),
-    [],
-  );
-
-  const displayPrices = useMemo(
-    () => (isLoading ? Array(20).fill(null) : duplicatedPrices),
-    [isLoading, duplicatedPrices],
-  );
+  const displayPrices = isLoading ? Array(20).fill(null) : duplicatedPrices;
 
   return (
     <div className="slider-container">
