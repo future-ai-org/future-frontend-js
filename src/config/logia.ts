@@ -629,3 +629,12 @@ export function getEmptyChart(): string {
     </div>
   `;
 }
+
+export const ELEMENTS = {
+  FIRE: "🜂",
+  EARTH: "🜃",
+  AIR: "🜁",
+  WATER: "🜄",
+} as const;
+
+export type Element = (typeof ELEMENTS)[keyof typeof ELEMENTS];
