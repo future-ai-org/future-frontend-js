@@ -78,7 +78,6 @@
 }
 
 .landing-feature-card:hover {
-  transform: translateY(-2px);
   box-shadow: var(--glow-shadow-hover);
   border-color: var(--text-color);
 }
@@ -127,9 +126,34 @@
   text-decoration: none;
   position: relative;
   transition: all var(--transition-duration) var(--transition-timing);
+  display: inline-block;
 }
 
 .landing-feature-description a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--primary-color);
+  transform: scaleX(0);
+  transform-origin: bottom left;
+  transition: transform 0.3s ease-out;
+}
+
+.landing-feature-description a:hover {
+  text-shadow: var(--text-glow);
+}
+
+.landing-feature-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  position: relative;
+  transition: all var(--transition-duration) var(--transition-timing);
+}
+
+.landing-feature-link::after {
   content: '';
   position: absolute;
   width: 100%;
@@ -142,11 +166,11 @@
   transition: transform 0.3s ease-out;
 }
 
-.landing-feature-description a:hover {
+.landing-feature-link:hover {
   text-shadow: var(--text-glow);
 }
 
-.landing-feature-description a:hover::after {
+.landing-feature-link:hover::after {
   transform: scaleX(1.1);
   transform-origin: bottom left;
 }
@@ -179,4 +203,24 @@
   color: var(--text-color);
   font-size: 0.9rem;
   font-weight: 600;
+}
+
+.landing-feature-action {
+  padding: 0.5rem 1rem;
+  border-radius: 0.4rem;
+  border: 1px solid var(--color-primary);
+  transition: var(--transition-all);
+  text-shadow: var(--text-glow);
+  background: transparent;
+  color: var(--color-primary);
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 0.5rem 0;
+}
+
+.landing-feature-action:hover {
+  background: var(--color-primary);
+  color: var(--background-color);
+  box-shadow: var(--glow-shadow-hover);
+  transform: var(--hover-transform);
 }

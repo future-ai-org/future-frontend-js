@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import "../styles/home.css";
 import strings from "../i18n/home.json";
 import { useWeb3 } from "../contexts/Web3ModalContext";
+import Link from "next/link";
 
 export default function Home() {
   const { ensName, address, isConnected, connect } = useWeb3();
@@ -54,9 +55,20 @@ export default function Home() {
             <h3 className="landing-feature-title">
               {strings.en.features.two.title.toUpperCase()}
             </h3>
-            <p className="landing-feature-description">
-              {strings.en.features.two.description.toUpperCase()}
-            </p>
+            <div className="landing-feature-description" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <Link href="/logia" style={{ textDecoration: 'none' }}>
+                <div className="landing-feature-action clickable" style={{ cursor: 'pointer' }}>
+                  {strings.en.features.two.description.split('and')[0].trim()}
+                </div>
+              </Link>
+              {isConnected && (
+                <Link href="/dashboard" style={{ textDecoration: 'none' }}>
+                  <div className="landing-feature-action clickable" style={{ cursor: 'pointer' }}>
+                    {strings.en.features.two.description.split('and')[1].trim()}
+                  </div>
+                </Link>
+              )}
+            </div>
           </div>
           <div className="landing-feature-card">
             <div className="landing-feature-number">III</div>
@@ -106,7 +118,15 @@ export default function Home() {
             {strings.en.features.two.title.toLowerCase()}
           </h3>
           <p className="landing-feature-description">
-            {strings.en.features.two.description.toLowerCase()}
+            calculate <a href="/logia">your logia data</a>
+            {isConnected && (
+              <>
+                {" and "}
+                <a href="/dashboard">
+                  {strings.en.features.two.description.split('and')[1].trim()}
+                </a>
+              </>
+            )}
           </p>
         </div>
         <div className="landing-feature-card">
