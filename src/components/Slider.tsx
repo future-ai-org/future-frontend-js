@@ -117,7 +117,7 @@ export const Slider: React.FC = () => {
 
   const duplicatedPrices = useMemo(
     () =>
-      Array(PRICE_SLIDER_CONFIG.DUPLICATION_FACTOR).fill(validPrices).flat(),
+      Array(PRICE_SLIDER_CONFIG.DUPLICATION_FACTOR * 2).fill(validPrices).flat(),
     [validPrices],
   );
 
@@ -147,7 +147,7 @@ export const Slider: React.FC = () => {
   );
 
   const displayPrices = useMemo(
-    () => (isLoading ? Array(10).fill(null) : duplicatedPrices),
+    () => (isLoading ? Array(20).fill(null) : duplicatedPrices),
     [isLoading, duplicatedPrices],
   );
 
