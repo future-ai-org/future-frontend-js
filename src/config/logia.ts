@@ -50,18 +50,18 @@ const PLANET_SYMBOLS = {
 } as const;
 
 const ZODIAC_SYMBOLS = {
-  aries: "♈︎",
-  taurus: "♉︎",
-  gemini: "♊︎",
-  cancer: "♋︎",
-  leo: "♌︎",
-  virgo: "♍︎",
-  libra: "♎︎",
-  scorpio: "♏︎",
-  sagittarius: "♐︎",
-  capricorn: "♑︎",
-  aquarius: "♒︎",
-  pisces: "♓︎",
+  aries: "♈",
+  taurus: "♉",
+  gemini: "♊",
+  cancer: "♋",
+  leo: "♌",
+  virgo: "♍",
+  libra: "♎",
+  scorpio: "♏",
+  sagittarius: "♐",
+  capricorn: "♑",
+  aquarius: "♒",
+  pisces: "♓",
 } as const;
 
 const ASPECTS = [
@@ -533,17 +533,38 @@ export function printChartInfo(
   const ascendantDegree = ascendant % 30;
   const ascendantSign = ZODIAC_SIGNS[Math.floor(ascendant / 30)];
 
-  const planetPositions = chart.planets
-    .map((planet) => {
-      const housePosition = planet.position % 30;
-      return `
-    <div class="astrology-position">
-      <span class="astrology-position-label">${getPlanetSymbol(planet.name)} ${planet.name.toLowerCase()}</span>
-      <span class="astrology-position-value">${planet.sign.toLowerCase()} ${housePosition.toFixed(2)}° h${planet.house} ${getZodiacSymbol(planet.sign)}</span>
-    </div>
+  const planetTable = `
+    <table class="astrology-table">
+      <thead>
+        <tr>
+          <th>Planet</th>
+          <th>Sign</th>
+          <th>Angle</th>
+          <th>House</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>ASC</td>
+          <td>${getZodiacSymbol(ascendantSign)}</td>
+          <td>${ascendantDegree.toFixed(2)}°</td>
+          <td>1</td>
+        </tr>
+        ${chart.planets
+          .map(
+            (planet) => `
+        <tr>
+          <td>${getPlanetSymbol(planet.name)}</td>
+          <td>${getZodiacSymbol(planet.sign)}</td>
+          <td>${(planet.position % 30).toFixed(2)}°</td>
+          <td>${planet.house}</td>
+        </tr>
+      `,
+          )
+          .join("")}
+      </tbody>
+    </table>
   `;
-    })
-    .join("");
 
   return `
     <div class="astrology-chart-header">
@@ -553,13 +574,7 @@ export function printChartInfo(
         <span class="astrology-chart-city">${city.toLowerCase()}</span>
       </div>
     </div>
-    <div class="astrology-positions">
-      <div class="astrology-position">
-        <span class="astrology-position-label">ascendant</span>
-        <span class="astrology-position-value">${ascendantSign.toLowerCase()} ${getZodiacSymbol(ascendantSign)}, ${ascendantDegree.toFixed(2)}° ASC</span>
-      </div>
-      ${planetPositions}
-    </div>
+    ${planetTable}
   `;
 }
 

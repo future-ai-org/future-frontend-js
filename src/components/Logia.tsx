@@ -275,13 +275,13 @@ export default function Logia() {
         .style("font-weight", "500")
         .style("text-shadow", "0 0 8px var(--color-primary)")
         .style("transition", "all 0.3s ease")
-        .on("mouseover", function () {
+        .on("mouseover", function() {
           d3.select(this)
             .style("opacity", "1")
             .style("font-size", "20px")
             .style("text-shadow", "0 0 12px var(--color-primary)");
         })
-        .on("mouseout", function () {
+        .on("mouseout", function() {
           d3.select(this)
             .style("opacity", "0.8")
             .style("font-size", "16px")
@@ -471,7 +471,7 @@ export default function Logia() {
                     </div>
                     <div>
                       {t.infoPanel.sign}: {planet.sign}{" "}
-                      <span className="zodiac-symbol">
+                      <span className="zodiac-symbol" data-sign={planet.sign}>
                         {getZodiacSymbol(planet.sign)}
                       </span>
                     </div>
