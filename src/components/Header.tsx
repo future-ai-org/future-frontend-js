@@ -61,10 +61,10 @@ const Header: React.FC = () => {
             {strings.en.nav.logia}
           </Link>
           <Link
-            href="/predict"
-            className={`${styles.navLink} ${isActive("/predict") ? styles.active : ""}`}
+            href="/trade"
+            className={`${styles.navLink} ${isActive("/trade") ? styles.active : ""}`}
           >
-            {strings.en.nav.predict}
+            {strings.en.nav.trade}
           </Link>
           {isConnected && (
             <Link

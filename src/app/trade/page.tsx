@@ -1,9 +1,9 @@
-import Invest from "../../components/Invest";
+import Trade from "../../components/Trade";
 
-export default function InvestPage() {
+export default function TradePage() {
   return (
     <main className="min-h-screen">
-      <Invest />
+      <Trade />
     </main>
   );
 }

@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState, useCallback } from "react";
-import "../styles/invest.css";
-import strings from "../i18n/invest.json";
+import "../styles/trade.css";
+import strings from "../i18n/trade.json";
 import { API_CONFIG } from "../config/api";
 import { CACHE_CONFIG } from "../config/cache";
 import { CRYPTO_CONFIG } from "../config/crypto";
@@ -29,7 +29,7 @@ interface TrendingCoin {
   };
 }
 
-export default function Invest() {
+export default function Trade() {
   const [cryptoData, setCryptoData] = useState<CryptoData[]>([]);
   const [memecoinData, setMemecoinData] = useState<CryptoData[]>([]);
   const [trendingData, setTrendingData] = useState<CryptoData[]>([]);

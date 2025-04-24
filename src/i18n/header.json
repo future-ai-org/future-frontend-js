@@ -2,10 +2,10 @@
   "en": {
     "title": "LILIT",
     "browserTitle": "LILIT - Smart Predictions",
-    "description": "Next Generation Predictive Platform",
+    "description": "Next Generation Prediction Platform",
     "nav": {
       "home": "home",
-      "predict": "predict",
+      "trade": "trade",
       "about": "about",
       "dashboard": "dashboard",
       "logia": "logia"
