@@ -13,6 +13,7 @@
     "features": {
       "one": {
         "title": "sign in",
+        "signedIn": "signed in",
         "description": "connect with your favorite wallet to start your avatar"
       },
       "two": {

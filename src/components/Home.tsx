@@ -6,7 +6,7 @@ import strings from "../i18n/home.json";
 import { useWeb3 } from "../contexts/Web3ModalContext";
 
 export default function Home() {
-  const { ensName, address, isConnected } = useWeb3();
+  const { ensName, address, isConnected, connect } = useWeb3();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -26,31 +26,35 @@ export default function Home() {
           {strings.en.subtitle.toUpperCase()}
         </h2>
         <div className="landing-feature-grid">
-          <div className="landing-feature-card">
+          <div 
+            className={`landing-feature-card ${!isConnected ? 'clickable' : ''}`}
+            onClick={!isConnected ? connect : undefined}
+            style={{ cursor: !isConnected ? 'pointer' : 'default' }}
+          >
             <div className="landing-feature-number">I</div>
             <h3 className="landing-feature-title">
-              {strings.en.features.one.title}
+              {isConnected ? strings.en.features.one.signedIn.toUpperCase() : strings.en.features.one.title.toUpperCase()}
             </h3>
             <p className="landing-feature-description">
-              {strings.en.features.one.description}
+              {isConnected ? `${strings.en.wallet.connectedAs.toUpperCase()} ${ensName || formatAddress(address)}` : strings.en.features.one.description.toUpperCase()}
             </p>
           </div>
           <div className="landing-feature-card">
             <div className="landing-feature-number">II</div>
             <h3 className="landing-feature-title">
-              {strings.en.features.two.title}
+              {strings.en.features.two.title.toUpperCase()}
             </h3>
             <p className="landing-feature-description">
-              {strings.en.features.two.description}
+              {strings.en.features.two.description.toUpperCase()}
             </p>
           </div>
           <div className="landing-feature-card">
             <div className="landing-feature-number">III</div>
             <h3 className="landing-feature-title">
-              {strings.en.features.three.title}
+              {strings.en.features.three.title.toUpperCase()}
             </h3>
             <p className="landing-feature-description">
-              {strings.en.features.three.description}
+              {strings.en.features.three.description.toUpperCase()}
             </p>
           </div>
         </div>
@@ -64,7 +68,7 @@ export default function Home() {
       <h2 className="landing-subtitle">{strings.en.subtitle.toUpperCase()}</h2>
       {isConnected && (
         <div className="wallet-info">
-          <span className="wallet-label">{strings.en.wallet.connectedAs}</span>
+          <span className="wallet-label">{strings.en.wallet.connectedAs.toLowerCase()}</span>
           <span
             className="wallet-address"
             data-ens={ensName ? "true" : undefined}
@@ -74,31 +78,35 @@ export default function Home() {
         </div>
       )}
       <div className="landing-feature-grid">
-        <div className="landing-feature-card">
+        <div 
+          className={`landing-feature-card ${!isConnected ? 'clickable' : ''}`}
+          onClick={!isConnected ? connect : undefined}
+          style={{ cursor: !isConnected ? 'pointer' : 'default' }}
+        >
           <div className="landing-feature-number">I</div>
           <h3 className="landing-feature-title">
-            {strings.en.features.one.title}
+            {isConnected ? strings.en.features.one.signedIn.toLowerCase() : strings.en.features.one.title.toLowerCase()}
           </h3>
           <p className="landing-feature-description">
-            {strings.en.features.one.description}
+            {isConnected ? `${strings.en.wallet.connectedAs.toLowerCase()} ${ensName || formatAddress(address)}` : strings.en.features.one.description.toLowerCase()}
           </p>
         </div>
         <div className="landing-feature-card">
           <div className="landing-feature-number">II</div>
           <h3 className="landing-feature-title">
-            {strings.en.features.two.title}
+            {strings.en.features.two.title.toLowerCase()}
           </h3>
           <p className="landing-feature-description">
-            {strings.en.features.two.description}
+            {strings.en.features.two.description.toLowerCase()}
           </p>
         </div>
         <div className="landing-feature-card">
           <div className="landing-feature-number">III</div>
           <h3 className="landing-feature-title">
-            {strings.en.features.three.title}
+            {strings.en.features.three.title.toLowerCase()}
           </h3>
           <p className="landing-feature-description">
-            {strings.en.features.three.description}
+            {strings.en.features.three.description.toLowerCase()}
           </p>
         </div>
       </div>
