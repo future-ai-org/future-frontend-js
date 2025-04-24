@@ -6,6 +6,7 @@
     "nav": {
       "home": "home",
       "trade": "trade",
+      "predict": "predict",
       "about": "about",
       "dashboard": "dashboard",
       "logia": "logia"

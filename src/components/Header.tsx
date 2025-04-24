@@ -66,6 +66,12 @@ const Header: React.FC = () => {
           >
             {strings.en.nav.trade}
           </Link>
+          <Link
+            href="/predict"
+            className={`${styles.navLink} ${isActive("/predict") ? styles.active : ""}`}
+          >
+            {strings.en.nav.predict}
+          </Link>
           {isConnected && (
             <Link
               href="/dashboard"

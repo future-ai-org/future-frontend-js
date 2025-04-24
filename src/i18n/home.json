@@ -22,7 +22,7 @@
       },
       "three": {
         "title": "predict",
-        "description": "leverage smart predictive intel from our oracle agents"
+        "description": "<a href='/predict'>leverage smart predictive intel</a> from our oracle agents"
       }
     }
   }

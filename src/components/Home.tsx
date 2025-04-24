@@ -140,7 +140,11 @@ export default function Home() {
             {strings.en.features.three.title.toLowerCase()}
           </h3>
           <p className="landing-feature-description">
-            {strings.en.features.three.description.toLowerCase()}
+            <span
+              dangerouslySetInnerHTML={{
+                __html: strings.en.features.three.description,
+              }}
+            />
           </p>
         </div>
       </div>
