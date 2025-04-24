@@ -68,9 +68,15 @@ export const Slider: React.FC = () => {
           sparkline: PRICE_SLIDER_CONFIG.API.PARAMS.SPARKLINE.toString(),
         });
 
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
+
         const response = await fetch(
           `${PRICE_SLIDER_CONFIG.API.URL}?${queryParams.toString()}`,
+          { signal: controller.signal }
         );
+
+        clearTimeout(timeoutId);
 
         if (!response.ok) {
           throw new Error(
@@ -82,16 +88,18 @@ export const Slider: React.FC = () => {
         }
 
         const data = await response.json();
-        const formattedPrices = data
-          .filter(
-            (coin: CoinData) =>
-              coin.current_price > 0 && coin.symbol.toUpperCase() !== "USDT",
-          )
-          .map((coin: CoinData) => ({
-            symbol: coin.symbol.toUpperCase(),
-            price: coin.current_price,
-            change: coin.price_change_percentage_24h || 0,
-          }));
+        
+        // Optimize data processing by using a single pass
+        const formattedPrices = data.reduce((acc: CryptoPrice[], coin: CoinData) => {
+          if (coin.current_price > 0 && coin.symbol.toUpperCase() !== "USDT") {
+            acc.push({
+              symbol: coin.symbol.toUpperCase(),
+              price: coin.current_price,
+              change: coin.price_change_percentage_24h || 0,
+            });
+          }
+          return acc;
+        }, []);
 
         if (formattedPrices.length === 0) {
           throw new Error(pricesData.en.errors.noValidPrices);
