@@ -134,11 +134,17 @@
   height: 100%;
   min-height: 600px;
   position: relative;
-  overflow: visible;
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
   transition: var(--transition-all);
+  z-index: 1;
+}
+
+.astrology-chart-container svg {
+  position: absolute;
+  z-index: 1;
 }
 
 .astrology-chart-container:hover {
@@ -154,7 +160,7 @@
   border-radius: 0.4rem;
   border: 1px solid var(--border-color);
   max-width: 300px;
-  z-index: 10;
+  z-index: 2;
   transition: var(--transition-all);
 }
 
