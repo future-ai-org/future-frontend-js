@@ -7,6 +7,7 @@ import {
   useState,
   useEffect,
   useCallback,
+  useRef,
 } from "react";
 import { WagmiProvider, createConfig, http } from "wagmi";
 import { mainnet } from "wagmi/chains";
@@ -15,6 +16,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { ethers } from "ethers";
 import { WALLET_CONFIG } from "../config/wallet";
+import strings from "../i18n/home.json";
 
 // Create query client
 const queryClient = new QueryClient();
@@ -59,14 +61,12 @@ const Web3ProviderInner: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [totalPortfolioValue, setTotalPortfolioValue] = useState(0);
   const [portfolioChange24h, setPortfolioChange24h] = useState(0);
   const [ensName, setEnsName] = useState<string | null>(null);
+  const [provider, setProvider] = useState<ethers.BrowserProvider | null>(null);
+  const ensCache = useRef<Map<string, string | null>>(new Map());
 
-  // Add ENS resolution function
-  const resolveEnsName = useCallback(async (address: string) => {
-    try {
-      if (!window.ethereum) {
-        throw new Error(WALLET_CONFIG.ERRORS.NO_PROVIDER);
-      }
-
+  // Initialize provider once
+  useEffect(() => {
+    if (window.ethereum) {
       // Handle multiple providers
       if (
         Array.isArray(window.ethereum.providers) &&
@@ -74,17 +74,60 @@ const Web3ProviderInner: React.FC<{ children: ReactNode }> = ({ children }) => {
       ) {
         window.ethereum = window.ethereum.providers[0];
       }
-
-      const provider = new ethers.BrowserProvider(
-        window.ethereum as ethers.Eip1193Provider,
+      setProvider(
+        new ethers.BrowserProvider(window.ethereum as ethers.Eip1193Provider),
       );
-      const name = await provider.lookupAddress(address);
-      setEnsName(name);
-    } catch (error) {
-      console.error("Error resolving ENS name:", error);
-      setEnsName(null);
     }
   }, []);
+
+  // Add ENS resolution function with caching and retries
+  const resolveEnsName = useCallback(
+    async (address: string) => {
+      try {
+        // Check cache first
+        const cachedName = ensCache.current.get(address);
+        if (cachedName !== undefined) {
+          setEnsName(cachedName);
+          return;
+        }
+
+        if (!provider) {
+          throw new Error(WALLET_CONFIG.ERRORS.NO_PROVIDER);
+        }
+
+        // Try to resolve ENS name with retries
+        let retries = 3;
+        let lastError: Error | null = null;
+
+        while (retries > 0) {
+          try {
+            const name = await provider.lookupAddress(address);
+            ensCache.current.set(address, name);
+            setEnsName(name);
+            return;
+          } catch (error) {
+            lastError = error as Error;
+            retries--;
+            if (retries > 0) {
+              // Wait before retrying (exponential backoff)
+              await new Promise((resolve) =>
+                setTimeout(resolve, 1000 * (3 - retries)),
+              );
+            }
+          }
+        }
+
+        // If all retries failed, cache the null result
+        ensCache.current.set(address, null);
+        setEnsName(null);
+        console.error("Error resolving ENS name after retries:", lastError);
+      } catch (error) {
+        console.error("Error resolving ENS name:", error);
+        setEnsName(null);
+      }
+    },
+    [provider],
+  );
 
   useEffect(() => {
     if (address) {
@@ -221,7 +264,7 @@ const Web3ProviderInner: React.FC<{ children: ReactNode }> = ({ children }) => {
   const value = {
     address,
     account: address || null,
-    ensName,
+    ensName: ensName || strings.en.wallet.anonymous,
     isConnected,
     connect: async () => {
       try {

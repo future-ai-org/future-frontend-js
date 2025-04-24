@@ -268,7 +268,10 @@ const Wallet: React.FC = () => {
     return (
       <div className="wallet-button-container">
         <div className="wallet-connected">
-          <span className="wallet-address">
+          <span
+            className="wallet-address"
+            data-ens={ensName ? "true" : undefined}
+          >
             {ensName || formatAddress(address)}
           </span>
           <button

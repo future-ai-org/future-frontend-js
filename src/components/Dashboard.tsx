@@ -52,7 +52,13 @@ const Dashboard: React.FC = () => {
     <div className="dashboard">
       <div className="dashboard-header">
         <h2>
-          {getTimeBasedGreeting()}, {ensName || formatAddress(account)}
+          {getTimeBasedGreeting()},{" "}
+          <span
+            className="wallet-address"
+            data-ens={ensName ? "true" : undefined}
+          >
+            {ensName || formatAddress(account)}
+          </span>
         </h2>
       </div>
 
