@@ -1,9 +1,9 @@
-import Invest from "../../components/Invest";
+import Predict from "../../components/Predict";
 
-export default function InvestPage() {
+export default function PredictPage() {
   return (
     <main className="min-h-screen">
-      <Invest />
+      <Predict />
     </main>
   );
 }

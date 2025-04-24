@@ -63,5 +63,4 @@ node_modules/
 *.css
 !tailwind.css
 !tailwind.config.js
-!src/styles/*.module.css
-!src/styles/logia.css
+!src/styles/*

@@ -5,7 +5,8 @@
     "description": "Next Generation Predictive Platform",
     "nav": {
       "home": "home",
-      "invest": "invest",
+      "trade": "trade",
+      "predict": "predict",
       "about": "about",
       "dashboard": "dashboard",
       "logia": "logia"

@@ -93,6 +93,7 @@ interface Translation {
     sign: string;
     house: string;
     effects: string;
+    element: string;
   };
 }
 
@@ -522,6 +523,24 @@ export function getZodiacSymbol(sign: string): string {
   return ZODIAC_SYMBOLS[sign as ZodiacSign] || sign;
 }
 
+export function getElementForSign(sign: string): string {
+  const elementMap: { [key: string]: Element } = {
+    aries: ELEMENTS.FIRE,
+    taurus: ELEMENTS.EARTH,
+    gemini: ELEMENTS.AIR,
+    cancer: ELEMENTS.WATER,
+    leo: ELEMENTS.FIRE,
+    virgo: ELEMENTS.EARTH,
+    libra: ELEMENTS.AIR,
+    scorpio: ELEMENTS.WATER,
+    sagittarius: ELEMENTS.FIRE,
+    capricorn: ELEMENTS.EARTH,
+    aquarius: ELEMENTS.AIR,
+    pisces: ELEMENTS.WATER,
+  };
+  return elementMap[sign.toLowerCase()] || sign;
+}
+
 export function printChartInfo(
   birthDate: string,
   birthTime: string,
@@ -563,6 +582,7 @@ export function printChartInfo(
           <th>${t.table.planet.toLowerCase()}</th>
           <th>${t.table.angle.toLowerCase()}</th>
           <th>${t.table.sign.toLowerCase()}</th>
+          <th>${t.table.element.toLowerCase()}</th>
           <th>${t.table.house.toLowerCase()}</th>
           <th>${t.table.effects.toLowerCase()}</th>
         </tr>
@@ -572,6 +592,7 @@ export function printChartInfo(
           <td>ASC</td>
           <td>${ascendantDegree.toFixed(2)}°</td>
           <td>${getZodiacSymbol(ascendantSign)}</td>
+          <td>${getElementForSign(ascendantSign)}</td>
           <td>1</td>
           <td>${ASTROLOGY_EFFECTS[0]}</td>
         </tr>
@@ -582,6 +603,7 @@ export function printChartInfo(
           <td>${getPlanetSymbol(planet.name)}</td>
           <td>${(planet.position % 30).toFixed(2)}°</td>
           <td>${getZodiacSymbol(planet.sign)}</td>
+          <td>${getElementForSign(planet.sign)}</td>
           <td>${planet.house}</td>
           <td>${ASTROLOGY_EFFECTS[index + 1]}</td>
         </tr>
@@ -629,3 +651,12 @@ export function getEmptyChart(): string {
     </div>
   `;
 }
+
+export const ELEMENTS = {
+  FIRE: "🜂",
+  EARTH: "🜃",
+  AIR: "🜁",
+  WATER: "🜄",
+} as const;
+
+export type Element = (typeof ELEMENTS)[keyof typeof ELEMENTS];

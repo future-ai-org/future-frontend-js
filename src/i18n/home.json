@@ -6,23 +6,29 @@
       "learnMore": "learn more",
       "getStarted": "get started"
     },
-    "wallet": {
-      "connectedAs": "enjoy the fun,",
+    "hello": {
+      "connectedAs": "get started by reading the about and enjoy your new powers",
       "anonymous": "anon"
     },
     "features": {
       "one": {
         "title": "sign in",
-        "description": "connect with your favorite wallet and create your profile"
+        "signedIn": "hello, {ensName}",
+        "description": "connect with your favorite wallet to start your avatar"
       },
       "two": {
-        "title": "customize your avatar",
-        "description": "setup your preferences and calculate your astrospace chart"
+        "title": "customize",
+        "description": "calculate your logia data and setup your profile"
       },
       "three": {
-        "title": "predict the future",
-        "description": "leverage the next generation of predictive intel"
+        "title": "predict",
+        "description": "leverage smart predictive intel from our oracle agents"
       }
+    },
+    "numbers": {
+      "one": "I",
+      "two": "II",
+      "three": "III"
     }
   }
 }

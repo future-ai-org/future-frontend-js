@@ -20,7 +20,8 @@
   --light-shadow-trending-light: rgba(87, 76, 145, 0.5);
   --light-shadow-trending-dark: rgba(87, 76, 145, 0.3);
   --light-text-glow-normal: 0 0 10px rgba(87, 76, 145, 0.7);
-  --light-text-glow-hover: 0 0 30px rgba(87, 76, 145, 0.7), 0 0 50px rgba(87, 76, 145, 0.5);
+  --light-text-glow-hover:
+    0 0 30px rgba(87, 76, 145, 0.7), 0 0 50px rgba(87, 76, 145, 0.5);
 
   /* Dark theme colors */
   --dark-primary: rgb(132, 117, 249);
@@ -39,7 +40,8 @@
   --dark-shadow-trending-light: rgba(132, 117, 249, 0.5);
   --dark-shadow-trending-dark: rgba(132, 117, 249, 0.3);
   --dark-text-glow-normal: 0 0 10px rgba(132, 117, 249, 0.7);
-  --dark-text-glow-hover: 0 0 30px rgba(132, 117, 249, 0.7), 0 0 50px rgba(132, 117, 249, 0.5);
+  --dark-text-glow-hover:
+    0 0 30px rgba(132, 117, 249, 0.7), 0 0 50px rgba(132, 117, 249, 0.5);
 
   /* Common opacity values */
   --opacity-light: 0.8;
