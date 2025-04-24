@@ -7,13 +7,13 @@
       "getStarted": "get started"
     },
     "wallet": {
-      "connectedAs": "get started by reading our about and enjoy the fun,",
+      "connectedAs": "get started by reading our <a href='/about'>about</a> and enjoy the fun,",
       "anonymous": "anon"
     },
     "features": {
       "one": {
         "title": "sign in",
-        "signedIn": "signed in",
+        "signedIn": "hello there",
         "description": "connect with your favorite wallet to start your avatar"
       },
       "two": {

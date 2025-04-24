@@ -38,9 +38,15 @@ export default function Home() {
                 : strings.en.features.one.title.toUpperCase()}
             </h3>
             <p className="landing-feature-description">
-              {isConnected
-                ? `${strings.en.wallet.connectedAs.toUpperCase()} ${ensName || formatAddress(address)}`
-                : strings.en.features.one.description.toUpperCase()}
+              {isConnected ? (
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: `${strings.en.wallet.connectedAs.toUpperCase()} ${ensName || formatAddress(address)}`,
+                  }}
+                />
+              ) : (
+                strings.en.features.one.description.toUpperCase()
+              )}
             </p>
           </div>
           <div className="landing-feature-card">
@@ -83,9 +89,15 @@ export default function Home() {
               : strings.en.features.one.title.toLowerCase()}
           </h3>
           <p className="landing-feature-description">
-            {isConnected
-              ? `${strings.en.wallet.connectedAs.toLowerCase()} ${ensName || formatAddress(address)}`
-              : strings.en.features.one.description.toLowerCase()}
+            {isConnected ? (
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: `${strings.en.wallet.connectedAs.toLowerCase()} ${ensName || formatAddress(address)}`,
+                }}
+              />
+            ) : (
+              strings.en.features.one.description.toLowerCase()
+            )}
           </p>
         </div>
         <div className="landing-feature-card">
