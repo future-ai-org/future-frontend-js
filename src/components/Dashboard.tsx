@@ -100,7 +100,6 @@ const Dashboard: React.FC = () => {
                   <div className="asset-details">
                     <div className="asset-balance">
                       <span className="balance-amount">
-                        {strings.en.portfolio.balance.amount.toLowerCase()}:{" "}
                         {formatBalance(asset.balance)}
                       </span>
                       <span className="balance-symbol">
@@ -108,14 +107,12 @@ const Dashboard: React.FC = () => {
                       </span>
                     </div>
                     <div className="asset-value">
-                      {strings.en.portfolio.balance.value.toLowerCase()}:{" "}
                       {formatCurrency(asset.value)}
                     </div>
                   </div>
                   <div
                     className={`asset-change ${asset.change24h >= 0 ? "positive-change" : "negative-change"}`}
                   >
-                    {strings.en.portfolio.balance.change.toLowerCase()}:{" "}
                     {formatPercentage(asset.change24h)}
                   </div>
                 </div>

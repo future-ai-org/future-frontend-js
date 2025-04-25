@@ -11,13 +11,8 @@
     },
     "portfolio": {
       "title": "portfolio",
-      "totalValue": "total value",
-      "change24h": "24h change",
-      "balance": {
-        "amount": "balance",
-        "value": "value",
-        "change": "change"
-      }
+      "totalValue": "value",
+      "change24h": "24h"
     },
     "formatting": {
       "currency": {

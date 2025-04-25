@@ -50,7 +50,10 @@
 }
 
 .dashboard-card h3 {
-  @apply m-0 mb-8 text-2xl sticky top-0 pb-4 z-10 text-[var(--text-color)];
+  font-weight: 800;
+  text-shadow: 0 0 10px var(--color-primary);
+  color: var(--color-primary);
+  margin-bottom: 1rem;
 }
 
 .card-content {
