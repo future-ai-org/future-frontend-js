@@ -9,14 +9,6 @@
   transition: all var(--transition-duration) var(--transition-timing);
 }
 
-.logia-title {
-  font-size: 2rem;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 6rem;
-  color: var(--text-color);
-}
-
 .astrology-form-section {
   flex: 1;
   max-width: 100%;
@@ -28,13 +20,6 @@
   .astrology-form-section {
     max-width: 100%;
   }
-}
-
-.astrology-form-section .astrology-button {
-  width: 150px;
-  margin: 2rem auto 0;
-  display: block;
-  text-align: center;
 }
 
 .astrology-form {
@@ -104,6 +89,8 @@
   font-size: 0.9rem;
   width: 200px;
   margin: 2rem auto 0;
+  display: block;
+  text-align: center;
 }
 
 .astrology-button:hover {

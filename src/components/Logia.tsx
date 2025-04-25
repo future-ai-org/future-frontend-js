@@ -63,14 +63,16 @@ export default function Logia() {
 
     if (!chartInfo) {
       return (
-        <div className="logia-container">
+        <>
           <h1 className="page-title">{t.title.toLowerCase()}</h1>
-          <LogiaForm
-            onSubmit={handleSubmit}
-            isGeneratingChart={isLoading}
-            error={error}
-          />
-        </div>
+          <div className="logia-container">
+            <LogiaForm
+              onSubmit={handleSubmit}
+              isGeneratingChart={isLoading}
+              error={error}
+            />
+          </div>
+        </>
       );
     }
 
