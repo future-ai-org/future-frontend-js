@@ -73,29 +73,35 @@ const Wallet: React.FC = () => {
     }
 
     const isWalletAvailable = (walletName: keyof WalletProvider) =>
-      Boolean(ethereum[walletName] || (ethereum.providers?.some(p => p[walletName]) ?? false));
+      Boolean(
+        ethereum[walletName] ||
+          (ethereum.providers?.some((p) => p[walletName]) ?? false),
+      );
 
-    const isPhantomAvailable = Boolean(window.phantom?.solana || (window as Window & { solana?: SolanaProvider }).solana);
+    const isPhantomAvailable = Boolean(
+      window.phantom?.solana ||
+        (window as Window & { solana?: SolanaProvider }).solana,
+    );
 
     const detectedWallets: WalletOption[] = [];
 
     // Add wallets based on availability
     const walletConfigs = [
       {
-        key: 'isMetaMask',
+        key: "isMetaMask",
         config: WALLET_CONFIG.METAMASK,
-        id: 'injected'
+        id: "injected",
       },
       {
-        key: 'isBraveWallet',
+        key: "isBraveWallet",
         config: WALLET_CONFIG.BRAVE,
-        id: 'brave'
+        id: "brave",
       },
       {
-        key: 'isRainbow',
+        key: "isRainbow",
         config: WALLET_CONFIG.RAINBOW,
-        id: 'rainbow'
-      }
+        id: "rainbow",
+      },
     ];
 
     walletConfigs.forEach(({ key, config, id }) => {
@@ -115,7 +121,7 @@ const Wallet: React.FC = () => {
       detectedWallets.push({
         name: WALLET_CONFIG.PHANTOM.NAME,
         icon: WALLET_CONFIG.PHANTOM.ICON,
-        id: 'phantom',
+        id: "phantom",
         isAvailable: true,
         downloadUrl: WALLET_CONFIG.PHANTOM.DOWNLOAD_URL,
       });
@@ -126,8 +132,11 @@ const Wallet: React.FC = () => {
 
   useEffect(() => {
     checkWallets();
-    window.addEventListener("ethereum#initialized", checkWallets, { once: true });
-    return () => window.removeEventListener("ethereum#initialized", checkWallets);
+    window.addEventListener("ethereum#initialized", checkWallets, {
+      once: true,
+    });
+    return () =>
+      window.removeEventListener("ethereum#initialized", checkWallets);
   }, [checkWallets]);
 
   const formatAddress = useCallback((address: string | undefined) => {
@@ -143,51 +152,60 @@ const Wallet: React.FC = () => {
       router.push("/");
       window.location.reload();
     } catch (error) {
-      setError(error instanceof Error ? error.message : strings.en.connectionError);
+      setError(
+        error instanceof Error ? error.message : strings.en.connectionError,
+      );
     }
   }, [disconnect, router]);
 
-  const handleWalletClick = useCallback(async (walletId: string) => {
-    const wallet = availableWallets.find((w) => w.id === walletId);
-    if (!wallet) return;
+  const handleWalletClick = useCallback(
+    async (walletId: string) => {
+      const wallet = availableWallets.find((w) => w.id === walletId);
+      if (!wallet) return;
 
-    if (wallet.downloadUrl && !wallet.isAvailable) {
-      window.open(wallet.downloadUrl, "_blank");
-      return;
-    }
-
-    setSelectedWallet(walletId);
-    setIsConnecting(true);
-    setError(null);
-
-    try {
-      if (walletId === "phantom") {
-        if (!window.phantom?.solana) {
-          throw new Error(strings.en.phantomNotInstalled);
-        }
-
-        const response = await window.phantom.solana.connect();
-        if (!response?.publicKey) {
-          throw new Error(strings.en.phantomConnectionFailed);
-        }
-      } else if (wallet.connector) {
-        await connect({ connector: wallet.connector });
-      } else {
-        throw new Error(strings.en.unsupportedWallet);
+      if (wallet.downloadUrl && !wallet.isAvailable) {
+        window.open(wallet.downloadUrl, "_blank");
+        return;
       }
 
-      setShowModal(false);
-    } catch (error) {
-      setError(error instanceof Error ? error.message : strings.en.connectionError);
-    } finally {
-      setIsConnecting(false);
-    }
-  }, [availableWallets, connect]);
+      setSelectedWallet(walletId);
+      setIsConnecting(true);
+      setError(null);
+
+      try {
+        if (walletId === "phantom") {
+          if (!window.phantom?.solana) {
+            throw new Error(strings.en.phantomNotInstalled);
+          }
+
+          const response = await window.phantom.solana.connect();
+          if (!response?.publicKey) {
+            throw new Error(strings.en.phantomConnectionFailed);
+          }
+        } else if (wallet.connector) {
+          await connect({ connector: wallet.connector });
+        } else {
+          throw new Error(strings.en.unsupportedWallet);
+        }
+
+        setShowModal(false);
+      } catch (error) {
+        setError(
+          error instanceof Error ? error.message : strings.en.connectionError,
+        );
+      } finally {
+        setIsConnecting(false);
+      }
+    },
+    [availableWallets, connect],
+  );
 
   const renderModal = useCallback(() => {
     if (!showModal || !mounted) return null;
 
-    const availableWalletsList = availableWallets.filter(wallet => wallet.isAvailable);
+    const availableWalletsList = availableWallets.filter(
+      (wallet) => wallet.isAvailable,
+    );
 
     return createPortal(
       <div
@@ -233,7 +251,15 @@ const Wallet: React.FC = () => {
       </div>,
       document.body,
     );
-  }, [showModal, error, availableWallets, isConnecting, selectedWallet, handleWalletClick, mounted]);
+  }, [
+    showModal,
+    error,
+    availableWallets,
+    isConnecting,
+    selectedWallet,
+    handleWalletClick,
+    mounted,
+  ]);
 
   if (!mounted) return null;
 
@@ -241,7 +267,10 @@ const Wallet: React.FC = () => {
     return (
       <div className="wallet-button-container">
         <div className="wallet-connected">
-          <span className="wallet-address" data-ens={ensName ? "true" : undefined}>
+          <span
+            className="wallet-address"
+            data-ens={ensName ? "true" : undefined}
+          >
             {ensName || formatAddress(address)}
           </span>
           <button
