@@ -32,8 +32,8 @@ export default function LogiaForm({
   const handleCityChange = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
-      setFormData(prev => ({ ...prev, city: value }));
-      
+      setFormData((prev) => ({ ...prev, city: value }));
+
       if (value.trim()) {
         const suggestions = await searchCities(value);
         setCitySuggestions(suggestions);
@@ -43,25 +43,31 @@ export default function LogiaForm({
         setShowSuggestions(false);
       }
     },
-    []
+    [],
   );
 
   const handleCitySelect = useCallback((suggestion: CitySuggestion) => {
-    setFormData(prev => ({ ...prev, city: suggestion.display_name }));
+    setFormData((prev) => ({ ...prev, city: suggestion.display_name }));
     setCitySuggestions([]);
     setShowSuggestions(false);
   }, []);
 
-  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  }, []);
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    },
+    [],
+  );
 
-  const handleSubmit = useCallback((e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.birthDate || !formData.birthTime || !formData.city) return;
-    onSubmit(formData);
-  }, [formData, onSubmit]);
+  const handleSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      if (!formData.birthDate || !formData.birthTime || !formData.city) return;
+      onSubmit(formData);
+    },
+    [formData, onSubmit],
+  );
 
   const handleBlur = useCallback(() => {
     if (blurTimeoutRef.current) {

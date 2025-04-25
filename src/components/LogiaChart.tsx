@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import * as d3 from "d3";
+import React, { useEffect, useMemo, useCallback } from "react";
 import {
   ChartData,
   getPlanetSymbol,
@@ -19,7 +18,7 @@ import {
   drawHouses,
   drawAspects,
   drawPlanets,
-} from "../utils/chartCalculation";
+} from "./../utils/chartCalculation";
 
 interface LogiaChartProps {
   chartData: ChartData | null;
@@ -27,22 +26,56 @@ interface LogiaChartProps {
   isGeneratingChart: boolean;
 }
 
+interface PlanetInfoPanelProps {
+  selectedPlanet: string;
+  chartData: ChartData;
+  t: typeof strings.en;
+}
+
+const PlanetInfoPanel: React.FC<PlanetInfoPanelProps> = React.memo(({ selectedPlanet, chartData, t }) => {
+  const planet = chartData.planets.find((p) => p.name === selectedPlanet);
+  if (!planet) return null;
+
+  return (
+    <div className="astrology-info-panel">
+      <h3>{t.infoPanel.title}</h3>
+      <div className="astrology-planet-info">
+        <div>
+          <strong>{planet.name}</strong>{" "}
+          <span className="planet-symbol">
+            {getPlanetSymbol(planet.name)}
+          </span>
+        </div>
+        <div>
+          {t.infoPanel.sign}: {planet.sign}{" "}
+          <span className="zodiac-symbol" data-sign={planet.sign}>
+            {getZodiacSymbol(planet.sign)}
+          </span>
+        </div>
+        <div>
+          {t.infoPanel.house}: {planet.house}
+        </div>
+        <div>
+          {t.infoPanel.position}: {planet.position.toFixed(1)}°
+        </div>
+      </div>
+    </div>
+  );
+});
+
+PlanetInfoPanel.displayName = 'PlanetInfoPanel';
+
 export default function LogiaChart({
   chartData,
   chartInfo,
   isGeneratingChart,
 }: LogiaChartProps) {
   const { theme } = useTheme();
-  const [selectedPlanet, setSelectedPlanet] = React.useState<string | null>(
-    null,
-  );
+  const [selectedPlanet, setSelectedPlanet] = React.useState<string | null>(null);
   const t = strings.en;
 
-  useEffect(() => {
+  const drawChart = useCallback((container: HTMLElement) => {
     if (!chartData) return;
-
-    const container = document.getElementById("chart");
-    if (!container) return;
 
     const dimensions = calculateChartDimensions(container);
     const { g } = createBaseChart(container, dimensions);
@@ -65,10 +98,32 @@ export default function LogiaChart({
       getPlanetSymbol,
     );
 
+    return g;
+  }, [chartData]);
+
+  useEffect(() => {
+    const container = document.getElementById("chart");
+    if (!container) return;
+
+    const g = drawChart(container);
+
     return () => {
-      d3.select(container).selectAll("*").remove();
+      if (g) {
+        g.remove();
+      }
     };
-  }, [chartData, theme]);
+  }, [drawChart, theme]);
+
+  const memoizedPlanetInfo = useMemo(() => {
+    if (!selectedPlanet || !chartData) return null;
+    return (
+      <PlanetInfoPanel
+        selectedPlanet={selectedPlanet}
+        chartData={chartData}
+        t={t}
+      />
+    );
+  }, [selectedPlanet, chartData, t]);
 
   return (
     <div
@@ -83,35 +138,7 @@ export default function LogiaChart({
           className="astrology-info-text"
           dangerouslySetInnerHTML={{ __html: chartInfo || "" }}
         />
-        {selectedPlanet && chartData && (
-          <div className="astrology-info-panel">
-            <h3>{t.infoPanel.title}</h3>
-            {chartData.planets
-              .filter((planet) => planet.name === selectedPlanet)
-              .map((planet) => (
-                <div key={planet.name} className="astrology-planet-info">
-                  <div>
-                    <strong>{planet.name}</strong>{" "}
-                    <span className="planet-symbol">
-                      {getPlanetSymbol(planet.name)}
-                    </span>
-                  </div>
-                  <div>
-                    {t.infoPanel.sign}: {planet.sign}{" "}
-                    <span className="zodiac-symbol" data-sign={planet.sign}>
-                      {getZodiacSymbol(planet.sign)}
-                    </span>
-                  </div>
-                  <div>
-                    {t.infoPanel.house}: {planet.house}
-                  </div>
-                  <div>
-                    {t.infoPanel.position}: {planet.position.toFixed(1)}°
-                  </div>
-                </div>
-              ))}
-          </div>
-        )}
+        {memoizedPlanetInfo}
       </div>
     </div>
   );
