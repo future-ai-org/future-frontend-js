@@ -46,6 +46,9 @@
     ]
   },
   "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/forms": "^0.5.7",
+    "@tailwindcss/typography": "^0.5.10",
     "@types/d3": "^7.4.3",
     "@types/luxon": "^3.6.2",
     "@types/react-i18next": "^7.8.3",
