@@ -86,7 +86,7 @@ export default function Home() {
             {isConnected ? (
               <>
                 {strings.en.text.and}
-                <Link href="/dashboard">{strings.en.links.dashboard}</Link>
+                <Link href="/dashboard">{strings.en.links.dashboard}</Link> {strings.en.text.profileAndPriorities}
               </>
             ) : (
               ` and ${strings.en.text.startMakingSmarterChoices}`
@@ -100,6 +100,7 @@ export default function Home() {
         title={strings.en.features.three.title.toLowerCase()}
         description={
           <>
+            {strings.en.text.leverage}{" "}
             <Link href="/predict">{strings.en.links.predict}</Link>{" "}
             {strings.en.text.intelFromOracle}
           </>

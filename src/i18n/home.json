@@ -31,13 +31,15 @@
     },
     "links": {
       "logia": "calculate your logia",
-      "dashboard": "setup your profile",
-      "predict": "leverage smart predictive intel"
+      "dashboard": "personalize",
+      "predict": "smart predictive intel"
     },
     "text": {
       "and": " to ",
       "intelFromOracle": "from our oracle agents",
-      "startMakingSmarterChoices": "start making smarter choice decisions"
+      "startMakingSmarterChoices": "start making smarter choice decisions",
+      "profileAndPriorities": "your profile and priorities",
+      "leverage": "leverage"
     }
   }
 }
