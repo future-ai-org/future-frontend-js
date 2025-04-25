@@ -24,5 +24,5 @@ export const DASHBOARD = {
 } as const;
 
 export const isValidRoute = (path: string): path is Route => {
-  return Object.values(ROUTES).includes(path as Route);
+  return Object.values(ROUTES).some(route => route === path);
 };

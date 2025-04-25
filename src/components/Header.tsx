@@ -17,7 +17,11 @@ const Header: React.FC = () => {
 
   const isActive = (path: string) => {
     if (!isValidRoute(path)) return false;
-    return pathname === path || (path !== "/" && pathname?.startsWith(path));
+    if (path === "/") {
+      return pathname === "/";
+    }
+    return pathname?.startsWith(path) && 
+           (pathname === path || pathname.charAt(path.length) === "/");
   };
 
   return (
