@@ -23,7 +23,9 @@ export default function LogiaChart({
   isGeneratingChart,
 }: LogiaChartProps) {
   const { theme } = useTheme();
-  const [selectedPlanet, setSelectedPlanet] = React.useState<string | null>(null);
+  const [selectedPlanet, setSelectedPlanet] = React.useState<string | null>(
+    null,
+  );
   const t = strings.en;
 
   useEffect(() => {
