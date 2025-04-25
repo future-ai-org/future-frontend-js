@@ -59,8 +59,17 @@ export default function Home() {
               {strings.en.hello.connectedAs.suffix}
             </span>
           ) : (
-            <span onClick={() => connect()}>
-              {strings.en.features.one.description}
+            <span>
+              <Link
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  connect();
+                }}
+              >
+                {strings.en.features.one.connectWallet}
+              </Link>{" "}
+              {strings.en.features.one.startAvatar}
             </span>
           )
         }
@@ -74,11 +83,14 @@ export default function Home() {
         description={
           <>
             <Link href="/logia">{strings.en.links.logia}</Link>
-            {isConnected && (
+            {isConnected ? (
               <>
                 {strings.en.text.and}
-                <Link href="/dashboard">{strings.en.links.dashboard}</Link>
+                <Link href="/dashboard">{strings.en.links.dashboard}</Link>{" "}
+                {strings.en.text.profileAndPriorities}
               </>
+            ) : (
+              ` and ${strings.en.text.startMakingSmarterChoices}`
             )}
           </>
         }
@@ -89,6 +101,7 @@ export default function Home() {
         title={strings.en.features.three.title.toLowerCase()}
         description={
           <>
+            {strings.en.text.leverage}{" "}
             <Link href="/predict">{strings.en.links.predict}</Link>{" "}
             {strings.en.text.intelFromOracle}
           </>
