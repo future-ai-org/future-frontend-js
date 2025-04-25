@@ -17,3 +17,6 @@ export const API_CONFIG = {
       `/coins/${coinId.toLowerCase()}/market_chart?vs_currency=usd&days=${days}&interval=${interval}`,
   },
 } as const;
+
+export const OPENSTREETMAP_API_URL =
+  "https://nominatim.openstreetmap.org/search?format=json&q=";

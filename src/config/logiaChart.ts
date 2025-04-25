@@ -95,7 +95,9 @@ export type PlanetName = keyof typeof PLANET_SYMBOLS;
 export type ZodiacSign = keyof typeof ZODIAC_SYMBOLS;
 
 export function getPlanetSymbol(planetName: string): string {
-  return PLANET_SYMBOLS[planetName as keyof typeof PLANET_SYMBOLS] || planetName;
+  return (
+    PLANET_SYMBOLS[planetName as keyof typeof PLANET_SYMBOLS] || planetName
+  );
 }
 
 export function getZodiacSymbol(sign: string): string {
