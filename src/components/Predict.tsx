@@ -9,7 +9,6 @@ export default function Predict() {
     <div className="predict-container">
       <div className="predict-content">
         <p className="predict-description">{strings.en.description}</p>
-        {/* More content will be added here */}
       </div>
     </div>
   );

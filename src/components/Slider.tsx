@@ -18,12 +18,12 @@ interface CoinData {
 }
 
 const formatPrice = (price: number): string => {
+  const isSmallPrice = price < 1;
   return price.toLocaleString(undefined, {
     minimumFractionDigits: PRICE_SLIDER_CONFIG.PRICE_FORMAT.MIN_FRACTION_DIGITS,
-    maximumFractionDigits:
-      price < 1
-        ? PRICE_SLIDER_CONFIG.PRICE_FORMAT.MAX_FRACTION_DIGITS.SMALL
-        : PRICE_SLIDER_CONFIG.PRICE_FORMAT.MAX_FRACTION_DIGITS.LARGE,
+    maximumFractionDigits: isSmallPrice 
+      ? PRICE_SLIDER_CONFIG.PRICE_FORMAT.MAX_FRACTION_DIGITS.SMALL
+      : PRICE_SLIDER_CONFIG.PRICE_FORMAT.MAX_FRACTION_DIGITS.LARGE,
   });
 };
 
@@ -31,24 +31,23 @@ const formatChange = (change: number): string => {
   return `${change >= 0 ? "↑" : "↓"} ${Math.abs(change).toFixed(2)}%`;
 };
 
-const renderPriceItem = (crypto: CryptoPrice, index: number) => (
-  <div
-    className={`price-item ${crypto.change >= 0 ? "positive" : "negative"}`}
-    key={`${crypto.symbol}-${index}`}
-  >
-    <span className="symbol">{crypto.symbol}/USDT</span>
-    <span className="price">{formatPrice(crypto.price)}</span>
-    <span className="price-change">{formatChange(crypto.change)}</span>
-  </div>
-);
+const renderItem = (crypto: CryptoPrice | null, index: number) => {
+  const isPositive = crypto?.change !== undefined && crypto.change >= 0;
+  const symbol = crypto?.symbol || "---";
+  const price = crypto ? formatPrice(crypto.price) : "$0.00";
+  const change = crypto ? formatChange(crypto.change) : "↑ 0.00%";
 
-const renderLoadingItem = (index: number) => (
-  <div className="price-item loading" key={`loading-${index}`}>
-    <span className="symbol">---/USDT</span>
-    <span className="price">$0.00</span>
-    <span className="price-change">↑ 0.00%</span>
-  </div>
-);
+  return (
+    <div
+      className={`price-item ${crypto ? (isPositive ? "positive" : "negative") : "loading"}`}
+      key={`${crypto ? `${crypto.symbol}-` : "loading-"}${index}`}
+    >
+      <span className="symbol">{symbol}/USDT</span>
+      <span className="price">{price}</span>
+      <span className="price-change">{change}</span>
+    </div>
+  );
+};
 
 export const Slider: React.FC = () => {
   const [prices, setPrices] = useState<CryptoPrice[]>([]);
@@ -88,24 +87,13 @@ export const Slider: React.FC = () => {
         }
 
         const data = await response.json();
-
-        // Optimize data processing by using a single pass
-        const formattedPrices = data.reduce(
-          (acc: CryptoPrice[], coin: CoinData) => {
-            if (
-              coin.current_price > 0 &&
-              coin.symbol.toUpperCase() !== "USDT"
-            ) {
-              acc.push({
-                symbol: coin.symbol.toUpperCase(),
-                price: coin.current_price,
-                change: coin.price_change_percentage_24h || 0,
-              });
-            }
-            return acc;
-          },
-          [],
-        );
+        const formattedPrices = data
+          .filter((coin: CoinData) => coin.current_price > 0 && coin.symbol.toUpperCase() !== "USDT")
+          .map((coin: CoinData) => ({
+            symbol: coin.symbol.toUpperCase(),
+            price: coin.current_price,
+            change: coin.price_change_percentage_24h || 0,
+          }));
 
         if (formattedPrices.length === 0) {
           throw new Error(pricesData.en.errors.noValidPrices);
@@ -161,9 +149,7 @@ export const Slider: React.FC = () => {
   return (
     <div className="slider-container">
       <div className="price-items-container">
-        {displayPrices.map((price, index) =>
-          isLoading ? renderLoadingItem(index) : renderPriceItem(price, index),
-        )}
+        {displayPrices.map((price, index) => renderItem(price, index))}
       </div>
     </div>
   );
