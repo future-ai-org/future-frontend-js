@@ -5,6 +5,7 @@ import "../styles/home.css";
 import strings from "../i18n/home.json";
 import { useWeb3 } from "../contexts/Web3ModalContext";
 import Link from "next/link";
+import { ROUTES } from "../config/routes";
 
 interface FeatureCardProps {
   number: string;
@@ -23,10 +24,15 @@ const FeatureCard = ({
   ensName,
   address,
 }: FeatureCardProps) => {
-  const formatAddress = (addr: string) => `${addr.slice(0, 6)}...${addr.slice(-4)}`;
-  const displayTitle = isConnected && number === strings.en.numbers.one
-    ? strings.en.features.one.signedIn.replace("{ensName}", ensName || (address ? formatAddress(address) : ""))
-    : title;
+  const formatAddress = (addr: string) =>
+    `${addr.slice(0, 6)}...${addr.slice(-4)}`;
+  const displayTitle =
+    isConnected && number === strings.en.numbers.one
+      ? strings.en.features.one.signedIn.replace(
+          "{ensName}",
+          ensName || (address ? formatAddress(address) : ""),
+        )
+      : title;
 
   return (
     <div className="landing-feature-card">
@@ -52,7 +58,7 @@ export default function Home() {
             isConnected ? (
               <span>
                 {strings.en.hello.connectedAs.prefix}{" "}
-                <Link href="/info">{strings.en.hello.connectedAs.link}</Link>{" "}
+                <Link href={ROUTES.INFO}>{strings.en.hello.connectedAs.link}</Link>{" "}
                 {strings.en.hello.connectedAs.suffix}
               </span>
             ) : (
@@ -79,11 +85,13 @@ export default function Home() {
           title={strings.en.features.two.title.toLowerCase()}
           description={
             <>
-              <Link href="/logia">{strings.en.links.logia}</Link>
+              <Link href={ROUTES.LOGIA}>{strings.en.links.logia}</Link>
               {isConnected ? (
                 <>
                   {strings.en.text.and}
-                  <Link href="/dashboard">{strings.en.links.dashboard}</Link>{" "}
+                  <Link href={ROUTES.DASHBOARD}>
+                    {strings.en.links.dashboard}
+                  </Link>{" "}
                   {strings.en.text.profileAndPriorities}
                 </>
               ) : (
@@ -99,7 +107,7 @@ export default function Home() {
           description={
             <>
               {strings.en.text.leverage}{" "}
-              <Link href="/predict">{strings.en.links.predict}</Link>{" "}
+              <Link href={ROUTES.PREDICT}>{strings.en.links.predict}</Link>{" "}
               {strings.en.text.intelFromOracle}
             </>
           }
