@@ -13,6 +13,8 @@ export const API_CONFIG = {
       PAGE: 1,
       SPARKLINE: false,
     },
+    MARKET_CHART: (coinId: string, days: string | number, interval: string) =>
+      `/coins/${coinId.toLowerCase()}/market_chart?vs_currency=usd&days=${days}&interval=${interval}`,
   },
 } as const;
 

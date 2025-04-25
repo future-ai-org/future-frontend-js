@@ -23,5 +23,17 @@
       "allTimeLow": "all time low",
       "date": "date"
     }
+  },
+  "errors": {
+    "apiError": "API Error: {{status}} {{statusText}}",
+    "invalidDataFormat": "Invalid data format received from API",
+    "fetchError": "Error fetching historical data",
+    "apiResponseData": "API Response data:",
+    "fetchingData": "Fetching data with config:",
+    "tradingComponentMounted": "Trading component mounted with assetId:",
+    "apiResponseStatus": "API Response status:",
+    "processedDataPoints": "Processed data points:",
+    "useEffectTriggered": "useEffect triggered with timePeriod:",
+    "apiErrorLog": "API Error:"
   }
 }

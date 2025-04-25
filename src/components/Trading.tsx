@@ -11,6 +11,9 @@ import {
   Line,
 } from "recharts";
 import "../styles/trading.css";
+import { TimePeriod, TIME_PERIOD_CONFIG, TIME_PERIODS } from "../config/trading";
+import { API_CONFIG } from "../config/api";
+import tradingMessages from "../i18n/trading.json";
 
 interface TradingProps {
   assetId: string;
@@ -24,8 +27,6 @@ interface CandleData {
   close: number;
   volume: number;
 }
-
-type TimePeriod = "1D" | "1W" | "1M" | "3M" | "1Y" | "ALL";
 
 interface CandlestickProps {
   x: number;
@@ -71,33 +72,22 @@ const CustomCandlestick = React.memo((props: CandlestickProps) => {
 
 CustomCandlestick.displayName = "CustomCandlestick";
 
-const TIME_PERIOD_CONFIG = {
-  "1D": { days: 1, dataPoints: 24, interval: "hourly" },
-  "1W": { days: 7, dataPoints: 7, interval: "daily" },
-  "1M": { days: 30, dataPoints: 30, interval: "daily" },
-  "3M": { days: 90, dataPoints: 90, interval: "daily" },
-  "1Y": { days: 365, dataPoints: 365, interval: "daily" },
-  ALL: { days: "max", dataPoints: 365 * 2, interval: "daily" },
-} as const;
-
-const TIME_PERIODS: TimePeriod[] = ["1D", "1W", "1M", "3M", "1Y", "ALL"];
-
 export const Trading: React.FC<TradingProps> = ({ assetId }) => {
   const [chartData, setChartData] = useState<CandleData[]>([]);
   const [timePeriod, setTimePeriod] = useState<TimePeriod>("1M");
   const [colors, setColors] = useState({
-    background: "#ffffff",
-    bullish: "#22c55e",
-    bearish: "#ef4444",
+    background: "var(--background-color)",
+    bullish: "var(--bullish-color)",
+    bearish: "var(--bearish-color)",
   });
 
-  console.log("Trading component mounted with assetId:", assetId);
+  console.log(tradingMessages.errors.tradingComponentMounted, { assetId });
 
   const fetchHistoricalData = useCallback(
     async (period: TimePeriod) => {
       try {
         const { days, dataPoints, interval } = TIME_PERIOD_CONFIG[period];
-        console.log("Fetching data with config:", {
+        console.log(tradingMessages.errors.fetchingData, {
           days,
           dataPoints,
           period,
@@ -106,7 +96,7 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
 
         // Simple CoinGecko API call
         const response = await fetch(
-          `https://api.coingecko.com/api/v3/coins/${assetId.toLowerCase()}/market_chart?vs_currency=usd&days=${days}&interval=${interval}`,
+          `${API_CONFIG.COINGECKO.BASE_URL}${API_CONFIG.COINGECKO.MARKET_CHART(assetId, days, interval)}`,
           {
             method: "GET",
             headers: {
@@ -116,25 +106,23 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
           },
         );
 
-        console.log("API Response status:", response.status);
+        console.log(tradingMessages.errors.apiResponseStatus, response.status);
 
         if (!response.ok) {
           const errorText = await response.text();
-          console.error("API Error:", {
-            status: response.status,
-            statusText: response.statusText,
-            error: errorText,
-          });
           throw new Error(
-            `API Error: ${response.status} ${response.statusText}`,
+            tradingMessages.errors.apiError
+              .replace("{{status}}", response.status.toString())
+              .replace("{{statusText}}", response.statusText)
+              .replace("{{errorText}}", errorText)
           );
         }
 
         const data = await response.json();
-        console.log("API Response data:", data);
+        console.log(tradingMessages.errors.apiResponseData, data);
 
         if (!data.prices || !Array.isArray(data.prices)) {
-          throw new Error("Invalid data format received from API");
+          throw new Error(tradingMessages.errors.invalidDataFormat);
         }
 
         // Process the data
@@ -156,7 +144,7 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
           },
         );
 
-        console.log("Processed data points:", processedData.length);
+        console.log(tradingMessages.errors.processedDataPoints, processedData.length);
 
         // For 1Y period, we want to show monthly data points
         if (period === "1Y") {
@@ -206,7 +194,7 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
           setChartData(sampledData);
         }
       } catch (err) {
-        console.error("Error in fetchHistoricalData:", err);
+        console.error(tradingMessages.errors.fetchError, err);
         // Set some sample data for debugging
         const sampleData = Array.from({ length: 30 }, (_, i) => ({
           date: new Date(
@@ -225,7 +213,7 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
   );
 
   useEffect(() => {
-    console.log("useEffect triggered with timePeriod:", timePeriod);
+    console.log(tradingMessages.errors.useEffectTriggered, timePeriod);
     fetchHistoricalData(timePeriod);
   }, [timePeriod, fetchHistoricalData]);
 
