@@ -6,7 +6,9 @@
       "apiError": "failed to fetch data from one or more endpoints",
       "invalidData": "invalid data format received from api",
       "trendingError": "failed to fetch trending details",
-      "connectionError": "failed to fetch data. please check your internet connection."
+      "connectionError": "failed to fetch data. please check your internet connection.",
+      "cacheError": "error accessing cached data",
+      "saveCacheError": "error saving data to cache"
     },
     "table": {
       "headers": {
@@ -17,6 +19,15 @@
         "ath": "all time high",
         "chart": "zoom in to trade"
       }
+    },
+    "formatting": {
+      "decimalSeparator": ".",
+      "percentage": "%",
+      "billion": "B",
+      "currency": "$"
+    },
+    "chart": {
+      "noData": "No data"
     }
   }
 }

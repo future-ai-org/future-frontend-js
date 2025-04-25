@@ -1,29 +1,10 @@
-import { injected, walletConnect } from "wagmi/connectors";
+import { injected } from "wagmi/connectors";
 
 export const WALLET_CONFIG = {
   METAMASK: {
     NAME: "MetaMask",
     ICON: "🦊",
     DOWNLOAD_URL: "https://metamask.io/download/",
-    CONNECTOR: injected(),
-  },
-  WALLETCONNECT: {
-    NAME: "WalletConnect",
-    ICON: "🔗",
-    CONNECTOR: walletConnect({
-      projectId: "YOUR_PROJECT_ID", // Replace with your WalletConnect project ID
-    }),
-  },
-  COINBASE: {
-    NAME: "Coinbase Wallet",
-    ICON: "🪙",
-    DOWNLOAD_URL: "https://www.coinbase.com/wallet",
-    CONNECTOR: injected(),
-  },
-  TRUST: {
-    NAME: "Trust Wallet",
-    ICON: "🔒",
-    DOWNLOAD_URL: "https://trustwallet.com/",
     CONNECTOR: injected(),
   },
   BRAVE: {
@@ -42,6 +23,7 @@ export const WALLET_CONFIG = {
     NAME: "Phantom",
     ICON: "👻",
     DOWNLOAD_URL: "https://phantom.app/",
+    CONNECTOR: injected(),
   },
   ADDRESS: {
     PREFIX_LENGTH: 6,

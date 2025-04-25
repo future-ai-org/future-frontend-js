@@ -70,28 +70,21 @@
   --color-text-glow-normal: var(--light-text-glow-normal);
   --color-text-glow-hover: var(--light-text-glow-hover);
 
+  /* Common variables */
   --primary-color: var(--color-primary);
   --text-color: var(--color-primary);
   --background-color: var(--color-background);
   --bearish-color: var(--color-bearish);
   --bullish-color: var(--color-bullish);
-  --opacity-light: var(--color-opacity-light);
-  --opacity-medium: var(--color-opacity-medium);
-  --opacity-dark: var(--color-opacity-dark);
-  --opacity-very-light: var(--color-opacity-very-light);
   --border-color: var(--color-border);
   --glow-shadow: var(--color-glow-shadow);
   --glow-shadow-hover: var(--color-glow-shadow-hover);
   --scroll-track: var(--color-scroll-track);
   --card-bg: var(--color-card-bg);
   --info-bg: var(--color-info-bg);
-  --black-shadow: var(--color-shadow-black);
-  --white-transparent: var(--color-shadow-white);
   --text-glow: var(--color-text-glow-normal);
   --text-glow-hover: var(--color-text-glow-hover);
   --base-shadow: 0 0 5px var(--glow-shadow);
-  --opacity-high: var(--color-opacity-high);
-  --opacity-low: var(--color-opacity-low);
   --trending-shadow-light: var(--color-shadow-trending-light);
   --trending-shadow-dark: var(--color-shadow-trending-dark);
   --transition-duration: 0.3s;

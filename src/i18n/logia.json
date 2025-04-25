@@ -11,27 +11,9 @@
       "birthCity": "birth city",
       "cityPlaceholder": "e.g., los angeles"
     },
-    "loading": {
-      "generatingChart": "calculating..."
-    },
     "buttons": {
       "generateChart": "generate chart",
       "back": "back"
-    },
-    "infoPanel": {
-      "title": "planet information",
-      "sign": "sign",
-      "element": "element",
-      "house": "house",
-      "position": "position"
-    },
-    "table": {
-      "planet": "Planet",
-      "sign": "Sign",
-      "element": "Element",
-      "angle": "Angle",
-      "house": "House",
-      "effects": "Effects"
     }
   }
 }

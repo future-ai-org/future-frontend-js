@@ -1,0 +1,31 @@
+{
+  "en": {
+    "error": {
+      "httpError": "http error: {{status}}",
+      "fetchFailed": "failed to fetch trading data. please try again later.",
+      "retry": "retry",
+      "cacheError": "error loading cached data:",
+      "saveCacheError": "error saving cached data:",
+      "apiError": "API Error: {{status}} {{statusText}}",
+      "invalidData": "invalid data format received from API",
+      "connectionError": "connection error. please check your internet connection.",
+      "tradingComponentMounted": "Trading component mounted with assetId:",
+      "fetchingData": "Fetching data with config:",
+      "apiResponseStatus": "API Response status:",
+      "apiResponseData": "API Response data:",
+      "processedDataPoints": "Processed data points:",
+      "fetchError": "Error fetching historical data",
+      "useEffectTriggered": "useEffect triggered with timePeriod:"
+    },
+    "labels": {
+      "currentPrice": "current price",
+      "priceChange24h": "24h price change",
+      "marketCap": "market cap",
+      "volume24h": "24h volume",
+      "high24h": "24h high",
+      "low24h": "24h low",
+      "allTimeHigh": "all time high",
+      "allTimeLow": "all time low"
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useWeb3 } from "../contexts/Web3ModalContext";
+import { useWeb3 } from "../utils/web3ModalContext";
 import { useRouter } from "next/navigation";
 import { createPortal } from "react-dom";
 import "../styles/wallet.css";
@@ -15,25 +15,17 @@ type WalletProvider = {
   providers?: WalletProvider[];
 };
 
-interface SolanaRequestParams {
-  method: string;
-  params: unknown[];
-}
-
-interface SolanaProvider {
-  connect: () => Promise<{ publicKey: string }>;
-  disconnect: () => Promise<void>;
-  on: (event: string, callback: () => void) => void;
-  removeAllListeners: () => void;
-  request: (params: SolanaRequestParams) => Promise<unknown>;
-}
-
-interface Window {
-  ethereum?: WalletProvider;
-  phantom?: {
-    solana: SolanaProvider;
+interface PhantomWallet {
+  solana: {
+    connect: () => Promise<{ publicKey: string }>;
   };
-  solana?: SolanaProvider;
+}
+
+interface WindowWithPhantom extends Window {
+  phantom?: PhantomWallet;
+  solana?: {
+    connect: () => Promise<{ publicKey: string }>;
+  };
 }
 
 interface WalletOption {
@@ -62,10 +54,9 @@ const Wallet: React.FC = () => {
   }, []);
 
   const checkWallets = useCallback(() => {
-    const { ethereum } = window;
+    const ethereum = window.ethereum as WalletProvider | undefined;
     if (!ethereum) return;
 
-    // Handle multiple providers
     if (ethereum.providers && ethereum.providers.length > 1) {
       setError(WALLET_CONFIG.ERRORS.MULTIPLE_PROVIDERS);
       window.ethereum = ethereum.providers[0];
@@ -74,38 +65,34 @@ const Wallet: React.FC = () => {
 
     const isWalletAvailable = (walletName: keyof WalletProvider) =>
       Boolean(
-        ethereum[walletName] ||
-          ethereum.providers?.some((p: WalletProvider) => p[walletName]),
+        ethereum[walletName] || ethereum.providers?.some((p) => p[walletName]),
       );
 
     const isPhantomAvailable = Boolean(
-      window.phantom || (window as Window & { solana?: SolanaProvider }).solana,
+      (window as WindowWithPhantom).phantom?.solana ||
+        (window as WindowWithPhantom).solana,
     );
 
     const detectedWallets: WalletOption[] = [];
 
-    // Add wallets based on availability
-    if (isWalletAvailable("isMetaMask")) {
-      detectedWallets.push({
-        name: WALLET_CONFIG.METAMASK.NAME,
-        icon: WALLET_CONFIG.METAMASK.ICON,
-        id: "injected",
-        isAvailable: true,
-        downloadUrl: WALLET_CONFIG.METAMASK.DOWNLOAD_URL,
-        connector: WALLET_CONFIG.METAMASK.CONNECTOR,
-      });
-    }
+    const walletConfigs = [
+      { key: "isMetaMask", config: WALLET_CONFIG.METAMASK, id: "injected" },
+      { key: "isBraveWallet", config: WALLET_CONFIG.BRAVE, id: "brave" },
+      { key: "isRainbow", config: WALLET_CONFIG.RAINBOW, id: "rainbow" },
+    ];
 
-    if (isWalletAvailable("isBraveWallet")) {
-      detectedWallets.push({
-        name: WALLET_CONFIG.BRAVE.NAME,
-        icon: WALLET_CONFIG.BRAVE.ICON,
-        id: "brave",
-        isAvailable: true,
-        downloadUrl: WALLET_CONFIG.BRAVE.DOWNLOAD_URL,
-        connector: WALLET_CONFIG.BRAVE.CONNECTOR,
-      });
-    }
+    walletConfigs.forEach(({ key, config, id }) => {
+      if (isWalletAvailable(key as keyof WalletProvider)) {
+        detectedWallets.push({
+          name: config.NAME,
+          icon: config.ICON,
+          id,
+          isAvailable: true,
+          downloadUrl: config.DOWNLOAD_URL,
+          connector: config.CONNECTOR,
+        });
+      }
+    });
 
     if (isPhantomAvailable) {
       detectedWallets.push({
@@ -114,17 +101,6 @@ const Wallet: React.FC = () => {
         id: "phantom",
         isAvailable: true,
         downloadUrl: WALLET_CONFIG.PHANTOM.DOWNLOAD_URL,
-      });
-    }
-
-    if (isWalletAvailable("isRainbow")) {
-      detectedWallets.push({
-        name: WALLET_CONFIG.RAINBOW.NAME,
-        icon: WALLET_CONFIG.RAINBOW.ICON,
-        id: "rainbow",
-        isAvailable: true,
-        downloadUrl: WALLET_CONFIG.RAINBOW.DOWNLOAD_URL,
-        connector: WALLET_CONFIG.RAINBOW.CONNECTOR,
       });
     }
 
@@ -175,13 +151,14 @@ const Wallet: React.FC = () => {
 
       try {
         if (walletId === "phantom") {
-          if (!window.phantom?.solana) {
+          const phantom = (window as WindowWithPhantom).phantom;
+          if (!phantom?.solana) {
             throw new Error(strings.en.phantomNotInstalled);
           }
 
-          const response = await window.phantom.solana.connect();
+          const response = await phantom.solana.connect();
           if (!response?.publicKey) {
-            throw new Error(strings.en.phantomConnectionFailed);
+            throw new Error(strings.en.phantomConnectionError);
           }
         } else if (wallet.connector) {
           await connect({ connector: wallet.connector });
@@ -204,14 +181,12 @@ const Wallet: React.FC = () => {
   const renderModal = useCallback(() => {
     if (!showModal || !mounted) return null;
 
-    const availableWalletsList = availableWallets.filter(
-      (wallet) => wallet.isAvailable,
-    );
+    const availableWalletsList = availableWallets.filter((w) => w.isAvailable);
 
     return createPortal(
       <div
         className="wallet-modal-overlay"
-        onClick={(e) => {
+        onClick={(e: React.MouseEvent<HTMLDivElement>) => {
           if (e.target === e.currentTarget) {
             setShowModal(false);
           }

@@ -1,0 +1,22 @@
+{
+  "en": {
+    "loading": {
+      "generatingChart": "calculating..."
+    },
+    "infoPanel": {
+      "title": "planet information",
+      "sign": "sign",
+      "element": "element",
+      "house": "house",
+      "position": "position"
+    },
+    "table": {
+      "planet": "Planet",
+      "sign": "Sign",
+      "element": "Element",
+      "angle": "Angle",
+      "house": "House",
+      "effects": "Effects"
+    }
+  }
+}

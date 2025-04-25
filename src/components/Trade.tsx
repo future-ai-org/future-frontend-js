@@ -3,31 +3,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 import "../styles/trade.css";
 import strings from "../i18n/trade.json";
-import { API_CONFIG } from "../config/api";
-import { CACHE_CONFIG } from "../config/cache";
-import { CRYPTO_CONFIG } from "../config/crypto";
-import { CRYPTO_ICONS } from "../config/cryptoIcons";
-import { Loading } from "./Loading";
-
-interface CryptoData {
-  id: string;
-  symbol: string;
-  name: string;
-  current_price: number;
-  price_change_percentage_24h: number;
-  market_cap: number;
-  ath: number;
-  ath_date: string;
-  sparkline_in_7d?: {
-    price: number[];
-  };
-}
-
-interface TrendingCoin {
-  item: {
-    id: string;
-  };
-}
+import { TRADE_CONFIG, CryptoData, TrendingCoin } from "../config/trade";
+import Loading from "../utils/loading";
 
 export default function Trade() {
   const [cryptoData, setCryptoData] = useState<CryptoData[]>([]);
@@ -39,14 +16,18 @@ export default function Trade() {
 
   const loadCachedData = useCallback(() => {
     try {
-      const cachedCrypto = localStorage.getItem(CACHE_CONFIG.KEYS.CRYPTO_DATA);
+      const cachedCrypto = localStorage.getItem(
+        TRADE_CONFIG.CACHE.KEYS.CRYPTO_DATA,
+      );
       const cachedMemecoin = localStorage.getItem(
-        CACHE_CONFIG.KEYS.MEMECOIN_DATA,
+        TRADE_CONFIG.CACHE.KEYS.MEMECOIN_DATA,
       );
       const cachedTrending = localStorage.getItem(
-        CACHE_CONFIG.KEYS.TRENDING_DATA,
+        TRADE_CONFIG.CACHE.KEYS.TRENDING_DATA,
       );
-      const cachedTimestamp = localStorage.getItem(CACHE_CONFIG.KEYS.TIMESTAMP);
+      const cachedTimestamp = localStorage.getItem(
+        TRADE_CONFIG.CACHE.KEYS.TIMESTAMP,
+      );
 
       if (cachedCrypto && cachedMemecoin && cachedTrending && cachedTimestamp) {
         const parsedCrypto = JSON.parse(cachedCrypto);
@@ -66,35 +47,41 @@ export default function Trade() {
         }
       }
     } catch (err) {
-      console.error("Cache error:", err);
+      console.error(t.error.cacheError, err);
     }
     return false;
-  }, []);
+  }, [
+    t.error.cacheError,
+    setCryptoData,
+    setMemecoinData,
+    setTrendingData,
+    setIsLoading,
+  ]);
 
   const saveCachedData = useCallback(
     (crypto: CryptoData[], memecoin: CryptoData[], trending: CryptoData[]) => {
       try {
         localStorage.setItem(
-          CACHE_CONFIG.KEYS.CRYPTO_DATA,
+          TRADE_CONFIG.CACHE.KEYS.CRYPTO_DATA,
           JSON.stringify(crypto),
         );
         localStorage.setItem(
-          CACHE_CONFIG.KEYS.MEMECOIN_DATA,
+          TRADE_CONFIG.CACHE.KEYS.MEMECOIN_DATA,
           JSON.stringify(memecoin),
         );
         localStorage.setItem(
-          CACHE_CONFIG.KEYS.TRENDING_DATA,
+          TRADE_CONFIG.CACHE.KEYS.TRENDING_DATA,
           JSON.stringify(trending),
         );
         localStorage.setItem(
-          CACHE_CONFIG.KEYS.TIMESTAMP,
+          TRADE_CONFIG.CACHE.KEYS.TIMESTAMP,
           Date.now().toString(),
         );
       } catch (err) {
-        console.error("Save cache error:", err);
+        console.error(t.error.saveCacheError, err);
       }
     },
-    [],
+    [t.error.saveCacheError],
   );
 
   useEffect(() => {
@@ -105,15 +92,9 @@ export default function Trade() {
         setIsLoading(true);
         const [cryptoResponse, memecoinResponse, trendingResponse] =
           await Promise.all([
-            fetch(
-              `${API_CONFIG.COINGECKO.BASE_URL}${API_CONFIG.COINGECKO.ENDPOINTS.MARKETS}?vs_currency=${CRYPTO_CONFIG.CURRENCY}&order=${CRYPTO_CONFIG.ORDER_BY}&per_page=${CRYPTO_CONFIG.TOP_CRYPTO_COUNT}&page=1&sparkline=true`,
-            ),
-            fetch(
-              `${API_CONFIG.COINGECKO.BASE_URL}${API_CONFIG.COINGECKO.ENDPOINTS.MARKETS}?vs_currency=${CRYPTO_CONFIG.CURRENCY}&ids=${CRYPTO_CONFIG.MEMECOIN_IDS.join(",")}&sparkline=true`,
-            ),
-            fetch(
-              `${API_CONFIG.COINGECKO.BASE_URL}${API_CONFIG.COINGECKO.ENDPOINTS.SEARCH}`,
-            ),
+            fetch(TRADE_CONFIG.API.CRYPTO_ENDPOINT),
+            fetch(TRADE_CONFIG.API.MEMECOIN_ENDPOINT),
+            fetch(TRADE_CONFIG.API.TRENDING_ENDPOINT),
           ]);
 
         if (
@@ -146,7 +127,7 @@ export default function Trade() {
           .join(",");
 
         const trendingDetailsResponse = await fetch(
-          `${API_CONFIG.COINGECKO.BASE_URL}${API_CONFIG.COINGECKO.ENDPOINTS.MARKETS}?vs_currency=${CRYPTO_CONFIG.CURRENCY}&ids=${trendingIds}&sparkline=true`,
+          `${TRADE_CONFIG.API.CRYPTO_ENDPOINT.split("&")[0]}&ids=${trendingIds}&sparkline=true`,
         );
 
         if (!trendingDetailsResponse.ok) {
@@ -169,20 +150,22 @@ export default function Trade() {
       }
     };
 
-    const cachedTimestamp = localStorage.getItem(CACHE_CONFIG.KEYS.TIMESTAMP);
+    const cachedTimestamp = localStorage.getItem(
+      TRADE_CONFIG.CACHE.KEYS.TIMESTAMP,
+    );
     const lastUpdate = cachedTimestamp
       ? new Date(parseInt(cachedTimestamp))
       : null;
     const shouldFetch =
       !hasCachedData ||
       !lastUpdate ||
-      Date.now() - lastUpdate.getTime() > CACHE_CONFIG.DURATION;
+      Date.now() - lastUpdate.getTime() > TRADE_CONFIG.CACHE.DURATION;
 
     if (shouldFetch) {
       fetchCryptoData();
     }
 
-    const interval = setInterval(fetchCryptoData, CACHE_CONFIG.DURATION);
+    const interval = setInterval(fetchCryptoData, TRADE_CONFIG.CACHE.DURATION);
     return () => clearInterval(interval);
   }, [loadCachedData, saveCachedData]);
 
@@ -209,12 +192,22 @@ export default function Trade() {
         <table className="table">
           <thead>
             <tr>
-              <th className="table-header">{t.table.headers.asset}</th>
-              <th className="table-header">{t.table.headers.price}</th>
-              <th className="table-header">{t.table.headers.change}</th>
-              <th className="table-header">{t.table.headers.marketCap}</th>
-              <th className="table-header">{t.table.headers.ath}</th>
-              <th className="table-header">{t.table.headers.chart}</th>
+              <th className="table-header">
+                {TRADE_CONFIG.TABLE.HEADERS.ASSET}
+              </th>
+              <th className="table-header">
+                {TRADE_CONFIG.TABLE.HEADERS.PRICE}
+              </th>
+              <th className="table-header">
+                {TRADE_CONFIG.TABLE.HEADERS.CHANGE}
+              </th>
+              <th className="table-header">
+                {TRADE_CONFIG.TABLE.HEADERS.MARKET_CAP}
+              </th>
+              <th className="table-header">{TRADE_CONFIG.TABLE.HEADERS.ATH}</th>
+              <th className="table-header">
+                {TRADE_CONFIG.TABLE.HEADERS.CHART}
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -227,7 +220,8 @@ export default function Trade() {
                   <td className={`table-cell crypto-name-cell ${colorClass}`}>
                     <div className="crypto-name-content">
                       <span className={`crypto-icon ${colorClass}`}>
-                        {CRYPTO_ICONS[crypto.symbol.toUpperCase()] || "🪙"}
+                        {TRADE_CONFIG.ICONS[crypto.symbol.toUpperCase()] ||
+                          "🪙"}
                       </span>
                       <span
                         className="crypto-full-name"
@@ -241,7 +235,7 @@ export default function Trade() {
                     </div>
                   </td>
                   <td className={`table-cell crypto-price-cell ${colorClass}`}>
-                    $
+                    {TRADE_CONFIG.FORMATTING.CURRENCY}
                     {
                       crypto.current_price
                         .toLocaleString(undefined, {
@@ -250,7 +244,7 @@ export default function Trade() {
                         })
                         .split(".")[0]
                     }
-                    .
+                    {TRADE_CONFIG.FORMATTING.DECIMAL_SEPARATOR}
                     <span className="decimal-part">
                       {
                         crypto.current_price
@@ -271,23 +265,25 @@ export default function Trade() {
                         .toFixed(2)
                         .split(".")[0]
                     }
-                    .
+                    {TRADE_CONFIG.FORMATTING.DECIMAL_SEPARATOR}
                     <span className="decimal-part">
                       {
                         Math.abs(crypto.price_change_percentage_24h)
                           .toFixed(2)
                           .split(".")[1]
                       }
-                      %
+                      {TRADE_CONFIG.FORMATTING.PERCENTAGE}
                     </span>
                   </td>
                   <td
                     className={`table-cell crypto-market-cap-cell ${colorClass}`}
                   >
-                    ${(crypto.market_cap / 1000000000).toFixed(2)}B
+                    {TRADE_CONFIG.FORMATTING.CURRENCY}
+                    {(crypto.market_cap / 1000000000).toFixed(2)}
+                    {TRADE_CONFIG.FORMATTING.BILLION}
                   </td>
                   <td className={`table-cell crypto-ath-cell ${colorClass}`}>
-                    $
+                    {TRADE_CONFIG.FORMATTING.CURRENCY}
                     {crypto.ath.toLocaleString(undefined, {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 6,
@@ -298,7 +294,7 @@ export default function Trade() {
                   </td>
                   <td className="table-cell">
                     {crypto.sparkline_in_7d?.price ? (
-                      <a href={`/trading/${crypto.id}`} className="chart-link">
+                      <a href={`/trade/${crypto.id}`} className="chart-link">
                         <div className="chart-container">
                           <svg viewBox="0 0 120 30">
                             <polyline
@@ -324,7 +320,7 @@ export default function Trade() {
                       <div className="chart-container">
                         <svg viewBox="0 0 100 30">
                           <text x="60" y="15" className={colorClass}>
-                            No data
+                            {TRADE_CONFIG.CHART.NO_DATA}
                           </text>
                         </svg>
                       </div>

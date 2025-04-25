@@ -5,85 +5,65 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import styles from "src/styles/header.module.css";
-import strings from "../i18n/header.json";
-import { Toggler } from "./Toggler";
+import { ThemeToggler } from "../utils/themeContext";
 import Wallet from "./Wallet";
-import { useWeb3 } from "../contexts/Web3ModalContext";
-import logo from "../assets/logo.svg";
+import { useWeb3 } from "../utils/web3ModalContext";
+import { HEADER_CONFIG } from "../config/header";
+import { isValidRoute } from "../config/routes";
 
 const Header: React.FC = () => {
   const { isConnected } = useWeb3();
   const pathname = usePathname();
 
   const isActive = (path: string) => {
+    if (!isValidRoute(path)) return false;
     if (path === "/") {
-      return pathname === path;
+      return pathname === "/";
     }
-    return pathname?.startsWith(path);
+    return (
+      pathname?.startsWith(path) &&
+      (pathname === path || pathname.charAt(path.length) === "/")
+    );
   };
 
   return (
     <header className={styles.header}>
       <div className={styles.headerContent}>
-        <Link
-          href="/"
-          style={{
-            textDecoration: "none",
-            color: "var(--primary-color)",
-            display: "flex",
-            alignItems: "center",
-            gap: "12px",
-          }}
-        >
+        <Link href="/" className={styles.logoLink}>
           <Image
-            src={logo}
-            alt="LILIT Logo"
-            width={30}
-            height={30}
+            src="/logo.svg"
+            alt={HEADER_CONFIG.logo.alt}
+            width={HEADER_CONFIG.logo.width}
+            height={HEADER_CONFIG.logo.height}
             priority
-            style={{ width: "30px", height: "30px" }}
+            className={styles.logoImage}
           />
           <div className={styles.headerTitleContainer}>
-            <h1 className={styles.headerTitle}>{strings.en.title}</h1>
+            <h1 className={styles.headerTitle}>{HEADER_CONFIG.title}</h1>
           </div>
         </Link>
         <nav className={styles.headerNav}>
-          <Link
-            href="/info"
-            className={`${styles.navLink} ${isActive("/info") ? styles.active : ""}`}
-          >
-            {strings.en.nav.info}
-          </Link>
-          <Link
-            href="/logia"
-            className={`${styles.navLink} ${isActive("/logia") ? styles.active : ""}`}
-          >
-            {strings.en.nav.logia}
-          </Link>
-          <Link
-            href="/trade"
-            className={`${styles.navLink} ${isActive("/trade") ? styles.active : ""}`}
-          >
-            {strings.en.nav.trade}
-          </Link>
-          <Link
-            href="/predict"
-            className={`${styles.navLink} ${isActive("/predict") ? styles.active : ""}`}
-          >
-            {strings.en.nav.predict}
-          </Link>
+          {HEADER_CONFIG.navItems.map(({ path, label }) => (
+            <Link
+              key={path}
+              href={path}
+              className={`${styles.navLink} ${isActive(path) ? styles.active : ""}`}
+            >
+              {label}
+            </Link>
+          ))}
           {isConnected && (
             <Link
-              href="/dashboard"
-              className={`${styles.navLink} ${isActive("/dashboard") ? styles.active : ""}`}
+              href={HEADER_CONFIG.dashboard.path}
+              className={`${styles.navLink} ${isActive(HEADER_CONFIG.dashboard.path) ? styles.active : ""}`}
             >
-              {strings.en.nav.dashboard}
+              {HEADER_CONFIG.dashboard.label}
             </Link>
           )}
         </nav>
         <div className={styles.headerRight}>
           <Wallet />
-          <Toggler />
+          <ThemeToggler />
         </div>
       </div>
     </header>
