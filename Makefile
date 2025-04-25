@@ -6,9 +6,9 @@ clean:
 	rm -rf coverage/
 	rm -rf .next/
 	rm -rf out/
+	rm -f yarn.lock
 	rm -rf node_modules/
 	yarn cache clean
-	rm -f yarn.lock
 
 install:
 	yarn install
