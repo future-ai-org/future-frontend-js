@@ -222,9 +222,7 @@ export default function LogiaChart({
       style={{ position: "relative", zIndex: 0 }}
     >
       <div className="astrology-chart-container" id="chart">
-        {isGeneratingChart && (
-          <Loading />
-        )}
+        {isGeneratingChart && <Loading />}
       </div>
       <div className="astrology-info-box">
         <div

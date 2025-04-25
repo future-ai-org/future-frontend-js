@@ -6,6 +6,7 @@ import strings from "../i18n/logia.json";
 import LogiaForm from "./LogiaForm";
 import LogiaChart from "./LogiaChart";
 import { geocodeCity } from "../utils/geocoding";
+import Loading from "../utils/loading";
 import "../styles/logiachart.css";
 import "../styles/logiaform.css";
 
@@ -58,7 +59,9 @@ export default function Logia() {
   return (
     <div className="astrology-container">
       <div className="astrology-form-section">
-        {!chartInfo ? (
+        {isGeneratingChart ? (
+          <Loading />
+        ) : !chartInfo ? (
           <LogiaForm
             onSubmit={handleSubmit}
             isGeneratingChart={isGeneratingChart}

@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import strings from "../i18n/logia.json";
 import { searchCities, CitySuggestion } from "../utils/geocoding";
+import Loading from "../utils/loading";
 
 interface LogiaFormProps {
   onSubmit: (data: {
@@ -103,9 +104,11 @@ export default function LogiaForm({
         type="submit"
         disabled={isGeneratingChart}
       >
-        {isGeneratingChart
-          ? t.loading.generatingChart
-          : t.buttons.generateChart}
+        {isGeneratingChart ? (
+          <Loading />
+        ) : (
+          t.buttons.generateChart
+        )}
       </button>
     </form>
   );
