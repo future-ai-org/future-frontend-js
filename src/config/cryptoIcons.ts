@@ -11,7 +11,7 @@ export const CRYPTO_ICONS: { [key: string]: string } = {
   FLOKI: "🐺",
   BONK: "🦴",
   USDT: "₮",
-  
+
   // Common trending cryptocurrencies
   XRP: "✕",
   DOT: "●",

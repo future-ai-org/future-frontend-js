@@ -50,7 +50,7 @@ export interface ChartData {
   aspects: Aspect[];
 }
 
-const PLANET_SYMBOLS = {
+export const PLANET_SYMBOLS = {
   sun: "☉",
   moon: "☽",
   mercury: "☿",
@@ -63,7 +63,7 @@ const PLANET_SYMBOLS = {
   pluto: "♇",
 } as const;
 
-const ZODIAC_SYMBOLS = {
+export const ZODIAC_SYMBOLS = {
   aries: "♈",
   taurus: "♉",
   gemini: "♊",
@@ -78,7 +78,7 @@ const ZODIAC_SYMBOLS = {
   pisces: "♓",
 } as const;
 
-const ASPECTS = [
+export const ASPECTS = [
   { name: "conjunction", degrees: 0, orb: 8 },
   { name: "sextile", degrees: 60, orb: 8 },
   { name: "square", degrees: 90, orb: 8 },
@@ -86,16 +86,16 @@ const ASPECTS = [
   { name: "opposition", degrees: 180, orb: 8 },
 ] as const;
 
-interface Translation {
-  table: {
-    planet: string;
-    angle: string;
-    sign: string;
-    house: string;
-    effects: string;
-    element: string;
-  };
-}
+export const ELEMENTS = {
+  FIRE: "🜂",
+  EARTH: "🜃",
+  AIR: "🜁",
+  WATER: "🜄",
+} as const;
+
+export type Element = (typeof ELEMENTS)[keyof typeof ELEMENTS];
+export type PlanetName = keyof typeof PLANET_SYMBOLS;
+export type ZodiacSign = keyof typeof ZODIAC_SYMBOLS;
 
 export function calculateChart(
   birthDate: string,
@@ -183,7 +183,7 @@ export function calculateChart(
 }
 
 // Helper functions for astronomical calculations
-function getJulianDay(date: Date): number {
+export function getJulianDay(date: Date): number {
   // Get the UTC components
   const year = date.getUTCFullYear();
   const month = date.getUTCMonth() + 1;
@@ -212,7 +212,7 @@ function getJulianDay(date: Date): number {
   return jdn + (hour - 12) / 24;
 }
 
-function calculateSiderealTime(julianDay: number, longitude: number): number {
+export function calculateSiderealTime(julianDay: number, longitude: number): number {
   // Calculate the number of Julian centuries since J2000.0
   const T = (julianDay - 2451545.0) / 36525;
 
@@ -233,7 +233,7 @@ function calculateSiderealTime(julianDay: number, longitude: number): number {
   return theta;
 }
 
-function calculateAscendant(
+export function calculateAscendant(
   siderealTime: number,
   latitude: number,
   julianDay: number,
@@ -512,9 +512,6 @@ function calculateHouses(ascendant: number): number[] {
   return houses;
 }
 
-type PlanetName = keyof typeof PLANET_SYMBOLS;
-type ZodiacSign = keyof typeof ZODIAC_SYMBOLS;
-
 export function getPlanetSymbol(planetName: string): string {
   return PLANET_SYMBOLS[planetName as PlanetName] || planetName;
 }
@@ -547,7 +544,7 @@ export function printChartInfo(
   latitude: number,
   longitude: number,
   city: string,
-  t: Translation,
+  t: { table: { planet: string; angle: string; sign: string; house: string; effects: string; element: string } },
 ): string {
   const chart = calculateChart(birthDate, birthTime, latitude, longitude);
   const date = new Date(`${birthDate}T${birthTime}`);
@@ -651,12 +648,3 @@ export function getEmptyChart(): string {
     </div>
   `;
 }
-
-export const ELEMENTS = {
-  FIRE: "🜂",
-  EARTH: "🜃",
-  AIR: "🜁",
-  WATER: "🜄",
-} as const;
-
-export type Element = (typeof ELEMENTS)[keyof typeof ELEMENTS];
