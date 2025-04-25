@@ -4,13 +4,13 @@
 
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 0 0 var(--color-glow-shadow);
+    box-shadow: 0 0 0 0 var(--glow-shadow);
   }
   70% {
-    box-shadow: 0 0 0 10px var(--color-glow-shadow-hover);
+    box-shadow: 0 0 0 10px var(--glow-shadow-hover);
   }
   100% {
-    box-shadow: 0 0 0 0 var(--color-glow-shadow-hover);
+    box-shadow: 0 0 0 0 var(--glow-shadow-hover);
   }
 }
 
@@ -230,12 +230,14 @@
   height: 100% !important;
 }
 
+/* Time period selector styles */
 .time-period-selector {
   display: flex;
   gap: 12px;
   justify-content: center;
   margin: 40px 0;
   flex-wrap: wrap;
+  padding: 0 20px;
 }
 
 .time-period-button {
@@ -248,21 +250,21 @@
   transition: all 0.3s ease;
   font-weight: 600;
   text-transform: uppercase;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   letter-spacing: 0.5px;
 }
 
 .time-period-button:hover {
-  background: var(--color-primary);
+  background-color: var(--color-primary);
   color: var(--background-color);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+  box-shadow: var(--glow-shadow-hover);
 }
 
 .time-period-button.active {
-  background: var(--color-primary);
+  background-color: var(--color-primary);
   color: var(--background-color);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .error-message {
@@ -304,5 +306,119 @@
 .retry-button:hover {
   background: var(--color-secondary);
   transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--glow-shadow-hover);
+}
+
+/* Chart specific styles */
+.recharts-wrapper {
+  background-color: var(--background-color);
+  border-radius: 8px;
+}
+
+.recharts-cartesian-grid line {
+  stroke: var(--color-primary) !important;
+  opacity: 0.1;
+}
+
+.recharts-cartesian-axis-tick-value {
+  fill: var(--color-primary) !important;
+  font-size: 0.75rem;
+}
+
+.recharts-tooltip-wrapper {
+  background-color: var(--background-color) !important;
+  border: 1px solid var(--color-primary) !important;
+  border-radius: 4px !important;
+  padding: 8px !important;
+}
+
+.recharts-tooltip-label {
+  color: var(--color-primary) !important;
+  font-weight: 600 !important;
+}
+
+.recharts-legend-item-text {
+  color: var(--color-primary) !important;
+  font-size: 0.75rem !important;
+}
+
+/* Enhanced time period selector styles */
+.time-period-selector {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin: 40px 0;
+  flex-wrap: wrap;
+  padding: 0 20px;
+}
+
+.time-period-button {
+  padding: 8px 16px;
+  border: 1px solid var(--color-primary);
+  background: transparent;
+  color: var(--color-primary);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+}
+
+.time-period-button:hover {
+  background-color: var(--color-primary);
+  color: var(--background-color);
+  transform: translateY(-1px);
+}
+
+.time-period-button.active {
+  background-color: var(--color-primary);
+  color: var(--background-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Enhanced chart container styles */
+.chartiq-container {
+  width: 100%;
+  max-width: 1400px;
+  height: 600px;
+  background: var(--background-color);
+  border-radius: 8px;
+  padding: 30px;
+  margin: 40px auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  border: 1px solid var(--color-primary);
+  transition: all 0.3s ease;
+}
+
+.chartiq-container:hover {
+  box-shadow: var(--glow-shadow-hover);
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+  .chartiq-container {
+    height: 500px;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .chartiq-container {
+    height: 400px;
+    padding: 15px;
+    margin: 20px auto;
+  }
+
+  .time-period-selector {
+    gap: 8px;
+    margin: 20px 0;
+  }
+
+  .time-period-button {
+    padding: 6px 12px;
+    font-size: 0.7rem;
+  }
 }

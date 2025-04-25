@@ -50,7 +50,7 @@ export default function Trade() {
       console.error(t.error.cacheError, err);
     }
     return false;
-  }, []);
+  }, [t.error.cacheError, setCryptoData, setMemecoinData, setTrendingData, setIsLoading]);
 
   const saveCachedData = useCallback(
     (crypto: CryptoData[], memecoin: CryptoData[], trending: CryptoData[]) => {
@@ -75,7 +75,7 @@ export default function Trade() {
         console.error(t.error.saveCacheError, err);
       }
     },
-    [],
+    [t.error.saveCacheError],
   );
 
   useEffect(() => {
@@ -288,7 +288,7 @@ export default function Trade() {
                   </td>
                   <td className="table-cell">
                     {crypto.sparkline_in_7d?.price ? (
-                      <a href={`/trading/${crypto.id}`} className="chart-link">
+                      <a href={`/trade/${crypto.id}`} className="chart-link">
                         <div className="chart-container">
                           <svg viewBox="0 0 120 30">
                             <polyline
