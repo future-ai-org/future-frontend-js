@@ -50,7 +50,13 @@ export default function Trade() {
       console.error(t.error.cacheError, err);
     }
     return false;
-  }, [t.error.cacheError, setCryptoData, setMemecoinData, setTrendingData, setIsLoading]);
+  }, [
+    t.error.cacheError,
+    setCryptoData,
+    setMemecoinData,
+    setTrendingData,
+    setIsLoading,
+  ]);
 
   const saveCachedData = useCallback(
     (crypto: CryptoData[], memecoin: CryptoData[], trending: CryptoData[]) => {

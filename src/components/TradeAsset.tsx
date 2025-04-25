@@ -77,15 +77,18 @@ const CustomCandlestick = React.memo((props: CandlestickProps) => {
 CustomCandlestick.displayName = "CustomCandlestick";
 
 const processMonthlyData = (data: CandleData[]): CandleData[] => {
-  const monthlyData = data.reduce((acc: { [key: string]: CandleData[] }, curr) => {
-    const date = new Date(curr.date);
-    const monthKey = `${date.getFullYear()}-${date.getMonth()}`;
-    if (!acc[monthKey]) {
-      acc[monthKey] = [];
-    }
-    acc[monthKey].push(curr);
-    return acc;
-  }, {});
+  const monthlyData = data.reduce(
+    (acc: { [key: string]: CandleData[] }, curr) => {
+      const date = new Date(curr.date);
+      const monthKey = `${date.getFullYear()}-${date.getMonth()}`;
+      if (!acc[monthKey]) {
+        acc[monthKey] = [];
+      }
+      acc[monthKey].push(curr);
+      return acc;
+    },
+    {},
+  );
 
   return Object.values(monthlyData).map((monthData) => {
     const firstDay = monthData[0];
@@ -94,8 +97,8 @@ const processMonthlyData = (data: CandleData[]): CandleData[] => {
       date: firstDay.date,
       open: firstDay.open,
       close: lastDay.close,
-      high: Math.max(...monthData.map(d => d.high)),
-      low: Math.min(...monthData.map(d => d.low)),
+      high: Math.max(...monthData.map((d) => d.high)),
+      low: Math.min(...monthData.map((d) => d.low)),
       volume: monthData.reduce((sum, d) => sum + d.volume, 0),
     };
   });
@@ -121,75 +124,87 @@ export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
 
   console.log(tradingMessages.errors.tradingComponentMounted, { assetId });
 
-  const fetchHistoricalData = useCallback(async (period: TimePeriod) => {
-    try {
-      const { days, dataPoints, interval } = TIME_PERIOD_CONFIG[period];
-      console.log(tradingMessages.errors.fetchingData, {
-        days,
-        dataPoints,
-        period,
-        assetId,
-      });
+  const fetchHistoricalData = useCallback(
+    async (period: TimePeriod) => {
+      try {
+        const { days, dataPoints, interval } = TIME_PERIOD_CONFIG[period];
+        console.log(tradingMessages.errors.fetchingData, {
+          days,
+          dataPoints,
+          period,
+          assetId,
+        });
 
-      const response = await fetch(
-        `${API_CONFIG.COINGECKO.BASE_URL}${API_CONFIG.COINGECKO.MARKET_CHART(assetId, days, interval)}`,
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
+        const response = await fetch(
+          `${API_CONFIG.COINGECKO.BASE_URL}${API_CONFIG.COINGECKO.MARKET_CHART(assetId, days, interval)}`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
           },
-        },
-      );
-
-      console.log(tradingMessages.errors.apiResponseStatus, response.status);
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(
-          tradingMessages.errors.apiError
-            .replace("{{status}}", response.status.toString())
-            .replace("{{statusText}}", response.statusText)
-            .replace("{{errorText}}", errorText),
         );
+
+        console.log(tradingMessages.errors.apiResponseStatus, response.status);
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(
+            tradingMessages.errors.apiError
+              .replace("{{status}}", response.status.toString())
+              .replace("{{statusText}}", response.statusText)
+              .replace("{{errorText}}", errorText),
+          );
+        }
+
+        const data = await response.json();
+        console.log(tradingMessages.errors.apiResponseData, data);
+
+        if (!data.prices || !Array.isArray(data.prices)) {
+          throw new Error(tradingMessages.errors.invalidDataFormat);
+        }
+
+        const processedData = data.prices.map(
+          (price: [number, number], index: number) => {
+            const [timestamp, close] = price;
+            const open = index > 0 ? data.prices[index - 1][1] : close;
+            return {
+              date: new Date(timestamp).toISOString(),
+              open,
+              high: Math.max(open, close),
+              low: Math.min(open, close),
+              close,
+              volume: 0,
+            };
+          },
+        );
+
+        console.log(
+          tradingMessages.errors.processedDataPoints,
+          processedData.length,
+        );
+
+        if (period === "1Y") {
+          setChartData(processMonthlyData(processedData));
+        } else {
+          const step = Math.max(
+            1,
+            Math.floor(processedData.length / dataPoints),
+          );
+          setChartData(
+            processedData.filter(
+              (_: CandleData, index: number) => index % step === 0,
+            ),
+          );
+        }
+      } catch (err) {
+        console.error(tradingMessages.errors.fetchError, err);
+        setChartData(sampleData);
       }
-
-      const data = await response.json();
-      console.log(tradingMessages.errors.apiResponseData, data);
-
-      if (!data.prices || !Array.isArray(data.prices)) {
-        throw new Error(tradingMessages.errors.invalidDataFormat);
-      }
-
-      const processedData = data.prices.map((price: [number, number], index: number) => {
-        const [timestamp, close] = price;
-        const open = index > 0 ? data.prices[index - 1][1] : close;
-        return {
-          date: new Date(timestamp).toISOString(),
-          open,
-          high: Math.max(open, close),
-          low: Math.min(open, close),
-          close,
-          volume: 0,
-        };
-      });
-
-      console.log(
-        tradingMessages.errors.processedDataPoints,
-        processedData.length,
-      );
-
-      if (period === "1Y") {
-        setChartData(processMonthlyData(processedData));
-      } else {
-        const step = Math.max(1, Math.floor(processedData.length / dataPoints));
-        setChartData(processedData.filter((_: CandleData, index: number) => index % step === 0));
-      }
-    } catch (err) {
-      console.error(tradingMessages.errors.fetchError, err);
-      setChartData(sampleData);
-    }
-  }, [assetId]);
+    },
+    [assetId],
+  );
 
   useEffect(() => {
     console.log(tradingMessages.errors.useEffectTriggered, timePeriod);
@@ -225,23 +240,29 @@ export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
     };
   }, [chartData]);
 
-  const formatDate = useCallback((value: string) => {
-    const date = new Date(value);
-    const formatOptions: Record<TimePeriod, Intl.DateTimeFormatOptions> = {
-      "1D": { hour: "numeric" as const, minute: "2-digit" as const },
-      "1W": { weekday: "short" as const, day: "numeric" as const },
-      "1M": { month: "short" as const, day: "numeric" as const },
-      "3M": { month: "short" as const, day: "numeric" as const },
-      "1Y": { month: "short" as const },
-      "ALL": { month: "short" as const, year: "2-digit" as const },
-    };
+  const formatDate = useCallback(
+    (value: string) => {
+      const date = new Date(value);
+      const formatOptions: Record<TimePeriod, Intl.DateTimeFormatOptions> = {
+        "1D": { hour: "numeric" as const, minute: "2-digit" as const },
+        "1W": { weekday: "short" as const, day: "numeric" as const },
+        "1M": { month: "short" as const, day: "numeric" as const },
+        "3M": { month: "short" as const, day: "numeric" as const },
+        "1Y": { month: "short" as const },
+        ALL: { month: "short" as const, year: "2-digit" as const },
+      };
 
-    const options = formatOptions[timePeriod] || { month: "short" as const, day: "numeric" as const };
+      const options = formatOptions[timePeriod] || {
+        month: "short" as const,
+        day: "numeric" as const,
+      };
 
-    return timePeriod === "1Y" 
-      ? date.toLocaleDateString("en-US", options).slice(0, 3)
-      : date.toLocaleDateString("en-US", options);
-  }, [timePeriod]);
+      return timePeriod === "1Y"
+        ? date.toLocaleDateString("en-US", options).slice(0, 3)
+        : date.toLocaleDateString("en-US", options);
+    },
+    [timePeriod],
+  );
 
   return (
     <div className="trading-container">
@@ -265,21 +286,30 @@ export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
           <XAxis
             dataKey="date"
             tickFormatter={formatDate}
-            tick={{ fill: colors.background === "#ffffff" ? "#000000" : "#ffffff" }}
+            tick={{
+              fill: colors.background === "#ffffff" ? "#000000" : "#ffffff",
+            }}
           />
           <YAxis
             domain={chartConfig.yDomain}
-            tick={{ fill: colors.background === "#ffffff" ? "#000000" : "#ffffff" }}
+            tick={{
+              fill: colors.background === "#ffffff" ? "#000000" : "#ffffff",
+            }}
           />
           <Tooltip
             contentStyle={{
               backgroundColor: colors.background,
               border: `1px solid ${colors.background === "#ffffff" ? "#000000" : "#ffffff"}`,
             }}
-            labelStyle={{ color: colors.background === "#ffffff" ? "#000000" : "#ffffff" }}
+            labelStyle={{
+              color: colors.background === "#ffffff" ? "#000000" : "#ffffff",
+            }}
           />
           <Legend />
-          <ReferenceLine y={0} stroke={colors.background === "#ffffff" ? "#000000" : "#ffffff"} />
+          <ReferenceLine
+            y={0}
+            stroke={colors.background === "#ffffff" ? "#000000" : "#ffffff"}
+          />
           <Line
             type="monotone"
             dataKey="close"
@@ -304,4 +334,4 @@ export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
       </ResponsiveContainer>
     </div>
   );
-}; 
+};
