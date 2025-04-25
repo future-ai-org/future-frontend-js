@@ -1,11 +1,7 @@
 "use client";
 
 import React, { useState, useCallback } from "react";
-import {
-  calculateChart,
-  ChartData,
-  printChartInfo,
-} from "../config/logia";
+import { calculateChart, ChartData, printChartInfo } from "../config/logia";
 import strings from "../i18n/logia.json";
 import LogiaForm from "./LogiaForm";
 import LogiaChart from "./LogiaChart";

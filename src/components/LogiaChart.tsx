@@ -8,6 +8,7 @@ import {
 } from "../config/logia";
 import { useTheme } from "../contexts/ThemeContext";
 import strings from "../i18n/logia.json";
+import Loading from "../utils/loading";
 
 interface LogiaChartProps {
   chartData: ChartData | null;
@@ -216,16 +217,13 @@ export default function LogiaChart({
   }, [chartData, theme]);
 
   return (
-    <div className="astrology-chart-section" style={{ position: 'relative', zIndex: 0 }}>
+    <div
+      className="astrology-chart-section"
+      style={{ position: "relative", zIndex: 0 }}
+    >
       <div className="astrology-chart-container" id="chart">
         {isGeneratingChart && (
-          <div className="astrology-chart-loading">
-            <div className="astrology-loading-dots">
-              <div className="astrology-loading-dot"></div>
-              <div className="astrology-loading-dot"></div>
-              <div className="astrology-loading-dot"></div>
-            </div>
-          </div>
+          <Loading />
         )}
       </div>
       <div className="astrology-info-box">

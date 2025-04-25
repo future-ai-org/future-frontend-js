@@ -12,7 +12,9 @@ export interface CitySuggestion {
   lon: string;
 }
 
-export const geocodeCity = async (cityName: string): Promise<Coordinates | null> => {
+export const geocodeCity = async (
+  cityName: string,
+): Promise<Coordinates | null> => {
   try {
     const response = await fetch(
       `${OPENSTREETMAP_API_URL}${encodeURIComponent(cityName)}`,
@@ -31,11 +33,15 @@ export const geocodeCity = async (cityName: string): Promise<Coordinates | null>
     const { lat, lon } = data[0];
     return { lat: parseFloat(lat), lon: parseFloat(lon) };
   } catch (err) {
-    throw err instanceof Error ? err : new Error(strings.en.errors.unknownError);
+    throw err instanceof Error
+      ? err
+      : new Error(strings.en.errors.unknownError);
   }
 };
 
-export const searchCities = async (query: string): Promise<CitySuggestion[]> => {
+export const searchCities = async (
+  query: string,
+): Promise<CitySuggestion[]> => {
   if (query.length < 2) {
     return [];
   }
@@ -81,4 +87,4 @@ export const searchCities = async (query: string): Promise<CitySuggestion[]> => 
   } catch (err) {
     return [];
   }
-}; 
+};
