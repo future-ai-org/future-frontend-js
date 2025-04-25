@@ -15,6 +15,19 @@ type WalletProvider = {
   providers?: WalletProvider[];
 };
 
+interface PhantomWallet {
+  solana: {
+    connect: () => Promise<{ publicKey: string }>;
+  };
+}
+
+interface WindowWithPhantom extends Window {
+  phantom?: PhantomWallet;
+  solana?: {
+    connect: () => Promise<{ publicKey: string }>;
+  };
+}
+
 interface WalletOption {
   name: string;
   icon: string;
@@ -44,7 +57,6 @@ const Wallet: React.FC = () => {
     const ethereum = window.ethereum as WalletProvider | undefined;
     if (!ethereum) return;
 
-    // Handle multiple providers
     if (ethereum.providers && ethereum.providers.length > 1) {
       setError(WALLET_CONFIG.ERRORS.MULTIPLE_PROVIDERS);
       window.ethereum = ethereum.providers[0];
@@ -52,34 +64,18 @@ const Wallet: React.FC = () => {
     }
 
     const isWalletAvailable = (walletName: keyof WalletProvider) =>
-      Boolean(
-        ethereum[walletName] ||
-          (ethereum.providers?.some((p: WalletProvider) => p[walletName]) ?? false),
-      );
+      Boolean(ethereum[walletName] || ethereum.providers?.some(p => p[walletName]));
 
-    const phantom = (window as { phantom?: { solana: { connect: () => Promise<{ publicKey: string }> } } }).phantom;
-    const solana = (window as { solana?: { connect: () => Promise<{ publicKey: string }> } }).solana;
-    const isPhantomAvailable = Boolean(phantom?.solana || solana);
+    const isPhantomAvailable = Boolean(
+      (window as WindowWithPhantom).phantom?.solana || (window as WindowWithPhantom).solana
+    );
 
     const detectedWallets: WalletOption[] = [];
 
-    // Add wallets based on availability
     const walletConfigs = [
-      {
-        key: "isMetaMask",
-        config: WALLET_CONFIG.METAMASK,
-        id: "injected",
-      },
-      {
-        key: "isBraveWallet",
-        config: WALLET_CONFIG.BRAVE,
-        id: "brave",
-      },
-      {
-        key: "isRainbow",
-        config: WALLET_CONFIG.RAINBOW,
-        id: "rainbow",
-      },
+      { key: "isMetaMask", config: WALLET_CONFIG.METAMASK, id: "injected" },
+      { key: "isBraveWallet", config: WALLET_CONFIG.BRAVE, id: "brave" },
+      { key: "isRainbow", config: WALLET_CONFIG.RAINBOW, id: "rainbow" },
     ];
 
     walletConfigs.forEach(({ key, config, id }) => {
@@ -138,7 +134,7 @@ const Wallet: React.FC = () => {
 
   const handleWalletClick = useCallback(
     async (walletId: string) => {
-      const wallet = availableWallets.find((w: WalletOption) => w.id === walletId);
+      const wallet = availableWallets.find(w => w.id === walletId);
       if (!wallet) return;
 
       if (wallet.downloadUrl && !wallet.isAvailable) {
@@ -152,7 +148,7 @@ const Wallet: React.FC = () => {
 
       try {
         if (walletId === "phantom") {
-          const phantom = (window as { phantom?: { solana: { connect: () => Promise<{ publicKey: string }> } } }).phantom;
+          const phantom = (window as WindowWithPhantom).phantom;
           if (!phantom?.solana) {
             throw new Error(strings.en.phantomNotInstalled);
           }
@@ -169,9 +165,7 @@ const Wallet: React.FC = () => {
 
         setShowModal(false);
       } catch (error) {
-        setError(
-          error instanceof Error ? error.message : strings.en.connectionError,
-        );
+        setError(error instanceof Error ? error.message : strings.en.connectionError);
       } finally {
         setIsConnecting(false);
       }
@@ -182,9 +176,7 @@ const Wallet: React.FC = () => {
   const renderModal = useCallback(() => {
     if (!showModal || !mounted) return null;
 
-    const availableWalletsList = availableWallets.filter(
-      (wallet: WalletOption) => wallet.isAvailable,
-    );
+    const availableWalletsList = availableWallets.filter(w => w.isAvailable);
 
     return createPortal(
       <div
@@ -208,7 +200,7 @@ const Wallet: React.FC = () => {
           </div>
           {error && <div className="wallet-modal-error">{error}</div>}
           <div className="wallet-list">
-            {availableWalletsList.map((wallet: WalletOption) => (
+            {availableWalletsList.map(wallet => (
               <button
                 key={wallet.id}
                 className="wallet-option"
@@ -230,15 +222,7 @@ const Wallet: React.FC = () => {
       </div>,
       document.body,
     );
-  }, [
-    showModal,
-    error,
-    availableWallets,
-    isConnecting,
-    selectedWallet,
-    handleWalletClick,
-    mounted,
-  ]);
+  }, [showModal, error, availableWallets, isConnecting, selectedWallet, handleWalletClick, mounted]);
 
   if (!mounted) return null;
 
@@ -246,10 +230,7 @@ const Wallet: React.FC = () => {
     return (
       <div className="wallet-button-container">
         <div className="wallet-connected">
-          <span
-            className="wallet-address"
-            data-ens={ensName ? "true" : undefined}
-          >
+          <span className="wallet-address" data-ens={ensName ? "true" : undefined}>
             {ensName || formatAddress(address)}
           </span>
           <button
