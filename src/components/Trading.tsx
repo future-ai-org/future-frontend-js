@@ -69,7 +69,7 @@ const CustomCandlestick = React.memo((props: CandlestickProps) => {
   );
 });
 
-CustomCandlestick.displayName = 'CustomCandlestick';
+CustomCandlestick.displayName = "CustomCandlestick";
 
 const TIME_PERIOD_CONFIG = {
   "1D": { days: 1, dataPoints: 24, interval: "hourly" },
@@ -77,7 +77,7 @@ const TIME_PERIOD_CONFIG = {
   "1M": { days: 30, dataPoints: 30, interval: "daily" },
   "3M": { days: 90, dataPoints: 90, interval: "daily" },
   "1Y": { days: 365, dataPoints: 365, interval: "daily" },
-  "ALL": { days: "max", dataPoints: 365 * 2, interval: "daily" },
+  ALL: { days: "max", dataPoints: 365 * 2, interval: "daily" },
 } as const;
 
 const TIME_PERIODS: TimePeriod[] = ["1D", "1W", "1M", "3M", "1Y", "ALL"];
@@ -258,41 +258,44 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
     };
   }, [chartData]);
 
-  const formatDate = useCallback((value: string) => {
-    const date = new Date(value);
-    switch (timePeriod) {
-      case "1D":
-        return date.toLocaleTimeString("en-US", {
-          hour: "numeric",
-          minute: "2-digit",
-        });
-      case "1W":
-        return date.toLocaleDateString("en-US", {
-          weekday: "short",
-          day: "numeric",
-        });
-      case "1M":
-      case "3M":
-        return date.toLocaleDateString("en-US", {
-          month: "short",
-          day: "numeric",
-        });
-      case "1Y":
-        return date
-          .toLocaleDateString("en-US", { month: "short" })
-          .slice(0, 3);
-      case "ALL":
-        return date.toLocaleDateString("en-US", {
-          month: "short",
-          year: "2-digit",
-        });
-      default:
-        return date.toLocaleDateString("en-US", {
-          month: "short",
-          day: "numeric",
-        });
-    }
-  }, [timePeriod]);
+  const formatDate = useCallback(
+    (value: string) => {
+      const date = new Date(value);
+      switch (timePeriod) {
+        case "1D":
+          return date.toLocaleTimeString("en-US", {
+            hour: "numeric",
+            minute: "2-digit",
+          });
+        case "1W":
+          return date.toLocaleDateString("en-US", {
+            weekday: "short",
+            day: "numeric",
+          });
+        case "1M":
+        case "3M":
+          return date.toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+          });
+        case "1Y":
+          return date
+            .toLocaleDateString("en-US", { month: "short" })
+            .slice(0, 3);
+        case "ALL":
+          return date.toLocaleDateString("en-US", {
+            month: "short",
+            year: "2-digit",
+          });
+        default:
+          return date.toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+          });
+      }
+    },
+    [timePeriod],
+  );
 
   return (
     <div className="trading-container">

@@ -47,7 +47,7 @@ export default function Trade() {
         }
       }
     } catch (err) {
-      console.error("Cache error:", err);
+      console.error(t.error.cacheError, err);
     }
     return false;
   }, []);
@@ -72,7 +72,7 @@ export default function Trade() {
           Date.now().toString(),
         );
       } catch (err) {
-        console.error("Save cache error:", err);
+        console.error(t.error.saveCacheError, err);
       }
     },
     [],
@@ -186,12 +186,12 @@ export default function Trade() {
         <table className="table">
           <thead>
             <tr>
-              <th className="table-header">{t.table.headers.asset}</th>
-              <th className="table-header">{t.table.headers.price}</th>
-              <th className="table-header">{t.table.headers.change}</th>
-              <th className="table-header">{t.table.headers.marketCap}</th>
-              <th className="table-header">{t.table.headers.ath}</th>
-              <th className="table-header">{t.table.headers.chart}</th>
+              <th className="table-header">{TRADE_CONFIG.TABLE.HEADERS.ASSET}</th>
+              <th className="table-header">{TRADE_CONFIG.TABLE.HEADERS.PRICE}</th>
+              <th className="table-header">{TRADE_CONFIG.TABLE.HEADERS.CHANGE}</th>
+              <th className="table-header">{TRADE_CONFIG.TABLE.HEADERS.MARKET_CAP}</th>
+              <th className="table-header">{TRADE_CONFIG.TABLE.HEADERS.ATH}</th>
+              <th className="table-header">{TRADE_CONFIG.TABLE.HEADERS.CHART}</th>
             </tr>
           </thead>
           <tbody>
@@ -219,7 +219,7 @@ export default function Trade() {
                     </div>
                   </td>
                   <td className={`table-cell crypto-price-cell ${colorClass}`}>
-                    {t.formatting.currency}
+                    {TRADE_CONFIG.FORMATTING.CURRENCY}
                     {
                       crypto.current_price
                         .toLocaleString(undefined, {
@@ -228,7 +228,7 @@ export default function Trade() {
                         })
                         .split(".")[0]
                     }
-                    {t.formatting.decimalSeparator}
+                    {TRADE_CONFIG.FORMATTING.DECIMAL_SEPARATOR}
                     <span className="decimal-part">
                       {
                         crypto.current_price
@@ -249,25 +249,25 @@ export default function Trade() {
                         .toFixed(2)
                         .split(".")[0]
                     }
-                    {t.formatting.decimalSeparator}
+                    {TRADE_CONFIG.FORMATTING.DECIMAL_SEPARATOR}
                     <span className="decimal-part">
                       {
                         Math.abs(crypto.price_change_percentage_24h)
                           .toFixed(2)
                           .split(".")[1]
                       }
-                      {t.formatting.percentage}
+                      {TRADE_CONFIG.FORMATTING.PERCENTAGE}
                     </span>
                   </td>
                   <td
                     className={`table-cell crypto-market-cap-cell ${colorClass}`}
                   >
-                    {t.formatting.currency}
+                    {TRADE_CONFIG.FORMATTING.CURRENCY}
                     {(crypto.market_cap / 1000000000).toFixed(2)}
-                    {t.formatting.billion}
+                    {TRADE_CONFIG.FORMATTING.BILLION}
                   </td>
                   <td className={`table-cell crypto-ath-cell ${colorClass}`}>
-                    {t.formatting.currency}
+                    {TRADE_CONFIG.FORMATTING.CURRENCY}
                     {crypto.ath.toLocaleString(undefined, {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 6,
@@ -304,7 +304,7 @@ export default function Trade() {
                       <div className="chart-container">
                         <svg viewBox="0 0 100 30">
                           <text x="60" y="15" className={colorClass}>
-                            {t.chart.noData}
+                            {TRADE_CONFIG.CHART.NO_DATA}
                           </text>
                         </svg>
                       </div>

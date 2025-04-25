@@ -40,4 +40,23 @@ export const TRADE_CONFIG = {
     MEMECOIN_IDS: CRYPTO_CONFIG.MEMECOIN_IDS,
   },
   ICONS: CRYPTO_ICONS,
+  TABLE: {
+    HEADERS: {
+      ASSET: "Asset",
+      PRICE: "Price",
+      CHANGE: "Change",
+      MARKET_CAP: "Market Cap",
+      ATH: "ATH",
+      CHART: "Chart",
+    },
+  },
+  FORMATTING: {
+    CURRENCY: "$",
+    DECIMAL_SEPARATOR: ".",
+    PERCENTAGE: "%",
+    BILLION: "B",
+  },
+  CHART: {
+    NO_DATA: "No Data",
+  },
 } as const;
