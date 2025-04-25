@@ -9,7 +9,7 @@ export const ROUTES = {
   DASHBOARD: "/dashboard",
 } as const;
 
-export type Route = typeof ROUTES[keyof typeof ROUTES];
+export type Route = (typeof ROUTES)[keyof typeof ROUTES];
 
 export const NAV_ITEMS = [
   { path: ROUTES.INFO, label: strings.en.nav.info },
@@ -23,7 +23,6 @@ export const DASHBOARD = {
   label: strings.en.nav.dashboard,
 } as const;
 
-// Helper function to validate routes
 export const isValidRoute = (path: string): path is Route => {
   return Object.values(ROUTES).includes(path as Route);
-}; 
+};

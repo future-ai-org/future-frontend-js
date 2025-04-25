@@ -1,10 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useMemo, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useWeb3 } from "../contexts/Web3ModalContext";
 import "../styles/dashboard.css";
 
 const Dashboard: React.FC = () => {
+  const router = useRouter();
   const {
     account,
     ensName,
@@ -14,21 +16,22 @@ const Dashboard: React.FC = () => {
     isConnected,
   } = useWeb3();
 
-  console.log("Dashboard portfolio:", portfolio);
-  console.log("Dashboard account:", account);
-  console.log("Dashboard isConnected:", isConnected);
-  console.log("Dashboard totalPortfolioValue:", totalPortfolioValue);
+  useEffect(() => {
+    if (!isConnected) {
+      router.push('/');
+    }
+  }, [isConnected, router]);
 
   const formatAddress = (address: string | null) => {
     if (!address) return "";
     return `${address.slice(0, 8)}`;
   };
 
-  const getTimeBasedGreeting = () => {
+  const getTimeBasedGreeting = useMemo(() => {
     const hour = new Date().getHours();
     const isNight = hour >= 18 || hour < 6;
     return isNight ? "gn" : "gm";
-  };
+  }, []);
 
   const formatBalance = (value: string | number) => {
     const num = typeof value === "string" ? parseFloat(value) : value;
@@ -48,16 +51,18 @@ const Dashboard: React.FC = () => {
     return `${value >= 0 ? "+" : ""}${value.toFixed(2)}%`;
   };
 
+  const displayName = useMemo(() => ensName || formatAddress(account), [ensName, account]);
+
   return (
     <div className="dashboard">
       <div className="dashboard-header">
         <h2>
-          {getTimeBasedGreeting()},{" "}
+          {getTimeBasedGreeting},{" "}
           <span
             className="wallet-address"
             data-ens={ensName ? "true" : undefined}
           >
-            {ensName || formatAddress(account)}
+            {displayName}
           </span>
         </h2>
       </div>

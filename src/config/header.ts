@@ -10,4 +10,4 @@ export const HEADER_CONFIG = {
   },
   navItems: NAV_ITEMS,
   dashboard: DASHBOARD,
-}; 
+};
