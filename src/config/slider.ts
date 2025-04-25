@@ -22,4 +22,4 @@ export const PRICE_SLIDER_CONFIG = {
     TIMEOUT: 5000,
   },
   DUPLICATION_FACTOR: 6,
-} as const; 
+} as const;

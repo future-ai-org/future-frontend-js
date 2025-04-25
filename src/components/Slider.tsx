@@ -34,15 +34,21 @@ const formatChange = (change: number): string => {
 const renderItem = (crypto: CryptoPrice | null, index: number) => {
   const isPositive = crypto?.change !== undefined && crypto.change >= 0;
   const symbol = crypto?.symbol || pricesData.en.placeholders.symbol;
-  const price = crypto ? formatPrice(crypto.price) : pricesData.en.placeholders.price;
-  const change = crypto ? formatChange(crypto.change) : pricesData.en.placeholders.change;
+  const price = crypto
+    ? formatPrice(crypto.price)
+    : pricesData.en.placeholders.price;
+  const change = crypto
+    ? formatChange(crypto.change)
+    : pricesData.en.placeholders.change;
 
   return (
     <div
       className={`price-item ${crypto ? (isPositive ? "positive" : "negative") : "loading"}`}
       key={`${crypto ? `${crypto.symbol}-` : "loading-"}${index}`}
     >
-      <span className="symbol">{pricesData.en.currencyPair.replace("{symbol}", symbol)}</span>
+      <span className="symbol">
+        {pricesData.en.currencyPair.replace("{symbol}", symbol)}
+      </span>
       <span className="price">{price}</span>
       <span className="price-change">{change}</span>
     </div>
@@ -68,7 +74,10 @@ export const Slider: React.FC = () => {
         });
 
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), PRICE_SLIDER_CONFIG.API.TIMEOUT);
+        const timeoutId = setTimeout(
+          () => controller.abort(),
+          PRICE_SLIDER_CONFIG.API.TIMEOUT,
+        );
 
         const response = await fetch(
           `${PRICE_SLIDER_CONFIG.API.URL}?${queryParams.toString()}`,
@@ -147,7 +156,9 @@ export const Slider: React.FC = () => {
     [validPrices],
   );
 
-  const displayPrices = isLoading ? Array(PRICE_SLIDER_CONFIG.DUPLICATION_FACTOR * 2).fill(null) : duplicatedPrices;
+  const displayPrices = isLoading
+    ? Array(PRICE_SLIDER_CONFIG.DUPLICATION_FACTOR * 2).fill(null)
+    : duplicatedPrices;
 
   return (
     <div className="slider-container">
