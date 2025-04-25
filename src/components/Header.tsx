@@ -11,24 +11,23 @@ import Wallet from "./Wallet";
 import { useWeb3 } from "../contexts/Web3ModalContext";
 import logo from "../assets/logo.svg";
 
+const NAV_ITEMS = [
+  { path: "/info", label: strings.en.nav.info },
+  { path: "/logia", label: strings.en.nav.logia },
+  { path: "/trade", label: strings.en.nav.trade },
+  { path: "/predict", label: strings.en.nav.predict },
+];
+
 const Header: React.FC = () => {
   const { isConnected } = useWeb3();
   const pathname = usePathname();
 
-  const isActive = (path: string) => {
-    if (path === "/") {
-      return pathname === path;
-    }
-    return pathname?.startsWith(path);
-  };
+  const isActive = (path: string) => pathname === path || (path !== "/" && pathname?.startsWith(path));
 
   return (
     <header className={styles.header}>
       <div className={styles.headerContent}>
-        <Link
-          href="/"
-          className={styles.logoLink}
-        >
+        <Link href="/" className={styles.logoLink}>
           <Image
             src={logo}
             alt="LILIT Logo"
@@ -42,30 +41,15 @@ const Header: React.FC = () => {
           </div>
         </Link>
         <nav className={styles.headerNav}>
-          <Link
-            href="/info"
-            className={`${styles.navLink} ${isActive("/info") ? styles.active : ""}`}
-          >
-            {strings.en.nav.info}
-          </Link>
-          <Link
-            href="/logia"
-            className={`${styles.navLink} ${isActive("/logia") ? styles.active : ""}`}
-          >
-            {strings.en.nav.logia}
-          </Link>
-          <Link
-            href="/trade"
-            className={`${styles.navLink} ${isActive("/trade") ? styles.active : ""}`}
-          >
-            {strings.en.nav.trade}
-          </Link>
-          <Link
-            href="/predict"
-            className={`${styles.navLink} ${isActive("/predict") ? styles.active : ""}`}
-          >
-            {strings.en.nav.predict}
-          </Link>
+          {NAV_ITEMS.map(({ path, label }) => (
+            <Link
+              key={path}
+              href={path}
+              className={`${styles.navLink} ${isActive(path) ? styles.active : ""}`}
+            >
+              {label}
+            </Link>
+          ))}
           {isConnected && (
             <Link
               href="/dashboard"
