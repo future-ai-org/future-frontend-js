@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
 import "../styles/slider.css";
 import pricesData from "../i18n/slider.json";
-import { PRICE_SLIDER_CONFIG } from "../config/price-slider";
+import { PRICE_SLIDER_CONFIG } from "../config/slider";
 
 interface CryptoPrice {
   symbol: string;
@@ -21,28 +21,28 @@ const formatPrice = (price: number): string => {
   const isSmallPrice = price < 1;
   return price.toLocaleString(undefined, {
     minimumFractionDigits: PRICE_SLIDER_CONFIG.PRICE_FORMAT.MIN_FRACTION_DIGITS,
-    maximumFractionDigits: isSmallPrice 
+    maximumFractionDigits: isSmallPrice
       ? PRICE_SLIDER_CONFIG.PRICE_FORMAT.MAX_FRACTION_DIGITS.SMALL
       : PRICE_SLIDER_CONFIG.PRICE_FORMAT.MAX_FRACTION_DIGITS.LARGE,
   });
 };
 
 const formatChange = (change: number): string => {
-  return `${change >= 0 ? "↑" : "↓"} ${Math.abs(change).toFixed(2)}%`;
+  return `${change >= 0 ? pricesData.en.change.up : pricesData.en.change.down} ${Math.abs(change).toFixed(2)}%`;
 };
 
 const renderItem = (crypto: CryptoPrice | null, index: number) => {
   const isPositive = crypto?.change !== undefined && crypto.change >= 0;
-  const symbol = crypto?.symbol || "---";
-  const price = crypto ? formatPrice(crypto.price) : "$0.00";
-  const change = crypto ? formatChange(crypto.change) : "↑ 0.00%";
+  const symbol = crypto?.symbol || pricesData.en.placeholders.symbol;
+  const price = crypto ? formatPrice(crypto.price) : pricesData.en.placeholders.price;
+  const change = crypto ? formatChange(crypto.change) : pricesData.en.placeholders.change;
 
   return (
     <div
       className={`price-item ${crypto ? (isPositive ? "positive" : "negative") : "loading"}`}
       key={`${crypto ? `${crypto.symbol}-` : "loading-"}${index}`}
     >
-      <span className="symbol">{symbol}/USDT</span>
+      <span className="symbol">{pricesData.en.currencyPair.replace("{symbol}", symbol)}</span>
       <span className="price">{price}</span>
       <span className="price-change">{change}</span>
     </div>
@@ -68,7 +68,7 @@ export const Slider: React.FC = () => {
         });
 
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000);
+        const timeoutId = setTimeout(() => controller.abort(), PRICE_SLIDER_CONFIG.API.TIMEOUT);
 
         const response = await fetch(
           `${PRICE_SLIDER_CONFIG.API.URL}?${queryParams.toString()}`,
@@ -88,7 +88,10 @@ export const Slider: React.FC = () => {
 
         const data = await response.json();
         const formattedPrices = data
-          .filter((coin: CoinData) => coin.current_price > 0 && coin.symbol.toUpperCase() !== "USDT")
+          .filter(
+            (coin: CoinData) =>
+              coin.current_price > 0 && coin.symbol.toUpperCase() !== "USDT",
+          )
           .map((coin: CoinData) => ({
             symbol: coin.symbol.toUpperCase(),
             price: coin.current_price,
@@ -105,7 +108,7 @@ export const Slider: React.FC = () => {
         }
         setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching prices:", error);
+        console.error(pricesData.en.errors.consoleError, error);
 
         if (retryCount < PRICE_SLIDER_CONFIG.MAX_RETRIES) {
           const delay = Math.min(
@@ -144,7 +147,7 @@ export const Slider: React.FC = () => {
     [validPrices],
   );
 
-  const displayPrices = isLoading ? Array(20).fill(null) : duplicatedPrices;
+  const displayPrices = isLoading ? Array(PRICE_SLIDER_CONFIG.DUPLICATION_FACTOR * 2).fill(null) : duplicatedPrices;
 
   return (
     <div className="slider-container">

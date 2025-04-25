@@ -3,8 +3,18 @@
     "errors": {
       "fetchFailed": "failed to fetch prices",
       "noValidPrices": "no valid prices received",
-      "httpError": "http error! status: {status}"
+      "httpError": "http error! status: {status}",
+      "consoleError": "Error fetching prices:"
     },
-    "currencyPair": "{symbol}/usdt"
+    "currencyPair": "{symbol}/USDT",
+    "placeholders": {
+      "symbol": "---",
+      "price": "$0.00",
+      "change": "↑ 0.00%"
+    },
+    "change": {
+      "up": "↑",
+      "down": "↓"
+    }
   }
 }
