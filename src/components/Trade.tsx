@@ -3,31 +3,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 import "../styles/trade.css";
 import strings from "../i18n/trade.json";
-import { API_CONFIG } from "../config/api";
-import { CACHE_CONFIG } from "../config/cache";
-import { CRYPTO_CONFIG } from "../config/crypto";
-import { CRYPTO_ICONS } from "../config/cryptoIcons";
+import { TRADE_CONFIG, CryptoData, TrendingCoin } from "../config/trade";
 import Loading from "../utils/Loading";
-
-interface CryptoData {
-  id: string;
-  symbol: string;
-  name: string;
-  current_price: number;
-  price_change_percentage_24h: number;
-  market_cap: number;
-  ath: number;
-  ath_date: string;
-  sparkline_in_7d?: {
-    price: number[];
-  };
-}
-
-interface TrendingCoin {
-  item: {
-    id: string;
-  };
-}
 
 export default function Trade() {
   const [cryptoData, setCryptoData] = useState<CryptoData[]>([]);
@@ -39,14 +16,14 @@ export default function Trade() {
 
   const loadCachedData = useCallback(() => {
     try {
-      const cachedCrypto = localStorage.getItem(CACHE_CONFIG.KEYS.CRYPTO_DATA);
+      const cachedCrypto = localStorage.getItem(TRADE_CONFIG.CACHE.KEYS.CRYPTO_DATA);
       const cachedMemecoin = localStorage.getItem(
-        CACHE_CONFIG.KEYS.MEMECOIN_DATA,
+        TRADE_CONFIG.CACHE.KEYS.MEMECOIN_DATA,
       );
       const cachedTrending = localStorage.getItem(
-        CACHE_CONFIG.KEYS.TRENDING_DATA,
+        TRADE_CONFIG.CACHE.KEYS.TRENDING_DATA,
       );
-      const cachedTimestamp = localStorage.getItem(CACHE_CONFIG.KEYS.TIMESTAMP);
+      const cachedTimestamp = localStorage.getItem(TRADE_CONFIG.CACHE.KEYS.TIMESTAMP);
 
       if (cachedCrypto && cachedMemecoin && cachedTrending && cachedTimestamp) {
         const parsedCrypto = JSON.parse(cachedCrypto);
@@ -75,19 +52,19 @@ export default function Trade() {
     (crypto: CryptoData[], memecoin: CryptoData[], trending: CryptoData[]) => {
       try {
         localStorage.setItem(
-          CACHE_CONFIG.KEYS.CRYPTO_DATA,
+          TRADE_CONFIG.CACHE.KEYS.CRYPTO_DATA,
           JSON.stringify(crypto),
         );
         localStorage.setItem(
-          CACHE_CONFIG.KEYS.MEMECOIN_DATA,
+          TRADE_CONFIG.CACHE.KEYS.MEMECOIN_DATA,
           JSON.stringify(memecoin),
         );
         localStorage.setItem(
-          CACHE_CONFIG.KEYS.TRENDING_DATA,
+          TRADE_CONFIG.CACHE.KEYS.TRENDING_DATA,
           JSON.stringify(trending),
         );
         localStorage.setItem(
-          CACHE_CONFIG.KEYS.TIMESTAMP,
+          TRADE_CONFIG.CACHE.KEYS.TIMESTAMP,
           Date.now().toString(),
         );
       } catch (err) {
@@ -105,15 +82,9 @@ export default function Trade() {
         setIsLoading(true);
         const [cryptoResponse, memecoinResponse, trendingResponse] =
           await Promise.all([
-            fetch(
-              `${API_CONFIG.COINGECKO.BASE_URL}${API_CONFIG.COINGECKO.ENDPOINTS.MARKETS}?vs_currency=${CRYPTO_CONFIG.CURRENCY}&order=${CRYPTO_CONFIG.ORDER_BY}&per_page=${CRYPTO_CONFIG.TOP_CRYPTO_COUNT}&page=1&sparkline=true`,
-            ),
-            fetch(
-              `${API_CONFIG.COINGECKO.BASE_URL}${API_CONFIG.COINGECKO.ENDPOINTS.MARKETS}?vs_currency=${CRYPTO_CONFIG.CURRENCY}&ids=${CRYPTO_CONFIG.MEMECOIN_IDS.join(",")}&sparkline=true`,
-            ),
-            fetch(
-              `${API_CONFIG.COINGECKO.BASE_URL}${API_CONFIG.COINGECKO.ENDPOINTS.SEARCH}`,
-            ),
+            fetch(TRADE_CONFIG.API.CRYPTO_ENDPOINT),
+            fetch(TRADE_CONFIG.API.MEMECOIN_ENDPOINT),
+            fetch(TRADE_CONFIG.API.TRENDING_ENDPOINT),
           ]);
 
         if (
@@ -146,7 +117,7 @@ export default function Trade() {
           .join(",");
 
         const trendingDetailsResponse = await fetch(
-          `${API_CONFIG.COINGECKO.BASE_URL}${API_CONFIG.COINGECKO.ENDPOINTS.MARKETS}?vs_currency=${CRYPTO_CONFIG.CURRENCY}&ids=${trendingIds}&sparkline=true`,
+          `${TRADE_CONFIG.API.CRYPTO_ENDPOINT.split("&")[0]}&ids=${trendingIds}&sparkline=true`,
         );
 
         if (!trendingDetailsResponse.ok) {
@@ -169,20 +140,20 @@ export default function Trade() {
       }
     };
 
-    const cachedTimestamp = localStorage.getItem(CACHE_CONFIG.KEYS.TIMESTAMP);
+    const cachedTimestamp = localStorage.getItem(TRADE_CONFIG.CACHE.KEYS.TIMESTAMP);
     const lastUpdate = cachedTimestamp
       ? new Date(parseInt(cachedTimestamp))
       : null;
     const shouldFetch =
       !hasCachedData ||
       !lastUpdate ||
-      Date.now() - lastUpdate.getTime() > CACHE_CONFIG.DURATION;
+      Date.now() - lastUpdate.getTime() > TRADE_CONFIG.CACHE.DURATION;
 
     if (shouldFetch) {
       fetchCryptoData();
     }
 
-    const interval = setInterval(fetchCryptoData, CACHE_CONFIG.DURATION);
+    const interval = setInterval(fetchCryptoData, TRADE_CONFIG.CACHE.DURATION);
     return () => clearInterval(interval);
   }, [loadCachedData, saveCachedData]);
 
@@ -227,7 +198,7 @@ export default function Trade() {
                   <td className={`table-cell crypto-name-cell ${colorClass}`}>
                     <div className="crypto-name-content">
                       <span className={`crypto-icon ${colorClass}`}>
-                        {CRYPTO_ICONS[crypto.symbol.toUpperCase()] || "🪙"}
+                        {TRADE_CONFIG.ICONS[crypto.symbol.toUpperCase()] || "🪙"}
                       </span>
                       <span
                         className="crypto-full-name"
@@ -284,7 +255,9 @@ export default function Trade() {
                   <td
                     className={`table-cell crypto-market-cap-cell ${colorClass}`}
                   >
-                    {t.formatting.currency}{(crypto.market_cap / 1000000000).toFixed(2)}{t.formatting.billion}
+                    {t.formatting.currency}
+                    {(crypto.market_cap / 1000000000).toFixed(2)}
+                    {t.formatting.billion}
                   </td>
                   <td className={`table-cell crypto-ath-cell ${colorClass}`}>
                     {t.formatting.currency}
