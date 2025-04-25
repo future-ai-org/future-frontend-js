@@ -1,12 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
-import { calculateChart, ChartData, printChartInfo } from "../config/logia";
+import React, { useState, useCallback } from "react";
+import { calculateChart, ChartData, printChartInfo, OPENSTREETMAP_API_URL } from "../config/logia";
 import strings from "../i18n/logia.json";
 import LogiaForm from "./LogiaForm";
 import LogiaChart from "./LogiaChart";
 import "../styles/logiachart.css";
 import "../styles/logiaform.css";
+
+interface Coordinates {
+  lat: number;
+  lon: number;
+}
 
 export default function Logia() {
   const [chartData, setChartData] = useState<ChartData | null>(null);
@@ -16,15 +21,10 @@ export default function Logia() {
 
   const t = strings.en;
 
-  const geocodeCity = async (cityName: string) => {
+  const geocodeCity = useCallback(async (cityName: string): Promise<Coordinates | null> => {
     try {
-      setIsGeneratingChart(true);
-      setError(null);
-
       const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
-          cityName,
-        )}`,
+        `${OPENSTREETMAP_API_URL}${encodeURIComponent(cityName)}`,
       );
 
       if (!response.ok) {
@@ -42,12 +42,10 @@ export default function Logia() {
     } catch (err) {
       setError(err instanceof Error ? err.message : t.errors.unknownError);
       return null;
-    } finally {
-      setIsGeneratingChart(false);
     }
-  };
+  }, [t.errors]);
 
-  const handleSubmit = async (data: {
+  const handleSubmit = useCallback(async (data: {
     birthDate: string;
     birthTime: string;
     city: string;
@@ -59,7 +57,7 @@ export default function Logia() {
     try {
       const coordinates = await geocodeCity(city);
       if (!coordinates) {
-        throw new Error(t.errors.cityNotFound);
+        return;
       }
 
       const chart = calculateChart(
@@ -84,7 +82,7 @@ export default function Logia() {
     } finally {
       setIsGeneratingChart(false);
     }
-  };
+  }, [geocodeCity, t]);
 
   return (
     <div className="astrology-container">
