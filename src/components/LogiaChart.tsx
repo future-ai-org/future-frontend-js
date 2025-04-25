@@ -12,20 +12,16 @@ import strings from "../i18n/logia.json";
 interface LogiaChartProps {
   chartData: ChartData | null;
   chartInfo: string | null;
-  onBack: () => void;
   isGeneratingChart: boolean;
 }
 
 export default function LogiaChart({
   chartData,
   chartInfo,
-  onBack,
   isGeneratingChart,
 }: LogiaChartProps) {
   const { theme } = useTheme();
-  const [selectedPlanet, setSelectedPlanet] = React.useState<string | null>(
-    null,
-  );
+  const [selectedPlanet, setSelectedPlanet] = React.useState<string | null>(null);
   const t = strings.en;
 
   useEffect(() => {
@@ -265,9 +261,6 @@ export default function LogiaChart({
           </div>
         )}
       </div>
-      <button className="astrology-button" onClick={onBack}>
-        {t.buttons.back}
-      </button>
     </div>
   );
 }

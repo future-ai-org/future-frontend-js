@@ -85,11 +85,6 @@ export default function Logia() {
     }
   };
 
-  const handleBack = () => {
-    setChartInfo(null);
-    setChartData(null);
-  };
-
   return (
     <div className="astrology-container">
       <div className="astrology-form-section">
@@ -103,7 +98,6 @@ export default function Logia() {
           <LogiaChart
             chartData={chartData}
             chartInfo={chartInfo}
-            onBack={handleBack}
             isGeneratingChart={isGeneratingChart}
           />
         )}
