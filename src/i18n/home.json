@@ -2,47 +2,44 @@
   "en": {
     "title": "welcome to LILIT",
     "subtitle": "next generation predictive platform",
-    "cta": {
-      "learnMore": "learn more",
-      "getStarted": "get started"
-    },
     "hello": {
+      "anonymous": "anon",
       "connectedAs": {
         "prefix": "get started by",
         "link": "reading the info",
         "suffix": "to learn about your new powers"
-      },
-      "anonymous": "anon"
+      }
     },
     "features": {
       "one": {
         "title": "sign in",
         "signedIn": "hello, {ensName}",
-        "description": "connect with your favorite wallet to start your avatar"
+        "connectWallet": "connect to your favorite wallet",
+        "startAvatar": "and create your avatar"
       },
       "two": {
-        "title": "customize",
-        "description": "calculate your logia data and setup your profile"
+        "title": "customize"
       },
       "three": {
-        "title": "predict",
-        "description": "leverage smart predictive intel from our oracle agents"
+        "title": "predict"
       }
     },
     "numbers": {
-      "one": "I",
-      "two": "II",
-      "three": "III"
+      "one": "1",
+      "two": "2",
+      "three": "3"
     },
     "links": {
-      "info": "reading the info",
-      "logia": "calculate your logia data",
-      "dashboard": "setup your profile",
-      "predict": "leverage smart predictive"
+      "logia": "calculate your logia",
+      "dashboard": "personalize",
+      "predict": "smart predictive intel"
     },
     "text": {
-      "and": " and ",
-      "intelFromOracle": "intel from our oracle agents"
+      "and": " to ",
+      "intelFromOracle": "from our oracle agents",
+      "startMakingSmarterChoices": "start making smarter choice decisions",
+      "profileAndPriorities": "your profile and priorities",
+      "leverage": "leverage"
     }
   }
 }
