@@ -220,7 +220,6 @@
 .astrology-table td {
   padding: 0.5rem;
   text-align: center;
-  border: 1px solid var(--color-primary);
   color: var(--color-primary);
 }
 
@@ -404,4 +403,4 @@
     height: 400px;
     min-width: unset;
   }
-} 
+}
