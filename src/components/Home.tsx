@@ -74,11 +74,13 @@ export default function Home() {
         description={
           <>
             <Link href="/logia">{strings.en.links.logia}</Link>
-            {isConnected && (
+            {isConnected ? (
               <>
                 {strings.en.text.and}
                 <Link href="/dashboard">{strings.en.links.dashboard}</Link>
               </>
+            ) : (
+              ` and ${strings.en.text.startMakingSmarterChoices}`
             )}
           </>
         }
