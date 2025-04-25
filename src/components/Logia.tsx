@@ -13,7 +13,7 @@ import "../styles/logiaform.css";
 export default function Logia() {
   const [chartData, setChartData] = useState<ChartData | null>(null);
   const [chartInfo, setChartInfo] = useState<string | null>(null);
-  const [isGeneratingChart, setIsGeneratingChart] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const t = strings.en;
@@ -21,12 +21,13 @@ export default function Logia() {
   const handleSubmit = useCallback(
     async (data: { birthDate: string; birthTime: string; city: string }) => {
       const { birthDate, birthTime, city } = data;
-      setIsGeneratingChart(true);
+      setIsLoading(true);
       setError(null);
 
       try {
         const coordinates = await geocodeCity(city);
         if (!coordinates) {
+          setError(t.errors.cityNotFound);
           return;
         }
 
@@ -50,30 +51,40 @@ export default function Logia() {
       } catch (err) {
         setError(err instanceof Error ? err.message : t.errors.unknownError);
       } finally {
-        setIsGeneratingChart(false);
+        setIsLoading(false);
       }
     },
     [t],
   );
 
+  const renderContent = () => {
+    if (isLoading) {
+      return <Loading />;
+    }
+
+    if (!chartInfo) {
+      return (
+        <LogiaForm
+          onSubmit={handleSubmit}
+          isGeneratingChart={isLoading}
+          error={error}
+        />
+      );
+    }
+
+    return (
+      <LogiaChart
+        chartData={chartData}
+        chartInfo={chartInfo}
+        isGeneratingChart={isLoading}
+      />
+    );
+  };
+
   return (
     <div className="astrology-container">
       <div className="astrology-form-section">
-        {isGeneratingChart ? (
-          <Loading />
-        ) : !chartInfo ? (
-          <LogiaForm
-            onSubmit={handleSubmit}
-            isGeneratingChart={isGeneratingChart}
-            error={error}
-          />
-        ) : (
-          <LogiaChart
-            chartData={chartData}
-            chartInfo={chartInfo}
-            isGeneratingChart={isGeneratingChart}
-          />
-        )}
+        {renderContent()}
       </div>
     </div>
   );
