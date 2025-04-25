@@ -15,7 +15,7 @@
         "title": "sign in",
         "signedIn": "hello, {ensName}",
         "connectWallet": "connect to your favorite wallet",
-        "startAvatar": "to start your avatar"
+        "startAvatar": "to create your avatar"
       },
       "two": {
         "title": "customize"
