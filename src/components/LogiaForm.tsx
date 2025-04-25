@@ -2,18 +2,9 @@ import React, { useState, useCallback, useRef } from "react";
 import strings from "../i18n/logia.json";
 import { searchCities, CitySuggestion } from "../utils/Geocoding";
 import Loading from "../utils/Loading";
+import { LogiaFormProps } from "../config/logiaForm";
 
 const t = strings.en;
-
-interface LogiaFormProps {
-  onSubmit: (data: {
-    birthDate: string;
-    birthTime: string;
-    city: string;
-  }) => void;
-  isGeneratingChart: boolean;
-  error: string | null;
-}
 
 export default function LogiaForm({
   onSubmit,

@@ -1,14 +1,98 @@
-import {
-  ZODIAC_SIGNS,
-  ASTROLOGY_EFFECTS,
-  PLANET_SYMBOLS,
-  ZODIAC_SYMBOLS,
-  ELEMENTS,
-  ChartData,
-  PlanetPosition,
-  Aspect,
-  ASPECTS,
-} from './logia';
+export const ZODIAC_SIGNS = [
+  "pisces",
+  "aquarius",
+  "capricorn",
+  "sagittarius",
+  "scorpio",
+  "libra",
+  "virgo",
+  "leo",
+  "cancer",
+  "gemini",
+  "taurus",
+  "aries",
+] as const;
+
+export const ASTROLOGY_EFFECTS = [
+  "neutral",
+  "expand",
+  "expand",
+  "expand",
+  "neutral",
+  "contract",
+  "contract",
+  "contract",
+  "contract",
+  "contract",
+  "contract",
+] as const;
+
+export interface PlanetPosition {
+  name: string;
+  position: number;
+  sign: string;
+  house: number;
+}
+
+export interface Aspect {
+  planet1: string;
+  planet2: string;
+  type: string;
+  orb: number;
+}
+
+export interface ChartData {
+  planets: PlanetPosition[];
+  houses: number[];
+  aspects: Aspect[];
+}
+
+export const PLANET_SYMBOLS = {
+  sun: "☉",
+  moon: "☽",
+  mercury: "☿",
+  venus: "♀",
+  mars: "♂",
+  jupiter: "♃",
+  saturn: "♄",
+  uranus: "♅",
+  neptune: "♆",
+  pluto: "♇",
+} as const;
+
+export const ZODIAC_SYMBOLS = {
+  aries: "♈",
+  taurus: "♉",
+  gemini: "♊",
+  cancer: "♋",
+  leo: "♌",
+  virgo: "♍",
+  libra: "♎",
+  scorpio: "♏",
+  sagittarius: "♐",
+  capricorn: "♑",
+  aquarius: "♒",
+  pisces: "♓",
+} as const;
+
+export const ASPECTS = [
+  { name: "conjunction", degrees: 0, orb: 8 },
+  { name: "sextile", degrees: 60, orb: 8 },
+  { name: "square", degrees: 90, orb: 8 },
+  { name: "trine", degrees: 120, orb: 8 },
+  { name: "opposition", degrees: 180, orb: 8 },
+] as const;
+
+export const ELEMENTS = {
+  FIRE: "🜂",
+  EARTH: "🜃",
+  AIR: "🜁",
+  WATER: "🜄",
+} as const;
+
+export type Element = (typeof ELEMENTS)[keyof typeof ELEMENTS];
+export type PlanetName = keyof typeof PLANET_SYMBOLS;
+export type ZodiacSign = keyof typeof ZODIAC_SYMBOLS;
 
 export function getPlanetSymbol(planetName: string): string {
   return PLANET_SYMBOLS[planetName as keyof typeof PLANET_SYMBOLS] || planetName;
@@ -42,7 +126,16 @@ export function printChartInfo(
   latitude: number,
   longitude: number,
   city: string,
-  t: { table: { planet: string; angle: string; sign: string; house: string; effects: string; element: string } },
+  t: {
+    table: {
+      planet: string;
+      angle: string;
+      sign: string;
+      house: string;
+      effects: string;
+      element: string;
+    };
+  },
 ): string {
   const chart = calculateChart(birthDate, birthTime, latitude, longitude);
   const date = new Date(`${birthDate}T${birthTime}`);
@@ -262,7 +355,10 @@ export function getJulianDay(date: Date): number {
   return jdn + (hour - 12) / 24;
 }
 
-export function calculateSiderealTime(julianDay: number, longitude: number): number {
+export function calculateSiderealTime(
+  julianDay: number,
+  longitude: number,
+): number {
   // Calculate the number of Julian centuries since J2000.0
   const T = (julianDay - 2451545.0) / 36525;
 

@@ -1,4 +1,4 @@
-import { ChartData } from "../config/logia";
+import { ChartData } from "../config/logiaChart";
 import * as d3 from "d3";
 
 export interface ChartDimensions {

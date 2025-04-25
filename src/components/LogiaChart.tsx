@@ -4,7 +4,7 @@ import {
   getPlanetSymbol,
   getZodiacSymbol,
   ZODIAC_SIGNS,
-} from "../config/logia";
+} from "../config/logiaChart";
 import { useTheme } from "../utils/ThemeContext";
 import strings from "../i18n/logia.json";
 import Loading from "../utils/Loading";

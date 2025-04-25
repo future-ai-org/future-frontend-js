@@ -1,4 +1,4 @@
-import { OPENSTREETMAP_API_URL } from "../config/logia";
+import { OPENSTREETMAP_API_URL } from "../config/logiaForm";
 import strings from "../i18n/logia.json";
 
 export interface Coordinates {

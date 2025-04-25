@@ -4,7 +4,21 @@ import {
   ChartData,
   PlanetPosition,
   Aspect,
-} from './logia';
+} from "./logiaChart";
+
+export interface LogiaFormData {
+  birthDate: string;
+  birthTime: string;
+  city: string;
+}
+
+export interface LogiaFormProps {
+  onSubmit: (data: LogiaFormData) => void;
+  isGeneratingChart: boolean;
+  error: string | null;
+}
+
+export const OPENSTREETMAP_API_URL = "https://nominatim.openstreetmap.org/search?format=json&q=";
 
 export function calculateChart(
   birthDate: string,
@@ -121,7 +135,10 @@ export function getJulianDay(date: Date): number {
   return jdn + (hour - 12) / 24;
 }
 
-export function calculateSiderealTime(julianDay: number, longitude: number): number {
+export function calculateSiderealTime(
+  julianDay: number,
+  longitude: number,
+): number {
   // Calculate the number of Julian centuries since J2000.0
   const T = (julianDay - 2451545.0) / 36525;
 
@@ -256,4 +273,4 @@ function calculateHouses(ascendant: number): number[] {
   }
 
   return houses;
-} 
+}
