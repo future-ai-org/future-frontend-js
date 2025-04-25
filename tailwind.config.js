@@ -29,15 +29,4 @@ module.exports = {
   },
   // Enable dark mode if needed
   darkMode: 'class',
-  // Optimize for production
-  purge: {
-    enabled: process.env.NODE_ENV === 'production',
-    content: [
-      "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-      "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    ],
-    options: {
-      safelist: ['dark'], // Preserve dark mode classes
-    },
-  },
 } 

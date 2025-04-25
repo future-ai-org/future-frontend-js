@@ -4,7 +4,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import "../styles/trade.css";
 import strings from "../i18n/trade.json";
 import { TRADE_CONFIG, CryptoData, TrendingCoin } from "../config/trade";
-import Loading from "../utils/Loading";
+import Loading from "../utils/loading";
 
 export default function Trade() {
   const [cryptoData, setCryptoData] = useState<CryptoData[]>([]);

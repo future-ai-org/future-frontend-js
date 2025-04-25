@@ -5,9 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import styles from "src/styles/header.module.css";
-import { ThemeToggler } from "../utils/ThemeContext";
+import { ThemeToggler } from "../utils/themeContext";
 import Wallet from "./Wallet";
-import { useWeb3 } from "../utils/Web3ModalContext";
+import { useWeb3 } from "../utils/web3ModalContext";
 import { HEADER_CONFIG } from "../config/header";
 import { isValidRoute } from "../config/routes";
 

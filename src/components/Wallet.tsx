@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useWeb3 } from "../utils/Web3ModalContext";
+import { useWeb3 } from "../utils/web3ModalContext";
 import { useRouter } from "next/navigation";
 import { createPortal } from "react-dom";
 import "../styles/wallet.css";

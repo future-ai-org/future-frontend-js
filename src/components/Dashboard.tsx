@@ -2,7 +2,7 @@
 
 import React, { useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useWeb3 } from "../utils/Web3ModalContext";
+import { useWeb3 } from "../utils/web3ModalContext";
 import strings from "../i18n/dashboard.json";
 import "../styles/dashboard.css";
 

@@ -3,7 +3,7 @@
 import React from "react";
 import "../styles/home.css";
 import strings from "../i18n/home.json";
-import { useWeb3 } from "../utils/Web3ModalContext";
+import { useWeb3 } from "../utils/web3ModalContext";
 import Link from "next/link";
 import { ROUTES } from "../config/routes";
 

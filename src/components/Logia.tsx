@@ -4,8 +4,8 @@ import React, { useState, useCallback, useRef } from "react";
 import { ChartData } from "../config/logiaChart";
 import strings from "../i18n/logia.json";
 import LogiaChart, { calculateChart, printChartInfo } from "./LogiaChart";
-import { geocodeCity, searchCities, CitySuggestion } from "../utils/Geocoding";
-import Loading from "../utils/Loading";
+import { geocodeCity, searchCities, CitySuggestion } from "../utils/geocoding";
+import Loading from "../utils/loading";
 import "../styles/logiachart.css";
 import "../styles/logiaform.css";
 

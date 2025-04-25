@@ -7,9 +7,9 @@ import {
   calculateChart as calculateChartData,
   getElementForSign,
 } from "../config/logiaChart";
-import { useTheme } from "../utils/ThemeContext";
+import { useTheme } from "../utils/themeContext";
 import strings from "../i18n/logiaChart.json";
-import Loading from "../utils/Loading";
+import Loading from "../utils/loading";
 import {
   calculateChartDimensions,
   createBaseChart,
