@@ -30,7 +30,9 @@ const Dashboard: React.FC = () => {
 
   const getTimeBasedGreeting = useMemo(() => {
     const hour = new Date().getHours();
-    const isNight = hour >= strings.en.greeting.time.nightStart || hour < strings.en.greeting.time.morningStart;
+    const isNight =
+      hour >= strings.en.greeting.time.nightStart ||
+      hour < strings.en.greeting.time.morningStart;
     return isNight ? strings.en.greeting.night : strings.en.greeting.morning;
   }, []);
 
@@ -40,12 +42,18 @@ const Dashboard: React.FC = () => {
   };
 
   const formatCurrency = (value: number) => {
-    const { locale, code, style, minimumFractionDigits, maximumFractionDigits } = strings.en.formatting.currency;
+    const {
+      locale,
+      code,
+      style,
+      minimumFractionDigits,
+      maximumFractionDigits,
+    } = strings.en.formatting.currency;
     return new Intl.NumberFormat(locale, {
       style: style as "currency",
       currency: code,
       minimumFractionDigits,
-      maximumFractionDigits
+      maximumFractionDigits,
     }).format(value);
   };
 
@@ -67,9 +75,7 @@ const Dashboard: React.FC = () => {
   return (
     <div className="dashboard">
       <div className="dashboard-header">
-        <h2>
-          {formattedGreeting}
-        </h2>
+        <h2>{formattedGreeting}</h2>
       </div>
 
       <div className="dashboard-grid">
@@ -78,12 +84,14 @@ const Dashboard: React.FC = () => {
           <div className="card-content">
             <div className="portfolio-summary">
               <p className="total-value">
-                {strings.en.portfolio.totalValue.toLowerCase()}: {formatCurrency(totalPortfolioValue)}
+                {strings.en.portfolio.totalValue.toLowerCase()}:{" "}
+                {formatCurrency(totalPortfolioValue)}
               </p>
               <p
                 className={`portfolio-change ${portfolioChange24h >= 0 ? "positive-change" : "negative-change"}`}
               >
-                {strings.en.portfolio.change24h.toLowerCase()}: {formatPercentage(portfolioChange24h)}
+                {strings.en.portfolio.change24h.toLowerCase()}:{" "}
+                {formatPercentage(portfolioChange24h)}
               </p>
             </div>
             <div className="portfolio-assets">
@@ -92,18 +100,23 @@ const Dashboard: React.FC = () => {
                   <div className="asset-details">
                     <div className="asset-balance">
                       <span className="balance-amount">
-                        {strings.en.portfolio.balance.amount.toLowerCase()}: {formatBalance(asset.balance)}
+                        {strings.en.portfolio.balance.amount.toLowerCase()}:{" "}
+                        {formatBalance(asset.balance)}
                       </span>
-                      <span className="balance-symbol">{asset.symbol.toLowerCase()}</span>
+                      <span className="balance-symbol">
+                        {asset.symbol.toLowerCase()}
+                      </span>
                     </div>
                     <div className="asset-value">
-                      {strings.en.portfolio.balance.value.toLowerCase()}: {formatCurrency(asset.value)}
+                      {strings.en.portfolio.balance.value.toLowerCase()}:{" "}
+                      {formatCurrency(asset.value)}
                     </div>
                   </div>
                   <div
                     className={`asset-change ${asset.change24h >= 0 ? "positive-change" : "negative-change"}`}
                   >
-                    {strings.en.portfolio.balance.change.toLowerCase()}: {formatPercentage(asset.change24h)}
+                    {strings.en.portfolio.balance.change.toLowerCase()}:{" "}
+                    {formatPercentage(asset.change24h)}
                   </div>
                 </div>
               ))}
