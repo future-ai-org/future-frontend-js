@@ -58,7 +58,9 @@ export default function Home() {
             isConnected ? (
               <span>
                 {strings.en.hello.connectedAs.prefix}{" "}
-                <Link href={ROUTES.INFO}>{strings.en.hello.connectedAs.link}</Link>{" "}
+                <Link href={ROUTES.INFO}>
+                  {strings.en.hello.connectedAs.link}
+                </Link>{" "}
                 {strings.en.hello.connectedAs.suffix}
               </span>
             ) : (
