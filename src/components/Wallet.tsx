@@ -64,10 +64,13 @@ const Wallet: React.FC = () => {
     }
 
     const isWalletAvailable = (walletName: keyof WalletProvider) =>
-      Boolean(ethereum[walletName] || ethereum.providers?.some(p => p[walletName]));
+      Boolean(
+        ethereum[walletName] || ethereum.providers?.some((p) => p[walletName]),
+      );
 
     const isPhantomAvailable = Boolean(
-      (window as WindowWithPhantom).phantom?.solana || (window as WindowWithPhantom).solana
+      (window as WindowWithPhantom).phantom?.solana ||
+        (window as WindowWithPhantom).solana,
     );
 
     const detectedWallets: WalletOption[] = [];
@@ -134,7 +137,7 @@ const Wallet: React.FC = () => {
 
   const handleWalletClick = useCallback(
     async (walletId: string) => {
-      const wallet = availableWallets.find(w => w.id === walletId);
+      const wallet = availableWallets.find((w) => w.id === walletId);
       if (!wallet) return;
 
       if (wallet.downloadUrl && !wallet.isAvailable) {
@@ -165,7 +168,9 @@ const Wallet: React.FC = () => {
 
         setShowModal(false);
       } catch (error) {
-        setError(error instanceof Error ? error.message : strings.en.connectionError);
+        setError(
+          error instanceof Error ? error.message : strings.en.connectionError,
+        );
       } finally {
         setIsConnecting(false);
       }
@@ -176,7 +181,7 @@ const Wallet: React.FC = () => {
   const renderModal = useCallback(() => {
     if (!showModal || !mounted) return null;
 
-    const availableWalletsList = availableWallets.filter(w => w.isAvailable);
+    const availableWalletsList = availableWallets.filter((w) => w.isAvailable);
 
     return createPortal(
       <div
@@ -200,7 +205,7 @@ const Wallet: React.FC = () => {
           </div>
           {error && <div className="wallet-modal-error">{error}</div>}
           <div className="wallet-list">
-            {availableWalletsList.map(wallet => (
+            {availableWalletsList.map((wallet) => (
               <button
                 key={wallet.id}
                 className="wallet-option"
@@ -222,7 +227,15 @@ const Wallet: React.FC = () => {
       </div>,
       document.body,
     );
-  }, [showModal, error, availableWallets, isConnecting, selectedWallet, handleWalletClick, mounted]);
+  }, [
+    showModal,
+    error,
+    availableWallets,
+    isConnecting,
+    selectedWallet,
+    handleWalletClick,
+    mounted,
+  ]);
 
   if (!mounted) return null;
 
@@ -230,7 +243,10 @@ const Wallet: React.FC = () => {
     return (
       <div className="wallet-button-container">
         <div className="wallet-connected">
-          <span className="wallet-address" data-ens={ensName ? "true" : undefined}>
+          <span
+            className="wallet-address"
+            data-ens={ensName ? "true" : undefined}
+          >
             {ensName || formatAddress(address)}
           </span>
           <button

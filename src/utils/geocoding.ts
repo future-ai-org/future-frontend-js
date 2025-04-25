@@ -12,20 +12,34 @@ export interface CitySuggestion {
   lon: string;
 }
 
-export const geocodeCity = async (
-  cityName: string,
-): Promise<Coordinates | null> => {
+interface OpenStreetMapResponse {
+  name?: string;
+  display_name: string;
+  lat: string;
+  lon: string;
+}
+
+const fetchOpenStreetMapData = async (query: string, limit?: number): Promise<OpenStreetMapResponse[]> => {
+  const url = `${OPENSTREETMAP_API_URL}${encodeURIComponent(query)}${limit ? `&limit=${limit}` : ''}`;
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(strings.en.errors.fetchCoordinatesFailed);
+  }
+
+  return response.json();
+};
+
+const processCityName = (item: OpenStreetMapResponse): string => {
+  const cityName = item.name || item.display_name.split(",")[0].trim();
+  const country = item.display_name.split(",").pop()?.trim() || '';
+  return `${cityName.toLowerCase()}, ${country.toLowerCase()}`;
+};
+
+export const geocodeCity = async (cityName: string): Promise<Coordinates | null> => {
   try {
-    const response = await fetch(
-      `${OPENSTREETMAP_API_URL}${encodeURIComponent(cityName)}`,
-    );
-
-    if (!response.ok) {
-      throw new Error(strings.en.errors.fetchCoordinatesFailed);
-    }
-
-    const data = await response.json();
-
+    const data = await fetchOpenStreetMapData(cityName);
+    
     if (data.length === 0) {
       throw new Error(strings.en.errors.cityNotFound);
     }
@@ -33,58 +47,32 @@ export const geocodeCity = async (
     const { lat, lon } = data[0];
     return { lat: parseFloat(lat), lon: parseFloat(lon) };
   } catch (err) {
-    throw err instanceof Error
-      ? err
-      : new Error(strings.en.errors.unknownError);
+    throw err instanceof Error ? err : new Error(strings.en.errors.unknownError);
   }
 };
 
-export const searchCities = async (
-  query: string,
-): Promise<CitySuggestion[]> => {
+export const searchCities = async (query: string): Promise<CitySuggestion[]> => {
   if (query.length < 2) {
     return [];
   }
 
   try {
-    const response = await fetch(
-      `${OPENSTREETMAP_API_URL}${encodeURIComponent(query)}&limit=10`,
-    );
-
-    if (!response.ok) {
-      throw new Error(strings.en.errors.fetchCoordinatesFailed);
-    }
-
-    const data = await response.json();
-    const seen = new Set();
+    const data = await fetchOpenStreetMapData(query, 10);
+    const seen = new Set<string>();
+    
     return data
-      .map(
-        (item: {
-          name?: string;
-          display_name: string;
-          lat: string;
-          lon: string;
-        }) => {
-          const cityName = item.name || item.display_name.split(",")[0].trim();
-          const parts = item.display_name.split(",");
-          const country = parts[parts.length - 1].trim();
-
-          return {
-            display_name: `${cityName.toLowerCase()}, ${country.toLowerCase()}`,
-            lat: item.lat,
-            lon: item.lon,
-          };
-        },
-      )
-      .filter((item: { display_name: string }) => {
+      .map(item => ({
+        display_name: processCityName(item),
+        lat: item.lat,
+        lon: item.lon,
+      }))
+      .filter(item => {
         const key = item.display_name.toLowerCase();
-        if (seen.has(key)) {
-          return false;
-        }
+        if (seen.has(key)) return false;
         seen.add(key);
         return true;
       });
-  } catch (err) {
+  } catch {
     return [];
   }
 };
