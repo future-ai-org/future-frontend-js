@@ -1,0 +1,32 @@
+{
+  "en": {
+    "greeting": {
+      "morning": "gm",
+      "night": "gn",
+      "format": "{greeting}, {name}",
+      "time": {
+        "morningStart": 6,
+        "nightStart": 18
+      }
+    },
+    "portfolio": {
+      "title": "portfolio",
+      "totalValue": "total value",
+      "change24h": "24h change",
+      "balance": {
+        "amount": "balance",
+        "value": "value",
+        "change": "change"
+      }
+    },
+    "formatting": {
+      "currency": {
+        "code": "USD",
+        "locale": "en-US",
+        "style": "currency",
+        "minimumFractionDigits": 2,
+        "maximumFractionDigits": 2
+      }
+    }
+  }
+} 
