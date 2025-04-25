@@ -1,17 +1,15 @@
 "use client";
 
 import React, { useState, useCallback, useRef } from "react";
-import {
-  calculateChart,
-  ChartData,
-  printChartInfo,
-} from "../config/logiaChart";
+import { ChartData } from "../config/logiaChart";
 import strings from "../i18n/logia.json";
-import LogiaChart from "./LogiaChart";
+import LogiaChart, { calculateChart, printChartInfo } from "./LogiaChart";
 import { geocodeCity, searchCities, CitySuggestion } from "../utils/Geocoding";
 import Loading from "../utils/Loading";
 import "../styles/logiachart.css";
 import "../styles/logiaform.css";
+
+const t = strings.en;
 
 interface FormData {
   birthDate: string;
@@ -19,19 +17,11 @@ interface FormData {
   city: string;
 }
 
-export interface LogiaFormData {
-  birthDate: string;
-  birthTime: string;
-  city: string;
-}
-
-export interface LogiaFormProps {
-  onSubmit: (data: LogiaFormData) => void;
+interface LogiaFormProps {
+  onSubmit: (data: FormData) => void;
   isGeneratingChart: boolean;
   error: string | null;
 }
-
-const t = strings.en;
 
 export default function Logia() {
   const [chartData, setChartData] = useState<ChartData | null>(null);
@@ -63,10 +53,7 @@ export default function Logia() {
           printChartInfo(
             birthDate,
             birthTime,
-            coordinates.lat,
-            coordinates.lon,
             city,
-            t,
           ),
         );
       } catch (err) {
@@ -75,7 +62,7 @@ export default function Logia() {
         setIsLoading(false);
       }
     },
-    [t],
+    [],
   );
 
   const renderContent = () => {
@@ -85,7 +72,7 @@ export default function Logia() {
 
     if (!chartInfo) {
       return (
-        <LogiaFormComponent
+        <LogiaForm
           onSubmit={handleSubmit}
           isGeneratingChart={isLoading}
           error={error}
@@ -109,12 +96,8 @@ export default function Logia() {
   );
 }
 
-export function LogiaFormComponent({
-  onSubmit,
-  isGeneratingChart,
-  error,
-}: LogiaFormProps) {
-  const [formData, setFormData] = useState({
+function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
+  const [formData, setFormData] = useState<FormData>({
     birthDate: "",
     birthTime: "",
     city: "",

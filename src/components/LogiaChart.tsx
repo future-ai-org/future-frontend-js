@@ -4,6 +4,8 @@ import {
   getPlanetSymbol,
   getZodiacSymbol,
   ZODIAC_SIGNS,
+  calculateChart as calculateChartData,
+  getElementForSign,
 } from "../config/logiaChart";
 import { useTheme } from "../utils/ThemeContext";
 import strings from "../i18n/logia.json";
@@ -30,6 +32,70 @@ interface PlanetInfoPanelProps {
   selectedPlanet: string;
   chartData: ChartData;
   t: typeof strings.en;
+}
+
+export function calculateChart(
+  birthDate: string,
+  birthTime: string,
+  latitude: number,
+  longitude: number,
+): ChartData {
+  return calculateChartData(birthDate, birthTime, latitude, longitude);
+}
+
+export function printChartInfo(
+  birthDate: string,
+  birthTime: string,
+  city: string,
+): string {
+  const chart = calculateChart(birthDate, birthTime, 0, 0); // We need the chart data for the table
+  const date = new Date(`${birthDate}T${birthTime}`);
+  const formattedDate = date.toLocaleDateString("en-us", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+  const formattedTime = date.toLocaleTimeString("en-us", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  const planetTable = `
+    <table class="astrology-table">
+      <thead>
+        <tr>
+          <th>Planet</th>
+          <th>Angle</th>
+          <th>Sign</th>
+          <th>Element</th>
+          <th>House</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${chart.planets
+          .map(
+            (planet) => `
+        <tr>
+          <td>${getPlanetSymbol(planet.name)}</td>
+          <td>${(planet.position % 30).toFixed(2)}°</td>
+          <td>${getZodiacSymbol(planet.sign)}</td>
+          <td>${getElementForSign(planet.sign)}</td>
+          <td>${planet.house}</td>
+        </tr>
+      `,
+          )
+          .join("")}
+      </tbody>
+    </table>
+  `;
+
+  return `
+    <div class="astrology-chart-header">
+      <div class="astrology-chart-date">${formattedDate.toLowerCase()}</div>
+      <div class="astrology-chart-time">${formattedTime.toLowerCase()}<span class="at-text"> at </span>${city.toLowerCase()}</div>
+    </div>
+    ${planetTable}
+  `;
 }
 
 const PlanetInfoPanel: React.FC<PlanetInfoPanelProps> = React.memo(
