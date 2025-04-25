@@ -44,95 +44,15 @@
   flex: 2;
   min-width: 700px;
   position: relative;
-}
-
-@media (max-width: 1024px) {
-  .astrology-chart-section {
-    min-width: 100%;
-    height: 600px;
-  }
-}
-
-.astrology-form {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  background-color: transparent;
-  padding: 1.5rem;
-  border-radius: 0.5rem;
-  box-shadow: none;
-  position: sticky;
-  top: 1rem;
-  border: none;
-  transition: var(--transition-all);
-}
-
-.astrology-form:hover {
-  transform: var(--hover-transform);
-  box-shadow: none;
-  border-color: transparent;
-}
-
-.astrology-form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.astrology-label {
-  font-weight: 800;
-  color: var(--color-primary);
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-}
-
-.astrology-input {
-  padding: 0.75rem;
-  border: 1px solid var(--border-color);
-  border-radius: 0.4rem;
-  background-color: transparent;
-  color: var(--color-primary);
-  transition: var(--transition-all);
-}
-
-.astrology-input::placeholder {
-  color: var(--color-primary);
-  opacity: 0.7;
-}
-
-.astrology-input:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 2px var(--color-primary);
-}
-
-.astrology-button {
-  padding: 0.5rem 1rem;
-  border-radius: 0.4rem;
-  border: 1px solid var(--color-primary);
-  cursor: pointer;
-  font-weight: 600;
-  transition: var(--transition-all);
-  text-shadow: var(--text-glow);
-  background: transparent;
-  color: var(--color-primary);
-  font-size: 0.9rem;
-  width: 200px;
-  margin: 2rem auto 0;
-}
-
-.astrology-button:hover {
-  background: var(--color-primary);
-  color: var(--background-color);
-  box-shadow: var(--glow-shadow-hover);
-  transform: var(--hover-transform);
+  flex-direction: row;
+  gap: 2rem;
+  align-items: flex-start;
 }
 
 .astrology-chart-container {
-  width: 100%;
-  height: 100%;
-  min-height: 600px;
+  width: 50%;
+  height: 600px;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -289,17 +209,16 @@
 }
 
 .astrology-info-box {
+  width: 50%;
   padding: 0.5rem 2rem;
   border-radius: 0.5rem;
   border: 1px solid var(--border-color);
   transition: var(--transition-all);
   margin-bottom: 1.5rem;
-  width: 120%;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: var(--card-bg);
-  margin-left: -10%;
 }
 
 .astrology-info-box:hover {
@@ -511,4 +430,96 @@
   margin: 2rem auto 0;
   display: block;
   text-align: center;
+}
+
+.astrology-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  background-color: transparent;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: none;
+  position: sticky;
+  top: 1rem;
+  border: none;
+  transition: var(--transition-all);
+}
+
+.astrology-form:hover {
+  transform: var(--hover-transform);
+  box-shadow: none;
+  border-color: transparent;
+}
+
+.astrology-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.astrology-label {
+  font-weight: 800;
+  color: var(--color-primary);
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.astrology-input {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.4rem;
+  background-color: transparent;
+  color: var(--color-primary);
+  transition: var(--transition-all);
+}
+
+.astrology-input::placeholder {
+  color: var(--color-primary);
+  opacity: 0.7;
+}
+
+.astrology-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+.astrology-button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.4rem;
+  border: 1px solid var(--color-primary);
+  cursor: pointer;
+  font-weight: 600;
+  transition: var(--transition-all);
+  text-shadow: var(--text-glow);
+  background: transparent;
+  color: var(--color-primary);
+  font-size: 0.9rem;
+  width: 200px;
+  margin: 2rem auto 0;
+}
+
+.astrology-button:hover {
+  background: var(--color-primary);
+  color: var(--background-color);
+  box-shadow: var(--glow-shadow-hover);
+  transform: var(--hover-transform);
+}
+
+@media (max-width: 1024px) {
+  .astrology-chart-section {
+    min-width: 100%;
+    height: 600px;
+    flex-direction: column;
+  }
+  
+  .astrology-chart-container {
+    width: 100%;
+  }
+  
+  .astrology-info-box {
+    width: 100%;
+  }
 }
