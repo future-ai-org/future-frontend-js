@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import styles from "src/styles/header.module.css";
-import { Toggler } from "./Toggler";
+import { ThemeToggler } from "../utils/ThemeContext";
 import Wallet from "./Wallet";
 import { useWeb3 } from "../utils/Web3ModalContext";
 import { HEADER_CONFIG } from "../config/header";
@@ -57,7 +57,7 @@ const Header: React.FC = () => {
         </nav>
         <div className={styles.headerRight}>
           <Wallet />
-          <Toggler />
+          <ThemeToggler />
         </div>
       </div>
     </header>

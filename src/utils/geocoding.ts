@@ -19,8 +19,11 @@ interface OpenStreetMapResponse {
   lon: string;
 }
 
-const fetchOpenStreetMapData = async (query: string, limit?: number): Promise<OpenStreetMapResponse[]> => {
-  const url = `${OPENSTREETMAP_API_URL}${encodeURIComponent(query)}${limit ? `&limit=${limit}` : ''}`;
+const fetchOpenStreetMapData = async (
+  query: string,
+  limit?: number,
+): Promise<OpenStreetMapResponse[]> => {
+  const url = `${OPENSTREETMAP_API_URL}${encodeURIComponent(query)}${limit ? `&limit=${limit}` : ""}`;
   const response = await fetch(url);
 
   if (!response.ok) {
@@ -32,14 +35,16 @@ const fetchOpenStreetMapData = async (query: string, limit?: number): Promise<Op
 
 const processCityName = (item: OpenStreetMapResponse): string => {
   const cityName = item.name || item.display_name.split(",")[0].trim();
-  const country = item.display_name.split(",").pop()?.trim() || '';
+  const country = item.display_name.split(",").pop()?.trim() || "";
   return `${cityName.toLowerCase()}, ${country.toLowerCase()}`;
 };
 
-export const geocodeCity = async (cityName: string): Promise<Coordinates | null> => {
+export const geocodeCity = async (
+  cityName: string,
+): Promise<Coordinates | null> => {
   try {
     const data = await fetchOpenStreetMapData(cityName);
-    
+
     if (data.length === 0) {
       throw new Error(strings.en.errors.cityNotFound);
     }
@@ -47,11 +52,15 @@ export const geocodeCity = async (cityName: string): Promise<Coordinates | null>
     const { lat, lon } = data[0];
     return { lat: parseFloat(lat), lon: parseFloat(lon) };
   } catch (err) {
-    throw err instanceof Error ? err : new Error(strings.en.errors.unknownError);
+    throw err instanceof Error
+      ? err
+      : new Error(strings.en.errors.unknownError);
   }
 };
 
-export const searchCities = async (query: string): Promise<CitySuggestion[]> => {
+export const searchCities = async (
+  query: string,
+): Promise<CitySuggestion[]> => {
   if (query.length < 2) {
     return [];
   }
@@ -59,14 +68,14 @@ export const searchCities = async (query: string): Promise<CitySuggestion[]> => 
   try {
     const data = await fetchOpenStreetMapData(query, 10);
     const seen = new Set<string>();
-    
+
     return data
-      .map(item => ({
+      .map((item) => ({
         display_name: processCityName(item),
         lat: item.lat,
         lon: item.lon,
       }))
-      .filter(item => {
+      .filter((item) => {
         const key = item.display_name.toLowerCase();
         if (seen.has(key)) return false;
         seen.add(key);

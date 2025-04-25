@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
+import "../styles/toggler.css";
 
 type Theme = "light" | "dark";
 
@@ -29,7 +30,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme((prevTheme: Theme) => (prevTheme === "light" ? "dark" : "light"));
+    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   };
 
   return (
@@ -45,4 +46,25 @@ export const useTheme = () => {
     throw new Error("useTheme must be used within a ThemeProvider");
   }
   return context;
+};
+
+export const ThemeToggler: React.FC = () => {
+  const { theme, toggleTheme } = useTheme();
+
+  return (
+    <div
+      className={`theme-toggler ${theme}`}
+      onClick={toggleTheme}
+      aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => e.key === "Enter" && toggleTheme()}
+    >
+      <div className="theme-toggler-track">
+        <div className="theme-toggler-thumb">
+          {theme === "light" ? "🌙" : "☀️"}
+        </div>
+      </div>
+    </div>
+  );
 };
