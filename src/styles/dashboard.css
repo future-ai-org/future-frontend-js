@@ -3,232 +3,137 @@
 @tailwind utilities;
 
 .dashboard {
-  padding: 2rem 3rem;
-  max-width: 1400px;
-  margin: 0 auto;
-  min-height: calc(100vh - 200px);
+  @apply p-8 md:p-12 max-w-[1400px] mx-auto min-h-[calc(100vh-200px)];
 }
 
 .dashboard-header {
-  margin-bottom: 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 2rem 0;
+  @apply mb-8 flex justify-between items-center py-8;
 }
 
 .dashboard-header h2 {
-  margin: 0;
-  padding: 1rem 0;
-  font-size: 2rem;
+  @apply m-0 py-4 text-3xl text-left;
   text-shadow: var(--text-glow);
-  text-align: left;
 }
 
 .wallet-info {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  background-color: var(--background-color-light);
-  padding: 0.75rem 1.25rem;
-  border-radius: 0.75rem;
+  @apply flex items-center gap-3 bg-[var(--background-color-light)] px-5 py-3 rounded-xl;
 }
 
 .wallet-label {
-  color: var(--text-color-secondary);
+  @apply text-[var(--text-color-secondary)];
 }
 
 .wallet-address {
-  font-family: monospace;
-  color: var(--text-color);
+  @apply font-mono text-[var(--text-color)];
 }
 
 .dashboard-grid {
-  display: flex;
-  flex-direction: row;
-  gap: 2rem;
-  justify-content: center;
-  align-items: stretch;
-  flex: 1;
-  min-height: 0;
-  max-width: 1800px;
-  margin: 0 auto;
+  @apply flex flex-row gap-8 justify-center items-stretch flex-1 min-h-0 max-w-[1800px] mx-auto;
 }
 
 .dashboard-card {
-  background-color: var(--card-bg);
-  border-radius: 1.25rem;
-  padding: 2.5rem;
-  box-shadow:
-    var(--base-shadow),
-    0 0 20px var(--glow-shadow);
+  @apply bg-[var(--card-bg)] rounded-2xl p-10 flex flex-col min-h-[500px] max-h-[calc(100vh-300px)] overflow-y-auto;
+  box-shadow: var(--base-shadow), 0 0 20px var(--glow-shadow);
   border: 2px solid var(--border-color);
   transition: all var(--transition-duration) var(--transition-timing);
-  flex: 1;
   min-width: 500px;
-  display: flex;
-  flex-direction: column;
-  min-height: 500px;
-  max-height: calc(100vh - 300px);
-  overflow-y: auto;
 }
 
 .dashboard-card:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    var(--base-shadow),
-    0 0 30px var(--glow-shadow-hover);
+  @apply -translate-y-0.5;
+  box-shadow: var(--base-shadow), 0 0 30px var(--glow-shadow-hover);
   border-color: var(--primary-color);
 }
 
 .dashboard-card h3 {
-  margin: 0 0 2rem 0;
-  font-size: 1.75rem;
-  position: sticky;
-  top: 0;
-  padding-bottom: 1rem;
-  z-index: 1;
-  color: var(--text-color);
+  @apply m-0 mb-8 text-2xl sticky top-0 pb-4 z-10 text-[var(--text-color)];
 }
 
 .card-content {
-  color: var(--text-color-secondary);
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  @apply text-[var(--text-color-secondary)] flex-1 flex flex-col gap-6;
 }
 
 .card-content p {
-  margin: 0;
-  line-height: 1.6;
+  @apply m-0 leading-relaxed;
   opacity: var(--opacity-light);
 }
 
 .portfolio-summary {
-  background-color: var(--background-color-light);
-  padding: 1.25rem;
-  margin-bottom: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
+  @apply bg-[var(--background-color-light)] p-5 mb-6 flex items-center justify-between gap-8;
   border: 1px solid var(--border-color);
   border-radius: 0.75rem;
 }
 
 .total-value {
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: var(--text-color);
-  white-space: nowrap;
+  @apply text-xl font-bold text-[var(--text-color)] whitespace-nowrap;
 }
 
 .portfolio-change {
-  font-size: 1.25rem;
-  font-weight: bold;
-  white-space: nowrap;
+  @apply text-xl font-bold whitespace-nowrap;
 }
 
 .portfolio-assets {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+  @apply flex flex-col gap-1;
 }
 
 .portfolio-asset {
-  padding: 0.5rem;
-  border-radius: 0.75rem;
-  transition: all var(--transition-duration) var(--transition-timing);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
+  @apply p-2 rounded-xl transition-all duration-300 ease-in-out flex items-center justify-between gap-2;
 }
 
 .asset-info {
-  display: flex;
-  flex-direction: column;
+  @apply flex flex-col;
 }
 
 .asset-symbol {
-  font-weight: 700;
-  color: var(--text-color);
-  font-size: 1rem;
+  @apply font-bold text-[var(--text-color)] text-base;
 }
 
 .asset-details {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  flex: 1;
+  @apply flex items-center gap-3 flex-1;
 }
 
 .asset-balance {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  min-width: 120px;
+  @apply flex items-center gap-1 min-w-[120px];
 }
 
 .balance-amount {
-  font-family: monospace;
-  color: var(--text-color);
-  font-size: 1rem;
-  min-width: 80px;
-  text-align: right;
-  font-weight: 600;
+  @apply font-mono text-[var(--text-color)] text-base min-w-[80px] text-right font-semibold;
 }
 
 .balance-symbol {
-  color: var(--text-color-secondary);
-  font-size: 0.85rem;
-  min-width: 40px;
-  font-weight: 600;
+  @apply text-[var(--text-color-secondary)] text-sm min-w-[40px] font-semibold;
 }
 
 .asset-value {
-  color: var(--text-color);
-  font-weight: bold;
-  font-size: 1rem;
-  min-width: 100px;
-  text-align: right;
+  @apply text-[var(--text-color)] font-bold text-base min-w-[100px] text-right;
 }
 
 .asset-change {
-  text-align: right;
-  font-weight: bold;
-  font-size: 1rem;
-  min-width: 80px;
+  @apply text-right font-bold text-base min-w-[80px];
 }
 
 .positive-change {
-  color: var(--bullish-color);
+  @apply text-[var(--bullish-color)];
 }
 
 .negative-change {
-  color: var(--bearish-color);
+  @apply text-[var(--bearish-color)];
 }
 
 @media (max-width: 768px) {
   .dashboard {
-    padding: 1.5rem 1rem;
+    @apply p-6 px-4;
   }
 
   .dashboard-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
+    @apply flex-col items-start gap-6 mb-6;
   }
 
   .dashboard-grid {
-    flex-direction: column;
-    gap: 1.5rem;
+    @apply flex-col gap-6;
   }
 
   .dashboard-card {
-    padding: 1.25rem;
-    min-height: 400px;
+    @apply p-5 min-h-[400px];
   }
 }
