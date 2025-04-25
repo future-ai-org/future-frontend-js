@@ -5,24 +5,21 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import styles from "src/styles/header.module.css";
-import strings from "../i18n/header.json";
 import { Toggler } from "./Toggler";
 import Wallet from "./Wallet";
 import { useWeb3 } from "../contexts/Web3ModalContext";
 import logo from "../assets/logo.svg";
-
-const NAV_ITEMS = [
-  { path: "/info", label: strings.en.nav.info },
-  { path: "/logia", label: strings.en.nav.logia },
-  { path: "/trade", label: strings.en.nav.trade },
-  { path: "/predict", label: strings.en.nav.predict },
-];
+import { HEADER_CONFIG } from "../config/header";
+import { isValidRoute } from "../config/routes";
 
 const Header: React.FC = () => {
   const { isConnected } = useWeb3();
   const pathname = usePathname();
 
-  const isActive = (path: string) => pathname === path || (path !== "/" && pathname?.startsWith(path));
+  const isActive = (path: string) => {
+    if (!isValidRoute(path)) return false;
+    return pathname === path || (path !== "/" && pathname?.startsWith(path));
+  };
 
   return (
     <header className={styles.header}>
@@ -30,18 +27,18 @@ const Header: React.FC = () => {
         <Link href="/" className={styles.logoLink}>
           <Image
             src={logo}
-            alt="LILIT Logo"
-            width={30}
-            height={30}
+            alt={HEADER_CONFIG.logo.alt}
+            width={HEADER_CONFIG.logo.width}
+            height={HEADER_CONFIG.logo.height}
             priority
             className={styles.logoImage}
           />
           <div className={styles.headerTitleContainer}>
-            <h1 className={styles.headerTitle}>{strings.en.title}</h1>
+            <h1 className={styles.headerTitle}>{HEADER_CONFIG.title}</h1>
           </div>
         </Link>
         <nav className={styles.headerNav}>
-          {NAV_ITEMS.map(({ path, label }) => (
+          {HEADER_CONFIG.navItems.map(({ path, label }) => (
             <Link
               key={path}
               href={path}
@@ -52,10 +49,10 @@ const Header: React.FC = () => {
           ))}
           {isConnected && (
             <Link
-              href="/dashboard"
-              className={`${styles.navLink} ${isActive("/dashboard") ? styles.active : ""}`}
+              href={HEADER_CONFIG.dashboard.path}
+              className={`${styles.navLink} ${isActive(HEADER_CONFIG.dashboard.path) ? styles.active : ""}`}
             >
-              {strings.en.nav.dashboard}
+              {HEADER_CONFIG.dashboard.label}
             </Link>
           )}
         </nav>
