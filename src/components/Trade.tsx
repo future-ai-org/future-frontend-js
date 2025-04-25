@@ -16,14 +16,18 @@ export default function Trade() {
 
   const loadCachedData = useCallback(() => {
     try {
-      const cachedCrypto = localStorage.getItem(TRADE_CONFIG.CACHE.KEYS.CRYPTO_DATA);
+      const cachedCrypto = localStorage.getItem(
+        TRADE_CONFIG.CACHE.KEYS.CRYPTO_DATA,
+      );
       const cachedMemecoin = localStorage.getItem(
         TRADE_CONFIG.CACHE.KEYS.MEMECOIN_DATA,
       );
       const cachedTrending = localStorage.getItem(
         TRADE_CONFIG.CACHE.KEYS.TRENDING_DATA,
       );
-      const cachedTimestamp = localStorage.getItem(TRADE_CONFIG.CACHE.KEYS.TIMESTAMP);
+      const cachedTimestamp = localStorage.getItem(
+        TRADE_CONFIG.CACHE.KEYS.TIMESTAMP,
+      );
 
       if (cachedCrypto && cachedMemecoin && cachedTrending && cachedTimestamp) {
         const parsedCrypto = JSON.parse(cachedCrypto);
@@ -140,7 +144,9 @@ export default function Trade() {
       }
     };
 
-    const cachedTimestamp = localStorage.getItem(TRADE_CONFIG.CACHE.KEYS.TIMESTAMP);
+    const cachedTimestamp = localStorage.getItem(
+      TRADE_CONFIG.CACHE.KEYS.TIMESTAMP,
+    );
     const lastUpdate = cachedTimestamp
       ? new Date(parseInt(cachedTimestamp))
       : null;
@@ -198,7 +204,8 @@ export default function Trade() {
                   <td className={`table-cell crypto-name-cell ${colorClass}`}>
                     <div className="crypto-name-content">
                       <span className={`crypto-icon ${colorClass}`}>
-                        {TRADE_CONFIG.ICONS[crypto.symbol.toUpperCase()] || "🪙"}
+                        {TRADE_CONFIG.ICONS[crypto.symbol.toUpperCase()] ||
+                          "🪙"}
                       </span>
                       <span
                         className="crypto-full-name"

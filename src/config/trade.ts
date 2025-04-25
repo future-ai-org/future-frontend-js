@@ -40,4 +40,4 @@ export const TRADE_CONFIG = {
     MEMECOIN_IDS: CRYPTO_CONFIG.MEMECOIN_IDS,
   },
   ICONS: CRYPTO_ICONS,
-} as const; 
+} as const;
