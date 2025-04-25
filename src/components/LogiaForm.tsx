@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import strings from "../i18n/logia.json";
 import { searchCities, CitySuggestion } from "../utils/Geocoding";
 import Loading from "../utils/Loading";
@@ -27,34 +27,48 @@ export default function LogiaForm({
   });
   const [citySuggestions, setCitySuggestions] = useState<CitySuggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const blurTimeoutRef = useRef<NodeJS.Timeout>();
 
   const handleCityChange = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
-      setFormData((prev) => ({ ...prev, city: value }));
-      const suggestions = await searchCities(value);
-      setCitySuggestions(suggestions);
-      setShowSuggestions(true);
+      setFormData(prev => ({ ...prev, city: value }));
+      
+      if (value.trim()) {
+        const suggestions = await searchCities(value);
+        setCitySuggestions(suggestions);
+        setShowSuggestions(true);
+      } else {
+        setCitySuggestions([]);
+        setShowSuggestions(false);
+      }
     },
-    [],
+    []
   );
 
-  const handleCitySelect = (suggestion: CitySuggestion) => {
-    setFormData((prev) => ({ ...prev, city: suggestion.display_name }));
+  const handleCitySelect = useCallback((suggestion: CitySuggestion) => {
+    setFormData(prev => ({ ...prev, city: suggestion.display_name }));
     setCitySuggestions([]);
     setShowSuggestions(false);
-  };
+  }, []);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+    setFormData(prev => ({ ...prev, [name]: value }));
+  }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.birthDate || !formData.birthTime || !formData.city) return;
     onSubmit(formData);
-  };
+  }, [formData, onSubmit]);
+
+  const handleBlur = useCallback(() => {
+    if (blurTimeoutRef.current) {
+      clearTimeout(blurTimeoutRef.current);
+    }
+    blurTimeoutRef.current = setTimeout(() => setShowSuggestions(false), 200);
+  }, []);
 
   return (
     <form className="astrology-form" onSubmit={handleSubmit}>
@@ -88,7 +102,7 @@ export default function LogiaForm({
             type="text"
             value={formData.city}
             onChange={handleCityChange}
-            onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+            onBlur={handleBlur}
             placeholder={t.labels.cityPlaceholder}
             required
           />

@@ -83,9 +83,7 @@ export default function Logia() {
 
   return (
     <div className="astrology-container">
-      <div className="astrology-form-section">
-        {renderContent()}
-      </div>
+      <div className="astrology-form-section">{renderContent()}</div>
     </div>
   );
 }
