@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import {
   ComposedChart,
   XAxis,
@@ -39,7 +39,7 @@ interface CandlestickProps {
   stroke: string;
 }
 
-const CustomCandlestick = (props: CandlestickProps) => {
+const CustomCandlestick = React.memo((props: CandlestickProps) => {
   const { x, y, width, open, close, high, low, fill, stroke } = props;
   const isGrowing = close >= open;
   const bodyHeight = Math.abs(y(close) - y(open));
@@ -67,26 +67,20 @@ const CustomCandlestick = (props: CandlestickProps) => {
       />
     </g>
   );
-};
+});
 
-const getTimePeriodConfig = (period: TimePeriod) => {
-  switch (period) {
-    case "1D":
-      return { days: 1, dataPoints: 24, interval: "hourly" };
-    case "1W":
-      return { days: 7, dataPoints: 7, interval: "daily" };
-    case "1M":
-      return { days: 30, dataPoints: 30, interval: "daily" };
-    case "3M":
-      return { days: 90, dataPoints: 90, interval: "daily" };
-    case "1Y":
-      return { days: 365, dataPoints: 365, interval: "daily" };
-    case "ALL":
-      return { days: "max", dataPoints: 365 * 2, interval: "daily" };
-    default:
-      return { days: 30, dataPoints: 30, interval: "daily" };
-  }
-};
+CustomCandlestick.displayName = 'CustomCandlestick';
+
+const TIME_PERIOD_CONFIG = {
+  "1D": { days: 1, dataPoints: 24, interval: "hourly" },
+  "1W": { days: 7, dataPoints: 7, interval: "daily" },
+  "1M": { days: 30, dataPoints: 30, interval: "daily" },
+  "3M": { days: 90, dataPoints: 90, interval: "daily" },
+  "1Y": { days: 365, dataPoints: 365, interval: "daily" },
+  "ALL": { days: "max", dataPoints: 365 * 2, interval: "daily" },
+} as const;
+
+const TIME_PERIODS: TimePeriod[] = ["1D", "1W", "1M", "3M", "1Y", "ALL"];
 
 export const Trading: React.FC<TradingProps> = ({ assetId }) => {
   const [chartData, setChartData] = useState<CandleData[]>([]);
@@ -102,7 +96,7 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
   const fetchHistoricalData = useCallback(
     async (period: TimePeriod) => {
       try {
-        const { days, dataPoints, interval } = getTimePeriodConfig(period);
+        const { days, dataPoints, interval } = TIME_PERIOD_CONFIG[period];
         console.log("Fetching data with config:", {
           days,
           dataPoints,
@@ -254,12 +248,56 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
     }
   }, []);
 
-  const timePeriods: TimePeriod[] = ["1D", "1W", "1M", "3M", "1Y", "ALL"];
+  const chartConfig = useMemo(() => {
+    const min = Math.min(...chartData.map((d) => d.low));
+    const max = Math.max(...chartData.map((d) => d.high));
+    const range = max - min;
+    return {
+      yDomain: [Math.floor(min - range * 0.05), Math.ceil(max + range * 0.05)],
+      candleWidth: Math.max(5, 500 / chartData.length - 2),
+    };
+  }, [chartData]);
+
+  const formatDate = useCallback((value: string) => {
+    const date = new Date(value);
+    switch (timePeriod) {
+      case "1D":
+        return date.toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+        });
+      case "1W":
+        return date.toLocaleDateString("en-US", {
+          weekday: "short",
+          day: "numeric",
+        });
+      case "1M":
+      case "3M":
+        return date.toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+        });
+      case "1Y":
+        return date
+          .toLocaleDateString("en-US", { month: "short" })
+          .slice(0, 3);
+      case "ALL":
+        return date.toLocaleDateString("en-US", {
+          month: "short",
+          year: "2-digit",
+        });
+      default:
+        return date.toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+        });
+    }
+  }, [timePeriod]);
 
   return (
     <div className="trading-container">
       <div className="time-period-selector">
-        {timePeriods.map((period) => (
+        {TIME_PERIODS.map((period) => (
           <button
             key={period}
             className={`time-period-button ${timePeriod === period ? "active" : ""}`}
@@ -288,62 +326,13 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
               dataKey="date"
               stroke={colors.bullish}
               tick={{ fill: colors.bullish }}
-              tickFormatter={(value) => {
-                const date = new Date(value);
-                switch (timePeriod) {
-                  case "1D":
-                    return date.toLocaleTimeString("en-US", {
-                      hour: "numeric",
-                      minute: "2-digit",
-                    });
-                  case "1W":
-                    return date.toLocaleDateString("en-US", {
-                      weekday: "short",
-                      day: "numeric",
-                    });
-                  case "1M":
-                    return date.toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                    });
-                  case "3M":
-                    return date.toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                    });
-                  case "1Y":
-                    return date
-                      .toLocaleDateString("en-US", { month: "short" })
-                      .slice(0, 3);
-                  case "ALL":
-                    return date.toLocaleDateString("en-US", {
-                      month: "short",
-                      year: "2-digit",
-                    });
-                  default:
-                    return date.toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                    });
-                }
-              }}
+              tickFormatter={formatDate}
             />
             <YAxis
               yAxisId="left"
               stroke={colors.bullish}
               tick={{ fill: colors.bullish }}
-              domain={[
-                () => {
-                  const min = Math.min(...chartData.map((d) => d.low));
-                  const range = Math.max(...chartData.map((d) => d.high)) - min;
-                  return Math.floor(min - range * 0.05);
-                },
-                () => {
-                  const max = Math.max(...chartData.map((d) => d.high));
-                  const range = max - Math.min(...chartData.map((d) => d.low));
-                  return Math.ceil(max + range * 0.05);
-                },
-              ]}
+              domain={chartConfig.yDomain}
               tickFormatter={(value) =>
                 `$${value.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
               }
@@ -371,8 +360,6 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
             {chartData.length > 0 &&
               chartData.map((entry, index) => {
                 const x = index * (500 / chartData.length);
-                const candleWidth = Math.max(5, 500 / chartData.length - 2);
-
                 return (
                   <CustomCandlestick
                     key={index}
@@ -383,7 +370,7 @@ export const Trading: React.FC<TradingProps> = ({ assetId }) => {
                       const range = max - min;
                       return 450 - ((value - min) / range) * 400;
                     }}
-                    width={candleWidth}
+                    width={chartConfig.candleWidth}
                     open={entry.open}
                     close={entry.close}
                     high={entry.high}
