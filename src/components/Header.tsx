@@ -27,13 +27,7 @@ const Header: React.FC = () => {
       <div className={styles.headerContent}>
         <Link
           href="/"
-          style={{
-            textDecoration: "none",
-            color: "var(--primary-color)",
-            display: "flex",
-            alignItems: "center",
-            gap: "12px",
-          }}
+          className={styles.logoLink}
         >
           <Image
             src={logo}
@@ -41,7 +35,7 @@ const Header: React.FC = () => {
             width={30}
             height={30}
             priority
-            style={{ width: "30px", height: "30px" }}
+            className={styles.logoImage}
           />
           <div className={styles.headerTitleContainer}>
             <h1 className={styles.headerTitle}>{strings.en.title}</h1>
