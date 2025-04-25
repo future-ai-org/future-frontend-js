@@ -29,41 +29,32 @@ export default function Logia() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = useCallback(
-    async (data: FormData) => {
-      const { birthDate, birthTime, city } = data;
-      setIsLoading(true);
-      setError(null);
+  const handleSubmit = useCallback(async (data: FormData) => {
+    const { birthDate, birthTime, city } = data;
+    setIsLoading(true);
+    setError(null);
 
-      try {
-        const coordinates = await geocodeCity(city);
-        if (!coordinates) {
-          setError(t.errors.cityNotFound);
-          return;
-        }
-
-        const chart = calculateChart(
-          birthDate,
-          birthTime,
-          coordinates.lat,
-          coordinates.lon,
-        );
-        setChartData(chart);
-        setChartInfo(
-          printChartInfo(
-            birthDate,
-            birthTime,
-            city,
-          ),
-        );
-      } catch (err) {
-        setError(err instanceof Error ? err.message : t.errors.unknownError);
-      } finally {
-        setIsLoading(false);
+    try {
+      const coordinates = await geocodeCity(city);
+      if (!coordinates) {
+        setError(t.errors.cityNotFound);
+        return;
       }
-    },
-    [],
-  );
+
+      const chart = calculateChart(
+        birthDate,
+        birthTime,
+        coordinates.lat,
+        coordinates.lon,
+      );
+      setChartData(chart);
+      setChartInfo(printChartInfo(birthDate, birthTime, city));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t.errors.unknownError);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
   const renderContent = () => {
     if (isLoading) {
