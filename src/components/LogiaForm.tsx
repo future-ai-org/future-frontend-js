@@ -3,6 +3,8 @@ import strings from "../i18n/logia.json";
 import { searchCities, CitySuggestion } from "../utils/geocoding";
 import Loading from "../utils/loading";
 
+const t = strings.en;
+
 interface LogiaFormProps {
   onSubmit: (data: {
     birthDate: string;
@@ -18,18 +20,18 @@ export default function LogiaForm({
   isGeneratingChart,
   error,
 }: LogiaFormProps) {
-  const [birthDate, setBirthDate] = useState("");
-  const [birthTime, setBirthTime] = useState("");
-  const [city, setCity] = useState("");
+  const [formData, setFormData] = useState({
+    birthDate: "",
+    birthTime: "",
+    city: "",
+  });
   const [citySuggestions, setCitySuggestions] = useState<CitySuggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-
-  const t = strings.en;
 
   const handleCityChange = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
-      setCity(value);
+      setFormData((prev) => ({ ...prev, city: value }));
       const suggestions = await searchCities(value);
       setCitySuggestions(suggestions);
       setShowSuggestions(true);
@@ -38,15 +40,20 @@ export default function LogiaForm({
   );
 
   const handleCitySelect = (suggestion: CitySuggestion) => {
-    setCity(suggestion.display_name);
+    setFormData((prev) => ({ ...prev, city: suggestion.display_name }));
     setCitySuggestions([]);
     setShowSuggestions(false);
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!birthDate || !birthTime || !city) return;
-    onSubmit({ birthDate, birthTime, city });
+    if (!formData.birthDate || !formData.birthTime || !formData.city) return;
+    onSubmit(formData);
   };
 
   return (
@@ -56,8 +63,9 @@ export default function LogiaForm({
         <input
           className="astrology-input"
           type="date"
-          value={birthDate}
-          onChange={(e) => setBirthDate(e.target.value)}
+          name="birthDate"
+          value={formData.birthDate}
+          onChange={handleInputChange}
           required
         />
       </div>
@@ -66,8 +74,9 @@ export default function LogiaForm({
         <input
           className="astrology-input"
           type="time"
-          value={birthTime}
-          onChange={(e) => setBirthTime(e.target.value)}
+          name="birthTime"
+          value={formData.birthTime}
+          onChange={handleInputChange}
           required
         />
       </div>
@@ -77,7 +86,7 @@ export default function LogiaForm({
           <input
             className="astrology-input astrology-city-input"
             type="text"
-            value={city}
+            value={formData.city}
             onChange={handleCityChange}
             onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
             placeholder={t.labels.cityPlaceholder}
@@ -104,11 +113,7 @@ export default function LogiaForm({
         type="submit"
         disabled={isGeneratingChart}
       >
-        {isGeneratingChart ? (
-          <Loading />
-        ) : (
-          t.buttons.generateChart
-        )}
+        {isGeneratingChart ? <Loading /> : t.buttons.generateChart}
       </button>
     </form>
   );
