@@ -88,7 +88,7 @@
   color: var(--primary-color);
   font-size: 0.65rem;
   margin-bottom: 1px;
-  opacity: 0.8;
+  opacity: var(--opacity-light);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   text-align: center;
@@ -221,7 +221,7 @@
   border-radius: 8px;
   padding: 30px;
   margin: 40px auto;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--base-shadow);
   position: relative;
 }
 
@@ -247,7 +247,7 @@
   color: var(--color-primary);
   border-radius: 4px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all var(--transition-duration) var(--transition-timing);
   font-weight: 600;
   text-transform: uppercase;
   font-size: 0.75rem;
@@ -264,7 +264,7 @@
 .time-period-button.active {
   background-color: var(--color-primary);
   color: var(--background-color);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--base-shadow);
 }
 
 .error-message {
@@ -275,9 +275,9 @@
   gap: 20px;
   padding: 30px;
   background: var(--background-color);
-  border: 1px solid var(--color-secondary);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  color: var(--color-secondary);
+  color: var(--color-text);
   max-width: 600px;
   margin: 40px auto;
   text-align: center;
@@ -296,7 +296,7 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all var(--transition-duration) var(--transition-timing);
   font-weight: 600;
   text-transform: uppercase;
   font-size: 0.8rem;
@@ -317,7 +317,7 @@
 
 .recharts-cartesian-grid line {
   stroke: var(--color-primary) !important;
-  opacity: 0.1;
+  opacity: var(--opacity-very-light);
 }
 
 .recharts-cartesian-axis-tick-value {
@@ -327,7 +327,7 @@
 
 .recharts-tooltip-wrapper {
   background-color: var(--background-color) !important;
-  border: 1px solid var(--color-primary) !important;
+  border: 1px solid var(--border-color) !important;
   border-radius: 4px !important;
   padding: 8px !important;
 }
@@ -359,7 +359,7 @@
   color: var(--color-primary);
   border-radius: 4px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all var(--transition-duration) var(--transition-timing);
   font-weight: 600;
   text-transform: uppercase;
   font-size: 0.75rem;
@@ -375,7 +375,7 @@
 .time-period-button.active {
   background-color: var(--color-primary);
   color: var(--background-color);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--base-shadow);
 }
 
 /* Enhanced chart container styles */
@@ -387,10 +387,10 @@
   border-radius: 8px;
   padding: 30px;
   margin: 40px auto;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--base-shadow);
   position: relative;
-  border: 1px solid var(--color-primary);
-  transition: all 0.3s ease;
+  border: 1px solid var(--border-color);
+  transition: all var(--transition-duration) var(--transition-timing);
 }
 
 .chartiq-container:hover {

@@ -8,7 +8,6 @@ import styles from "src/styles/header.module.css";
 import { Toggler } from "./Toggler";
 import Wallet from "./Wallet";
 import { useWeb3 } from "../utils/Web3ModalContext";
-import logo from "../assets/logo.svg";
 import { HEADER_CONFIG } from "../config/header";
 import { isValidRoute } from "../config/routes";
 
@@ -26,7 +25,7 @@ const Header: React.FC = () => {
       <div className={styles.headerContent}>
         <Link href="/" className={styles.logoLink}>
           <Image
-            src={logo}
+            src="/logo.svg"
             alt={HEADER_CONFIG.logo.alt}
             width={HEADER_CONFIG.logo.width}
             height={HEADER_CONFIG.logo.height}

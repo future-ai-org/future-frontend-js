@@ -15,27 +15,6 @@ type WalletProvider = {
   providers?: WalletProvider[];
 };
 
-interface SolanaRequestParams {
-  method: string;
-  params: unknown[];
-}
-
-interface SolanaProvider {
-  connect: () => Promise<{ publicKey: string }>;
-  disconnect: () => Promise<void>;
-  on: (event: string, callback: () => void) => void;
-  removeAllListeners: () => void;
-  request: (params: SolanaRequestParams) => Promise<unknown>;
-}
-
-interface Window {
-  ethereum?: WalletProvider;
-  phantom?: {
-    solana: SolanaProvider;
-  };
-  solana?: SolanaProvider;
-}
-
 interface WalletOption {
   name: string;
   icon: string;
@@ -62,7 +41,7 @@ const Wallet: React.FC = () => {
   }, []);
 
   const checkWallets = useCallback(() => {
-    const { ethereum } = window;
+    const ethereum = window.ethereum as WalletProvider | undefined;
     if (!ethereum) return;
 
     // Handle multiple providers
@@ -75,13 +54,12 @@ const Wallet: React.FC = () => {
     const isWalletAvailable = (walletName: keyof WalletProvider) =>
       Boolean(
         ethereum[walletName] ||
-          (ethereum.providers?.some((p) => p[walletName]) ?? false),
+          (ethereum.providers?.some((p: WalletProvider) => p[walletName]) ?? false),
       );
 
-    const isPhantomAvailable = Boolean(
-      window.phantom?.solana ||
-        (window as Window & { solana?: SolanaProvider }).solana,
-    );
+    const phantom = (window as { phantom?: { solana: { connect: () => Promise<{ publicKey: string }> } } }).phantom;
+    const solana = (window as { solana?: { connect: () => Promise<{ publicKey: string }> } }).solana;
+    const isPhantomAvailable = Boolean(phantom?.solana || solana);
 
     const detectedWallets: WalletOption[] = [];
 
@@ -160,7 +138,7 @@ const Wallet: React.FC = () => {
 
   const handleWalletClick = useCallback(
     async (walletId: string) => {
-      const wallet = availableWallets.find((w) => w.id === walletId);
+      const wallet = availableWallets.find((w: WalletOption) => w.id === walletId);
       if (!wallet) return;
 
       if (wallet.downloadUrl && !wallet.isAvailable) {
@@ -174,11 +152,12 @@ const Wallet: React.FC = () => {
 
       try {
         if (walletId === "phantom") {
-          if (!window.phantom?.solana) {
+          const phantom = (window as { phantom?: { solana: { connect: () => Promise<{ publicKey: string }> } } }).phantom;
+          if (!phantom?.solana) {
             throw new Error(strings.en.phantomNotInstalled);
           }
 
-          const response = await window.phantom.solana.connect();
+          const response = await phantom.solana.connect();
           if (!response?.publicKey) {
             throw new Error(strings.en.phantomConnectionError);
           }
@@ -204,13 +183,13 @@ const Wallet: React.FC = () => {
     if (!showModal || !mounted) return null;
 
     const availableWalletsList = availableWallets.filter(
-      (wallet) => wallet.isAvailable,
+      (wallet: WalletOption) => wallet.isAvailable,
     );
 
     return createPortal(
       <div
         className="wallet-modal-overlay"
-        onClick={(e) => {
+        onClick={(e: React.MouseEvent<HTMLDivElement>) => {
           if (e.target === e.currentTarget) {
             setShowModal(false);
           }
@@ -229,7 +208,7 @@ const Wallet: React.FC = () => {
           </div>
           {error && <div className="wallet-modal-error">{error}</div>}
           <div className="wallet-list">
-            {availableWalletsList.map((wallet) => (
+            {availableWalletsList.map((wallet: WalletOption) => (
               <button
                 key={wallet.id}
                 className="wallet-option"
