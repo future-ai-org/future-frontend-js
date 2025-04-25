@@ -32,38 +32,40 @@ interface PlanetInfoPanelProps {
   t: typeof strings.en;
 }
 
-const PlanetInfoPanel: React.FC<PlanetInfoPanelProps> = React.memo(({ selectedPlanet, chartData, t }) => {
-  const planet = chartData.planets.find((p) => p.name === selectedPlanet);
-  if (!planet) return null;
+const PlanetInfoPanel: React.FC<PlanetInfoPanelProps> = React.memo(
+  ({ selectedPlanet, chartData, t }) => {
+    const planet = chartData.planets.find((p) => p.name === selectedPlanet);
+    if (!planet) return null;
 
-  return (
-    <div className="astrology-info-panel">
-      <h3>{t.infoPanel.title}</h3>
-      <div className="astrology-planet-info">
-        <div>
-          <strong>{planet.name}</strong>{" "}
-          <span className="planet-symbol">
-            {getPlanetSymbol(planet.name)}
-          </span>
-        </div>
-        <div>
-          {t.infoPanel.sign}: {planet.sign}{" "}
-          <span className="zodiac-symbol" data-sign={planet.sign}>
-            {getZodiacSymbol(planet.sign)}
-          </span>
-        </div>
-        <div>
-          {t.infoPanel.house}: {planet.house}
-        </div>
-        <div>
-          {t.infoPanel.position}: {planet.position.toFixed(1)}°
+    return (
+      <div className="astrology-info-panel">
+        <h3>{t.infoPanel.title}</h3>
+        <div className="astrology-planet-info">
+          <div>
+            <strong>{planet.name}</strong>{" "}
+            <span className="planet-symbol">
+              {getPlanetSymbol(planet.name)}
+            </span>
+          </div>
+          <div>
+            {t.infoPanel.sign}: {planet.sign}{" "}
+            <span className="zodiac-symbol" data-sign={planet.sign}>
+              {getZodiacSymbol(planet.sign)}
+            </span>
+          </div>
+          <div>
+            {t.infoPanel.house}: {planet.house}
+          </div>
+          <div>
+            {t.infoPanel.position}: {planet.position.toFixed(1)}°
+          </div>
         </div>
       </div>
-    </div>
-  );
-});
+    );
+  },
+);
 
-PlanetInfoPanel.displayName = 'PlanetInfoPanel';
+PlanetInfoPanel.displayName = "PlanetInfoPanel";
 
 export default function LogiaChart({
   chartData,
@@ -71,35 +73,40 @@ export default function LogiaChart({
   isGeneratingChart,
 }: LogiaChartProps) {
   const { theme } = useTheme();
-  const [selectedPlanet, setSelectedPlanet] = React.useState<string | null>(null);
+  const [selectedPlanet, setSelectedPlanet] = React.useState<string | null>(
+    null,
+  );
   const t = strings.en;
 
-  const drawChart = useCallback((container: HTMLElement) => {
-    if (!chartData) return;
+  const drawChart = useCallback(
+    (container: HTMLElement) => {
+      if (!chartData) return;
 
-    const dimensions = calculateChartDimensions(container);
-    const { g } = createBaseChart(container, dimensions);
+      const dimensions = calculateChartDimensions(container);
+      const { g } = createBaseChart(container, dimensions);
 
-    drawChartCircles(g, dimensions.radius);
-    drawHouseNumbers(g, dimensions.radius, chartData.houses[0]);
-    drawAscendant(g, dimensions.radius, chartData.houses[0]);
-    drawZodiacSymbols(
-      g,
-      dimensions.radius,
-      ZODIAC_SIGNS.map((sign: string) => getZodiacSymbol(sign)),
-    );
-    drawHouses(g, dimensions.radius, chartData.houses);
-    drawAspects(g, dimensions.radius, chartData);
-    drawPlanets(
-      g,
-      dimensions.radius,
-      chartData,
-      setSelectedPlanet,
-      getPlanetSymbol,
-    );
+      drawChartCircles(g, dimensions.radius);
+      drawHouseNumbers(g, dimensions.radius, chartData.houses[0]);
+      drawAscendant(g, dimensions.radius, chartData.houses[0]);
+      drawZodiacSymbols(
+        g,
+        dimensions.radius,
+        ZODIAC_SIGNS.map((sign: string) => getZodiacSymbol(sign)),
+      );
+      drawHouses(g, dimensions.radius, chartData.houses);
+      drawAspects(g, dimensions.radius, chartData);
+      drawPlanets(
+        g,
+        dimensions.radius,
+        chartData,
+        setSelectedPlanet,
+        getPlanetSymbol,
+      );
 
-    return g;
-  }, [chartData]);
+      return g;
+    },
+    [chartData],
+  );
 
   useEffect(() => {
     const container = document.getElementById("chart");
