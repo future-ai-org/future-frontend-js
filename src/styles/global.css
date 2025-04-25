@@ -20,8 +20,7 @@
   --light-shadow-trending-light: rgba(87, 76, 145, 0.5);
   --light-shadow-trending-dark: rgba(87, 76, 145, 0.3);
   --light-text-glow-normal: 0 0 10px rgba(87, 76, 145, 0.7);
-  --light-text-glow-hover:
-    0 0 30px rgba(87, 76, 145, 0.7), 0 0 50px rgba(87, 76, 145, 0.5);
+  --light-text-glow-hover: 0 0 30px rgba(87, 76, 145, 0.7), 0 0 50px rgba(87, 76, 145, 0.5);
 
   /* Dark theme colors */
   --dark-primary: rgb(132, 117, 249);
@@ -40,8 +39,7 @@
   --dark-shadow-trending-light: rgba(132, 117, 249, 0.5);
   --dark-shadow-trending-dark: rgba(132, 117, 249, 0.3);
   --dark-text-glow-normal: 0 0 10px rgba(132, 117, 249, 0.7);
-  --dark-text-glow-hover:
-    0 0 30px rgba(132, 117, 249, 0.7), 0 0 50px rgba(132, 117, 249, 0.5);
+  --dark-text-glow-hover: 0 0 30px rgba(132, 117, 249, 0.7), 0 0 50px rgba(132, 117, 249, 0.5);
 
   /* Common opacity values */
   --opacity-light: 0.8;
@@ -70,28 +68,21 @@
   --color-text-glow-normal: var(--light-text-glow-normal);
   --color-text-glow-hover: var(--light-text-glow-hover);
 
+  /* Common variables */
   --primary-color: var(--color-primary);
   --text-color: var(--color-primary);
   --background-color: var(--color-background);
   --bearish-color: var(--color-bearish);
   --bullish-color: var(--color-bullish);
-  --opacity-light: var(--color-opacity-light);
-  --opacity-medium: var(--color-opacity-medium);
-  --opacity-dark: var(--color-opacity-dark);
-  --opacity-very-light: var(--color-opacity-very-light);
   --border-color: var(--color-border);
   --glow-shadow: var(--color-glow-shadow);
   --glow-shadow-hover: var(--color-glow-shadow-hover);
   --scroll-track: var(--color-scroll-track);
   --card-bg: var(--color-card-bg);
   --info-bg: var(--color-info-bg);
-  --black-shadow: var(--color-shadow-black);
-  --white-transparent: var(--color-shadow-white);
   --text-glow: var(--color-text-glow-normal);
   --text-glow-hover: var(--color-text-glow-hover);
   --base-shadow: 0 0 5px var(--glow-shadow);
-  --opacity-high: var(--color-opacity-high);
-  --opacity-low: var(--color-opacity-low);
   --trending-shadow-light: var(--color-shadow-trending-light);
   --trending-shadow-dark: var(--color-shadow-trending-dark);
   --transition-duration: 0.3s;
@@ -237,9 +228,7 @@ body {
     text-shadow: 0 0 10px var(--glow-shadow);
   }
   to {
-    text-shadow:
-      0 0 20px var(--glow-shadow-hover),
-      0 0 30px var(--glow-shadow);
+    text-shadow: 0 0 20px var(--glow-shadow-hover), 0 0 30px var(--glow-shadow);
   }
 }
 
