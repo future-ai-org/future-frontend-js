@@ -86,7 +86,8 @@ export default function Home() {
             {isConnected ? (
               <>
                 {strings.en.text.and}
-                <Link href="/dashboard">{strings.en.links.dashboard}</Link> {strings.en.text.profileAndPriorities}
+                <Link href="/dashboard">{strings.en.links.dashboard}</Link>{" "}
+                {strings.en.text.profileAndPriorities}
               </>
             ) : (
               ` and ${strings.en.text.startMakingSmarterChoices}`
