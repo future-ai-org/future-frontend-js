@@ -122,13 +122,13 @@ export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
     bearish: "var(--bearish-color)",
   });
 
-  console.log(tradingMessages.errors.tradingComponentMounted, { assetId });
+  console.log(tradingMessages.en.error.tradingComponentMounted, { assetId });
 
   const fetchHistoricalData = useCallback(
     async (period: TimePeriod) => {
       try {
         const { days, dataPoints, interval } = TIME_PERIOD_CONFIG[period];
-        console.log(tradingMessages.errors.fetchingData, {
+        console.log(tradingMessages.en.error.fetchingData, {
           days,
           dataPoints,
           period,
@@ -146,12 +146,12 @@ export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
           },
         );
 
-        console.log(tradingMessages.errors.apiResponseStatus, response.status);
+        console.log(tradingMessages.en.error.apiResponseStatus, response.status);
 
         if (!response.ok) {
           const errorText = await response.text();
           throw new Error(
-            tradingMessages.errors.apiError
+            tradingMessages.en.error.apiError
               .replace("{{status}}", response.status.toString())
               .replace("{{statusText}}", response.statusText)
               .replace("{{errorText}}", errorText),
@@ -159,10 +159,10 @@ export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
         }
 
         const data = await response.json();
-        console.log(tradingMessages.errors.apiResponseData, data);
+        console.log(tradingMessages.en.error.apiResponseData, data);
 
         if (!data.prices || !Array.isArray(data.prices)) {
-          throw new Error(tradingMessages.errors.invalidDataFormat);
+          throw new Error(tradingMessages.en.error.invalidData);
         }
 
         const processedData = data.prices.map(
@@ -181,7 +181,7 @@ export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
         );
 
         console.log(
-          tradingMessages.errors.processedDataPoints,
+          tradingMessages.en.error.processedDataPoints,
           processedData.length,
         );
 
@@ -199,7 +199,7 @@ export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
           );
         }
       } catch (err) {
-        console.error(tradingMessages.errors.fetchError, err);
+        console.error(tradingMessages.en.error.fetchError, err);
         setChartData(sampleData);
       }
     },
@@ -207,7 +207,7 @@ export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
   );
 
   useEffect(() => {
-    console.log(tradingMessages.errors.useEffectTriggered, timePeriod);
+    console.log(tradingMessages.en.error.useEffectTriggered, timePeriod);
     fetchHistoricalData(timePeriod);
   }, [timePeriod, fetchHistoricalData]);
 

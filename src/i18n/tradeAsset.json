@@ -1,16 +1,21 @@
 {
   "en": {
     "error": {
-      "rateLimit": "rate limit exceeded. please try again later.",
       "httpError": "http error: {{status}}",
       "fetchFailed": "failed to fetch trading data. please try again later.",
       "retry": "retry",
       "cacheError": "error loading cached data:",
       "saveCacheError": "error saving cached data:",
-      "apiError": "api error",
-      "invalidData": "invalid data received from api",
-      "trendingError": "failed to fetch trending data",
-      "connectionError": "connection error. please check your internet connection."
+      "apiError": "API Error: {{status}} {{statusText}}",
+      "invalidData": "invalid data format received from API",
+      "connectionError": "connection error. please check your internet connection.",
+      "tradingComponentMounted": "Trading component mounted with assetId:",
+      "fetchingData": "Fetching data with config:",
+      "apiResponseStatus": "API Response status:",
+      "apiResponseData": "API Response data:",
+      "processedDataPoints": "Processed data points:",
+      "fetchError": "Error fetching historical data",
+      "useEffectTriggered": "useEffect triggered with timePeriod:"
     },
     "labels": {
       "currentPrice": "current price",
@@ -20,20 +25,7 @@
       "high24h": "24h high",
       "low24h": "24h low",
       "allTimeHigh": "all time high",
-      "allTimeLow": "all time low",
-      "date": "date"
+      "allTimeLow": "all time low"
     }
-  },
-  "errors": {
-    "apiError": "API Error: {{status}} {{statusText}}",
-    "invalidDataFormat": "Invalid data format received from API",
-    "fetchError": "Error fetching historical data",
-    "apiResponseData": "API Response data:",
-    "fetchingData": "Fetching data with config:",
-    "tradingComponentMounted": "Trading component mounted with assetId:",
-    "apiResponseStatus": "API Response status:",
-    "processedDataPoints": "Processed data points:",
-    "useEffectTriggered": "useEffect triggered with timePeriod:",
-    "apiErrorLog": "API Error:"
   }
 }
