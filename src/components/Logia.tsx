@@ -5,7 +5,8 @@ import { calculateChart, ChartData, printChartInfo } from "../config/logia";
 import strings from "../i18n/logia.json";
 import LogiaForm from "./LogiaForm";
 import LogiaChart from "./LogiaChart";
-import "../styles/logia.css";
+import "../styles/logiachart.css";
+import "../styles/logiaform.css";
 
 export default function Logia() {
   const [chartData, setChartData] = useState<ChartData | null>(null);
