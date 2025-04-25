@@ -7,7 +7,7 @@ import LogiaChart, { calculateChart, printChartInfo } from "./LogiaChart";
 import { geocodeCity, searchCities, CitySuggestion } from "../utils/geocoding";
 import Loading from "../utils/loading";
 import "../styles/logiachart.css";
-import "../styles/logiaform.css";
+import "../styles/logia.css";
 
 const t = strings.en;
 
@@ -63,11 +63,14 @@ export default function Logia() {
 
     if (!chartInfo) {
       return (
-        <LogiaForm
-          onSubmit={handleSubmit}
-          isGeneratingChart={isLoading}
-          error={error}
-        />
+        <div className="logia-container">
+          <h1 className="page-title">{t.title.toLowerCase()}</h1>
+          <LogiaForm
+            onSubmit={handleSubmit}
+            isGeneratingChart={isLoading}
+            error={error}
+          />
+        </div>
       );
     }
 

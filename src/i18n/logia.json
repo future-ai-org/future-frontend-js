@@ -1,18 +1,19 @@
 {
   "en": {
+    "title": "calculate your logia",
     "errors": {
       "cityNotFound": "city not found",
       "fetchCoordinatesFailed": "failed to fetch city coordinates",
       "unknownError": "an error occurred"
     },
     "labels": {
-      "birthDate": "birth date",
-      "birthTime": "birth time",
-      "birthCity": "birth city",
+      "birthDate": "your birth date",
+      "birthTime": "your birth time",
+      "birthCity": "your birth city",
       "cityPlaceholder": "e.g., los angeles"
     },
     "buttons": {
-      "generateChart": "generate chart",
+      "generateChart": "show me!",
       "back": "back"
     }
   }
