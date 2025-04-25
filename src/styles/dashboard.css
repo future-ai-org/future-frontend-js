@@ -33,7 +33,9 @@
 
 .dashboard-card {
   @apply bg-[var(--card-bg)] rounded-2xl p-10 flex flex-col min-h-[500px] max-h-[calc(100vh-300px)] overflow-y-auto;
-  box-shadow: var(--base-shadow), 0 0 20px var(--glow-shadow);
+  box-shadow:
+    var(--base-shadow),
+    0 0 20px var(--glow-shadow);
   border: 2px solid var(--border-color);
   transition: all var(--transition-duration) var(--transition-timing);
   min-width: 500px;
@@ -41,7 +43,9 @@
 
 .dashboard-card:hover {
   @apply -translate-y-0.5;
-  box-shadow: var(--base-shadow), 0 0 30px var(--glow-shadow-hover);
+  box-shadow:
+    var(--base-shadow),
+    0 0 30px var(--glow-shadow-hover);
   border-color: var(--primary-color);
 }
 
