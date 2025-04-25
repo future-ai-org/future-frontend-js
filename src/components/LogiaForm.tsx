@@ -3,12 +3,20 @@ import { OPENSTREETMAP_API_URL } from "../config/logia";
 import strings from "../i18n/logia.json";
 
 interface LogiaFormProps {
-  onSubmit: (data: { birthDate: string; birthTime: string; city: string }) => void;
+  onSubmit: (data: {
+    birthDate: string;
+    birthTime: string;
+    city: string;
+  }) => void;
   isGeneratingChart: boolean;
   error: string | null;
 }
 
-export default function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
+export default function LogiaForm({
+  onSubmit,
+  isGeneratingChart,
+  error,
+}: LogiaFormProps) {
   const [birthDate, setBirthDate] = useState("");
   const [birthTime, setBirthTime] = useState("");
   const [city, setCity] = useState("");
@@ -157,4 +165,4 @@ export default function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaF
       </button>
     </form>
   );
-} 
+}

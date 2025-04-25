@@ -154,7 +154,7 @@ export default function LogiaChart({
         .attr("x2", x)
         .attr("y2", y)
         .style("stroke", "var(--color-primary)")
-        .style("stroke-width", 1.5)
+        .style("stroke-width", 1)
         .style("opacity", "0.9");
     });
 
@@ -217,15 +217,6 @@ export default function LogiaChart({
 
   return (
     <div className="astrology-chart-section">
-      <div className="astrology-info-box">
-        <div
-          className="astrology-info-text"
-          dangerouslySetInnerHTML={{ __html: chartInfo || "" }}
-        />
-      </div>
-      <button className="astrology-button" onClick={onBack}>
-        {t.buttons.back}
-      </button>
       <div className="astrology-chart-container" id="chart">
         {isGeneratingChart && (
           <div className="astrology-chart-loading">
@@ -236,6 +227,12 @@ export default function LogiaChart({
             </div>
           </div>
         )}
+      </div>
+      <div className="astrology-info-box">
+        <div
+          className="astrology-info-text"
+          dangerouslySetInnerHTML={{ __html: chartInfo || "" }}
+        />
         {selectedPlanet && chartData && (
           <div className="astrology-info-panel">
             <h3>{t.infoPanel.title}</h3>
@@ -266,6 +263,9 @@ export default function LogiaChart({
           </div>
         )}
       </div>
+      <button className="astrology-button" onClick={onBack}>
+        {t.buttons.back}
+      </button>
     </div>
   );
-} 
+}
