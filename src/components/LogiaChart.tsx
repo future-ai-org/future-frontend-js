@@ -8,7 +8,7 @@ import {
 } from "../config/logia";
 import { useTheme } from "../contexts/ThemeContext";
 import strings from "../i18n/logia.json";
-import Loading from "../utils/loading";
+import Loading from "../utils/Loading";
 import {
   calculateChartDimensions,
   createBaseChart,

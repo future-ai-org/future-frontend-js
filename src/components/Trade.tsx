@@ -7,7 +7,7 @@ import { API_CONFIG } from "../config/api";
 import { CACHE_CONFIG } from "../config/cache";
 import { CRYPTO_CONFIG } from "../config/crypto";
 import { CRYPTO_ICONS } from "../config/cryptoIcons";
-import Loading from "../utils/loading";
+import Loading from "../utils/Loading";
 
 interface CryptoData {
   id: string;

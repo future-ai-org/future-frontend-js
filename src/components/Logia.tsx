@@ -5,8 +5,8 @@ import { calculateChart, ChartData, printChartInfo } from "../config/logia";
 import strings from "../i18n/logia.json";
 import LogiaForm from "./LogiaForm";
 import LogiaChart from "./LogiaChart";
-import { geocodeCity } from "../utils/geocoding";
-import Loading from "../utils/loading";
+import { geocodeCity } from "../utils/Geocoding";
+import Loading from "../utils/Loading";
 import "../styles/logiachart.css";
 import "../styles/logiaform.css";
 

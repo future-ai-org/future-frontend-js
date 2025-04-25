@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import strings from "../i18n/logia.json";
-import { searchCities, CitySuggestion } from "../utils/geocoding";
-import Loading from "../utils/loading";
+import { searchCities, CitySuggestion } from "../utils/Geocoding";
+import Loading from "../utils/Loading";
 
 const t = strings.en;
 
