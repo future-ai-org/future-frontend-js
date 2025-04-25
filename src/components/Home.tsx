@@ -59,8 +59,11 @@ export default function Home() {
               {strings.en.hello.connectedAs.suffix}
             </span>
           ) : (
-            <span onClick={() => connect()}>
-              {strings.en.features.one.description}
+            <span>
+              <Link href="#" onClick={(e) => { e.preventDefault(); connect(); }}>
+                {strings.en.features.one.connectWallet}
+              </Link>
+              {" "}{strings.en.features.one.startAvatar}
             </span>
           )
         }
