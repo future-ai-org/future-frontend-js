@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
-import { OPENSTREETMAP_API_URL } from "../config/logia";
 import strings from "../i18n/logia.json";
+import { searchCities, CitySuggestion } from "../utils/geocoding";
 
 interface LogiaFormProps {
   onSubmit: (data: {
@@ -20,79 +20,23 @@ export default function LogiaForm({
   const [birthDate, setBirthDate] = useState("");
   const [birthTime, setBirthTime] = useState("");
   const [city, setCity] = useState("");
-  const [citySuggestions, setCitySuggestions] = useState<
-    Array<{ display_name: string; lat: string; lon: string }>
-  >([]);
+  const [citySuggestions, setCitySuggestions] = useState<CitySuggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   const t = strings.en;
 
-  const searchCities = useCallback(
-    async (query: string) => {
-      if (query.length < 2) {
-        setCitySuggestions([]);
-        return;
-      }
-
-      try {
-        const response = await fetch(
-          `${OPENSTREETMAP_API_URL}${encodeURIComponent(query)}&limit=10`,
-        );
-
-        if (!response.ok) {
-          throw new Error(t.errors.fetchCoordinatesFailed);
-        }
-
-        const data = await response.json();
-        const seen = new Set();
-        const formattedData = data
-          .map(
-            (item: {
-              name?: string;
-              display_name: string;
-              lat: string;
-              lon: string;
-            }) => {
-              const cityName =
-                item.name || item.display_name.split(",")[0].trim();
-              const parts = item.display_name.split(",");
-              const country = parts[parts.length - 1].trim();
-
-              return {
-                display_name: `${cityName.toLowerCase()}, ${country.toLowerCase()}`,
-                lat: item.lat,
-                lon: item.lon,
-              };
-            },
-          )
-          .filter((item: { display_name: string }) => {
-            const key = item.display_name.toLowerCase();
-            if (seen.has(key)) {
-              return false;
-            }
-            seen.add(key);
-            return true;
-          });
-        setCitySuggestions(formattedData);
-      } catch (err) {
-        setCitySuggestions([]);
-      }
+  const handleCityChange = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      setCity(value);
+      const suggestions = await searchCities(value);
+      setCitySuggestions(suggestions);
+      setShowSuggestions(true);
     },
-    [t.errors.fetchCoordinatesFailed],
+    [],
   );
 
-  const handleCityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setCity(value);
-    searchCities(value);
-    setShowSuggestions(true);
-  };
-
-  const handleCitySelect = (suggestion: {
-    display_name: string;
-    lat: string;
-    lon: string;
-  }) => {
+  const handleCitySelect = (suggestion: CitySuggestion) => {
     setCity(suggestion.display_name);
     setCitySuggestions([]);
     setShowSuggestions(false);

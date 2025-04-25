@@ -216,7 +216,7 @@ export default function LogiaChart({
   }, [chartData, theme]);
 
   return (
-    <div className="astrology-chart-section">
+    <div className="astrology-chart-section" style={{ position: 'relative', zIndex: 0 }}>
       <div className="astrology-chart-container" id="chart">
         {isGeneratingChart && (
           <div className="astrology-chart-loading">
