@@ -95,9 +95,7 @@ export type PlanetName = keyof typeof PLANET_SYMBOLS;
 export type ZodiacSign = keyof typeof ZODIAC_SYMBOLS;
 
 export function getPlanetSymbol(planetName: string): string {
-  return (
-    PLANET_SYMBOLS[planetName as keyof typeof PLANET_SYMBOLS] || planetName
-  );
+  return PLANET_SYMBOLS[planetName as keyof typeof PLANET_SYMBOLS] || planetName;
 }
 
 export function getZodiacSymbol(sign: string): string {
@@ -287,9 +285,7 @@ export function calculateChart(
     calculatePlanetPosition("pluto", julianDay),
   ].map((planet) => ({
     ...planet,
-    // Keep position as is for anti-clockwise
     position: planet.position,
-    // Calculate sign based on position
     sign: ZODIAC_SIGNS[Math.floor(planet.position / 30)],
   }));
 
@@ -329,7 +325,6 @@ export function calculateChart(
 
 // Helper functions for astronomical calculations
 export function getJulianDay(date: Date): number {
-  // Get the UTC components
   const year = date.getUTCFullYear();
   const month = date.getUTCMonth() + 1;
   const day = date.getUTCDate();
@@ -338,12 +333,10 @@ export function getJulianDay(date: Date): number {
     date.getUTCMinutes() / 60 +
     date.getUTCSeconds() / 3600;
 
-  // Calculate Julian Day Number
   const a = Math.floor((14 - month) / 12);
   const y = year + 4800 - a;
   const m = month + 12 * a - 3;
 
-  // Calculate Julian Day Number at noon UTC
   const jdn =
     day +
     Math.floor((153 * m + 2) / 5) +
@@ -353,7 +346,6 @@ export function getJulianDay(date: Date): number {
     Math.floor(y / 400) -
     32045;
 
-  // Add the fraction of the day
   return jdn + (hour - 12) / 24;
 }
 
@@ -361,24 +353,14 @@ export function calculateSiderealTime(
   julianDay: number,
   longitude: number,
 ): number {
-  // Calculate the number of Julian centuries since J2000.0
   const T = (julianDay - 2451545.0) / 36525;
-
-  // Calculate mean sidereal time at Greenwich
   let theta =
     280.46061837 +
     360.98564736629 * (julianDay - 2451545.0) +
     T * T * (0.000387933 - T / 38710000);
 
-  // Add the observer's longitude
   theta = (theta + longitude) % 360;
-
-  // Normalize to 0-360 range
-  if (theta < 0) {
-    theta += 360;
-  }
-
-  return theta;
+  return theta < 0 ? theta + 360 : theta;
 }
 
 export function calculateAscendant(
@@ -386,11 +368,9 @@ export function calculateAscendant(
   latitude: number,
   julianDay: number,
 ): number {
-  // Convert to radians
   const T = (siderealTime * Math.PI) / 180;
   const lat = (latitude * Math.PI) / 180;
 
-  // Calculate the obliquity of the ecliptic (ε)
   const T_centuries = (julianDay - 2451545.0) / 36525;
   const epsilon =
     ((23.4392911 -
@@ -400,21 +380,16 @@ export function calculateAscendant(
       Math.PI) /
     180;
 
-  // Calculate the ascendant using the standard formula
   const tanAsc =
     (Math.cos(T) * Math.sin(epsilon) + Math.tan(lat) * Math.cos(epsilon)) /
     Math.sin(T);
   let ascendant = (Math.atan(tanAsc) * 180) / Math.PI;
 
-  // Adjust for quadrant
   if (Math.sin(T) < 0) {
     ascendant += 180;
   }
 
-  // Normalize to 0-360 range and adjust for anti-clockwise direction
-  ascendant = (360 - ascendant) % 360;
-
-  return ascendant;
+  return (360 - ascendant) % 360;
 }
 
 function calculatePlanetPosition(
@@ -422,30 +397,18 @@ function calculatePlanetPosition(
   julianDay: number,
 ): PlanetPosition {
   if (planet === "sun") {
-    // Calculate the sun's position using the actual astronomical formula
     const T = (julianDay - 2451545.0) / 36525;
-
-    // Mean longitude of the sun
     const _L0 = 280.46646 + 36000.76983 * T + 0.0003032 * T * T;
-
-    // Mean anomaly of the sun
     const M = 357.52911 + 35999.05029 * T - 0.0001537 * T * T;
-
-    // Sun's equation of center
     const C =
       (1.914602 - 0.004817 * T - 0.000014 * T * T) *
         Math.sin((M * Math.PI) / 180) +
       (0.019993 - 0.000101 * T) * Math.sin((2 * M * Math.PI) / 180) +
       0.000289 * Math.sin((3 * M * Math.PI) / 180);
-
-    // True longitude of the sun
     const trueLongitude = _L0 + C;
-
-    // Normalize to 0-360 range
     let position = trueLongitude % 360;
     if (position < 0) position += 360;
 
-    // Calculate the sign based on the actual zodiac boundaries
     const signIndex = Math.floor(position / 30);
     const sign = ZODIAC_SIGNS[signIndex];
     const house = (Math.floor((position + 30) / 30) % 12) + 1;
@@ -458,8 +421,6 @@ function calculatePlanetPosition(
     };
   }
 
-  // For other planets, use the simplified calculation
-  // Basic orbital periods (in days)
   const periods: { [key: string]: number } = {
     moon: 27.3217,
     mercury: 87.969,
@@ -473,7 +434,6 @@ function calculatePlanetPosition(
   };
 
   const position = ((julianDay / periods[planet]) % 1) * 360;
-
   const signIndex = Math.floor(position / 30);
   const sign = ZODIAC_SIGNS[signIndex];
   const house = (Math.floor((position + 30) / 30) % 12) + 1;
@@ -487,11 +447,5 @@ function calculatePlanetPosition(
 }
 
 function calculateHouses(ascendant: number): number[] {
-  const houses: number[] = [];
-  for (let i = 0; i < 12; i++) {
-    const houseCusp = (ascendant + i * 30) % 360;
-    houses.push(houseCusp);
-  }
-
-  return houses;
+  return Array.from({ length: 12 }, (_, i) => (ascendant + i * 30) % 360);
 }
