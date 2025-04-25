@@ -18,7 +18,8 @@ export interface LogiaFormProps {
   error: string | null;
 }
 
-export const OPENSTREETMAP_API_URL = "https://nominatim.openstreetmap.org/search?format=json&q=";
+export const OPENSTREETMAP_API_URL =
+  "https://nominatim.openstreetmap.org/search?format=json&q=";
 
 export function calculateChart(
   birthDate: string,

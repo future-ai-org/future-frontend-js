@@ -1,7 +1,11 @@
 "use client";
 
 import React, { useState, useCallback } from "react";
-import { calculateChart, ChartData, printChartInfo } from "../config/logiaChart";
+import {
+  calculateChart,
+  ChartData,
+  printChartInfo,
+} from "../config/logiaChart";
 import strings from "../i18n/logia.json";
 import LogiaForm from "./LogiaForm";
 import LogiaChart from "./LogiaChart";
@@ -9,6 +13,12 @@ import { geocodeCity } from "../utils/Geocoding";
 import Loading from "../utils/Loading";
 import "../styles/logiachart.css";
 import "../styles/logiaform.css";
+
+interface FormData {
+  birthDate: string;
+  birthTime: string;
+  city: string;
+}
 
 export default function Logia() {
   const [chartData, setChartData] = useState<ChartData | null>(null);
@@ -19,7 +29,7 @@ export default function Logia() {
   const t = strings.en;
 
   const handleSubmit = useCallback(
-    async (data: { birthDate: string; birthTime: string; city: string }) => {
+    async (data: FormData) => {
       const { birthDate, birthTime, city } = data;
       setIsLoading(true);
       setError(null);
