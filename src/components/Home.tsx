@@ -60,10 +60,16 @@ export default function Home() {
             </span>
           ) : (
             <span>
-              <Link href="#" onClick={(e) => { e.preventDefault(); connect(); }}>
+              <Link
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  connect();
+                }}
+              >
                 {strings.en.features.one.connectWallet}
-              </Link>
-              {" "}{strings.en.features.one.startAvatar}
+              </Link>{" "}
+              {strings.en.features.one.startAvatar}
             </span>
           )
         }
