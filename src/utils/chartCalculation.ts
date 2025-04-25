@@ -8,7 +8,9 @@ export interface ChartDimensions {
   radius: number;
 }
 
-export function calculateChartDimensions(container: HTMLElement): ChartDimensions {
+export function calculateChartDimensions(
+  container: HTMLElement,
+): ChartDimensions {
   const width = container.clientWidth;
   const height = container.clientHeight;
   const size = Math.min(width, height);
@@ -18,7 +20,7 @@ export function calculateChartDimensions(container: HTMLElement): ChartDimension
 
 export function createBaseChart(
   container: HTMLElement,
-  dimensions: ChartDimensions
+  dimensions: ChartDimensions,
 ) {
   d3.select(container).selectAll("*").remove();
   const { width, height } = dimensions;
@@ -39,7 +41,10 @@ export function createBaseChart(
   return { svg, g };
 }
 
-export function drawChartCircles(g: d3.Selection<SVGGElement, unknown, null, undefined>, radius: number) {
+export function drawChartCircles(
+  g: d3.Selection<SVGGElement, unknown, null, undefined>,
+  radius: number,
+) {
   g.append("circle")
     .attr("r", radius)
     .style("fill", "none")
@@ -57,12 +62,13 @@ export function drawChartCircles(g: d3.Selection<SVGGElement, unknown, null, und
 export function drawHouseNumbers(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
   radius: number,
-  ascendantAngle: number
+  ascendantAngle: number,
 ) {
   const houseNumberRadius = radius * 0.2;
-  
+
   for (let i = 0; i < 12; i++) {
-    const angle = ((((ascendantAngle - i * 30 + 360) % 360) - 90 + 15) * Math.PI) / 180;
+    const angle =
+      ((((ascendantAngle - i * 30 + 360) % 360) - 90 + 15) * Math.PI) / 180;
     const x = houseNumberRadius * Math.cos(angle);
     const y = houseNumberRadius * Math.sin(angle);
 
@@ -82,12 +88,16 @@ export function drawHouseNumbers(
 export function drawAscendant(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
   radius: number,
-  ascendantAngle: number
+  ascendantAngle: number,
 ) {
-  const ascX = (radius - 35) * Math.cos(((ascendantAngle - 90) * Math.PI) / 180);
-  const ascY = (radius - 35) * Math.sin(((ascendantAngle - 90) * Math.PI) / 180);
+  const ascX =
+    (radius - 35) * Math.cos(((ascendantAngle - 90) * Math.PI) / 180);
+  const ascY =
+    (radius - 35) * Math.sin(((ascendantAngle - 90) * Math.PI) / 180);
 
-  const ascGroup = g.append("g").attr("transform", `translate(${ascX},${ascY})`);
+  const ascGroup = g
+    .append("g")
+    .attr("transform", `translate(${ascX},${ascY})`);
 
   ascGroup
     .append("circle")
@@ -108,7 +118,7 @@ export function drawAscendant(
 export function drawZodiacSymbols(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
   radius: number,
-  zodiacSymbols: string[]
+  zodiacSymbols: string[],
 ) {
   const zodiacRadius = radius + 15;
 
@@ -147,7 +157,7 @@ export function drawZodiacSymbols(
 export function drawHouses(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
   radius: number,
-  houses: number[]
+  houses: number[],
 ) {
   houses.forEach((angle) => {
     const x = radius * Math.cos(((angle - 90) * Math.PI) / 180);
@@ -167,17 +177,21 @@ export function drawHouses(
 export function drawAspects(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
   radius: number,
-  chartData: ChartData
+  chartData: ChartData,
 ) {
   chartData.aspects.forEach((aspect) => {
     const planet1 = chartData.planets.find((p) => p.name === aspect.planet1);
     const planet2 = chartData.planets.find((p) => p.name === aspect.planet2);
 
     if (planet1 && planet2) {
-      const x1 = (radius - 35) * Math.cos(((planet1.position - 90) * Math.PI) / 180);
-      const y1 = (radius - 35) * Math.sin(((planet1.position - 90) * Math.PI) / 180);
-      const x2 = (radius - 35) * Math.cos(((planet2.position - 90) * Math.PI) / 180);
-      const y2 = (radius - 35) * Math.sin(((planet2.position - 90) * Math.PI) / 180);
+      const x1 =
+        (radius - 35) * Math.cos(((planet1.position - 90) * Math.PI) / 180);
+      const y1 =
+        (radius - 35) * Math.sin(((planet1.position - 90) * Math.PI) / 180);
+      const x2 =
+        (radius - 35) * Math.cos(((planet2.position - 90) * Math.PI) / 180);
+      const y2 =
+        (radius - 35) * Math.sin(((planet2.position - 90) * Math.PI) / 180);
 
       g.append("line")
         .attr("x1", x1)
@@ -196,11 +210,13 @@ export function drawPlanets(
   radius: number,
   chartData: ChartData,
   onPlanetClick: (planetName: string) => void,
-  getPlanetSymbol: (name: string) => string
+  getPlanetSymbol: (name: string) => string,
 ) {
   chartData.planets.forEach((planet) => {
-    const x = (radius - 35) * Math.cos(((planet.position - 90) * Math.PI) / 180);
-    const y = (radius - 35) * Math.sin(((planet.position - 90) * Math.PI) / 180);
+    const x =
+      (radius - 35) * Math.cos(((planet.position - 90) * Math.PI) / 180);
+    const y =
+      (radius - 35) * Math.sin(((planet.position - 90) * Math.PI) / 180);
 
     const planetGroup = g
       .append("g")
@@ -222,4 +238,4 @@ export function drawPlanets(
       .style("font-size", "16px")
       .style("fill", "var(--color-primary)");
   });
-} 
+}

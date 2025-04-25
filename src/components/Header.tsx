@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import styles from "src/styles/header.module.css";
 import { Toggler } from "./Toggler";
 import Wallet from "./Wallet";
-import { useWeb3 } from "../contexts/Web3ModalContext";
+import { useWeb3 } from "../utils/Web3ModalContext";
 import logo from "../assets/logo.svg";
 import { HEADER_CONFIG } from "../config/header";
 import { isValidRoute } from "../config/routes";

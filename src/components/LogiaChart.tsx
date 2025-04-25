@@ -6,7 +6,7 @@ import {
   getZodiacSymbol,
   ZODIAC_SIGNS,
 } from "../config/logia";
-import { useTheme } from "../contexts/ThemeContext";
+import { useTheme } from "../utils/ThemeContext";
 import strings from "../i18n/logia.json";
 import Loading from "../utils/Loading";
 import {
@@ -33,7 +33,9 @@ export default function LogiaChart({
   isGeneratingChart,
 }: LogiaChartProps) {
   const { theme } = useTheme();
-  const [selectedPlanet, setSelectedPlanet] = React.useState<string | null>(null);
+  const [selectedPlanet, setSelectedPlanet] = React.useState<string | null>(
+    null,
+  );
   const t = strings.en;
 
   useEffect(() => {
@@ -51,11 +53,17 @@ export default function LogiaChart({
     drawZodiacSymbols(
       g,
       dimensions.radius,
-      ZODIAC_SIGNS.map((sign: string) => getZodiacSymbol(sign))
+      ZODIAC_SIGNS.map((sign: string) => getZodiacSymbol(sign)),
     );
     drawHouses(g, dimensions.radius, chartData.houses);
     drawAspects(g, dimensions.radius, chartData);
-    drawPlanets(g, dimensions.radius, chartData, setSelectedPlanet, getPlanetSymbol);
+    drawPlanets(
+      g,
+      dimensions.radius,
+      chartData,
+      setSelectedPlanet,
+      getPlanetSymbol,
+    );
 
     return () => {
       d3.select(container).selectAll("*").remove();

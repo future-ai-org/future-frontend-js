@@ -1,5 +1,5 @@
 import React from "react";
-import { useTheme } from "../contexts/ThemeContext";
+import { useTheme } from "../utils/ThemeContext";
 import "../styles/toggler.css";
 
 export const Toggler: React.FC = () => {
