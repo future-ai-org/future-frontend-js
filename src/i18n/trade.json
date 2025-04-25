@@ -17,6 +17,15 @@
         "ath": "all time high",
         "chart": "zoom in to trade"
       }
+    },
+    "formatting": {
+      "decimalSeparator": ".",
+      "percentage": "%",
+      "billion": "B",
+      "currency": "$"
+    },
+    "chart": {
+      "noData": "No data"
     }
   }
 }

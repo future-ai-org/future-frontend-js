@@ -241,7 +241,7 @@ export default function Trade() {
                     </div>
                   </td>
                   <td className={`table-cell crypto-price-cell ${colorClass}`}>
-                    $
+                    {t.formatting.currency}
                     {
                       crypto.current_price
                         .toLocaleString(undefined, {
@@ -250,7 +250,7 @@ export default function Trade() {
                         })
                         .split(".")[0]
                     }
-                    .
+                    {t.formatting.decimalSeparator}
                     <span className="decimal-part">
                       {
                         crypto.current_price
@@ -271,23 +271,23 @@ export default function Trade() {
                         .toFixed(2)
                         .split(".")[0]
                     }
-                    .
+                    {t.formatting.decimalSeparator}
                     <span className="decimal-part">
                       {
                         Math.abs(crypto.price_change_percentage_24h)
                           .toFixed(2)
                           .split(".")[1]
                       }
-                      %
+                      {t.formatting.percentage}
                     </span>
                   </td>
                   <td
                     className={`table-cell crypto-market-cap-cell ${colorClass}`}
                   >
-                    ${(crypto.market_cap / 1000000000).toFixed(2)}B
+                    {t.formatting.currency}{(crypto.market_cap / 1000000000).toFixed(2)}{t.formatting.billion}
                   </td>
                   <td className={`table-cell crypto-ath-cell ${colorClass}`}>
-                    $
+                    {t.formatting.currency}
                     {crypto.ath.toLocaleString(undefined, {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 6,
@@ -324,7 +324,7 @@ export default function Trade() {
                       <div className="chart-container">
                         <svg viewBox="0 0 100 30">
                           <text x="60" y="15" className={colorClass}>
-                            No data
+                            {t.chart.noData}
                           </text>
                         </svg>
                       </div>
