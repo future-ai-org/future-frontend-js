@@ -146,7 +146,10 @@ export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
           },
         );
 
-        console.log(tradingMessages.en.error.apiResponseStatus, response.status);
+        console.log(
+          tradingMessages.en.error.apiResponseStatus,
+          response.status,
+        );
 
         if (!response.ok) {
           const errorText = await response.text();

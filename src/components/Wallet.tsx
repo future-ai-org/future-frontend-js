@@ -180,7 +180,7 @@ const Wallet: React.FC = () => {
 
           const response = await window.phantom.solana.connect();
           if (!response?.publicKey) {
-            throw new Error(strings.en.phantomConnectionFailed);
+            throw new Error(strings.en.phantomConnectionError);
           }
         } else if (wallet.connector) {
           await connect({ connector: wallet.connector });
