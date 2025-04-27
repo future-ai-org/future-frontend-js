@@ -229,7 +229,20 @@
 }
 
 .astrology-table td {
+  padding: 0.5rem;
+  text-align: center;
+  color: var(--color-primary);
   font-weight: 500;
+}
+
+.astrology-table td:first-child {
+  font-size: 1.4em;
+  font-weight: 900;
+}
+
+.astrology-table td:nth-child(3) {
+  font-size: 1.4em;
+  font-weight: 900;
 }
 
 .astrology-table td:nth-child(4) {
@@ -306,7 +319,7 @@
   font-size: 1.2em;
   display: inline-block;
   margin-left: 0.2em;
-  font-family: 'Astrology', monospace;
+  font-family: "Astrology", monospace;
   -webkit-font-feature-settings: "liga" 0;
   font-feature-settings: "liga" 0;
   text-rendering: optimizeLegibility;
@@ -387,7 +400,7 @@
 }
 
 .astrology-table .zodiac-symbol {
-  font-family: 'Astrology', monospace;
+  font-family: "Astrology", monospace;
   font-size: 1.2em;
   display: inline-block;
   margin-left: 0.2em;

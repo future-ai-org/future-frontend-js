@@ -154,24 +154,20 @@ export default function LogiaChart({
       drawChartCircles(g, dimensions.radius);
       drawHouseNumbers(g, dimensions.radius, chartData.houses[0]);
       drawAscendant(g, dimensions.radius, chartData.houses[0]);
-      drawZodiacSymbols(
-        g,
-        dimensions.radius,
-        [
-          ZODIAC_SYMBOLS.pisces,
-          ZODIAC_SYMBOLS.aquarius,
-          ZODIAC_SYMBOLS.capricorn,
-          ZODIAC_SYMBOLS.sagittarius,
-          ZODIAC_SYMBOLS.scorpio,
-          ZODIAC_SYMBOLS.libra,
-          ZODIAC_SYMBOLS.virgo,
-          ZODIAC_SYMBOLS.leo,
-          ZODIAC_SYMBOLS.cancer,
-          ZODIAC_SYMBOLS.gemini,
-          ZODIAC_SYMBOLS.taurus,
-          ZODIAC_SYMBOLS.aries,
-        ],
-      );
+      drawZodiacSymbols(g, dimensions.radius, [
+        ZODIAC_SYMBOLS.pisces,
+        ZODIAC_SYMBOLS.aquarius,
+        ZODIAC_SYMBOLS.capricorn,
+        ZODIAC_SYMBOLS.sagittarius,
+        ZODIAC_SYMBOLS.scorpio,
+        ZODIAC_SYMBOLS.libra,
+        ZODIAC_SYMBOLS.virgo,
+        ZODIAC_SYMBOLS.leo,
+        ZODIAC_SYMBOLS.cancer,
+        ZODIAC_SYMBOLS.gemini,
+        ZODIAC_SYMBOLS.taurus,
+        ZODIAC_SYMBOLS.aries,
+      ]);
       drawHouses(g, dimensions.radius, chartData.houses);
       drawAspects(g, dimensions.radius, chartData);
       drawPlanets(

@@ -192,22 +192,12 @@ export default function Trade() {
         <table className="table">
           <thead>
             <tr>
-              <th className="table-header">
-                {t.table.headers.asset}
-              </th>
-              <th className="table-header">
-                {t.table.headers.price}
-              </th>
-              <th className="table-header">
-                {t.table.headers.change}
-              </th>
-              <th className="table-header">
-                {t.table.headers.marketCap}
-              </th>
+              <th className="table-header">{t.table.headers.asset}</th>
+              <th className="table-header">{t.table.headers.price}</th>
+              <th className="table-header">{t.table.headers.change}</th>
+              <th className="table-header">{t.table.headers.marketCap}</th>
               <th className="table-header">{t.table.headers.ath}</th>
-              <th className="table-header">
-                {t.table.headers.chart}
-              </th>
+              <th className="table-header">{t.table.headers.chart}</th>
             </tr>
           </thead>
           <tbody>

@@ -101,7 +101,9 @@ export function getPlanetSymbol(planetName: string): string {
 }
 
 export function getZodiacSymbol(sign: string): string {
-  return ZODIAC_SYMBOLS[sign.toLowerCase() as keyof typeof ZODIAC_SYMBOLS] || sign;
+  return (
+    ZODIAC_SYMBOLS[sign.toLowerCase() as keyof typeof ZODIAC_SYMBOLS] || sign
+  );
 }
 
 export function getElementForSign(sign: string): string {
