@@ -133,7 +133,8 @@ export function drawZodiacSymbols(
       .attr("text-anchor", "middle")
       .attr("dy", "0.35em")
       .text(zodiacSymbols[index])
-      .style("font-size", "16px")
+      .style("font-family", "'Arial Unicode MS', 'Arial', sans-serif")
+      .style("font-size", "20px")
       .style("fill", "var(--color-primary)")
       .style("opacity", "0.8")
       .style("font-weight", "500")
@@ -142,13 +143,13 @@ export function drawZodiacSymbols(
       .on("mouseover", function () {
         d3.select(this)
           .style("opacity", "1")
-          .style("font-size", "20px")
+          .style("font-size", "24px")
           .style("text-shadow", "0 0 12px var(--color-primary)");
       })
       .on("mouseout", function () {
         d3.select(this)
           .style("opacity", "0.8")
-          .style("font-size", "16px")
+          .style("font-size", "20px")
           .style("text-shadow", "0 0 8px var(--color-primary)");
       });
   }

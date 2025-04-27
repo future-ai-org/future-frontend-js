@@ -3,7 +3,7 @@ import {
   ChartData,
   getPlanetSymbol,
   getZodiacSymbol,
-  ZODIAC_SIGNS,
+  ZODIAC_SYMBOLS,
   calculateChart as calculateChartData,
   getElementForSign,
 } from "../config/logiaChart";
@@ -157,7 +157,20 @@ export default function LogiaChart({
       drawZodiacSymbols(
         g,
         dimensions.radius,
-        ZODIAC_SIGNS.map((sign: string) => getZodiacSymbol(sign)),
+        [
+          ZODIAC_SYMBOLS.pisces,
+          ZODIAC_SYMBOLS.aquarius,
+          ZODIAC_SYMBOLS.capricorn,
+          ZODIAC_SYMBOLS.sagittarius,
+          ZODIAC_SYMBOLS.scorpio,
+          ZODIAC_SYMBOLS.libra,
+          ZODIAC_SYMBOLS.virgo,
+          ZODIAC_SYMBOLS.leo,
+          ZODIAC_SYMBOLS.cancer,
+          ZODIAC_SYMBOLS.gemini,
+          ZODIAC_SYMBOLS.taurus,
+          ZODIAC_SYMBOLS.aries,
+        ],
       );
       drawHouses(g, dimensions.radius, chartData.houses);
       drawAspects(g, dimensions.radius, chartData);
