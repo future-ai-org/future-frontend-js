@@ -3,7 +3,7 @@ import {
   ChartData,
   getPlanetSymbol,
   getZodiacSymbol,
-  ZODIAC_SIGNS,
+  ZODIAC_SYMBOLS,
   calculateChart as calculateChartData,
   getElementForSign,
 } from "../config/logiaChart";
@@ -78,7 +78,7 @@ export function printChartInfo(
         <tr>
           <td>${getPlanetSymbol(planet.name)}</td>
           <td>${(planet.position % 30).toFixed(2)}°</td>
-          <td>${getZodiacSymbol(planet.sign)}</td>
+          <td><svg viewBox="0 0 24 24" width="1.2em" height="1.2em" style="display: inline-block; vertical-align: middle;"><text x="12" y="16" text-anchor="middle" style="font-family: 'Arial Unicode MS', 'Arial', sans-serif; font-size: 18px; fill: var(--color-primary); opacity: 0.8; font-weight: 900;">${getZodiacSymbol(planet.sign)}</text></svg></td>
           <td>${getElementForSign(planet.sign)}</td>
           <td>${planet.house}</td>
         </tr>
@@ -154,11 +154,20 @@ export default function LogiaChart({
       drawChartCircles(g, dimensions.radius);
       drawHouseNumbers(g, dimensions.radius, chartData.houses[0]);
       drawAscendant(g, dimensions.radius, chartData.houses[0]);
-      drawZodiacSymbols(
-        g,
-        dimensions.radius,
-        ZODIAC_SIGNS.map((sign: string) => getZodiacSymbol(sign)),
-      );
+      drawZodiacSymbols(g, dimensions.radius, [
+        ZODIAC_SYMBOLS.pisces,
+        ZODIAC_SYMBOLS.aquarius,
+        ZODIAC_SYMBOLS.capricorn,
+        ZODIAC_SYMBOLS.sagittarius,
+        ZODIAC_SYMBOLS.scorpio,
+        ZODIAC_SYMBOLS.libra,
+        ZODIAC_SYMBOLS.virgo,
+        ZODIAC_SYMBOLS.leo,
+        ZODIAC_SYMBOLS.cancer,
+        ZODIAC_SYMBOLS.gemini,
+        ZODIAC_SYMBOLS.taurus,
+        ZODIAC_SYMBOLS.aries,
+      ]);
       drawHouses(g, dimensions.radius, chartData.houses);
       drawAspects(g, dimensions.radius, chartData);
       drawPlanets(

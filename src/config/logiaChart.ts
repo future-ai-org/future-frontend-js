@@ -61,18 +61,18 @@ export const PLANET_SYMBOLS = {
 } as const;
 
 export const ZODIAC_SYMBOLS = {
-  aries: "♈",
-  taurus: "♉",
-  gemini: "♊",
-  cancer: "♋",
-  leo: "♌",
-  virgo: "♍",
-  libra: "♎",
-  scorpio: "♏",
-  sagittarius: "♐",
-  capricorn: "♑",
-  aquarius: "♒",
-  pisces: "♓",
+  aries: "\u2648",
+  taurus: "\u2649",
+  gemini: "\u264A",
+  cancer: "\u264B",
+  leo: "\u264C",
+  virgo: "\u264D",
+  libra: "\u264E",
+  scorpio: "\u264F",
+  sagittarius: "\u2650",
+  capricorn: "\u2651",
+  aquarius: "\u2652",
+  pisces: "\u2653",
 } as const;
 
 export const ASPECTS = [
@@ -101,7 +101,9 @@ export function getPlanetSymbol(planetName: string): string {
 }
 
 export function getZodiacSymbol(sign: string): string {
-  return ZODIAC_SYMBOLS[sign as keyof typeof ZODIAC_SYMBOLS] || sign;
+  return (
+    ZODIAC_SYMBOLS[sign.toLowerCase() as keyof typeof ZODIAC_SYMBOLS] || sign
+  );
 }
 
 export function getElementForSign(sign: string): string {
@@ -181,7 +183,7 @@ export function printChartInfo(
         <tr>
           <td>ASC</td>
           <td>${ascendantDegree.toFixed(2)}°</td>
-          <td>${getZodiacSymbol(ascendantSign)}</td>
+          <td><span class="zodiac-symbol">${getZodiacSymbol(ascendantSign)}</span></td>
           <td>${getElementForSign(ascendantSign)}</td>
           <td>1</td>
           <td>${ASTROLOGY_EFFECTS[0]}</td>
@@ -192,7 +194,7 @@ export function printChartInfo(
         <tr>
           <td>${getPlanetSymbol(planet.name)}</td>
           <td>${(planet.position % 30).toFixed(2)}°</td>
-          <td>${getZodiacSymbol(planet.sign)}</td>
+          <td><span class="zodiac-symbol">${getZodiacSymbol(planet.sign)}</span></td>
           <td>${getElementForSign(planet.sign)}</td>
           <td>${planet.house}</td>
           <td>${ASTROLOGY_EFFECTS[index + 1]}</td>

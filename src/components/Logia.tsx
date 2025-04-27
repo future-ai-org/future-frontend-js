@@ -101,20 +101,29 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
   const [citySuggestions, setCitySuggestions] = useState<CitySuggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const blurTimeoutRef = useRef<NodeJS.Timeout>();
+  const searchTimeoutRef = useRef<NodeJS.Timeout>();
 
   const handleCityChange = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
       setFormData((prev) => ({ ...prev, city: value }));
 
-      if (value.trim()) {
-        const suggestions = await searchCities(value);
-        setCitySuggestions(suggestions);
-        setShowSuggestions(true);
-      } else {
-        setCitySuggestions([]);
-        setShowSuggestions(false);
+      // Clear any existing timeout
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
       }
+
+      // Set a new timeout to debounce the search
+      searchTimeoutRef.current = setTimeout(async () => {
+        if (value.trim()) {
+          const suggestions = await searchCities(value);
+          setCitySuggestions(suggestions);
+          setShowSuggestions(true);
+        } else {
+          setCitySuggestions([]);
+          setShowSuggestions(false);
+        }
+      }, 300); // Wait 300ms after the user stops typing
     },
     [],
   );
