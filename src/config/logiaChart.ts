@@ -181,7 +181,7 @@ export function printChartInfo(
         <tr>
           <td>ASC</td>
           <td>${ascendantDegree.toFixed(2)}°</td>
-          <td>${getZodiacSymbol(ascendantSign)}</td>
+          <td><span class="zodiac-symbol">${getZodiacSymbol(ascendantSign)}</span></td>
           <td>${getElementForSign(ascendantSign)}</td>
           <td>1</td>
           <td>${ASTROLOGY_EFFECTS[0]}</td>
@@ -192,7 +192,7 @@ export function printChartInfo(
         <tr>
           <td>${getPlanetSymbol(planet.name)}</td>
           <td>${(planet.position % 30).toFixed(2)}°</td>
-          <td>${getZodiacSymbol(planet.sign)}</td>
+          <td><span class="zodiac-symbol">${getZodiacSymbol(planet.sign)}</span></td>
           <td>${getElementForSign(planet.sign)}</td>
           <td>${planet.house}</td>
           <td>${ASTROLOGY_EFFECTS[index + 1]}</td>

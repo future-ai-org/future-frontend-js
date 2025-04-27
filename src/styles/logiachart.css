@@ -386,6 +386,24 @@
   text-transform: lowercase;
 }
 
+.astrology-table .zodiac-symbol {
+  font-family: 'Astrology', monospace;
+  font-size: 1.2em;
+  display: inline-block;
+  margin-left: 0.2em;
+  -webkit-font-feature-settings: "liga" 0;
+  font-feature-settings: "liga" 0;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-variant: normal;
+  text-transform: none;
+  color: var(--color-primary);
+  opacity: 1;
+  font-weight: 900;
+  filter: brightness(0.7);
+}
+
 @media (max-width: 1024px) {
   .astrology-chart-section {
     min-width: 100%;

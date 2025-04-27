@@ -78,7 +78,7 @@ export function printChartInfo(
         <tr>
           <td>${getPlanetSymbol(planet.name)}</td>
           <td>${(planet.position % 30).toFixed(2)}°</td>
-          <td>${getZodiacSymbol(planet.sign)}</td>
+          <td><svg viewBox="0 0 24 24" width="1.2em" height="1.2em" style="display: inline-block; vertical-align: middle;"><text x="12" y="16" text-anchor="middle" style="font-family: 'Arial Unicode MS', 'Arial', sans-serif; font-size: 18px; fill: var(--color-primary); opacity: 0.8; font-weight: 900;">${getZodiacSymbol(planet.sign)}</text></svg></td>
           <td>${getElementForSign(planet.sign)}</td>
           <td>${planet.house}</td>
         </tr>
