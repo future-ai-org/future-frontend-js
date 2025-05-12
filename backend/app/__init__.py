@@ -1,0 +1,3 @@
+"""
+Astrological API package.
+""" 

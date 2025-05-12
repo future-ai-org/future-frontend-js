@@ -1,13 +1,16 @@
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
 from datetime import datetime
-import ephem
-from typing import Dict, List
-import math
+from typing import Dict, List, Optional
 
-app = FastAPI(
-    title="Astrological API",
-    description="""
+import ephem
+import math
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, Field
+
+# API Configuration
+API_CONFIG = {
+    "title": "Astrological API",
+    "description": """
     A comprehensive API for astrological calculations and information.
     
     ## Features
@@ -18,27 +21,42 @@ app = FastAPI(
     ## Usage
     All dates should be provided in YYYY-MM-DD format.
     """,
-    version="1.0.0",
-    docs_url="/docs",
-    redoc_url="/redoc",
-    openapi_url="/openapi.json"
+    "version": "1.0.0",
+    "docs_url": "/docs",
+    "redoc_url": "/redoc",
+    "openapi_url": "/openapi.json"
+}
+
+# Initialize FastAPI app
+app = FastAPI(**API_CONFIG)
+
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # In production, replace with specific origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
+# Models
 class PlanetPosition(BaseModel):
-    name: str
-    longitude: float
-    latitude: float
-    distance: float
-    constellation: str
+    """Model representing a planet's position in space."""
+    name: str = Field(..., description="Name of the planet")
+    longitude: float = Field(..., description="Ecliptic longitude in degrees")
+    latitude: float = Field(..., description="Ecliptic latitude in degrees")
+    distance: float = Field(..., description="Distance from Earth in AU")
+    constellation: str = Field(..., description="Current zodiac constellation")
 
 class ZodiacSign(BaseModel):
-    name: str
-    start_date: str
-    end_date: str
-    element: str
-    quality: str
+    """Model representing zodiac sign information."""
+    name: str = Field(..., description="Name of the zodiac sign")
+    start_date: str = Field(..., description="Start date in MM-DD format")
+    end_date: str = Field(..., description="End date in MM-DD format")
+    element: str = Field(..., description="Associated element (Fire, Earth, Air, Water)")
+    quality: str = Field(..., description="Sign quality (Cardinal, Fixed, Mutable)")
 
-# Zodiac signs information
+# Constants
 ZODIAC_SIGNS = {
     "Aries": {"start": "03-21", "end": "04-19", "element": "Fire", "quality": "Cardinal"},
     "Taurus": {"start": "04-20", "end": "05-20", "element": "Earth", "quality": "Fixed"},
@@ -54,60 +72,90 @@ ZODIAC_SIGNS = {
     "Pisces": {"start": "02-19", "end": "03-20", "element": "Water", "quality": "Mutable"}
 }
 
+# Helper functions
 def get_constellation(longitude: float) -> str:
-    """Convert ecliptic longitude to constellation name."""
+    """
+    Convert ecliptic longitude to constellation name.
+    
+    Args:
+        longitude (float): Ecliptic longitude in degrees
+        
+    Returns:
+        str: Name of the constellation
+    """
     constellations = [
         "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
         "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
     ]
-    index = int(longitude / 30)
+    index = int(longitude / 30) % 12  # Ensure index is within bounds
     return constellations[index]
 
 def get_zodiac_sign(date: datetime) -> str:
-    """Get zodiac sign for a given date."""
+    """
+    Get zodiac sign for a given date.
+    
+    Args:
+        date (datetime): Date to check
+        
+    Returns:
+        str: Name of the zodiac sign
+    """
     month_day = date.strftime("%m-%d")
     for sign, info in ZODIAC_SIGNS.items():
         if info["start"] <= month_day <= info["end"]:
             return sign
     return "Unknown"
 
+def parse_date(date_str: Optional[str] = None) -> datetime:
+    """
+    Parse date string to datetime object.
+    
+    Args:
+        date_str (Optional[str]): Date string in YYYY-MM-DD format
+        
+    Returns:
+        datetime: Parsed datetime object
+        
+    Raises:
+        HTTPException: If date format is invalid
+    """
+    if date_str:
+        try:
+            return datetime.strptime(date_str, "%Y-%m-%d")
+        except ValueError:
+            raise HTTPException(
+                status_code=400,
+                detail="Invalid date format. Use YYYY-MM-DD"
+            )
+    return datetime.now()
+
+# API Endpoints
 @app.get("/", tags=["Root"])
-async def root():
+async def root() -> Dict[str, str]:
     """
     Root endpoint that returns a welcome message.
     
     Returns:
-        dict: A welcome message
+        Dict[str, str]: A welcome message
     """
     return {"message": "Welcome to the Astrological API"}
 
 @app.get("/planets", response_model=List[PlanetPosition], tags=["Planets"])
-async def get_planet_positions(date: str = None):
+async def get_planet_positions(date: Optional[str] = None) -> List[PlanetPosition]:
     """
     Get positions of all planets for a given date.
     
     Args:
-        date (str, optional): Date in YYYY-MM-DD format. If not provided, uses current date.
+        date (Optional[str]): Date in YYYY-MM-DD format. If not provided, uses current date.
         
     Returns:
-        List[PlanetPosition]: List of planet positions including:
-            - name: Planet name
-            - longitude: Ecliptic longitude in degrees
-            - latitude: Ecliptic latitude in degrees
-            - distance: Distance from Earth in AU
-            - constellation: Current zodiac constellation
-            
+        List[PlanetPosition]: List of planet positions
+        
     Raises:
         HTTPException: If date format is invalid
     """
-    if date:
-        try:
-            date_obj = datetime.strptime(date, "%Y-%m-%d")
-        except ValueError:
-            raise HTTPException(status_code=400, detail="Invalid date format. Use YYYY-MM-DD")
-    else:
-        date_obj = datetime.now()
-
+    date_obj = parse_date(date)
+    
     planets = [
         ephem.Sun(),
         ephem.Moon(),
@@ -123,29 +171,30 @@ async def get_planet_positions(date: str = None):
 
     results = []
     for planet in planets:
-        planet.compute(date_obj)
-        results.append(PlanetPosition(
-            name=planet.name,
-            longitude=math.degrees(planet.hlon),
-            latitude=math.degrees(planet.hlat),
-            distance=planet.earth_distance,
-            constellation=get_constellation(math.degrees(planet.hlon))
-        ))
+        try:
+            planet.compute(date_obj)
+            results.append(PlanetPosition(
+                name=planet.name,
+                longitude=math.degrees(planet.hlon),
+                latitude=math.degrees(planet.hlat),
+                distance=planet.earth_distance,
+                constellation=get_constellation(math.degrees(planet.hlon))
+            ))
+        except Exception as e:
+            raise HTTPException(
+                status_code=500,
+                detail=f"Error calculating position for {planet.name}: {str(e)}"
+            )
 
     return results
 
 @app.get("/zodiac-signs", response_model=Dict[str, ZodiacSign], tags=["Zodiac"])
-async def get_zodiac_signs():
+async def get_zodiac_signs() -> Dict[str, ZodiacSign]:
     """
     Get detailed information about all zodiac signs.
     
     Returns:
-        Dict[str, ZodiacSign]: Dictionary containing information for each zodiac sign:
-            - name: Sign name
-            - start_date: Start date (MM-DD)
-            - end_date: End date (MM-DD)
-            - element: Associated element (Fire, Earth, Air, Water)
-            - quality: Sign quality (Cardinal, Fixed, Mutable)
+        Dict[str, ZodiacSign]: Dictionary containing information for each zodiac sign
     """
     return {
         sign: ZodiacSign(
@@ -159,7 +208,7 @@ async def get_zodiac_signs():
     }
 
 @app.get("/zodiac-sign/{date}", tags=["Zodiac"])
-async def get_zodiac_sign_for_date(date: str):
+async def get_zodiac_sign_for_date(date: str) -> Dict[str, str]:
     """
     Get zodiac sign information for a specific date.
     
@@ -167,22 +216,19 @@ async def get_zodiac_sign_for_date(date: str):
         date (str): Date in YYYY-MM-DD format
         
     Returns:
-        dict: Information about the zodiac sign for the given date:
-            - sign: Zodiac sign name
-            - element: Associated element
-            - quality: Sign quality
-            
+        Dict[str, str]: Information about the zodiac sign
+        
     Raises:
         HTTPException: If date format is invalid or sign cannot be determined
     """
-    try:
-        date_obj = datetime.strptime(date, "%Y-%m-%d")
-    except ValueError:
-        raise HTTPException(status_code=400, detail="Invalid date format. Use YYYY-MM-DD")
-    
+    date_obj = parse_date(date)
     sign = get_zodiac_sign(date_obj)
+    
     if sign == "Unknown":
-        raise HTTPException(status_code=404, detail="Could not determine zodiac sign")
+        raise HTTPException(
+            status_code=404,
+            detail="Could not determine zodiac sign"
+        )
     
     return {
         "sign": sign,

@@ -65,3 +65,11 @@ node_modules/
 !tailwind.config.js
 !src/styles/*
 !src/utils/*
+
+# Backend
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+*.pyz
