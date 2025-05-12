@@ -27,3 +27,11 @@ or
 ```bash
 make prod
 ```
+
+<br>
+
+clean up cache and undesired files:
+
+```bash
+make clean
+```
