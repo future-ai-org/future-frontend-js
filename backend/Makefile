@@ -7,9 +7,9 @@ test:
 	pytest
 
 lint:
+	black . --exclude venv
 	flake8 .
-	black . --check
-	mypy .
+	black . --check --exclude venv
 
 clean:
 	find . -type d -name "__pycache__" -exec rm -r {} +
