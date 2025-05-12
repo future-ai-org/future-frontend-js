@@ -1,4 +1,4 @@
-# Astrological API
+## astrological API
 
 A FastAPI-based API that provides astrological information including planet positions and zodiac sign details.
 
