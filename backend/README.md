@@ -1,44 +1,52 @@
 ## astrological API
 
-A FastAPI-based API that provides astrological information including planet positions and zodiac sign details.
+<br>
 
-## Features
 
-- Get positions of all planets (Sun, Moon, Mercury, Venus, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto)
-- Get information about zodiac signs
-- Get zodiac sign for a specific date
-- Calculate planet positions in constellations
+> *a FastAPI-based API that provides astrological information including planet positions and zodiac sign details.*
 
-## Setup
+<br>
 
-1. Create a virtual environment:
+---
+
+### setup
+
+<br>
+
+1. create a virtual environment:
+
 ```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+python3 -m venv venv
+source venv/bin/activate
 ```
 
-2. Install dependencies:
+<br>
+
+2. install dependencies:
 ```bash
-pip install -r requirements.txt
+make install
 ```
 
-3. Run the server:
+<br>
+
+3. run the server (available at [localhost:8000](http://localhost:8000)):
+
 ```bash
-cd app
-uvicorn main:app --reload
+make server
 ```
 
-The API will be available at `http://localhost:8000`
+<br>
 
-## API Endpoints
+---
 
-- `GET /`: Welcome message
-- `GET /planets`: Get positions of all planets (optional query parameter: date in YYYY-MM-DD format)
-- `GET /zodiac-signs`: Get information about all zodiac signs
-- `GET /zodiac-sign/{date}`: Get zodiac sign for a specific date (format: YYYY-MM-DD)
+### endpoints
 
-## API Documentation
+<br>
 
-Once the server is running, you can access:
-- Interactive API documentation: `http://localhost:8000/docs`
-- Alternative API documentation: `http://localhost:8000/redoc` 
+- `GET /planets`: get positions of all planets
+
+- `GET /zodiac-signs`: get information about zodiac signs
+
+- `GET /zodiac-sign/{date}`: get zodiac sign for a specific date(format: YYYY-MM-DD)
+
+- `GET /docs`: calculate planet positions in constellations
