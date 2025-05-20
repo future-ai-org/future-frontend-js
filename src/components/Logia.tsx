@@ -105,7 +105,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
     birthTime: "",
     city: "",
   });
-  const [timePeriod, setTimePeriod] = useState<'AM' | 'PM'>('AM');
+  const [timePeriod, setTimePeriod] = useState<"AM" | "PM">("AM");
   const [citySuggestions, setCitySuggestions] = useState<CitySuggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const blurTimeoutRef = useRef<NodeJS.Timeout>();
@@ -146,14 +146,14 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
     (e: React.FormEvent) => {
       e.preventDefault();
       if (!formData.birthDate || !formData.birthTime || !formData.city) return;
-      
+
       // Convert 12-hour format to 24-hour format
       const [hour, minute] = formData.birthTime.split(":");
       let hour24 = parseInt(hour, 10);
-      if (timePeriod === 'PM' && hour24 < 12) hour24 += 12;
-      if (timePeriod === 'AM' && hour24 === 12) hour24 = 0;
-      
-      const time24 = `${hour24.toString().padStart(2, '0')}:${minute}`;
+      if (timePeriod === "PM" && hour24 < 12) hour24 += 12;
+      if (timePeriod === "AM" && hour24 === 12) hour24 = 0;
+
+      const time24 = `${hour24.toString().padStart(2, "0")}:${minute}`;
       onSubmit({ ...formData, birthTime: time24 });
     },
     [formData, timePeriod, onSubmit],
@@ -236,7 +236,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             name="birthHour"
             value={formData.birthTime.split(":")[0] || ""}
             onChange={(e) => {
-              let hour = e.target.value.replace(/\D/g, '');
+              let hour = e.target.value.replace(/\D/g, "");
               if (hour) {
                 const numHour = parseInt(hour, 10);
                 if (numHour > 12) hour = "12";
@@ -260,7 +260,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             name="birthMinute"
             value={formData.birthTime.split(":")[1] || ""}
             onChange={(e) => {
-              let minute = e.target.value.replace(/\D/g, '');
+              let minute = e.target.value.replace(/\D/g, "");
               if (minute) {
                 const numMinute = parseInt(minute, 10);
                 if (numMinute > 59) minute = "59";
@@ -281,7 +281,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
           <select
             className="astrology-time-period-select"
             value={timePeriod}
-            onChange={(e) => setTimePeriod(e.target.value as 'AM' | 'PM')}
+            onChange={(e) => setTimePeriod(e.target.value as "AM" | "PM")}
           >
             <option value="AM">AM</option>
             <option value="PM">PM</option>
