@@ -142,14 +142,6 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
     setShowSuggestions(false);
   }, []);
 
-  const handleInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = e.target;
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    },
-    [],
-  );
-
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
