@@ -228,14 +228,56 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
       </div>
       <div className="astrology-form-group">
         <label className="astrology-label">{t.labels.birthTime}</label>
-        <input
-          className="astrology-input"
-          type="time"
-          name="birthTime"
-          value={formData.birthTime}
-          onChange={handleInputChange}
-          required
-        />
+        <div style={{ display: "flex", gap: "0.5rem" }}>
+          <input
+            className="astrology-input"
+            type="text"
+            name="birthHour"
+            value={formData.birthTime.split(":")[0] || ""}
+            onChange={(e) => {
+              let hour = e.target.value.replace(/\D/g, '');
+              if (hour) {
+                const numHour = parseInt(hour, 10);
+                if (numHour > 23) hour = "23";
+                if (numHour < 0) hour = "00";
+                if (hour.length === 1) hour = `0${hour}`;
+              }
+              const [, minute] = formData.birthTime.split(":");
+              setFormData((prev) => ({
+                ...prev,
+                birthTime: `${hour}:${minute || ""}`,
+              }));
+            }}
+            placeholder="HH"
+            maxLength={2}
+            style={{ width: "60px" }}
+            required
+          />
+          <input
+            className="astrology-input"
+            type="text"
+            name="birthMinute"
+            value={formData.birthTime.split(":")[1] || ""}
+            onChange={(e) => {
+              let minute = e.target.value.replace(/\D/g, '');
+              if (minute) {
+                const numMinute = parseInt(minute, 10);
+                if (numMinute > 59) minute = "59";
+                if (numMinute < 0) minute = "00";
+                if (minute.length === 1) minute = `0${minute}`;
+              }
+              const [hour] = formData.birthTime.split(":");
+              setFormData((prev) => ({
+                ...prev,
+                birthTime: `${hour || "00"}:${minute}`,
+              }));
+            }}
+            placeholder="MM"
+            maxLength={2}
+            style={{ width: "60px" }}
+            required
+          />
+        </div>
       </div>
       <div className="astrology-form-group">
         <label className="astrology-label">{t.labels.birthCity}</label>
