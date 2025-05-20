@@ -53,7 +53,7 @@ export default function Logia() {
         birthTime,
         city,
         coordinates.lat,
-        coordinates.lon
+        coordinates.lon,
       );
       setChartInfo(chartInfoHtml);
     } catch (err) {
@@ -169,59 +169,59 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
     <form className="astrology-form" onSubmit={handleSubmit}>
       <div className="astrology-form-group">
         <label className="astrology-label">{t.labels.birthDate}</label>
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
+        <div style={{ display: "flex", gap: "0.5rem" }}>
           <input
             className="astrology-input"
             type="text"
             name="birthYear"
-            value={formData.birthDate.split('-')[0] || ''}
+            value={formData.birthDate.split("-")[0] || ""}
             onChange={(e) => {
               const year = e.target.value;
-              const [_, month, day] = formData.birthDate.split('-');
-              setFormData(prev => ({
+              const [, month, day] = formData.birthDate.split("-");
+              setFormData((prev) => ({
                 ...prev,
-                birthDate: `${year}-${month || ''}-${day || ''}`
+                birthDate: `${year}-${month || ""}-${day || ""}`,
               }));
             }}
             placeholder="YYYY"
             maxLength={4}
-            style={{ width: '80px' }}
+            style={{ width: "80px" }}
             required
           />
           <input
             className="astrology-input"
             type="text"
             name="birthMonth"
-            value={formData.birthDate.split('-')[1] || ''}
+            value={formData.birthDate.split("-")[1] || ""}
             onChange={(e) => {
               const month = e.target.value;
-              const [year, _, day] = formData.birthDate.split('-');
-              setFormData(prev => ({
+              const [year, , day] = formData.birthDate.split("-");
+              setFormData((prev) => ({
                 ...prev,
-                birthDate: `${year || ''}-${month}-${day || ''}`
+                birthDate: `${year || ""}-${month}-${day || ""}`,
               }));
             }}
             placeholder="MM"
             maxLength={2}
-            style={{ width: '60px' }}
+            style={{ width: "60px" }}
             required
           />
           <input
             className="astrology-input"
             type="text"
             name="birthDay"
-            value={formData.birthDate.split('-')[2] || ''}
+            value={formData.birthDate.split("-")[2] || ""}
             onChange={(e) => {
               const day = e.target.value;
-              const [year, month, _] = formData.birthDate.split('-');
-              setFormData(prev => ({
+              const [year, month] = formData.birthDate.split("-");
+              setFormData((prev) => ({
                 ...prev,
-                birthDate: `${year || ''}-${month || ''}-${day}`
+                birthDate: `${year || ""}-${month || ""}-${day}`,
               }));
             }}
             placeholder="DD"
             maxLength={2}
-            style={{ width: '60px' }}
+            style={{ width: "60px" }}
             required
           />
         </div>

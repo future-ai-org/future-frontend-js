@@ -59,28 +59,30 @@ export async function printChartInfo(
   longitude: number,
 ): Promise<string> {
   try {
-    const response = await fetch('https://lilit-service-astro.vercel.app/planets', {
-      method: 'POST',
+    const response = await fetch(process.env.NEXT_PUBLIC_ASTRO_API_URL!, {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'API_KEY': 'LgSnP9YWajfllFjXrtk9LZ3lgc2OwKCbckrvT6cGG8sUwgPk5G'
+        "Content-Type": "application/json",
+        API_KEY: process.env.NEXT_PUBLIC_ASTRO_API_KEY!,
       },
       body: JSON.stringify({
         date_time: `${birthDate}T${birthTime}`,
         latitude: latitude,
-        longitude: longitude
-      })
+        longitude: longitude,
+      }),
     });
 
     const data: ApiResponse = await response.json();
-    console.log('API Response:', data);
+    console.log("API Response:", data);
 
     // Convert the object into an array of planets
-    const planets = Object.entries(data).map(([planet, info]: [string, PlanetResponse]) => ({
-      planet,
-      sign: info.sign,
-      longitude: info.degrees
-    }));
+    const planets = Object.entries(data).map(
+      ([planet, info]: [string, PlanetResponse]) => ({
+        planet,
+        sign: info.sign,
+        longitude: info.degrees,
+      }),
+    );
 
     return `
       <table class="astrology-table">
@@ -92,18 +94,22 @@ export async function printChartInfo(
           </tr>
         </thead>
         <tbody>
-          ${planets.map(planet => `
+          ${planets
+            .map(
+              (planet) => `
             <tr>
               <td>${planet.planet}</td>
               <td>${planet.longitude.toFixed(2)}°</td>
               <td>${planet.sign}</td>
             </tr>
-          `).join('')}
+          `,
+            )
+            .join("")}
         </tbody>
       </table>
     `;
   } catch (error: any) {
-    console.error('Error:', error);
+    console.error("Error:", error);
     return `<div>Error: ${error.message}</div>`;
   }
 }
@@ -149,7 +155,9 @@ export default function LogiaChart({
   isGeneratingChart,
 }: LogiaChartProps) {
   const { theme } = useTheme();
-  const [selectedPlanet, setSelectedPlanet] = React.useState<string | null>(null);
+  const [selectedPlanet, setSelectedPlanet] = React.useState<string | null>(
+    null,
+  );
   const [chartInfoHtml, setChartInfoHtml] = React.useState<string>("");
   const t = strings.en;
 
