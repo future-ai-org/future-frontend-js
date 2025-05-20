@@ -27,7 +27,7 @@ export default function RootLayout({
         <ThemeProvider>
           <Web3Provider>
             <Header />
-            <div className="main-content-wrapper">{children}</div>
+            <div className="main-content-wrapper logia-page">{children}</div>
             <Footer />
           </Web3Provider>
         </ThemeProvider>
