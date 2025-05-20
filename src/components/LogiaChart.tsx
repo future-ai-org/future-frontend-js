@@ -33,22 +33,13 @@ interface PlanetInfoPanelProps {
   t: typeof strings.en;
 }
 
-interface PlanetData {
-  planet?: string;
-  name?: string;
-  longitude?: number;
-  position?: number;
-  sign?: string;
-  element?: string;
-  house?: number;
+interface PlanetResponse {
+  sign: string;
+  degrees: number;
 }
 
-interface Planet {
-  planet: string;
-  longitude: number;
-  sign: string;
-  element: string;
-  house: number;
+interface ApiResponse {
+  [key: string]: PlanetResponse;
 }
 
 export function calculateChart(
@@ -68,7 +59,7 @@ export async function printChartInfo(
   longitude: number,
 ): Promise<string> {
   try {
-    const response = await fetch('http://localhost:8000/planets', {
+    const response = await fetch('https://lilit-service-astro.vercel.app/planets', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -81,11 +72,11 @@ export async function printChartInfo(
       })
     });
 
-    const data = await response.json();
+    const data: ApiResponse = await response.json();
     console.log('API Response:', data);
 
     // Convert the object into an array of planets
-    const planets = Object.entries(data).map(([planet, info]: [string, any]) => ({
+    const planets = Object.entries(data).map(([planet, info]: [string, PlanetResponse]) => ({
       planet,
       sign: info.sign,
       longitude: info.degrees
