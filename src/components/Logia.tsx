@@ -48,7 +48,14 @@ export default function Logia() {
         coordinates.lon,
       );
       setChartData(chart);
-      setChartInfo(printChartInfo(birthDate, birthTime, city));
+      const chartInfoHtml = await printChartInfo(
+        birthDate,
+        birthTime,
+        city,
+        coordinates.lat,
+        coordinates.lon
+      );
+      setChartInfo(chartInfoHtml);
     } catch (err) {
       setError(err instanceof Error ? err.message : t.errors.unknownError);
     } finally {

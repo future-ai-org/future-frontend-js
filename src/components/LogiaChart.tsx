@@ -5,7 +5,6 @@ import {
   getZodiacSymbol,
   ZODIAC_SYMBOLS,
   calculateChart as calculateChartData,
-  getElementForSign,
 } from "../config/logiaChart";
 import { useTheme } from "../utils/themeContext";
 import strings from "../i18n/logiaChart.json";
@@ -34,6 +33,24 @@ interface PlanetInfoPanelProps {
   t: typeof strings.en;
 }
 
+interface PlanetData {
+  planet?: string;
+  name?: string;
+  longitude?: number;
+  position?: number;
+  sign?: string;
+  element?: string;
+  house?: number;
+}
+
+interface Planet {
+  planet: string;
+  longitude: number;
+  sign: string;
+  element: string;
+  house: number;
+}
+
 export function calculateChart(
   birthDate: string,
   birthTime: string,
@@ -43,59 +60,61 @@ export function calculateChart(
   return calculateChartData(birthDate, birthTime, latitude, longitude);
 }
 
-export function printChartInfo(
+export async function printChartInfo(
   birthDate: string,
   birthTime: string,
   city: string,
-): string {
-  const chart = calculateChart(birthDate, birthTime, 0, 0); // We need the chart data for the table
-  const date = new Date(`${birthDate}T${birthTime}`);
-  const formattedDate = date.toLocaleDateString("en-us", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-  const formattedTime = date.toLocaleTimeString("en-us", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  latitude: number,
+  longitude: number,
+): Promise<string> {
+  try {
+    const response = await fetch('http://localhost:8000/planets', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'API_KEY': 'LgSnP9YWajfllFjXrtk9LZ3lgc2OwKCbckrvT6cGG8sUwgPk5G'
+      },
+      body: JSON.stringify({
+        date_time: `${birthDate}T${birthTime}`,
+        latitude: latitude,
+        longitude: longitude
+      })
+    });
 
-  const planetTable = `
-    <table class="astrology-table">
-      <thead>
-        <tr>
-          <th>Planet</th>
-          <th>Angle</th>
-          <th>Sign</th>
-          <th>Element</th>
-          <th>House</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${chart.planets
-          .map(
-            (planet) => `
-        <tr>
-          <td>${getPlanetSymbol(planet.name)}</td>
-          <td>${(planet.position % 30).toFixed(2)}°</td>
-          <td><svg viewBox="0 0 24 24" width="1.2em" height="1.2em" style="display: inline-block; vertical-align: middle;"><text x="12" y="16" text-anchor="middle" style="font-family: 'Arial Unicode MS', 'Arial', sans-serif; font-size: 18px; fill: var(--color-primary); opacity: 0.8; font-weight: 900;">${getZodiacSymbol(planet.sign)}</text></svg></td>
-          <td>${getElementForSign(planet.sign)}</td>
-          <td>${planet.house}</td>
-        </tr>
-      `,
-          )
-          .join("")}
-      </tbody>
-    </table>
-  `;
+    const data = await response.json();
+    console.log('API Response:', data);
 
-  return `
-    <div class="astrology-chart-header">
-      <div class="astrology-chart-date">${formattedDate.toLowerCase()}</div>
-      <div class="astrology-chart-time">${formattedTime.toLowerCase()}<span class="at-text"> at </span>${city.toLowerCase()}</div>
-    </div>
-    ${planetTable}
-  `;
+    // Convert the object into an array of planets
+    const planets = Object.entries(data).map(([planet, info]: [string, any]) => ({
+      planet,
+      sign: info.sign,
+      longitude: info.degrees
+    }));
+
+    return `
+      <table class="astrology-table">
+        <thead>
+          <tr>
+            <th>Planet</th>
+            <th>Angle</th>
+            <th>Sign</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${planets.map(planet => `
+            <tr>
+              <td>${planet.planet}</td>
+              <td>${planet.longitude.toFixed(2)}°</td>
+              <td>${planet.sign}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+  } catch (error: any) {
+    console.error('Error:', error);
+    return `<div>Error: ${error.message}</div>`;
+  }
 }
 
 const PlanetInfoPanel: React.FC<PlanetInfoPanelProps> = React.memo(
@@ -139,10 +158,15 @@ export default function LogiaChart({
   isGeneratingChart,
 }: LogiaChartProps) {
   const { theme } = useTheme();
-  const [selectedPlanet, setSelectedPlanet] = React.useState<string | null>(
-    null,
-  );
+  const [selectedPlanet, setSelectedPlanet] = React.useState<string | null>(null);
+  const [chartInfoHtml, setChartInfoHtml] = React.useState<string>("");
   const t = strings.en;
+
+  useEffect(() => {
+    if (chartInfo) {
+      setChartInfoHtml(chartInfo);
+    }
+  }, [chartInfo]);
 
   const drawChart = useCallback(
     (container: HTMLElement) => {
@@ -218,7 +242,7 @@ export default function LogiaChart({
       <div className="astrology-info-box">
         <div
           className="astrology-info-text"
-          dangerouslySetInnerHTML={{ __html: chartInfo || "" }}
+          dangerouslySetInnerHTML={{ __html: chartInfoHtml }}
         />
         {memoizedPlanetInfo}
       </div>
