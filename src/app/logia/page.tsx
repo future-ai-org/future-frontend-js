@@ -2,7 +2,7 @@ import Logia from "../../components/Logia";
 
 export default function LogiaPage() {
   return (
-    <main className="min-h-screen">
+    <main style={{ marginTop: 0, paddingTop: 0 }}>
       <Logia />
     </main>
   );

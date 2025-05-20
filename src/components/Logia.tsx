@@ -48,7 +48,14 @@ export default function Logia() {
         coordinates.lon,
       );
       setChartData(chart);
-      setChartInfo(printChartInfo(birthDate, birthTime, city));
+      const chartInfoHtml = await printChartInfo(
+        birthDate,
+        birthTime,
+        city,
+        coordinates.lat,
+        coordinates.lon,
+      );
+      setChartInfo(chartInfoHtml);
     } catch (err) {
       setError(err instanceof Error ? err.message : t.errors.unknownError);
     } finally {
@@ -98,6 +105,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
     birthTime: "",
     city: "",
   });
+  const [timePeriod, setTimePeriod] = useState<'AM' | 'PM'>('AM');
   const [citySuggestions, setCitySuggestions] = useState<CitySuggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const blurTimeoutRef = useRef<NodeJS.Timeout>();
@@ -134,21 +142,21 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
     setShowSuggestions(false);
   }, []);
 
-  const handleInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = e.target;
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    },
-    [],
-  );
-
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
       if (!formData.birthDate || !formData.birthTime || !formData.city) return;
-      onSubmit(formData);
+      
+      // Convert 12-hour format to 24-hour format
+      const [hour, minute] = formData.birthTime.split(":");
+      let hour24 = parseInt(hour, 10);
+      if (timePeriod === 'PM' && hour24 < 12) hour24 += 12;
+      if (timePeriod === 'AM' && hour24 === 12) hour24 = 0;
+      
+      const time24 = `${hour24.toString().padStart(2, '0')}:${minute}`;
+      onSubmit({ ...formData, birthTime: time24 });
     },
-    [formData, onSubmit],
+    [formData, timePeriod, onSubmit],
   );
 
   const handleBlur = useCallback(() => {
@@ -162,25 +170,123 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
     <form className="astrology-form" onSubmit={handleSubmit}>
       <div className="astrology-form-group">
         <label className="astrology-label">{t.labels.birthDate}</label>
-        <input
-          className="astrology-input"
-          type="date"
-          name="birthDate"
-          value={formData.birthDate}
-          onChange={handleInputChange}
-          required
-        />
+        <div style={{ display: "flex", gap: "0.5rem" }}>
+          <input
+            className="astrology-input"
+            type="text"
+            name="birthYear"
+            value={formData.birthDate.split("-")[0] || ""}
+            onChange={(e) => {
+              const year = e.target.value;
+              const [, month, day] = formData.birthDate.split("-");
+              setFormData((prev) => ({
+                ...prev,
+                birthDate: `${year}-${month || ""}-${day || ""}`,
+              }));
+            }}
+            placeholder="YYYY"
+            maxLength={4}
+            style={{ width: "80px" }}
+            required
+          />
+          <input
+            className="astrology-input"
+            type="text"
+            name="birthMonth"
+            value={formData.birthDate.split("-")[1] || ""}
+            onChange={(e) => {
+              const month = e.target.value;
+              const [year, , day] = formData.birthDate.split("-");
+              setFormData((prev) => ({
+                ...prev,
+                birthDate: `${year || ""}-${month}-${day || ""}`,
+              }));
+            }}
+            placeholder="MM"
+            maxLength={2}
+            style={{ width: "60px" }}
+            required
+          />
+          <input
+            className="astrology-input"
+            type="text"
+            name="birthDay"
+            value={formData.birthDate.split("-")[2] || ""}
+            onChange={(e) => {
+              const day = e.target.value;
+              const [year, month] = formData.birthDate.split("-");
+              setFormData((prev) => ({
+                ...prev,
+                birthDate: `${year || ""}-${month || ""}-${day}`,
+              }));
+            }}
+            placeholder="DD"
+            maxLength={2}
+            style={{ width: "60px" }}
+            required
+          />
+        </div>
       </div>
       <div className="astrology-form-group">
         <label className="astrology-label">{t.labels.birthTime}</label>
-        <input
-          className="astrology-input"
-          type="time"
-          name="birthTime"
-          value={formData.birthTime}
-          onChange={handleInputChange}
-          required
-        />
+        <div style={{ display: "flex", gap: "0.5rem" }}>
+          <input
+            className="astrology-input"
+            type="text"
+            name="birthHour"
+            value={formData.birthTime.split(":")[0] || ""}
+            onChange={(e) => {
+              let hour = e.target.value.replace(/\D/g, '');
+              if (hour) {
+                const numHour = parseInt(hour, 10);
+                if (numHour > 12) hour = "12";
+                if (numHour < 1) hour = "01";
+                if (hour.length === 1) hour = `0${hour}`;
+              }
+              const [, minute] = formData.birthTime.split(":");
+              setFormData((prev) => ({
+                ...prev,
+                birthTime: `${hour}:${minute || ""}`,
+              }));
+            }}
+            placeholder="HH"
+            maxLength={2}
+            style={{ width: "60px" }}
+            required
+          />
+          <input
+            className="astrology-input"
+            type="text"
+            name="birthMinute"
+            value={formData.birthTime.split(":")[1] || ""}
+            onChange={(e) => {
+              let minute = e.target.value.replace(/\D/g, '');
+              if (minute) {
+                const numMinute = parseInt(minute, 10);
+                if (numMinute > 59) minute = "59";
+                if (numMinute < 0) minute = "00";
+                if (minute.length === 1) minute = `0${minute}`;
+              }
+              const [hour] = formData.birthTime.split(":");
+              setFormData((prev) => ({
+                ...prev,
+                birthTime: `${hour || "00"}:${minute}`,
+              }));
+            }}
+            placeholder="MM"
+            maxLength={2}
+            style={{ width: "60px" }}
+            required
+          />
+          <select
+            className="astrology-time-period-select"
+            value={timePeriod}
+            onChange={(e) => setTimePeriod(e.target.value as 'AM' | 'PM')}
+          >
+            <option value="AM">AM</option>
+            <option value="PM">PM</option>
+          </select>
+        </div>
       </div>
       <div className="astrology-form-group">
         <label className="astrology-label">{t.labels.birthCity}</label>
