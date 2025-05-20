@@ -5,7 +5,7 @@
 .logia-container {
   max-width: 500px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
   transition: all var(--transition-duration) var(--transition-timing);
 }
 
@@ -32,7 +32,6 @@
   border-radius: 2rem;
   box-shadow: 0 8px 32px var(--color-shadow-black);
   position: sticky;
-  top: 1rem;
   border: 1px solid var(--color-primary);
   transition: all var(--transition-duration) var(--transition-timing);
   backdrop-filter: blur(8px);
@@ -73,6 +72,9 @@
   color: var(--color-primary);
   transition: all var(--transition-duration) var(--transition-timing);
   font-size: 1rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 .astrology-input::placeholder {
@@ -84,6 +86,20 @@
   border-color: var(--color-primary);
   box-shadow: 0 0 0 4px var(--color-glow-shadow);
   transform: translateY(-1px);
+  background-color: var(--card-bg);
+}
+
+.astrology-input:not(:placeholder-shown) {
+  background-color: var(--card-bg);
+}
+
+.astrology-input:-webkit-autofill,
+.astrology-input:-webkit-autofill:hover,
+.astrology-input:-webkit-autofill:focus,
+.astrology-input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px var(--card-bg) inset !important;
+  -webkit-text-fill-color: var(--color-primary) !important;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 .astrology-button {
@@ -129,8 +145,8 @@
   top: 100%;
   left: 0;
   right: 0;
-  background-color: #9d80c9;
-  background: #f0e6ff;
+  background-color: var(--card-bg);
+  background: var(--color-background);
   border: 1px solid var(--color-primary);
   border-radius: 1.5rem;
   margin-top: 8px;
@@ -224,6 +240,7 @@
   background-size: 1em;
   padding-right: 2.5rem;
   cursor: pointer;
+  font-weight: 600;
 }
 
 .astrology-time-period-select:focus {
@@ -236,4 +253,5 @@
   background-color: var(--card-bg);
   color: var(--color-primary);
   padding: 1rem;
+  font-weight: 600;
 }
