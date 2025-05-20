@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .logia-container {
-  max-width: 800px;
+  max-width: 500px;
   margin: 0 auto;
   padding: 2rem;
   transition: all var(--transition-duration) var(--transition-timing);
@@ -41,7 +41,6 @@
 .astrology-form:hover {
   transform: translateY(-2px);
   box-shadow: 0 12px 40px var(--color-shadow-black);
-  border-color: var(--color-border);
 }
 
 .astrology-form-group {
@@ -82,7 +81,6 @@
 }
 
 .astrology-input:focus {
-  outline: none;
   border-color: var(--color-primary);
   box-shadow: 0 0 0 4px var(--color-glow-shadow);
   transform: translateY(-1px);
@@ -98,7 +96,7 @@
   text-shadow: var(--text-glow);
   background: transparent;
   color: var(--color-primary);
-  font-size: 1rem;
+  font-size: 1.2rem;
   width: 220px;
   margin: 2rem auto 0;
   display: block;
@@ -131,7 +129,8 @@
   top: 100%;
   left: 0;
   right: 0;
-  background: var(--card-bg);
+  background-color: #f0e6ff;
+  background: #f0e6ff;
   border: 1px solid var(--color-primary);
   border-radius: 1.5rem;
   margin-top: 8px;
@@ -142,8 +141,6 @@
   transition: all var(--transition-duration) var(--transition-timing);
   list-style: none;
   padding: 0.5rem;
-  opacity: 1;
-  backdrop-filter: blur(8px);
 }
 
 .astrology-city-suggestion {
@@ -152,7 +149,7 @@
   transition: all var(--transition-duration) var(--transition-timing);
   color: var(--color-primary);
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
   border-radius: 1.2rem;
   border: 1px solid transparent;
 }
