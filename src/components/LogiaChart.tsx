@@ -59,11 +59,11 @@ export async function printChartInfo(
   longitude: number,
 ): Promise<string> {
   try {
-    const response = await fetch(process.env.NEXT_PUBLIC_ASTRO_API_URL!, {
+    const response = await fetch(process.env.LILIT_ASTRO_API_URL!, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        API_KEY: process.env.NEXT_PUBLIC_ASTRO_API_KEY!,
+        API_KEY: process.env.LILIT_ASTRO_API_KEY!,
       },
       body: JSON.stringify({
         date_time: `${birthDate}T${birthTime}`,
