@@ -27,21 +27,21 @@
   flex-direction: column;
   gap: 1.5rem;
   margin-bottom: 2rem;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--card-bg);
   padding: 2rem;
   border-radius: 2rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px var(--color-shadow-black);
   position: sticky;
   top: 1rem;
   border: 1px solid var(--color-primary);
-  transition: all 0.3s ease;
+  transition: all var(--transition-duration) var(--transition-timing);
   backdrop-filter: blur(8px);
 }
 
 .astrology-form:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 12px 40px var(--color-shadow-black);
+  border-color: var(--color-border);
 }
 
 .astrology-form-group {
@@ -59,7 +59,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  transition: all 0.3s ease;
+  transition: all var(--transition-duration) var(--transition-timing);
 }
 
 .astrology-label:hover {
@@ -70,15 +70,15 @@
   padding: 1rem;
   border: 1px solid var(--color-primary);
   border-radius: 1.5rem;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--card-bg);
   color: var(--color-primary);
-  transition: all 0.3s ease;
+  transition: all var(--transition-duration) var(--transition-timing);
   font-size: 1rem;
 }
 
 .astrology-input::placeholder {
   color: var(--color-primary);
-  opacity: 0.5;
+  opacity: var(--opacity-medium);
 }
 
 .astrology-input:focus {
@@ -94,7 +94,7 @@
   border: 1px solid var(--color-primary);
   cursor: pointer;
   font-weight: 600;
-  transition: all 0.3s ease;
+  transition: all var(--transition-duration) var(--transition-timing);
   text-shadow: var(--text-glow);
   background: transparent;
   color: var(--color-primary);
@@ -131,15 +131,15 @@
   top: 100%;
   left: 0;
   right: 0;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--card-bg);
   border: 1px solid var(--color-primary);
   border-radius: 1.5rem;
   margin-top: 8px;
   max-height: 200px;
   overflow-y: auto;
   z-index: 1000;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px var(--color-shadow-black);
+  transition: all var(--transition-duration) var(--transition-timing);
   list-style: none;
   padding: 0.5rem;
   opacity: 1;
@@ -149,7 +149,7 @@
 .astrology-city-suggestion {
   padding: 0.75rem 1rem;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-duration) var(--transition-timing);
   color: var(--color-primary);
   font-size: 0.9rem;
   font-weight: 500;
@@ -170,7 +170,7 @@
   margin-top: 0.5rem;
   padding: 0.5rem;
   border-radius: 1.2rem;
-  background-color: rgba(var(--bearish-color-rgb), 0.1);
+  background-color: var(--info-bg);
   animation: shake 0.5s ease-in-out;
 }
 
@@ -193,18 +193,18 @@
   margin-top: 0.5rem;
   padding: 0.5rem;
   border-radius: 1.2rem;
-  background-color: rgba(var(--bullish-color-rgb), 0.1);
+  background-color: var(--info-bg);
   animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
   0% {
-    opacity: 0.6;
+    opacity: var(--opacity-medium);
   }
   50% {
-    opacity: 1;
+    opacity: var(--opacity-high);
   }
   100% {
-    opacity: 0.6;
+    opacity: var(--opacity-medium);
   }
 }
