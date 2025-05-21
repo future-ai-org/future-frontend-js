@@ -193,7 +193,7 @@ export async function printChartInfo(
               <td class="planet-cell">${planet.planet.toLowerCase()}</td>
               <td class="planet-cell">${planet.sign.toLowerCase()}</td>
               <td class="planet-cell">${getElementForSign(planet.sign)}</td>
-              <td class="planet-cell">${planet.longitude.toFixed(2)}°</td>
+              <td class="planet-cell">${planet.longitude.toFixed(4)}°</td>
               <td class="planet-cell">${planet.house || '-'}</td>
               <td class="planet-cell">-</td>
             </tr>
