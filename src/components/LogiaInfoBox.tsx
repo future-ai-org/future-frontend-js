@@ -9,9 +9,15 @@ export default function LogiaInfoBox() {
       <div className="logia-info-box">
         <h2 className="logia-about-title">{t.about.title}</h2>
         <div className="logia-about-features">
-          {t.about.features.map((feature, index) => (
-            <p key={index} className="logia-about-feature">{feature}</p>
-          ))}
+          {t.about.features.map((feature, index) => {
+            const number = feature.split(" ")[0];
+            const text = feature.split(" ").slice(1).join(" ");
+            return (
+              <p key={index} className="logia-about-feature">
+                <span className="logia-feature-number">{number}</span> {text}
+              </p>
+            );
+          })}
         </div>
       </div>
     </div>
