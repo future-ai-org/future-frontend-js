@@ -59,11 +59,28 @@ export async function printChartInfo(
   longitude: number,
 ): Promise<string> {
   try {
-    // Format the date and time with leading zeros
-    const [year, month, day] = birthDate.split('-');
-    const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-    const [hour, minute] = birthTime.split(':');
-    const formattedTime = `${hour.padStart(2, '0')}:${minute.padStart(2, '0')}`;
+    // Parse and validate the date components
+    const [year, month, day] = birthDate.split('-').map(num => parseInt(num, 10));
+    
+    // Validate date components
+    if (isNaN(year) || isNaN(month) || isNaN(day) || 
+        month < 1 || month > 12 || 
+        day < 1 || day > 31) {
+      throw new Error('Invalid date format. Please use YYYY-MM-DD format with valid month (1-12) and day (1-31) values.');
+    }
+
+    // Format the date with leading zeros
+    const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+    const [hour, minute] = birthTime.split(':').map(num => parseInt(num, 10));
+    
+    // Validate time components
+    if (isNaN(hour) || isNaN(minute) || 
+        hour < 0 || hour > 23 || 
+        minute < 0 || minute > 59) {
+      throw new Error('Invalid time format. Please use HH:MM format with valid hour (0-23) and minute (0-59) values.');
+    }
+
+    const formattedTime = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
     const formattedDateTime = `${formattedDate}T${formattedTime}`;
 
     const response = await fetch(process.env.NEXT_PUBLIC_LILIT_ASTRO_API_URL!, {

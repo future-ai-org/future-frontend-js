@@ -108,7 +108,6 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
   const [timePeriod, setTimePeriod] = useState<"AM" | "PM">("AM");
   const [citySuggestions, setCitySuggestions] = useState<CitySuggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const blurTimeoutRef = useRef<NodeJS.Timeout>();
   const searchTimeoutRef = useRef<NodeJS.Timeout>();
 
   // Add refs for input fields
@@ -120,11 +119,85 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
   const timePeriodRef = useRef<HTMLSelectElement>(null);
   const cityInputRef = useRef<HTMLInputElement>(null);
 
-  const handleInputComplete = useCallback((value: string, maxLength: number, nextInputRef: React.RefObject<HTMLInputElement | HTMLSelectElement>) => {
-    if (value.length === maxLength && nextInputRef.current) {
-      nextInputRef.current.focus();
+  const handleYearChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const year = e.target.value.replace(/\D/g, '').slice(0, 4);
+    const [, month, day] = formData.birthDate.split("-");
+    setFormData((prev) => ({
+      ...prev,
+      birthDate: `${year}-${month || ""}-${day || ""}`,
+    }));
+    if (year.length === 4) {
+      monthInputRef.current?.focus();
     }
-  }, []);
+  }, [formData.birthDate]);
+
+  const handleMonthChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    let month = e.target.value.replace(/\D/g, '');
+    if (month) {
+      const numMonth = parseInt(month, 10);
+      if (numMonth > 12) month = '12';
+      if (numMonth < 1) month = '01';
+    }
+    const [year, , day] = formData.birthDate.split("-");
+    setFormData((prev) => ({
+      ...prev,
+      birthDate: `${year || ""}-${month}-${day || ""}`,
+    }));
+    if (month.length === 2) {
+      dayInputRef.current?.focus();
+    }
+  }, [formData.birthDate]);
+
+  const handleDayChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    let day = e.target.value.replace(/\D/g, '');
+    if (day) {
+      const numDay = parseInt(day, 10);
+      if (numDay > 31) day = '31';
+      if (numDay < 1) day = '01';
+    }
+    const [year, month] = formData.birthDate.split("-");
+    setFormData((prev) => ({
+      ...prev,
+      birthDate: `${year || ""}-${month || ""}-${day}`,
+    }));
+    if (day.length === 2) {
+      hourInputRef.current?.focus();
+    }
+  }, [formData.birthDate]);
+
+  const handleHourChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    let hour = e.target.value.replace(/\D/g, '');
+    if (hour) {
+      const numHour = parseInt(hour, 10);
+      if (numHour > 12) hour = '12';
+      if (numHour < 1) hour = '01';
+    }
+    const [, minute] = formData.birthTime.split(":");
+    setFormData((prev) => ({
+      ...prev,
+      birthTime: `${hour}:${minute || ""}`,
+    }));
+    if (hour.length === 2) {
+      minuteInputRef.current?.focus();
+    }
+  }, [formData.birthTime]);
+
+  const handleMinuteChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    let minute = e.target.value.replace(/\D/g, '');
+    if (minute) {
+      const numMinute = parseInt(minute, 10);
+      if (numMinute > 59) minute = '59';
+      if (numMinute < 0) minute = '00';
+    }
+    const [hour] = formData.birthTime.split(":");
+    setFormData((prev) => ({
+      ...prev,
+      birthTime: `${hour || ""}:${minute}`,
+    }));
+    if (minute.length === 2) {
+      timePeriodRef.current?.focus();
+    }
+  }, [formData.birthTime]);
 
   const handleCityChange = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -175,10 +248,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
   );
 
   const handleBlur = useCallback(() => {
-    if (blurTimeoutRef.current) {
-      clearTimeout(blurTimeoutRef.current);
-    }
-    blurTimeoutRef.current = setTimeout(() => setShowSuggestions(false), 200);
+    setShowSuggestions(false);
   }, []);
 
   return (
@@ -192,15 +262,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             type="text"
             name="birthYear"
             value={formData.birthDate.split("-")[0] || ""}
-            onChange={(e) => {
-              const year = e.target.value;
-              const [, month, day] = formData.birthDate.split("-");
-              setFormData((prev) => ({
-                ...prev,
-                birthDate: `${year}-${month || ""}-${day || ""}`,
-              }));
-              handleInputComplete(year, 4, monthInputRef);
-            }}
+            onChange={handleYearChange}
             placeholder="YYYY"
             maxLength={4}
             required
@@ -211,15 +273,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             type="text"
             name="birthMonth"
             value={formData.birthDate.split("-")[1] || ""}
-            onChange={(e) => {
-              const month = e.target.value;
-              const [year, , day] = formData.birthDate.split("-");
-              setFormData((prev) => ({
-                ...prev,
-                birthDate: `${year || ""}-${month}-${day || ""}`,
-              }));
-              handleInputComplete(month, 2, dayInputRef);
-            }}
+            onChange={handleMonthChange}
             placeholder="MM"
             maxLength={2}
             required
@@ -230,15 +284,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             type="text"
             name="birthDay"
             value={formData.birthDate.split("-")[2] || ""}
-            onChange={(e) => {
-              const day = e.target.value;
-              const [year, month] = formData.birthDate.split("-");
-              setFormData((prev) => ({
-                ...prev,
-                birthDate: `${year || ""}-${month || ""}-${day}`,
-              }));
-              handleInputComplete(day, 2, hourInputRef);
-            }}
+            onChange={handleDayChange}
             placeholder="DD"
             maxLength={2}
             required
@@ -254,20 +300,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             type="text"
             name="birthHour"
             value={formData.birthTime.split(":")[0] || ""}
-            onChange={(e) => {
-              let hour = e.target.value.replace(/\D/g, "");
-              if (hour) {
-                const numHour = parseInt(hour, 10);
-                if (numHour > 12) hour = "12";
-                if (numHour < 1) hour = "1";
-              }
-              const [, minute] = formData.birthTime.split(":");
-              setFormData((prev) => ({
-                ...prev,
-                birthTime: `${hour}:${minute || ""}`,
-              }));
-              handleInputComplete(hour, 2, minuteInputRef);
-            }}
+            onChange={handleHourChange}
             placeholder="HH"
             maxLength={2}
             required
@@ -278,20 +311,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             type="text"
             name="birthMinute"
             value={formData.birthTime.split(":")[1] || ""}
-            onChange={(e) => {
-              let minute = e.target.value.replace(/\D/g, "");
-              if (minute) {
-                const numMinute = parseInt(minute, 10);
-                if (numMinute > 59) minute = "59";
-                if (numMinute < 0) minute = "0";
-              }
-              const [hour] = formData.birthTime.split(":");
-              setFormData((prev) => ({
-                ...prev,
-                birthTime: `${hour || ""}:${minute}`,
-              }));
-              handleInputComplete(minute, 2, timePeriodRef);
-            }}
+            onChange={handleMinuteChange}
             placeholder="MM"
             maxLength={2}
             required
