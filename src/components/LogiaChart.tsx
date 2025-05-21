@@ -8,7 +8,6 @@ import {
   getElementForSign,
 } from "../config/logiaChart";
 import { useTheme } from "../utils/themeContext";
-import strings from "../i18n/logia.json";
 import chartStrings from "../i18n/logiaChart.json";
 import Loading from "../utils/loading";
 import {
@@ -32,7 +31,7 @@ interface LogiaChartProps {
 interface PlanetInfoPanelProps {
   selectedPlanet: string;
   chartData: ChartData;
-  t: typeof strings.en;
+  translations: typeof chartT;
 }
 
 interface PlanetResponse {
@@ -48,6 +47,21 @@ interface ApiResponse {
 }
 
 const chartT = chartStrings.en;
+
+const ZODIAC_ORDER = [
+  ZODIAC_SYMBOLS.pisces,
+  ZODIAC_SYMBOLS.aquarius,
+  ZODIAC_SYMBOLS.capricorn,
+  ZODIAC_SYMBOLS.sagittarius,
+  ZODIAC_SYMBOLS.scorpio,
+  ZODIAC_SYMBOLS.libra,
+  ZODIAC_SYMBOLS.virgo,
+  ZODIAC_SYMBOLS.leo,
+  ZODIAC_SYMBOLS.cancer,
+  ZODIAC_SYMBOLS.gemini,
+  ZODIAC_SYMBOLS.taurus,
+  ZODIAC_SYMBOLS.aries,
+];
 
 export function calculateChart(
   birthDate: string,
@@ -195,13 +209,13 @@ export async function printChartInfo(
 }
 
 const PlanetInfoPanel: React.FC<PlanetInfoPanelProps> = React.memo(
-  ({ selectedPlanet, chartData, t }) => {
+  ({ selectedPlanet, chartData, translations }) => {
     const planet = chartData.planets.find((p) => p.name === selectedPlanet);
     if (!planet) return null;
 
     return (
       <div className="astrology-info-panel">
-        <h3>{chartT.title}</h3>
+        <h3>{translations.title}</h3>
         <div className="astrology-planet-info">
           <div>
             <strong>{planet.name}</strong>{" "}
@@ -210,16 +224,16 @@ const PlanetInfoPanel: React.FC<PlanetInfoPanelProps> = React.memo(
             </span>
           </div>
           <div>
-            {chartT.table.sign}: {planet.sign}{" "}
+            {translations.table.sign}: {planet.sign}{" "}
             <span className="zodiac-symbol" data-sign={planet.sign}>
               {getZodiacSymbol(planet.sign)}
             </span>
           </div>
           <div>
-            {chartT.table.house}: {planet.house}
+            {translations.table.house}: {planet.house}
           </div>
           <div>
-            {chartT.table.position}: {planet.position?.toFixed(1) || '-'}°
+            {translations.table.position}: {planet.position?.toFixed(1) || '-'}°
           </div>
         </div>
       </div>
@@ -239,7 +253,6 @@ export default function LogiaChart({
     null,
   );
   const [chartInfoHtml, setChartInfoHtml] = React.useState<string>("");
-  const t = strings.en;
 
   useEffect(() => {
     if (chartInfo) {
@@ -257,20 +270,7 @@ export default function LogiaChart({
       drawChartCircles(g, dimensions.radius);
       drawHouseNumbers(g, dimensions.radius, chartData.houses[0]);
       drawAscendant(g, dimensions.radius, chartData.houses[0]);
-      drawZodiacSymbols(g, dimensions.radius, [
-        ZODIAC_SYMBOLS.pisces,
-        ZODIAC_SYMBOLS.aquarius,
-        ZODIAC_SYMBOLS.capricorn,
-        ZODIAC_SYMBOLS.sagittarius,
-        ZODIAC_SYMBOLS.scorpio,
-        ZODIAC_SYMBOLS.libra,
-        ZODIAC_SYMBOLS.virgo,
-        ZODIAC_SYMBOLS.leo,
-        ZODIAC_SYMBOLS.cancer,
-        ZODIAC_SYMBOLS.gemini,
-        ZODIAC_SYMBOLS.taurus,
-        ZODIAC_SYMBOLS.aries,
-      ]);
+      drawZodiacSymbols(g, dimensions.radius, ZODIAC_ORDER);
       drawHouses(g, dimensions.radius, chartData.houses);
       drawAspects(g, dimensions.radius, chartData);
       drawPlanets(
@@ -305,10 +305,10 @@ export default function LogiaChart({
       <PlanetInfoPanel
         selectedPlanet={selectedPlanet}
         chartData={chartData}
-        t={t}
+        translations={chartT}
       />
     );
-  }, [selectedPlanet, chartData, t]);
+  }, [selectedPlanet, chartData]);
 
   return (
     <>
