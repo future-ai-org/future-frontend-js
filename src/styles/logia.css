@@ -75,6 +75,8 @@
   flex-direction: column;
   gap: 0.75rem;
   position: relative;
+  align-items: center;
+  text-align: center;
 }
 
 .astrology-label {
@@ -84,8 +86,10 @@
   margin-bottom: 0.25rem;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   transition: all var(--transition-duration) var(--transition-timing);
+  width: 100%;
 }
 
 .astrology-label:hover {
@@ -103,6 +107,7 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  text-align: center;
 }
 
 .astrology-input::placeholder {
@@ -166,6 +171,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  align-items: center;
 }
 
 .astrology-city-suggestions {
@@ -299,6 +305,15 @@
 .astrology-input-group {
   display: flex;
   gap: 0.5rem;
+  justify-content: center;
+  width: 100%;
+}
+
+.astrology-time-input-group {
+  display: flex;
+  gap: 0.15rem;
+  justify-content: center;
+  width: 100%;
 }
 
 .astrology-input-year {

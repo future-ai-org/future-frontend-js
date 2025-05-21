@@ -449,47 +449,45 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             maxLength={2}
             required
           />
-          <div className="astrology-city-input-container">
-            <input
-              ref={timePeriodRef}
-              className="astrology-input astrology-time-period-select"
-              type="text"
-              value={timePeriod}
-              onChange={(e) => {
-                setTimePeriod(e.target.value as "AM" | "PM");
-                cityInputRef.current?.focus();
-              }}
-              onFocus={() => setShowTimePeriodSuggestions(true)}
-              onBlur={() =>
-                setTimeout(() => setShowTimePeriodSuggestions(false), 200)
-              }
-              readOnly
-            />
-            {showTimePeriodSuggestions && (
-              <ul className="astrology-city-suggestions">
-                <li
-                  onClick={() => {
-                    setTimePeriod("AM");
-                    setShowTimePeriodSuggestions(false);
-                    cityInputRef.current?.focus();
-                  }}
-                  className="astrology-city-suggestion"
-                >
-                  AM
-                </li>
-                <li
-                  onClick={() => {
-                    setTimePeriod("PM");
-                    setShowTimePeriodSuggestions(false);
-                    cityInputRef.current?.focus();
-                  }}
-                  className="astrology-city-suggestion"
-                >
-                  PM
-                </li>
-              </ul>
-            )}
-          </div>
+          <input
+            ref={timePeriodRef}
+            className="astrology-input astrology-time-period-select"
+            type="text"
+            value={timePeriod}
+            onChange={(e) => {
+              setTimePeriod(e.target.value as "AM" | "PM");
+              cityInputRef.current?.focus();
+            }}
+            onFocus={() => setShowTimePeriodSuggestions(true)}
+            onBlur={() =>
+              setTimeout(() => setShowTimePeriodSuggestions(false), 200)
+            }
+            readOnly
+          />
+          {showTimePeriodSuggestions && (
+            <ul className="astrology-city-suggestions">
+              <li
+                onClick={() => {
+                  setTimePeriod("AM");
+                  setShowTimePeriodSuggestions(false);
+                  cityInputRef.current?.focus();
+                }}
+                className="astrology-city-suggestion"
+              >
+                AM
+              </li>
+              <li
+                onClick={() => {
+                  setTimePeriod("PM");
+                  setShowTimePeriodSuggestions(false);
+                  cityInputRef.current?.focus();
+                }}
+                className="astrology-city-suggestion"
+              >
+                PM
+              </li>
+            </ul>
+          )}
         </div>
       </div>
       <div className="astrology-form-group">
