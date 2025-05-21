@@ -19,12 +19,12 @@
   padding: 0;
   width: 100%;
   margin: 0;
-  gap: 3rem;
+  gap: 2rem;
 }
 
 .astrology-chart-container {
   flex: 1;
-  min-width: 600px;
+  min-width: 800px;
   height: 800px;
   position: relative;
   overflow: hidden;
@@ -36,8 +36,8 @@
 }
 
 .astrology-info-box {
-  min-width: 700px;
-  padding: 1rem 2rem 0 2rem;
+  min-width: 600px;
+  padding: 0.7rem;
   border-radius: 4rem;
   background-color: var(--card-bg);
   border: 1px solid var(--border-color);
@@ -52,17 +52,9 @@
 .astrology-info-text table {
   width: 100%;
   border-collapse: collapse;
-  margin: 1rem 0 2rem 0;
+  margin: 2rem 0 2rem 0;
   padding: 0;
   display: table;
-}
-
-.astrology-info-text tbody {
-  display: table-row-group;
-}
-
-.astrology-info-text tr {
-  display: table-row;
 }
 
 .astrology-info-text th,
@@ -91,7 +83,6 @@
 .astrology-table {
   width: 100%;
   border-collapse: collapse;
-  padding: 0 1rem;
   font-size: 0.8rem;
   text-align: center;
 }
@@ -99,97 +90,30 @@
 .astrology-table th,
 .astrology-table td {
   padding: 2rem 1rem;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   line-height: 0.8;
 }
 
 .astrology-table th {
   font-weight: 900;
   text-transform: uppercase;
-  padding-top: 1rem;
+  padding-top: 0rem;
+  padding-bottom: 1.5rem;
 }
 
 .astrology-table td {
-  padding: 0.75rem 1rem;
+  padding: 0.6rem 1rem;
   color: var(--color-primary);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .astrology-table td:first-child {
-  font-size: 1.2em;
-  font-weight: 900;
   padding-left: 2rem;
-}
-.astrology-table td:nth-child(3) {
-  font-size: 1.2em;
-  font-weight: 900;
-  width: 120px;
-}
-
-.astrology-table td:nth-child(4) {
-  width: 150px;
-}
-
-.astrology-table td:nth-child(5) {
-  width: 120px;
-}
-
-.astrology-table td:nth-child(6) {
-  width: 150px;
-}
-
-.astrology-chart-date,
-.astrology-chart-time,
-.astrology-chart-location {
-  font-size: 0.95rem;
-  color: var(--color-primary);
-  margin-bottom: 0.1rem;
-  text-shadow: var(--text-glow);
-  font-weight: bold;
-  text-transform: lowercase;
-}
-
-.astrology-chart-date {
-  font-weight: bold;
-  font-size: 1.6rem;
-  margin-bottom: 0.15rem;
-  text-transform: lowercase;
-  text-shadow: none;
-  padding-top: 0.5rem;
-}
-
-.astrology-chart-time {
-  opacity: 0.9;
-  margin-top: 0.5rem;
-  margin-bottom: 0.15rem;
-  text-transform: lowercase;
-  font-size: 0.8rem;
-  text-shadow: none;
 }
 
 .at-text {
   color: var(--color-primary);
   opacity: 0.7;
-}
-
-.astrology-chart-location {
-  opacity: 0.8;
-  display: flex;
-  flex-direction: column;
-  gap: 0.05rem;
-  text-transform: lowercase;
-}
-
-.astrology-chart-city {
-  font-style: normal;
-  font-weight: 600;
-  text-transform: lowercase;
-}
-
-.astrology-chart-coordinates {
-  font-size: 0.85rem;
-  opacity: 0.7;
-  text-transform: lowercase;
 }
 
 .astrology-table .zodiac-symbol {
