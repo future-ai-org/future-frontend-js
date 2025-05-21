@@ -153,7 +153,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
       if (timePeriod === "PM" && hour24 < 12) hour24 += 12;
       if (timePeriod === "AM" && hour24 === 12) hour24 = 0;
 
-      const time24 = `${hour24.toString().padStart(2, "0")}:${minute}`;
+      const time24 = `${hour24}:${minute}`;
       onSubmit({ ...formData, birthTime: time24 });
     },
     [formData, timePeriod, onSubmit],
@@ -240,8 +240,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
               if (hour) {
                 const numHour = parseInt(hour, 10);
                 if (numHour > 12) hour = "12";
-                if (numHour < 1) hour = "01";
-                if (hour.length === 1) hour = `0${hour}`;
+                if (numHour < 1) hour = "1";
               }
               const [, minute] = formData.birthTime.split(":");
               setFormData((prev) => ({
@@ -264,13 +263,12 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
               if (minute) {
                 const numMinute = parseInt(minute, 10);
                 if (numMinute > 59) minute = "59";
-                if (numMinute < 0) minute = "00";
-                if (minute.length === 1) minute = `0${minute}`;
+                if (numMinute < 0) minute = "0";
               }
               const [hour] = formData.birthTime.split(":");
               setFormData((prev) => ({
                 ...prev,
-                birthTime: `${hour || "00"}:${minute}`,
+                birthTime: `${hour || ""}:${minute}`,
               }));
             }}
             placeholder="MM"

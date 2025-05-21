@@ -16,7 +16,7 @@ install:
 build:
 	yarn build
 
-dev:
+server:
 	yarn build
 	yarn dev
 
