@@ -311,8 +311,8 @@
 
 .logia-info-wrapper {
   position: absolute;
-  right: calc(50% + 400px);
-  top: 50%;
+  right: calc(50% + 350px);
+  top: 55%;
   transform: translateY(-50%);
   display: flex;
   align-items: center;
@@ -332,7 +332,7 @@
     inset 0 0 20px rgba(var(--color-primary-rgb), 0.1);
   transition: all var(--transition-duration) var(--transition-timing);
   backdrop-filter: blur(8px);
-  width: 320px;
+  width: 360px;
   position: relative;
   overflow: hidden;
 }
@@ -414,7 +414,7 @@
 
 .logia-info-tip {
   font-style: italic;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   padding: 1rem;
   background-color: var(--color-glow-shadow);
   border-radius: 1.2rem;
@@ -443,27 +443,35 @@
 }
 
 .logia-about-title {
+  font-family: 'Quicksand', sans-serif;
   font-weight: 900;
-  margin-top: 4rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   color: var(--color-primary);
   text-align: center;
-  font-size: 1.3rem;
+  font-size: 1.8rem;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  line-height: 1;
 }
 
 .logia-about-features {
   display: flex;
   flex-direction: column;
-  gap: 1.6rem;
+  gap: 1.5rem;
   padding: 1rem 0;
 }
 
 .logia-about-feature {
-  font-weight: 600;
-  line-height: 1;
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  line-height: 1.2;
   text-align: justify;
   text-justify: inter-word;
-  hyphens: auto;
+  word-break: keep-all;
   width: 100%;
   padding: 0 1rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.001em;
+  color: var(--color-primary);
+  opacity: 0.9;
 }
