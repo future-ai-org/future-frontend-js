@@ -170,9 +170,9 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
     <form className="astrology-form" onSubmit={handleSubmit}>
       <div className="astrology-form-group">
         <label className="astrology-label">{t.labels.birthDate}</label>
-        <div style={{ display: "flex", gap: "0.5rem" }}>
+        <div className="astrology-input-group">
           <input
-            className="astrology-input"
+            className="astrology-input astrology-input-year"
             type="text"
             name="birthYear"
             value={formData.birthDate.split("-")[0] || ""}
@@ -186,11 +186,10 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             }}
             placeholder="YYYY"
             maxLength={4}
-            style={{ width: "80px" }}
             required
           />
           <input
-            className="astrology-input"
+            className="astrology-input astrology-input-short"
             type="text"
             name="birthMonth"
             value={formData.birthDate.split("-")[1] || ""}
@@ -204,11 +203,10 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             }}
             placeholder="MM"
             maxLength={2}
-            style={{ width: "60px" }}
             required
           />
           <input
-            className="astrology-input"
+            className="astrology-input astrology-input-short"
             type="text"
             name="birthDay"
             value={formData.birthDate.split("-")[2] || ""}
@@ -222,16 +220,15 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             }}
             placeholder="DD"
             maxLength={2}
-            style={{ width: "60px" }}
             required
           />
         </div>
       </div>
       <div className="astrology-form-group">
         <label className="astrology-label">{t.labels.birthTime}</label>
-        <div style={{ display: "flex", gap: "0.5rem" }}>
+        <div className="astrology-input-group">
           <input
-            className="astrology-input"
+            className="astrology-input astrology-input-short"
             type="text"
             name="birthHour"
             value={formData.birthTime.split(":")[0] || ""}
@@ -250,11 +247,10 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             }}
             placeholder="HH"
             maxLength={2}
-            style={{ width: "60px" }}
             required
           />
           <input
-            className="astrology-input"
+            className="astrology-input astrology-input-short"
             type="text"
             name="birthMinute"
             value={formData.birthTime.split(":")[1] || ""}
@@ -273,7 +269,6 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             }}
             placeholder="MM"
             maxLength={2}
-            style={{ width: "60px" }}
             required
           />
           <select

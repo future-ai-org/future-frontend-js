@@ -255,3 +255,16 @@
   padding: 1rem;
   font-weight: 600;
 }
+
+.astrology-input-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.astrology-input-year {
+  width: 80px;
+}
+
+.astrology-input-short {
+  width: 60px;
+}
