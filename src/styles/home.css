@@ -58,7 +58,7 @@
 .landing-feature-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2.5rem;
+  gap: 4em;
   margin-top: 4rem;
   width: 100%;
   max-width: 1200px;
