@@ -195,16 +195,25 @@ export async function printChartInfo(
         <tbody>
           ${planets
             .map(
-              (planet) => `
+              (planet) => {
+                const element = getElementForSign(planet.sign);
+                const elementInfo = {
+                  '🜂': 'Fire - Represents energy, passion, and creativity',
+                  '🜃': 'Earth - Represents stability, practicality, and material matters',
+                  '🜁': 'Air - Represents intellect, communication, and social connections',
+                  '🜄': 'Water - Represents emotions, intuition, and sensitivity'
+                }[element] || element;
+                return `
             <tr>
               <td class="planet-cell" style="color: var(--color-primary); font-size: 20px; font-weight: 500; text-shadow: 0 0 8px var(--color-primary);">${PLANET_SYMBOLS[planet.planet.toLowerCase() as keyof typeof PLANET_SYMBOLS]}</td>
               <td class="planet-cell" style="color: var(--color-primary); font-size: 20px; font-weight: 500; text-shadow: 0 0 8px var(--color-primary);">${getZodiacSymbol(planet.sign)}</td>
-              <td class="planet-cell" style="color: var(--color-primary); font-size: 20px; font-weight: 500; text-shadow: 0 0 8px var(--color-primary);">${getElementForSign(planet.sign)}</td>
+              <td class="planet-cell" style="color: var(--color-primary); font-size: 20px; font-weight: 500; text-shadow: 0 0 8px var(--color-primary);" title="${elementInfo}">${element}</td>
               <td class="planet-cell" style="color: var(--color-primary);">${planet.longitude.toFixed(2)}°</td>
               <td class="planet-cell" style="color: var(--color-primary);">${planet.house}</td>
               <td class="planet-cell" style="color: var(--color-primary);">${ASTROLOGY_EFFECTS[planet.planet.toLowerCase() as keyof typeof ASTROLOGY_EFFECTS] || '-'}</td>
             </tr>
-          `,
+          `;
+              }
             )
             .join("")}
         </tbody>

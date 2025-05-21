@@ -591,3 +591,42 @@
     margin-top: 2rem;
   }
 }
+
+.astrology-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.astrology-table-header {
+  padding: 0.5rem;
+  text-align: left;
+  color: var(--color-primary);
+  border-bottom: 2px solid var(--color-primary);
+}
+
+.planet-cell {
+  padding: 0.5rem;
+  position: relative;
+}
+
+.planet-cell[title] {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%23FF69B4'><path d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/></svg>") 12 12, auto;
+}
+
+.planet-cell[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.5rem;
+  background-color: var(--color-primary);
+  color: white;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  z-index: 1000;
+  pointer-events: none;
+  margin-bottom: 5px;
+}
