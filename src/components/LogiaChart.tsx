@@ -5,6 +5,7 @@ import {
   getZodiacSymbol,
   ZODIAC_SYMBOLS,
   calculateChart as calculateChartData,
+  getElementForSign,
 } from "../config/logiaChart";
 import { useTheme } from "../utils/themeContext";
 import strings from "../i18n/logia.json";
@@ -46,27 +47,7 @@ interface ApiResponse {
   [key: string]: PlanetResponse;
 }
 
-const t = strings.en;
 const chartT = chartStrings.en;
-
-// Helper function to get element for a sign
-function getElementForSign(sign: string): string {
-  const elementMap: { [key: string]: string } = {
-    aries: 'fire',
-    leo: 'fire',
-    sagittarius: 'fire',
-    taurus: 'earth',
-    virgo: 'earth',
-    capricorn: 'earth',
-    gemini: 'air',
-    libra: 'air',
-    aquarius: 'air',
-    cancer: 'water',
-    scorpio: 'water',
-    pisces: 'water'
-  };
-  return elementMap[sign.toLowerCase()] || '-';
-}
 
 export function calculateChart(
   birthDate: string,
@@ -80,17 +61,14 @@ export function calculateChart(
 export async function printChartInfo(
   birthDate: string,
   birthTime: string,
-  city: string,
   latitude: number,
   longitude: number,
 ): Promise<string> {
   try {
-    // Parse and validate the date components
     const [year, month, day] = birthDate
       .split("-")
       .map((num) => parseInt(num, 10));
 
-    // Validate date components
     if (
       isNaN(year) ||
       isNaN(month) ||
@@ -100,14 +78,12 @@ export async function printChartInfo(
       day < 1 ||
       day > 31
     ) {
-      throw new Error(t.errors.invalidDateFormat);
+      throw new Error(chartT.errors.invalidDateFormat);
     }
 
-    // Format the date with leading zeros
     const formattedDate = `${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
     const [hour, minute] = birthTime.split(":").map((num) => parseInt(num, 10));
 
-    // Validate time components
     if (
       isNaN(hour) ||
       isNaN(minute) ||
@@ -116,7 +92,7 @@ export async function printChartInfo(
       minute < 0 ||
       minute > 59
     ) {
-      throw new Error(t.errors.invalidTimeFormat);
+      throw new Error(chartT.errors.invalidTimeFormat);
     }
 
     const formattedTime = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
@@ -137,9 +113,8 @@ export async function printChartInfo(
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("API Error Response:", errorText);
       throw new Error(
-        t.errors.apiRequestFailed
+        chartT.errors.apiRequestFailed
           .replace("{status}", response.status.toString())
           .replace("{error}", errorText),
       );
@@ -147,11 +122,8 @@ export async function printChartInfo(
 
     const contentType = response.headers.get("content-type");
     if (!contentType || !contentType.includes("application/json")) {
-      const text = await response.text();
-      console.error("Unexpected response type:", contentType);
-      console.error("Response body:", text);
       throw new Error(
-        t.errors.invalidResponseType.replace(
+        chartT.errors.invalidResponseType.replace(
           "{type}",
           contentType || "unknown",
         ),
@@ -159,14 +131,11 @@ export async function printChartInfo(
     }
 
     const data: ApiResponse = await response.json();
-    console.log("API Response:", data);
 
-    // Validate the response data structure
     if (!data || typeof data !== "object") {
-      throw new Error(t.errors.invalidApiResponse);
+      throw new Error(chartT.errors.invalidApiResponse);
     }
 
-    // Convert the object into an array of planets
     const planets = Object.entries(data).map(
       ([planet, info]: [string, PlanetResponse]) => {
         if (
@@ -176,7 +145,7 @@ export async function printChartInfo(
           typeof info.degrees !== "number"
         ) {
           throw new Error(
-            t.errors.invalidPlanetData.replace("{planet}", planet),
+            chartT.errors.invalidPlanetData.replace("{planet}", planet),
           );
         }
         return {
@@ -221,7 +190,6 @@ export async function printChartInfo(
       </table>
     `;
   } catch (error: any) {
-    console.error("Error in printChartInfo:", error);
     return `<div class="astrology-error">Error: ${error.message}</div>`;
   }
 }

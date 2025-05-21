@@ -8,6 +8,14 @@
       "house": "house",
       "position": "position",
       "effects": "effects"
+    },
+    "errors": {
+      "invalidDateFormat": "Invalid date format. Please use YYYY-MM-DD format.",
+      "invalidTimeFormat": "Invalid time format. Please use HH:MM format.",
+      "apiRequestFailed": "API request failed with status {status}: {error}",
+      "invalidResponseType": "Invalid response type: {type}",
+      "invalidApiResponse": "Invalid API response format",
+      "invalidPlanetData": "Invalid planet data for {planet}"
     }
   }
 }
