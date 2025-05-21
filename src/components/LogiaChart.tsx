@@ -59,29 +59,60 @@ export async function printChartInfo(
   longitude: number,
 ): Promise<string> {
   try {
-    const response = await fetch(process.env.LILIT_ASTRO_API_URL!, {
+    // Format the date and time with leading zeros
+    const [year, month, day] = birthDate.split('-');
+    const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    const [hour, minute] = birthTime.split(':');
+    const formattedTime = `${hour.padStart(2, '0')}:${minute.padStart(2, '0')}`;
+    const formattedDateTime = `${formattedDate}T${formattedTime}`;
+
+    const response = await fetch(process.env.NEXT_PUBLIC_LILIT_ASTRO_API_URL!, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        API_KEY: process.env.LILIT_ASTRO_API_KEY!,
+        API_KEY: process.env.NEXT_PUBLIC_LILIT_ASTRO_API_KEY!,
       },
       body: JSON.stringify({
-        date_time: `${birthDate}T${birthTime}`,
+        date_time: formattedDateTime,
         latitude: latitude,
         longitude: longitude,
       }),
     });
 
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("API Error Response:", errorText);
+      throw new Error(`API request failed with status ${response.status}: ${errorText}`);
+    }
+
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      const text = await response.text();
+      console.error("Unexpected response type:", contentType);
+      console.error("Response body:", text);
+      throw new Error(`Expected JSON response but got ${contentType}`);
+    }
+
     const data: ApiResponse = await response.json();
     console.log("API Response:", data);
 
+    // Validate the response data structure
+    if (!data || typeof data !== "object") {
+      throw new Error("Invalid API response format");
+    }
+
     // Convert the object into an array of planets
     const planets = Object.entries(data).map(
-      ([planet, info]: [string, PlanetResponse]) => ({
-        planet,
-        sign: info.sign,
-        longitude: info.degrees,
-      }),
+      ([planet, info]: [string, PlanetResponse]) => {
+        if (!info || typeof info !== "object" || !info.sign || typeof info.degrees !== "number") {
+          throw new Error(`Invalid planet data for ${planet}`);
+        }
+        return {
+          planet,
+          sign: info.sign,
+          longitude: info.degrees,
+        };
+      },
     );
 
     return `
@@ -109,8 +140,8 @@ export async function printChartInfo(
       </table>
     `;
   } catch (error: any) {
-    console.error("Error:", error);
-    return `<div>Error: ${error.message}</div>`;
+    console.error("Error in printChartInfo:", error);
+    return `<div class="astrology-error">Error: ${error.message}</div>`;
   }
 }
 
