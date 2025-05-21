@@ -324,7 +324,8 @@ function calculatePlanetPosition(
 
     const signIndex = Math.floor(position / 30);
     const sign = ZODIAC_SIGNS[signIndex];
-    const house = (Math.floor((position + 30) / 30) % 12) + 1;
+    // Calculate house using whole sign system
+    const house = Math.floor(position / 30) + 1;
 
     return {
       name: planet,
@@ -349,7 +350,8 @@ function calculatePlanetPosition(
   const position = ((julianDay / periods[planet]) % 1) * 360;
   const signIndex = Math.floor(position / 30);
   const sign = ZODIAC_SIGNS[signIndex];
-  const house = (Math.floor((position + 30) / 30) % 12) + 1;
+  // Calculate house using whole sign system
+  const house = Math.floor(position / 30) + 1;
 
   return {
     name: planet,

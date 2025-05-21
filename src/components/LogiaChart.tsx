@@ -150,6 +150,9 @@ export async function printChartInfo(
       throw new Error(chartT.errors.invalidApiResponse);
     }
 
+    // Calculate chart data to get house information
+    const chartData = calculateChartData(birthDate, birthTime, latitude, longitude);
+
     const planets = Object.entries(data).map(
       ([planet, info]: [string, PlanetResponse]) => {
         if (
@@ -162,11 +165,13 @@ export async function printChartInfo(
             chartT.errors.invalidPlanetData.replace("{planet}", planet),
           );
         }
+        // Find the corresponding planet in chartData to get house information
+        const planetData = chartData.planets.find(p => p.name.toLowerCase() === planet.toLowerCase());
         return {
           planet,
           sign: info.sign,
           longitude: info.degrees,
-          house: info.house,
+          house: planetData?.house || "-",
           position: info.position,
           element: info.element || getElementForSign(info.sign),
         };
@@ -194,7 +199,7 @@ export async function printChartInfo(
               <td class="planet-cell">${planet.sign.toLowerCase()}</td>
               <td class="planet-cell">${getElementForSign(planet.sign)}</td>
               <td class="planet-cell">${planet.longitude.toFixed(2)}°</td>
-              <td class="planet-cell">${planet.house || "-"}</td>
+              <td class="planet-cell">${planet.house}</td>
               <td class="planet-cell">-</td>
             </tr>
           `,
