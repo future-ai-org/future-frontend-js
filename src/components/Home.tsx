@@ -27,8 +27,6 @@ const FeatureCard = ({
   const formatAddress = (addr: string) =>
     `${addr.slice(0, 6)}...${addr.slice(-4)}`;
   const [displayTitle, setDisplayTitle] = React.useState(title);
-  const [displayDescription, setDisplayDescription] =
-    React.useState(description);
 
   React.useEffect(() => {
     if (isConnected && number === strings.en.numbers.one) {
@@ -41,14 +39,13 @@ const FeatureCard = ({
     } else {
       setDisplayTitle(title);
     }
-    setDisplayDescription(description);
-  }, [isConnected, number, ensName, address, title, description]);
+  }, [isConnected, number, ensName, address, title]);
 
   return (
     <div className="landing-feature-card">
       <div className="landing-feature-number">{number}</div>
       <h3 className="landing-feature-title">{displayTitle}</h3>
-      <p className="landing-feature-description">{displayDescription}</p>
+      <p className="landing-feature-description">{description}</p>
     </div>
   );
 };

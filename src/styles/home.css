@@ -69,7 +69,6 @@
   padding: 2rem;
   border-radius: 2rem;
   border: 1px solid var(--color-primary);
-  transition: all var(--transition-duration) var(--transition-timing);
   min-height: 160px;
   display: flex;
   flex-direction: column;
@@ -79,31 +78,6 @@
   background-color: var(--card-bg);
   box-shadow: 0 8px 32px var(--color-shadow-black);
   backdrop-filter: blur(8px);
-  animation: cardGlow 3s ease-in-out infinite alternate;
-}
-
-@keyframes cardGlow {
-  from {
-    box-shadow: 
-      0 8px 32px var(--color-shadow-black),
-      0 0 5px var(--glow-shadow),
-      0 0 10px var(--glow-shadow),
-      0 0 15px var(--glow-shadow),
-      0 0 20px var(--glow-shadow),
-      0 0 25px var(--glow-shadow),
-      0 0 30px var(--glow-pink-light);
-  }
-  to {
-    box-shadow:
-      0 8px 32px var(--color-shadow-black),
-      0 0 10px var(--glow-shadow-hover),
-      0 0 20px var(--glow-shadow),
-      0 0 30px var(--glow-shadow),
-      0 0 40px var(--glow-shadow),
-      0 0 50px var(--glow-shadow),
-      0 0 60px var(--glow-pink-light),
-      0 0 70px var(--glow-pink-dark);
-  }
 }
 
 .landing-feature-card::before {
@@ -117,18 +91,7 @@
 }
 
 .landing-feature-card:hover {
-  transform: translateY(-4px) scale(1.03);
   border-color: var(--color-primary);
-  animation: none;
-  box-shadow:
-    0 8px 32px var(--color-shadow-black),
-    0 0 10px var(--glow-shadow-hover),
-    0 0 20px var(--glow-shadow),
-    0 0 30px var(--glow-shadow),
-    0 0 40px var(--glow-shadow),
-    0 0 50px var(--glow-shadow),
-    0 0 60px var(--glow-pink-light),
-    0 0 70px var(--glow-pink-dark);
 }
 
 .landing-feature-number {
@@ -147,7 +110,6 @@
   font-size: 1.2rem;
   font-weight: bold;
   color: var(--background-color);
-  box-shadow: var(--glow-shadow);
 }
 
 .landing-feature-title {
@@ -157,8 +119,6 @@
   font-size: 1.25rem;
   font-weight: 800;
   text-align: center;
-  text-shadow: var(--text-glow);
-  animation: glow 2s ease-in-out infinite alternate;
 }
 
 .landing-feature-description {
@@ -174,17 +134,20 @@
   color: var(--primary-color);
   text-decoration: none;
   position: relative;
-  transition: all var(--transition-duration) var(--transition-timing);
+  transition: all 0.3s ease;
   display: inline-block;
-  text-shadow: var(--text-glow);
+  opacity: 0.9;
+  font-weight: 800;
+  padding: 0 2px;
+  border-bottom: 1px dashed var(--primary-color);
 }
 
 .landing-feature-description a::after {
   content: "";
   position: absolute;
   width: 0;
-  height: 1px;
-  bottom: -1px;
+  height: 2px;
+  bottom: -2px;
   left: 50%;
   background-color: var(--primary-color);
   transform: translateX(-50%);
@@ -192,12 +155,14 @@
 }
 
 .landing-feature-description a:hover {
-  text-shadow: var(--text-glow-hover);
-  font-weight: 1000;
+  font-weight: 900;
+  opacity: 1;
+  transform: translateY(-1px);
+  border-bottom: none;
 }
 
 .landing-feature-description a:hover::after {
-  width: 80%;
+  width: 100%;
 }
 
 .landing-feature-link {
@@ -221,7 +186,7 @@
 }
 
 .landing-feature-link:hover {
-  text-shadow: var(--text-glow);
+  color: var(--primary-color);
 }
 
 .landing-feature-link:hover::after {
@@ -243,7 +208,6 @@
 
 .wallet-info:hover {
   transform: translateY(-2px);
-  box-shadow: var(--glow-shadow);
   border-color: var(--text-color);
 }
 
@@ -264,7 +228,6 @@
   border-radius: 0.4rem;
   border: 1px solid var(--color-primary);
   transition: var(--transition-all);
-  text-shadow: var(--text-glow);
   background: transparent;
   color: var(--color-primary);
   font-size: 0.9rem;
@@ -275,6 +238,5 @@
 .landing-feature-action:hover {
   background: var(--color-primary);
   color: var(--background-color);
-  box-shadow: var(--glow-shadow-hover);
   transform: var(--hover-transform);
 }
