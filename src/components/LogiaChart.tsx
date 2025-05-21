@@ -197,7 +197,7 @@ export async function printChartInfo(
             <tr>
               <td class="planet-cell" style="color: var(--color-primary);">${planet.planet.toLowerCase()}</td>
               <td class="planet-cell" style="color: var(--color-primary); font-size: 20px; font-weight: 500; text-shadow: 0 0 8px var(--color-primary);">${getZodiacSymbol(planet.sign)}</td>
-              <td class="planet-cell" style="color: var(--color-primary);">${getElementForSign(planet.sign)}</td>
+              <td class="planet-cell" style="color: var(--color-primary); font-size: 20px; font-weight: 500; text-shadow: 0 0 8px var(--color-primary);">${getElementForSign(planet.sign)}</td>
               <td class="planet-cell" style="color: var(--color-primary);">${planet.longitude.toFixed(2)}°</td>
               <td class="planet-cell" style="color: var(--color-primary);">${planet.house}</td>
               <td class="planet-cell" style="color: var(--color-primary);">-</td>
