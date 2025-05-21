@@ -27,15 +27,16 @@ const FeatureCard = ({
   const formatAddress = (addr: string) =>
     `${addr.slice(0, 6)}...${addr.slice(-4)}`;
   const [displayTitle, setDisplayTitle] = React.useState(title);
-  const [displayDescription, setDisplayDescription] = React.useState(description);
-  
+  const [displayDescription, setDisplayDescription] =
+    React.useState(description);
+
   React.useEffect(() => {
     if (isConnected && number === strings.en.numbers.one) {
       setDisplayTitle(
         strings.en.features.one.signedIn.replace(
           "{ensName}",
           ensName || (address ? formatAddress(address) : ""),
-        )
+        ),
       );
     } else {
       setDisplayTitle(title);
@@ -76,9 +77,7 @@ export default function Home() {
       return isConnected ? (
         <span>
           {strings.en.hello.connectedAs.prefix}{" "}
-          <Link href={ROUTES.INFO}>
-            {strings.en.hello.connectedAs.link}
-          </Link>{" "}
+          <Link href={ROUTES.INFO}>{strings.en.hello.connectedAs.link}</Link>{" "}
           {strings.en.hello.connectedAs.suffix}
         </span>
       ) : (

@@ -6,6 +6,7 @@ import strings from "../i18n/logia.json";
 import LogiaChart, { calculateChart, printChartInfo } from "./LogiaChart";
 import { geocodeCity, searchCities, CitySuggestion } from "../utils/geocoding";
 import Loading from "../utils/loading";
+import LogiaInfoBox from "./LogiaInfoBox";
 import "../styles/logiachart.css";
 import "../styles/logia.css";
 
@@ -94,6 +95,7 @@ export default function Logia() {
 
   return (
     <div className="astrology-container">
+      {!chartInfo && <LogiaInfoBox />}
       <div className="astrology-form-section">{renderContent()}</div>
     </div>
   );

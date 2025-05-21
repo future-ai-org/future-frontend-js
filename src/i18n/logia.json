@@ -4,7 +4,13 @@
     "errors": {
       "cityNotFound": "city not found",
       "fetchCoordinatesFailed": "failed to fetch city coordinates",
-      "unknownError": "an error occurred"
+      "unknownError": "an error occurred",
+      "invalidDateFormat": "invalid date format",
+      "invalidTimeFormat": "invalid time format",
+      "apiRequestFailed": "API request failed with status {status}: {error}",
+      "invalidResponseType": "invalid response type: {type}",
+      "invalidApiResponse": "invalid API response",
+      "invalidPlanetData": "invalid planet data for {planet}"
     },
     "labels": {
       "birthDate": "your birth date",
@@ -13,8 +19,15 @@
       "cityPlaceholder": "e.g., los angeles"
     },
     "buttons": {
-      "generateChart": "show me!",
-      "back": "back"
+      "generateChart": "show me!"
+    },
+    "about": {
+      "title": "what are we doing here?",
+      "features": [
+        "1️⃣ in the moment you were born the universe configuration was in a specific state that could only be reproduced if the universe has an infinite amount of time",
+        "2️⃣ this state is a map for with a very large set of variables that configure all the attributes that shape your existence",
+        "3️⃣ we can use this cosmic blueprint to predict the future and understand the past"
+      ]
     }
   }
 }

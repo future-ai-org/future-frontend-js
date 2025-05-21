@@ -9,17 +9,29 @@
   transition: all var(--transition-duration) var(--transition-timing);
 }
 
+@media (max-width: 768px) {
+  .logia-container {
+    padding: 0.5rem;
+  }
+}
+
+.astrology-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 4rem);
+  padding: 2rem;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
 .astrology-form-section {
   flex: 1;
   max-width: 100%;
   min-width: 100%;
   padding: 1rem;
-}
-
-@media (max-width: 1024px) {
-  .astrology-form-section {
-    max-width: 100%;
-  }
 }
 
 .astrology-form {
@@ -35,6 +47,22 @@
   border: 1px solid var(--color-primary);
   transition: all var(--transition-duration) var(--transition-timing);
   backdrop-filter: blur(8px);
+}
+
+@media (max-width: 768px) {
+  .astrology-container {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .logia-container {
+    padding: 0.5rem;
+  }
+
+  .astrology-form {
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
 }
 
 .astrology-form:hover {
@@ -187,6 +215,18 @@
   animation: shake 0.5s ease-in-out;
 }
 
+.astrology-error {
+  color: var(--bearish-color);
+  font-size: 0.9rem;
+  padding: 0.75rem;
+  border-radius: 1.2rem;
+  background-color: var(--info-bg);
+  border: 1px solid var(--bearish-color);
+  margin: 1rem 0;
+  animation: shake 0.5s ease-in-out;
+  text-align: center;
+}
+
 @keyframes shake {
   0%,
   100% {
@@ -267,4 +307,163 @@
 
 .astrology-input-short {
   width: 60px;
+}
+
+.logia-info-wrapper {
+  position: absolute;
+  right: calc(50% + 400px);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+}
+
+.logia-info-box {
+  background: linear-gradient(
+    135deg,
+    rgba(var(--color-primary-rgb), 0.1),
+    rgba(var(--color-primary-rgb), 0.05)
+  );
+  padding: 2rem;
+  border-radius: 1.5rem;
+  box-shadow:
+    0 8px 32px var(--color-shadow-black),
+    0 0 0 1px rgba(var(--color-primary-rgb), 0.1),
+    inset 0 0 20px rgba(var(--color-primary-rgb), 0.1);
+  transition: all var(--transition-duration) var(--transition-timing);
+  backdrop-filter: blur(8px);
+  width: 320px;
+  position: relative;
+  overflow: hidden;
+}
+
+.logia-info-box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(var(--color-primary-rgb), 0.3),
+    transparent
+  );
+}
+
+.logia-info-box::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(var(--color-primary-rgb), 0.3),
+    transparent
+  );
+}
+
+.logia-info-box:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 12px 40px var(--color-shadow-black),
+    0 0 0 1px rgba(var(--color-primary-rgb), 0.2),
+    inset 0 0 30px rgba(var(--color-primary-rgb), 0.15);
+  background: linear-gradient(
+    135deg,
+    rgba(var(--color-primary-rgb), 0.15),
+    rgba(var(--color-primary-rgb), 0.08)
+  );
+}
+
+.logia-info-title {
+  color: var(--color-primary);
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.logia-info-content {
+  color: var(--color-primary);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.logia-info-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0;
+}
+
+.logia-info-list li {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all var(--transition-duration) var(--transition-timing);
+}
+
+.logia-info-list li:hover {
+  transform: translateX(4px);
+}
+
+.logia-info-tip {
+  font-style: italic;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: var(--color-glow-shadow);
+  border-radius: 1.2rem;
+  border: 1px solid var(--color-primary);
+}
+
+@media (max-width: 1024px) {
+  .astrology-container {
+    flex-direction: column;
+    align-items: center;
+    min-height: auto;
+  }
+
+  .logia-info-wrapper {
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: none;
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  .logia-info-box {
+    width: 100%;
+  }
+}
+
+.logia-about-title {
+  font-weight: 900;
+  margin-top: 4rem;
+  margin-bottom: 2rem;
+  color: var(--color-primary);
+  text-align: center;
+  font-size: 1.3rem;
+}
+
+.logia-about-features {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  padding: 1rem 0;
+}
+
+.logia-about-feature {
+  font-weight: 600;
+  line-height: 1;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  width: 100%;
+  padding: 0 1rem;
 }

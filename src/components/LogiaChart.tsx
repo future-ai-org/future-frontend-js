@@ -7,7 +7,7 @@ import {
   calculateChart as calculateChartData,
 } from "../config/logiaChart";
 import { useTheme } from "../utils/themeContext";
-import strings from "../i18n/logiaChart.json";
+import strings from "../i18n/logia.json";
 import Loading from "../utils/loading";
 import {
   calculateChartDimensions,
@@ -42,6 +42,8 @@ interface ApiResponse {
   [key: string]: PlanetResponse;
 }
 
+const t = strings.en;
+
 export function calculateChart(
   birthDate: string,
   birthTime: string,
@@ -74,9 +76,7 @@ export async function printChartInfo(
       day < 1 ||
       day > 31
     ) {
-      throw new Error(
-        "Invalid date format. Please use YYYY-MM-DD format with valid month (1-12) and day (1-31) values.",
-      );
+      throw new Error(t.errors.invalidDateFormat);
     }
 
     // Format the date with leading zeros
@@ -92,9 +92,7 @@ export async function printChartInfo(
       minute < 0 ||
       minute > 59
     ) {
-      throw new Error(
-        "Invalid time format. Please use HH:MM format with valid hour (0-23) and minute (0-59) values.",
-      );
+      throw new Error(t.errors.invalidTimeFormat);
     }
 
     const formattedTime = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
@@ -117,7 +115,9 @@ export async function printChartInfo(
       const errorText = await response.text();
       console.error("API Error Response:", errorText);
       throw new Error(
-        `API request failed with status ${response.status}: ${errorText}`,
+        t.errors.apiRequestFailed
+          .replace("{status}", response.status.toString())
+          .replace("{error}", errorText),
       );
     }
 
@@ -126,7 +126,12 @@ export async function printChartInfo(
       const text = await response.text();
       console.error("Unexpected response type:", contentType);
       console.error("Response body:", text);
-      throw new Error(`Expected JSON response but got ${contentType}`);
+      throw new Error(
+        t.errors.invalidResponseType.replace(
+          "{type}",
+          contentType || "unknown",
+        ),
+      );
     }
 
     const data: ApiResponse = await response.json();
@@ -134,7 +139,7 @@ export async function printChartInfo(
 
     // Validate the response data structure
     if (!data || typeof data !== "object") {
-      throw new Error("Invalid API response format");
+      throw new Error(t.errors.invalidApiResponse);
     }
 
     // Convert the object into an array of planets
@@ -146,7 +151,9 @@ export async function printChartInfo(
           !info.sign ||
           typeof info.degrees !== "number"
         ) {
-          throw new Error(`Invalid planet data for ${planet}`);
+          throw new Error(
+            t.errors.invalidPlanetData.replace("{planet}", planet),
+          );
         }
         return {
           planet,
