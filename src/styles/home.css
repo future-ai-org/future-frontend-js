@@ -56,7 +56,7 @@
 
 .landing-feature-card {
   padding: 1.5rem 1.5rem 1rem;
-  border-radius: 8px;
+  border-radius: 12px;
   border: 1px solid var(--border-color);
   transition: all var(--transition-duration) var(--transition-timing);
   min-height: 160px;

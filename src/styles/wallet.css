@@ -12,8 +12,8 @@
 
 .connect-button,
 .disconnect-button {
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
+  padding: 1rem 1.5rem;
+  border-radius: 2rem;
   border: 1px solid var(--text-color);
   cursor: pointer;
   font-weight: 600;
