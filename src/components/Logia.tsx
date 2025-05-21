@@ -106,6 +106,8 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
     city: "",
   });
   const [timePeriod, setTimePeriod] = useState<"AM" | "PM">("AM");
+  const [showTimePeriodSuggestions, setShowTimePeriodSuggestions] =
+    useState(false);
   const [citySuggestions, setCitySuggestions] = useState<CitySuggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchTimeoutRef = useRef<NodeJS.Timeout>();
@@ -116,88 +118,103 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
   const dayInputRef = useRef<HTMLInputElement>(null);
   const hourInputRef = useRef<HTMLInputElement>(null);
   const minuteInputRef = useRef<HTMLInputElement>(null);
-  const timePeriodRef = useRef<HTMLSelectElement>(null);
+  const timePeriodRef = useRef<HTMLInputElement>(null);
   const cityInputRef = useRef<HTMLInputElement>(null);
 
-  const handleYearChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const year = e.target.value.replace(/\D/g, '').slice(0, 4);
-    const [, month, day] = formData.birthDate.split("-");
-    setFormData((prev) => ({
-      ...prev,
-      birthDate: `${year}-${month || ""}-${day || ""}`,
-    }));
-    if (year.length === 4) {
-      monthInputRef.current?.focus();
-    }
-  }, [formData.birthDate]);
+  const handleYearChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const year = e.target.value.replace(/\D/g, "").slice(0, 4);
+      const [, month, day] = formData.birthDate.split("-");
+      setFormData((prev) => ({
+        ...prev,
+        birthDate: `${year}-${month || ""}-${day || ""}`,
+      }));
+      if (year.length === 4) {
+        monthInputRef.current?.focus();
+      }
+    },
+    [formData.birthDate],
+  );
 
-  const handleMonthChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    let month = e.target.value.replace(/\D/g, '');
-    if (month) {
-      const numMonth = parseInt(month, 10);
-      if (numMonth > 12) month = '12';
-      if (numMonth < 1) month = '01';
-    }
-    const [year, , day] = formData.birthDate.split("-");
-    setFormData((prev) => ({
-      ...prev,
-      birthDate: `${year || ""}-${month}-${day || ""}`,
-    }));
-    if (month.length === 2) {
-      dayInputRef.current?.focus();
-    }
-  }, [formData.birthDate]);
+  const handleMonthChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      let month = e.target.value.replace(/\D/g, "");
+      if (month) {
+        const numMonth = parseInt(month, 10);
+        if (numMonth > 12) month = "12";
+        if (numMonth < 1) month = "01";
+      }
+      const [year, , day] = formData.birthDate.split("-");
+      setFormData((prev) => ({
+        ...prev,
+        birthDate: `${year || ""}-${month}-${day || ""}`,
+      }));
+      if (month.length === 2) {
+        dayInputRef.current?.focus();
+      }
+    },
+    [formData.birthDate],
+  );
 
-  const handleDayChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    let day = e.target.value.replace(/\D/g, '');
-    if (day) {
-      const numDay = parseInt(day, 10);
-      if (numDay > 31) day = '31';
-      if (numDay < 1) day = '01';
-    }
-    const [year, month] = formData.birthDate.split("-");
-    setFormData((prev) => ({
-      ...prev,
-      birthDate: `${year || ""}-${month || ""}-${day}`,
-    }));
-    if (day.length === 2) {
-      hourInputRef.current?.focus();
-    }
-  }, [formData.birthDate]);
+  const handleDayChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      let day = e.target.value.replace(/\D/g, "");
+      if (day) {
+        const numDay = parseInt(day, 10);
+        if (numDay > 31) day = "31";
+        if (numDay < 1) day = "01";
+      }
+      const [year, month] = formData.birthDate.split("-");
+      setFormData((prev) => ({
+        ...prev,
+        birthDate: `${year || ""}-${month || ""}-${day}`,
+      }));
+      if (day.length === 2) {
+        hourInputRef.current?.focus();
+      }
+    },
+    [formData.birthDate],
+  );
 
-  const handleHourChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    let hour = e.target.value.replace(/\D/g, '');
-    if (hour) {
-      const numHour = parseInt(hour, 10);
-      if (numHour > 12) hour = '12';
-      if (numHour < 1) hour = '01';
-    }
-    const [, minute] = formData.birthTime.split(":");
-    setFormData((prev) => ({
-      ...prev,
-      birthTime: `${hour}:${minute || ""}`,
-    }));
-    if (hour.length === 2) {
-      minuteInputRef.current?.focus();
-    }
-  }, [formData.birthTime]);
+  const handleHourChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      let hour = e.target.value.replace(/\D/g, "");
+      if (hour) {
+        const numHour = parseInt(hour, 10);
+        if (numHour > 12) hour = "12";
+        if (numHour < 1) hour = "01";
+      }
+      const [, minute] = formData.birthTime.split(":");
+      setFormData((prev) => ({
+        ...prev,
+        birthTime: `${hour}:${minute || ""}`,
+      }));
+      if (hour.length === 2) {
+        minuteInputRef.current?.focus();
+      }
+    },
+    [formData.birthTime],
+  );
 
-  const handleMinuteChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    let minute = e.target.value.replace(/\D/g, '');
-    if (minute) {
-      const numMinute = parseInt(minute, 10);
-      if (numMinute > 59) minute = '59';
-      if (numMinute < 0) minute = '00';
-    }
-    const [hour] = formData.birthTime.split(":");
-    setFormData((prev) => ({
-      ...prev,
-      birthTime: `${hour || ""}:${minute}`,
-    }));
-    if (minute.length === 2) {
-      timePeriodRef.current?.focus();
-    }
-  }, [formData.birthTime]);
+  const handleMinuteChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      let minute = e.target.value.replace(/\D/g, "");
+      if (minute) {
+        const numMinute = parseInt(minute, 10);
+        if (numMinute > 59) minute = "59";
+        if (numMinute < 0) minute = "00";
+      }
+      const [hour] = formData.birthTime.split(":");
+      setFormData((prev) => ({
+        ...prev,
+        birthTime: `${hour || ""}:${minute}`,
+      }));
+      if (minute.length === 2) {
+        timePeriodRef.current?.focus();
+      }
+    },
+    [formData.birthTime],
+  );
 
   const handleCityChange = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -316,18 +333,47 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             maxLength={2}
             required
           />
-          <select
-            ref={timePeriodRef}
-            className="astrology-time-period-select"
-            value={timePeriod}
-            onChange={(e) => {
-              setTimePeriod(e.target.value as "AM" | "PM");
-              cityInputRef.current?.focus();
-            }}
-          >
-            <option value="AM">AM</option>
-            <option value="PM">PM</option>
-          </select>
+          <div className="astrology-city-input-container">
+            <input
+              ref={timePeriodRef}
+              className="astrology-input astrology-time-period-select"
+              type="text"
+              value={timePeriod}
+              onChange={(e) => {
+                setTimePeriod(e.target.value as "AM" | "PM");
+                cityInputRef.current?.focus();
+              }}
+              onFocus={() => setShowTimePeriodSuggestions(true)}
+              onBlur={() =>
+                setTimeout(() => setShowTimePeriodSuggestions(false), 200)
+              }
+              readOnly
+            />
+            {showTimePeriodSuggestions && (
+              <ul className="astrology-city-suggestions">
+                <li
+                  onClick={() => {
+                    setTimePeriod("AM");
+                    setShowTimePeriodSuggestions(false);
+                    cityInputRef.current?.focus();
+                  }}
+                  className="astrology-city-suggestion"
+                >
+                  AM
+                </li>
+                <li
+                  onClick={() => {
+                    setTimePeriod("PM");
+                    setShowTimePeriodSuggestions(false);
+                    cityInputRef.current?.focus();
+                  }}
+                  className="astrology-city-suggestion"
+                >
+                  PM
+                </li>
+              </ul>
+            )}
+          </div>
         </div>
       </div>
       <div className="astrology-form-group">

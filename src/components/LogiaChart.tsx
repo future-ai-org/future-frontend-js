@@ -60,27 +60,44 @@ export async function printChartInfo(
 ): Promise<string> {
   try {
     // Parse and validate the date components
-    const [year, month, day] = birthDate.split('-').map(num => parseInt(num, 10));
-    
+    const [year, month, day] = birthDate
+      .split("-")
+      .map((num) => parseInt(num, 10));
+
     // Validate date components
-    if (isNaN(year) || isNaN(month) || isNaN(day) || 
-        month < 1 || month > 12 || 
-        day < 1 || day > 31) {
-      throw new Error('Invalid date format. Please use YYYY-MM-DD format with valid month (1-12) and day (1-31) values.');
+    if (
+      isNaN(year) ||
+      isNaN(month) ||
+      isNaN(day) ||
+      month < 1 ||
+      month > 12 ||
+      day < 1 ||
+      day > 31
+    ) {
+      throw new Error(
+        "Invalid date format. Please use YYYY-MM-DD format with valid month (1-12) and day (1-31) values.",
+      );
     }
 
     // Format the date with leading zeros
-    const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-    const [hour, minute] = birthTime.split(':').map(num => parseInt(num, 10));
-    
+    const formattedDate = `${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+    const [hour, minute] = birthTime.split(":").map((num) => parseInt(num, 10));
+
     // Validate time components
-    if (isNaN(hour) || isNaN(minute) || 
-        hour < 0 || hour > 23 || 
-        minute < 0 || minute > 59) {
-      throw new Error('Invalid time format. Please use HH:MM format with valid hour (0-23) and minute (0-59) values.');
+    if (
+      isNaN(hour) ||
+      isNaN(minute) ||
+      hour < 0 ||
+      hour > 23 ||
+      minute < 0 ||
+      minute > 59
+    ) {
+      throw new Error(
+        "Invalid time format. Please use HH:MM format with valid hour (0-23) and minute (0-59) values.",
+      );
     }
 
-    const formattedTime = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+    const formattedTime = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
     const formattedDateTime = `${formattedDate}T${formattedTime}`;
 
     const response = await fetch(process.env.NEXT_PUBLIC_LILIT_ASTRO_API_URL!, {
@@ -99,7 +116,9 @@ export async function printChartInfo(
     if (!response.ok) {
       const errorText = await response.text();
       console.error("API Error Response:", errorText);
-      throw new Error(`API request failed with status ${response.status}: ${errorText}`);
+      throw new Error(
+        `API request failed with status ${response.status}: ${errorText}`,
+      );
     }
 
     const contentType = response.headers.get("content-type");
@@ -121,7 +140,12 @@ export async function printChartInfo(
     // Convert the object into an array of planets
     const planets = Object.entries(data).map(
       ([planet, info]: [string, PlanetResponse]) => {
-        if (!info || typeof info !== "object" || !info.sign || typeof info.degrees !== "number") {
+        if (
+          !info ||
+          typeof info !== "object" ||
+          !info.sign ||
+          typeof info.degrees !== "number"
+        ) {
           throw new Error(`Invalid planet data for ${planet}`);
         }
         return {
