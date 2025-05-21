@@ -115,8 +115,6 @@
 .navLink.active {
   font-weight: 800;
   letter-spacing: 0.7px;
-  background: rgba(var(--primary-color-rgb), 0.1);
-  box-shadow: 0 0 20px rgba(var(--primary-color-rgb), 0.3);
   transform: scale(1.05);
 }
 
