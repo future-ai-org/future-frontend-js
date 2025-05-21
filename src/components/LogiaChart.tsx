@@ -4,6 +4,7 @@ import {
   getPlanetSymbol,
   getZodiacSymbol,
   ZODIAC_SYMBOLS,
+  PLANET_SYMBOLS,
   calculateChart as calculateChartData,
   getElementForSign,
 } from "../config/logiaChart";
@@ -195,7 +196,7 @@ export async function printChartInfo(
             .map(
               (planet) => `
             <tr>
-              <td class="planet-cell" style="color: var(--color-primary);">${planet.planet.toLowerCase()}</td>
+              <td class="planet-cell" style="color: var(--color-primary); font-size: 20px; font-weight: 500; text-shadow: 0 0 8px var(--color-primary);">${PLANET_SYMBOLS[planet.planet.toLowerCase() as keyof typeof PLANET_SYMBOLS]}</td>
               <td class="planet-cell" style="color: var(--color-primary); font-size: 20px; font-weight: 500; text-shadow: 0 0 8px var(--color-primary);">${getZodiacSymbol(planet.sign)}</td>
               <td class="planet-cell" style="color: var(--color-primary); font-size: 20px; font-weight: 500; text-shadow: 0 0 8px var(--color-primary);">${getElementForSign(planet.sign)}</td>
               <td class="planet-cell" style="color: var(--color-primary);">${planet.longitude.toFixed(2)}°</td>
