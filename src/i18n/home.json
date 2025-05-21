@@ -35,12 +35,12 @@
         "link": "your logia"
       },
       "dashboard": {
-        "link": "profile"
+        "link": "your profile"
       },
       "predict": "predictive intel"
     },
     "text": {
-      "and": " and personalize your ",
+      "and": " and personalize ",
       "intelFromOracle": "from our oracle agents",
       "startMakingSmarterChoices": {
         "prefix": "start making smarter",
