@@ -1,14 +1,16 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import "../styles/home.css";
 import strings from "../i18n/home.json";
 import { useWeb3 } from "../utils/web3ModalContext";
 import Link from "next/link";
 import { ROUTES } from "../config/routes";
 
+type CardNumber = "1" | "2" | "3";
+
 interface FeatureCardProps {
-  number: string;
+  number: CardNumber;
   title: string;
   description: React.ReactNode;
   isConnected: boolean;
@@ -16,7 +18,7 @@ interface FeatureCardProps {
   address?: string;
 }
 
-const FeatureCard = ({
+const FeatureCard = React.memo(({
   number,
   title,
   description,
@@ -24,11 +26,11 @@ const FeatureCard = ({
   ensName,
   address,
 }: FeatureCardProps) => {
-  const formatAddress = (addr: string) =>
-    `${addr.slice(0, 6)}...${addr.slice(-4)}`;
-  const [displayTitle, setDisplayTitle] = React.useState(title);
+  const formatAddress = useCallback((addr: string) =>
+    `${addr.slice(0, 6)}...${addr.slice(-4)}`, []);
+  const [displayTitle, setDisplayTitle] = useState(title);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isConnected && number === strings.en.numbers.one) {
       setDisplayTitle(
         strings.en.features.one.signedIn.replace(
@@ -39,7 +41,7 @@ const FeatureCard = ({
     } else {
       setDisplayTitle(title);
     }
-  }, [isConnected, number, ensName, address, title]);
+  }, [isConnected, number, ensName, address, title, formatAddress]);
 
   return (
     <div className="landing-feature-card">
@@ -48,18 +50,20 @@ const FeatureCard = ({
       <p className="landing-feature-description">{description}</p>
     </div>
   );
-};
+});
+
+FeatureCard.displayName = 'FeatureCard';
 
 export default function Home() {
   const { ensName, address, isConnected, connect } = useWeb3();
-  const [mounted, setMounted] = React.useState(false);
+  const [isClient, setIsClient] = useState(false);
 
-  React.useEffect(() => {
-    setMounted(true);
+  useEffect(() => {
+    setIsClient(true);
   }, []);
 
-  const getDescription = (cardNumber: string) => {
-    if (!mounted) {
+  const getDescription = useCallback((cardNumber: CardNumber) => {
+    if (!isClient) {
       // Return a simpler version for server-side rendering
       return cardNumber === strings.en.numbers.one ? (
         <span>{strings.en.features.one.connectWallet}</span>
@@ -103,8 +107,7 @@ export default function Home() {
               {strings.en.text.and}
               <Link href={ROUTES.DASHBOARD}>
                 {strings.en.links.dashboard.link}
-              </Link>{" "}
-              {strings.en.text.profileAndPriorities}
+              </Link>
             </>
           ) : (
             <>
@@ -126,33 +129,39 @@ export default function Home() {
         {strings.en.text.intelFromOracle}
       </>
     );
-  };
+  }, [isClient, isConnected, connect]);
+
+  const featureCards = useMemo(() => [
+    {
+      number: strings.en.numbers.one as CardNumber,
+      title: strings.en.features.one.title.toLowerCase(),
+      description: getDescription(strings.en.numbers.one as CardNumber),
+      isConnected,
+      ensName,
+      address,
+    },
+    {
+      number: strings.en.numbers.two as CardNumber,
+      title: strings.en.features.two.title.toLowerCase(),
+      description: getDescription(strings.en.numbers.two as CardNumber),
+      isConnected,
+    },
+    {
+      number: strings.en.numbers.three as CardNumber,
+      title: strings.en.features.three.title.toLowerCase(),
+      description: getDescription(strings.en.numbers.three as CardNumber),
+      isConnected,
+    },
+  ], [getDescription, isConnected, ensName, address]);
 
   return (
     <div className="landing-container">
       <h1 className="landing-title">{strings.en.title.toUpperCase()}</h1>
       <h2 className="landing-subtitle">{strings.en.subtitle.toUpperCase()}</h2>
       <div className="landing-feature-grid">
-        <FeatureCard
-          number={strings.en.numbers.one}
-          title={strings.en.features.one.title.toLowerCase()}
-          description={getDescription(strings.en.numbers.one)}
-          isConnected={isConnected}
-          ensName={ensName}
-          address={address}
-        />
-        <FeatureCard
-          number={strings.en.numbers.two}
-          title={strings.en.features.two.title.toLowerCase()}
-          description={getDescription(strings.en.numbers.two)}
-          isConnected={isConnected}
-        />
-        <FeatureCard
-          number={strings.en.numbers.three}
-          title={strings.en.features.three.title.toLowerCase()}
-          description={getDescription(strings.en.numbers.three)}
-          isConnected={isConnected}
-        />
+        {featureCards.map((card) => (
+          <FeatureCard key={card.number} {...card} />
+        ))}
       </div>
     </div>
   );
