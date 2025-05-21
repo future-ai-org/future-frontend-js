@@ -27,22 +27,22 @@
 @keyframes glow {
   from {
     text-shadow: 
+      0 0 5px var(--glow-shadow),
       0 0 10px var(--glow-shadow),
+      0 0 15px var(--glow-shadow),
+      0 0 20px var(--glow-shadow),
+      0 0 25px var(--glow-shadow),
+      0 0 30px var(--glow-pink-light);
+  }
+  to {
+    text-shadow:
+      0 0 10px var(--glow-shadow-hover),
       0 0 20px var(--glow-shadow),
       0 0 30px var(--glow-shadow),
       0 0 40px var(--glow-shadow),
       0 0 50px var(--glow-shadow),
-      0 0 60px rgba(255, 192, 203, 0.5);
-  }
-  to {
-    text-shadow:
-      0 0 20px var(--glow-shadow-hover),
-      0 0 40px var(--glow-shadow),
-      0 0 60px var(--glow-shadow),
-      0 0 80px var(--glow-shadow),
-      0 0 100px var(--glow-shadow),
-      0 0 120px rgba(255, 192, 203, 0.7),
-      0 0 140px rgba(255, 105, 180, 0.5);
+      0 0 60px var(--glow-pink-light),
+      0 0 70px var(--glow-pink-dark);
   }
 }
 
@@ -79,6 +79,31 @@
   background-color: var(--card-bg);
   box-shadow: 0 8px 32px var(--color-shadow-black);
   backdrop-filter: blur(8px);
+  animation: cardGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes cardGlow {
+  from {
+    box-shadow: 
+      0 8px 32px var(--color-shadow-black),
+      0 0 5px var(--glow-shadow),
+      0 0 10px var(--glow-shadow),
+      0 0 15px var(--glow-shadow),
+      0 0 20px var(--glow-shadow),
+      0 0 25px var(--glow-shadow),
+      0 0 30px var(--glow-pink-light);
+  }
+  to {
+    box-shadow:
+      0 8px 32px var(--color-shadow-black),
+      0 0 10px var(--glow-shadow-hover),
+      0 0 20px var(--glow-shadow),
+      0 0 30px var(--glow-shadow),
+      0 0 40px var(--glow-shadow),
+      0 0 50px var(--glow-shadow),
+      0 0 60px var(--glow-pink-light),
+      0 0 70px var(--glow-pink-dark);
+  }
 }
 
 .landing-feature-card::before {
@@ -93,8 +118,17 @@
 
 .landing-feature-card:hover {
   transform: translateY(-4px) scale(1.03);
-  box-shadow: 0 20px 50px var(--color-shadow-black);
   border-color: var(--color-primary);
+  animation: none;
+  box-shadow:
+    0 8px 32px var(--color-shadow-black),
+    0 0 10px var(--glow-shadow-hover),
+    0 0 20px var(--glow-shadow),
+    0 0 30px var(--glow-shadow),
+    0 0 40px var(--glow-shadow),
+    0 0 50px var(--glow-shadow),
+    0 0 60px var(--glow-pink-light),
+    0 0 70px var(--glow-pink-dark);
 }
 
 .landing-feature-number {

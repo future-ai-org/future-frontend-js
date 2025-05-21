@@ -22,6 +22,8 @@
   --light-text-glow-normal: 0 0 10px rgba(87, 76, 145, 0.7);
   --light-text-glow-hover:
     0 0 30px rgba(87, 76, 145, 0.7), 0 0 50px rgba(87, 76, 145, 0.5);
+  --light-glow-pink-light: rgba(255, 192, 203, 0.7);
+  --light-glow-pink-dark: rgba(190, 133, 195, 0.5);
 
   /* Dark theme colors */
   --dark-primary: rgb(132, 117, 249);
@@ -42,6 +44,8 @@
   --dark-text-glow-normal: 0 0 10px rgba(132, 117, 249, 0.7);
   --dark-text-glow-hover:
     0 0 30px rgba(132, 117, 249, 0.7), 0 0 50px rgba(132, 117, 249, 0.5);
+  --dark-glow-pink-light: rgba(155, 222, 192, 0.5);
+  --dark-glow-pink-dark: rgba(64, 235, 158, 0.4);
 
   /* Common opacity values */
   --opacity-light: 0.8;
@@ -69,6 +73,8 @@
   --color-shadow-trending-dark: var(--light-shadow-trending-dark);
   --color-text-glow-normal: var(--light-text-glow-normal);
   --color-text-glow-hover: var(--light-text-glow-hover);
+  --glow-pink-light: var(--light-glow-pink-light);
+  --glow-pink-dark: var(--light-glow-pink-dark);
 
   /* Common variables */
   --primary-color: var(--color-primary);
@@ -87,6 +93,8 @@
   --base-shadow: 0 0 5px var(--glow-shadow);
   --trending-shadow-light: var(--color-shadow-trending-light);
   --trending-shadow-dark: var(--color-shadow-trending-dark);
+  --glow-pink-light: var(--light-glow-pink-light);
+  --glow-pink-dark: var(--light-glow-pink-dark);
   --transition-duration: 0.3s;
   --transition-timing: ease;
 }
@@ -110,6 +118,8 @@ html.dark {
   --color-shadow-trending-dark: var(--dark-shadow-trending-dark);
   --color-text-glow-normal: var(--dark-text-glow-normal);
   --color-text-glow-hover: var(--dark-text-glow-hover);
+  --glow-pink-light: var(--dark-glow-pink-light);
+  --glow-pink-dark: var(--dark-glow-pink-dark);
 }
 
 /* Base Styles */
