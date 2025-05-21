@@ -111,6 +111,21 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
   const blurTimeoutRef = useRef<NodeJS.Timeout>();
   const searchTimeoutRef = useRef<NodeJS.Timeout>();
 
+  // Add refs for input fields
+  const yearInputRef = useRef<HTMLInputElement>(null);
+  const monthInputRef = useRef<HTMLInputElement>(null);
+  const dayInputRef = useRef<HTMLInputElement>(null);
+  const hourInputRef = useRef<HTMLInputElement>(null);
+  const minuteInputRef = useRef<HTMLInputElement>(null);
+  const timePeriodRef = useRef<HTMLSelectElement>(null);
+  const cityInputRef = useRef<HTMLInputElement>(null);
+
+  const handleInputComplete = useCallback((value: string, maxLength: number, nextInputRef: React.RefObject<HTMLInputElement | HTMLSelectElement>) => {
+    if (value.length === maxLength && nextInputRef.current) {
+      nextInputRef.current.focus();
+    }
+  }, []);
+
   const handleCityChange = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
@@ -172,6 +187,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
         <label className="astrology-label">{t.labels.birthDate}</label>
         <div className="astrology-input-group">
           <input
+            ref={yearInputRef}
             className="astrology-input astrology-input-year"
             type="text"
             name="birthYear"
@@ -183,12 +199,14 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
                 ...prev,
                 birthDate: `${year}-${month || ""}-${day || ""}`,
               }));
+              handleInputComplete(year, 4, monthInputRef);
             }}
             placeholder="YYYY"
             maxLength={4}
             required
           />
           <input
+            ref={monthInputRef}
             className="astrology-input astrology-input-short"
             type="text"
             name="birthMonth"
@@ -200,12 +218,14 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
                 ...prev,
                 birthDate: `${year || ""}-${month}-${day || ""}`,
               }));
+              handleInputComplete(month, 2, dayInputRef);
             }}
             placeholder="MM"
             maxLength={2}
             required
           />
           <input
+            ref={dayInputRef}
             className="astrology-input astrology-input-short"
             type="text"
             name="birthDay"
@@ -217,6 +237,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
                 ...prev,
                 birthDate: `${year || ""}-${month || ""}-${day}`,
               }));
+              handleInputComplete(day, 2, hourInputRef);
             }}
             placeholder="DD"
             maxLength={2}
@@ -228,6 +249,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
         <label className="astrology-label">{t.labels.birthTime}</label>
         <div className="astrology-input-group">
           <input
+            ref={hourInputRef}
             className="astrology-input astrology-input-short"
             type="text"
             name="birthHour"
@@ -244,12 +266,14 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
                 ...prev,
                 birthTime: `${hour}:${minute || ""}`,
               }));
+              handleInputComplete(hour, 2, minuteInputRef);
             }}
             placeholder="HH"
             maxLength={2}
             required
           />
           <input
+            ref={minuteInputRef}
             className="astrology-input astrology-input-short"
             type="text"
             name="birthMinute"
@@ -266,15 +290,20 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
                 ...prev,
                 birthTime: `${hour || ""}:${minute}`,
               }));
+              handleInputComplete(minute, 2, timePeriodRef);
             }}
             placeholder="MM"
             maxLength={2}
             required
           />
           <select
+            ref={timePeriodRef}
             className="astrology-time-period-select"
             value={timePeriod}
-            onChange={(e) => setTimePeriod(e.target.value as "AM" | "PM")}
+            onChange={(e) => {
+              setTimePeriod(e.target.value as "AM" | "PM");
+              cityInputRef.current?.focus();
+            }}
           >
             <option value="AM">AM</option>
             <option value="PM">PM</option>
@@ -285,6 +314,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
         <label className="astrology-label">{t.labels.birthCity}</label>
         <div className="astrology-city-input-container">
           <input
+            ref={cityInputRef}
             className="astrology-input astrology-city-input"
             type="text"
             value={formData.city}
