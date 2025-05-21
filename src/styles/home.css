@@ -26,7 +26,7 @@
 
 @keyframes glow {
   from {
-    text-shadow: 
+    text-shadow:
       0 0 5px var(--glow-shadow),
       0 0 10px var(--glow-shadow),
       0 0 15px var(--glow-shadow),

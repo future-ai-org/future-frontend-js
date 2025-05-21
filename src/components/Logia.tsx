@@ -29,7 +29,7 @@ const SpaceDecoration = () => {
   const createStar = (cx: number, cy: number, r: number) => {
     const points = [];
     const innerRadius = r * 0.4; // Inner radius for star points
-    
+
     for (let i = 0; i < 10; i++) {
       const angle = (i * Math.PI) / 5 - Math.PI / 2;
       const radius = i % 2 === 0 ? r : innerRadius;
@@ -37,7 +37,7 @@ const SpaceDecoration = () => {
       const y = cy + radius * Math.sin(angle);
       points.push(`${x},${y}`);
     }
-    return points.join(' ');
+    return points.join(" ");
   };
 
   return (
@@ -53,13 +53,13 @@ const SpaceDecoration = () => {
           points={createStar(
             Math.random() * 500 + 50,
             Math.random() * 500 + 50,
-            Math.random() * 6 + 5
+            Math.random() * 6 + 5,
           )}
           fill="var(--color-primary)"
           opacity={0.6}
         />
       ))}
-      
+
       {/* Saturn */}
       <g className="saturn-group">
         <circle

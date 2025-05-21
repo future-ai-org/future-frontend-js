@@ -168,7 +168,7 @@ export async function printChartInfo(
           longitude: info.degrees,
           house: info.house,
           position: info.position,
-          element: info.element || getElementForSign(info.sign)
+          element: info.element || getElementForSign(info.sign),
         };
       },
     );
@@ -193,8 +193,8 @@ export async function printChartInfo(
               <td class="planet-cell">${planet.planet.toLowerCase()}</td>
               <td class="planet-cell">${planet.sign.toLowerCase()}</td>
               <td class="planet-cell">${getElementForSign(planet.sign)}</td>
-              <td class="planet-cell">${planet.longitude.toFixed(4)}°</td>
-              <td class="planet-cell">${planet.house || '-'}</td>
+              <td class="planet-cell">${planet.longitude.toFixed(2)}°</td>
+              <td class="planet-cell">${planet.house || "-"}</td>
               <td class="planet-cell">-</td>
             </tr>
           `,
@@ -233,7 +233,7 @@ const PlanetInfoPanel: React.FC<PlanetInfoPanelProps> = React.memo(
             {translations.table.house}: {planet.house}
           </div>
           <div>
-            {translations.table.position}: {planet.position?.toFixed(1) || '-'}°
+            {translations.table.position}: {planet.position?.toFixed(2) || "-"}°
           </div>
         </div>
       </div>

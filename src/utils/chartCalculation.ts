@@ -122,12 +122,23 @@ export function drawZodiacSymbols(
 ) {
   const zodiacRadius = radius + 15;
   const zodiacNames = [
-    "Pisces", "Aquarius", "Capricorn", "Sagittarius", "Scorpio", "Libra",
-    "Virgo", "Leo", "Cancer", "Gemini", "Taurus", "Aries"
+    "Pisces",
+    "Aquarius",
+    "Capricorn",
+    "Sagittarius",
+    "Scorpio",
+    "Libra",
+    "Virgo",
+    "Leo",
+    "Cancer",
+    "Gemini",
+    "Taurus",
+    "Aries",
   ];
 
   // Create tooltip div
-  const tooltip = d3.select("body")
+  const tooltip = d3
+    .select("body")
     .append("div")
     .attr("class", "tooltip")
     .style("position", "absolute")
@@ -158,29 +169,29 @@ export function drawZodiacSymbols(
       .style("font-weight", "500")
       .style("text-shadow", "0 0 8px var(--color-primary)")
       .style("transition", "all 0.3s ease")
-      .on("mouseover", function(event) {
+      .on("mouseover", function (event) {
         d3.select(this)
           .style("opacity", "1")
           .style("font-size", "24px")
           .style("text-shadow", "0 0 12px var(--color-primary)");
-        
+
         tooltip
           .style("visibility", "visible")
           .text(zodiacNames[index])
-          .style("left", (event.pageX + 10) + "px")
-          .style("top", (event.pageY - 10) + "px");
+          .style("left", event.pageX + 10 + "px")
+          .style("top", event.pageY - 10 + "px");
       })
-      .on("mousemove", function(event) {
+      .on("mousemove", function (event) {
         tooltip
-          .style("left", (event.pageX + 10) + "px")
-          .style("top", (event.pageY - 10) + "px");
+          .style("left", event.pageX + 10 + "px")
+          .style("top", event.pageY - 10 + "px");
       })
-      .on("mouseout", function() {
+      .on("mouseout", function () {
         d3.select(this)
           .style("opacity", "0.8")
           .style("font-size", "20px")
           .style("text-shadow", "0 0 8px var(--color-primary)");
-        
+
         tooltip.style("visibility", "hidden");
       });
   }
@@ -245,7 +256,8 @@ export function drawPlanets(
   getPlanetSymbol: (name: string) => string,
 ) {
   // Create tooltip div
-  const tooltip = d3.select("body")
+  const tooltip = d3
+    .select("body")
     .append("div")
     .attr("class", "tooltip")
     .style("position", "absolute")
@@ -268,19 +280,21 @@ export function drawPlanets(
       .append("g")
       .attr("transform", `translate(${x},${y})`)
       .on("click", () => onPlanetClick(planet.name))
-      .on("mouseover", function(event) {
+      .on("mouseover", function (event) {
         tooltip
           .style("visibility", "visible")
-          .text(`${planet.name} in ${planet.sign} (${planet.position.toFixed(1)}°)`)
-          .style("left", (event.pageX + 10) + "px")
-          .style("top", (event.pageY - 10) + "px");
+          .text(
+            `${planet.name} in ${planet.sign} (${planet.position.toFixed(1)}°)`,
+          )
+          .style("left", event.pageX + 10 + "px")
+          .style("top", event.pageY - 10 + "px");
       })
-      .on("mousemove", function(event) {
+      .on("mousemove", function (event) {
         tooltip
-          .style("left", (event.pageX + 10) + "px")
-          .style("top", (event.pageY - 10) + "px");
+          .style("left", event.pageX + 10 + "px")
+          .style("top", event.pageY - 10 + "px");
       })
-      .on("mouseout", function() {
+      .on("mouseout", function () {
         tooltip.style("visibility", "hidden");
       });
 
