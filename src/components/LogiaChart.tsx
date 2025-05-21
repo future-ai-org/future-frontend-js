@@ -7,6 +7,7 @@ import {
   PLANET_SYMBOLS,
   calculateChart as calculateChartData,
   getElementForSign,
+  ASTROLOGY_EFFECTS,
 } from "../config/logiaChart";
 import { useTheme } from "../utils/themeContext";
 import chartStrings from "../i18n/logiaChart.json";
@@ -183,12 +184,12 @@ export async function printChartInfo(
       <table class="astrology-table" style="font-family: 'Arial Unicode MS', 'Arial', sans-serif;">
         <thead>
           <tr>
-            <th style="color: var(--color-primary); font-weight: 500;">${chartT.table.planet}</th>
-            <th style="color: var(--color-primary); font-weight: 500;">${chartT.table.sign}</th>
-            <th style="color: var(--color-primary); font-weight: 500;">${chartT.table.element}</th>
-            <th style="color: var(--color-primary); font-weight: 500;">${chartT.table.position}</th>
-            <th style="color: var(--color-primary); font-weight: 500;">${chartT.table.house}</th>
-            <th style="color: var(--color-primary); font-weight: 500;">${chartT.table.effects}</th>
+            <th class="astrology-table-header">${chartT.table.planet}</th>
+            <th class="astrology-table-header">${chartT.table.sign}</th>
+            <th class="astrology-table-header">${chartT.table.element}</th>
+            <th class="astrology-table-header">${chartT.table.position}</th>
+            <th class="astrology-table-header">${chartT.table.house}</th>
+            <th class="astrology-table-header">${chartT.table.effects}</th>
           </tr>
         </thead>
         <tbody>
@@ -201,7 +202,7 @@ export async function printChartInfo(
               <td class="planet-cell" style="color: var(--color-primary); font-size: 20px; font-weight: 500; text-shadow: 0 0 8px var(--color-primary);">${getElementForSign(planet.sign)}</td>
               <td class="planet-cell" style="color: var(--color-primary);">${planet.longitude.toFixed(2)}°</td>
               <td class="planet-cell" style="color: var(--color-primary);">${planet.house}</td>
-              <td class="planet-cell" style="color: var(--color-primary);">-</td>
+              <td class="planet-cell" style="color: var(--color-primary);">${ASTROLOGY_EFFECTS[planet.planet.toLowerCase() as keyof typeof ASTROLOGY_EFFECTS] || '-'}</td>
             </tr>
           `,
             )

@@ -13,19 +13,18 @@ export const ZODIAC_SIGNS = [
   "aries",
 ] as const;
 
-export const ASTROLOGY_EFFECTS = [
-  "neutral",
-  "expand",
-  "expand",
-  "expand",
-  "neutral",
-  "contract",
-  "contract",
-  "contract",
-  "contract",
-  "contract",
-  "contract",
-] as const;
+export const ASTROLOGY_EFFECTS = {
+  sun: "emphasizes",
+  moon: "contracts",
+  mercury: "communicates",
+  venus: "harmonizes",
+  mars: "challenges",
+  jupiter: "expands",
+  saturn: "corrects",
+  uranus: "disrupts",
+  neptune: "diffuses",
+  pluto: "empowers",
+} as const;
 
 export interface PlanetPosition {
   name: string;
