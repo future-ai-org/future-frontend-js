@@ -122,18 +122,10 @@ export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
     bearish: "var(--bearish-color)",
   });
 
-  console.log(tradingMessages.en.error.tradingComponentMounted, { assetId });
-
   const fetchHistoricalData = useCallback(
     async (period: TimePeriod) => {
       try {
         const { days, dataPoints, interval } = TIME_PERIOD_CONFIG[period];
-        console.log(tradingMessages.en.error.fetchingData, {
-          days,
-          dataPoints,
-          period,
-          assetId,
-        });
 
         const response = await fetch(
           `${API_CONFIG.COINGECKO.BASE_URL}${API_CONFIG.COINGECKO.MARKET_CHART(assetId, days, interval)}`,
@@ -144,11 +136,6 @@ export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
               "Content-Type": "application/json",
             },
           },
-        );
-
-        console.log(
-          tradingMessages.en.error.apiResponseStatus,
-          response.status,
         );
 
         if (!response.ok) {
@@ -162,7 +149,6 @@ export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
         }
 
         const data = await response.json();
-        console.log(tradingMessages.en.error.apiResponseData, data);
 
         if (!data.prices || !Array.isArray(data.prices)) {
           throw new Error(tradingMessages.en.error.invalidData);
@@ -183,11 +169,6 @@ export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
           },
         );
 
-        console.log(
-          tradingMessages.en.error.processedDataPoints,
-          processedData.length,
-        );
-
         if (period === "1Y") {
           setChartData(processMonthlyData(processedData));
         } else {
@@ -202,7 +183,6 @@ export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
           );
         }
       } catch (err) {
-        console.error(tradingMessages.en.error.fetchError, err);
         setChartData(sampleData);
       }
     },
@@ -210,7 +190,6 @@ export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
   );
 
   useEffect(() => {
-    console.log(tradingMessages.en.error.useEffectTriggered, timePeriod);
     fetchHistoricalData(timePeriod);
   }, [timePeriod, fetchHistoricalData]);
 
