@@ -179,15 +179,15 @@ export async function printChartInfo(
     );
 
     return `
-      <table class="astrology-table">
+      <table class="astrology-table" style="font-family: 'Arial Unicode MS', 'Arial', sans-serif;">
         <thead>
           <tr>
-            <th>${chartT.table.planet}</th>
-            <th>${chartT.table.sign}</th>
-            <th>${chartT.table.element}</th>
-            <th>${chartT.table.position}</th>
-            <th>${chartT.table.house}</th>
-            <th>${chartT.table.effects}</th>
+            <th style="color: var(--color-primary); font-weight: 500;">${chartT.table.planet}</th>
+            <th style="color: var(--color-primary); font-weight: 500;">${chartT.table.sign}</th>
+            <th style="color: var(--color-primary); font-weight: 500;">${chartT.table.element}</th>
+            <th style="color: var(--color-primary); font-weight: 500;">${chartT.table.position}</th>
+            <th style="color: var(--color-primary); font-weight: 500;">${chartT.table.house}</th>
+            <th style="color: var(--color-primary); font-weight: 500;">${chartT.table.effects}</th>
           </tr>
         </thead>
         <tbody>
@@ -195,12 +195,12 @@ export async function printChartInfo(
             .map(
               (planet) => `
             <tr>
-              <td class="planet-cell">${planet.planet.toLowerCase()}</td>
-              <td class="planet-cell">${planet.sign.toLowerCase()}</td>
-              <td class="planet-cell">${getElementForSign(planet.sign)}</td>
-              <td class="planet-cell">${planet.longitude.toFixed(2)}°</td>
-              <td class="planet-cell">${planet.house}</td>
-              <td class="planet-cell">-</td>
+              <td class="planet-cell" style="color: var(--color-primary);">${planet.planet.toLowerCase()}</td>
+              <td class="planet-cell" style="color: var(--color-primary); font-size: 20px; font-weight: 500; text-shadow: 0 0 8px var(--color-primary);">${getZodiacSymbol(planet.sign)}</td>
+              <td class="planet-cell" style="color: var(--color-primary);">${getElementForSign(planet.sign)}</td>
+              <td class="planet-cell" style="color: var(--color-primary);">${planet.longitude.toFixed(2)}°</td>
+              <td class="planet-cell" style="color: var(--color-primary);">${planet.house}</td>
+              <td class="planet-cell" style="color: var(--color-primary);">-</td>
             </tr>
           `,
             )
