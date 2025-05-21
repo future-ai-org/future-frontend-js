@@ -19,19 +19,30 @@
   font-size: 6.5rem;
   margin-bottom: 2rem;
   text-shadow: var(--text-glow);
-  animation: glow 2s ease-in-out infinite alternate;
+  animation: glow 3s ease-in-out infinite alternate;
   line-height: 1.2;
   font-weight: 800;
 }
 
 @keyframes glow {
   from {
-    text-shadow: 0 0 10px var(--glow-shadow);
+    text-shadow: 
+      0 0 10px var(--glow-shadow),
+      0 0 20px var(--glow-shadow),
+      0 0 30px var(--glow-shadow),
+      0 0 40px var(--glow-shadow),
+      0 0 50px var(--glow-shadow),
+      0 0 60px rgba(255, 192, 203, 0.5);
   }
   to {
     text-shadow:
       0 0 20px var(--glow-shadow-hover),
-      0 0 30px var(--glow-shadow);
+      0 0 40px var(--glow-shadow),
+      0 0 60px var(--glow-shadow),
+      0 0 80px var(--glow-shadow),
+      0 0 100px var(--glow-shadow),
+      0 0 120px rgba(255, 192, 203, 0.7),
+      0 0 140px rgba(255, 105, 180, 0.5);
   }
 }
 
