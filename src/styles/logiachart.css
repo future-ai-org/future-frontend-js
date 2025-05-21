@@ -69,14 +69,15 @@
 .astrology-info-box {
   flex: 1;
   min-width: 400px;
-  padding: 1rem;
+  padding: 1rem 1rem 0 1rem;
   border-radius: 0.5rem;
   background-color: var(--card-bg);
   border: 1px solid var(--border-color);
   box-shadow: var(--base-shadow);
   transition: var(--transition-all);
   overflow-y: auto;
-  height: 600px;
+  height: auto;
+  min-height: 0;
   display: flex;
   flex-direction: column;
 }
@@ -101,21 +102,39 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 0;
+  padding: 0;
+  margin: 0;
+  height: auto;
 }
 
 .astrology-info-text table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 1rem;
-  margin-bottom: 0;
+  margin: 1rem 0 2.5rem 0;
+  padding: 0;
+  display: table;
+}
+
+.astrology-info-text tbody {
+  display: table-row-group;
+}
+
+.astrology-info-text tr {
+  display: table-row;
 }
 
 .astrology-info-text th,
 .astrology-info-text td {
   padding: 0.5rem;
+  padding-bottom: 1rem;
   text-align: left;
   border-bottom: 1px solid var(--border-color);
+  display: table-cell;
+}
+
+.astrology-info-text tr:last-child td {
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
 .astrology-info-text th {
@@ -215,14 +234,15 @@
 .astrology-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 1rem;
-  margin-bottom: 0;
+  margin: 1rem 0 2rem 0;
+  padding: 0;
   font-size: 0.9rem;
 }
 
 .astrology-table th,
 .astrology-table td {
   padding: 0.5rem;
+  padding-bottom: 0.75rem;
   text-align: center;
   color: var(--color-primary);
   line-height: 1.2;

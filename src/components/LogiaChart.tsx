@@ -146,9 +146,9 @@ export async function printChartInfo(
             .map(
               (planet) => `
             <tr>
-              <td class="planet-cell">${planet.planet}</td>
+              <td class="planet-cell">${planet.planet.toLowerCase()}</td>
               <td class="planet-cell">${planet.longitude.toFixed(2)}°</td>
-              <td class="planet-cell">${planet.sign}</td>
+              <td class="planet-cell">${planet.sign.toLowerCase()}</td>
             </tr>
           `,
             )
