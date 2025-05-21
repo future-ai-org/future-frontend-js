@@ -34,13 +34,25 @@
   position: relative;
   display: flex;
   flex-direction: row;
-  gap: 6rem;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  padding: 1rem;
+  min-height: auto;
+  padding: 0;
   width: 100%;
   margin: 0;
+  gap: 6rem;
+}
+
+.astrology-chart-section .page-title {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  font-size: 4rem;
+  font-weight: 800;
+  text-align: center;
+  color: var(--text-color);
+  letter-spacing: 0.05em;
+  text-shadow: var(--text-glow);
 }
 
 .astrology-chart-container {

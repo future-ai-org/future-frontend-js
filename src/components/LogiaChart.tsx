@@ -8,6 +8,7 @@ import {
 } from "../config/logiaChart";
 import { useTheme } from "../utils/themeContext";
 import strings from "../i18n/logia.json";
+import chartStrings from "../i18n/logiaChart.json";
 import Loading from "../utils/loading";
 import {
   calculateChartDimensions,
@@ -43,6 +44,7 @@ interface ApiResponse {
 }
 
 const t = strings.en;
+const chartT = chartStrings.en;
 
 export function calculateChart(
   birthDate: string,
@@ -200,7 +202,7 @@ const PlanetInfoPanel: React.FC<PlanetInfoPanelProps> = React.memo(
 
     return (
       <div className="astrology-info-panel">
-        <h3>{t.infoPanel.title}</h3>
+        <h3>{chartT.infoPanel.title}</h3>
         <div className="astrology-planet-info">
           <div>
             <strong>{planet.name}</strong>{" "}
@@ -209,16 +211,16 @@ const PlanetInfoPanel: React.FC<PlanetInfoPanelProps> = React.memo(
             </span>
           </div>
           <div>
-            {t.infoPanel.sign}: {planet.sign}{" "}
+            {chartT.infoPanel.sign}: {planet.sign}{" "}
             <span className="zodiac-symbol" data-sign={planet.sign}>
               {getZodiacSymbol(planet.sign)}
             </span>
           </div>
           <div>
-            {t.infoPanel.house}: {planet.house}
+            {chartT.infoPanel.house}: {planet.house}
           </div>
           <div>
-            {t.infoPanel.position}: {planet.position.toFixed(1)}°
+            {chartT.infoPanel.position}: {planet.position.toFixed(1)}°
           </div>
         </div>
       </div>
@@ -310,20 +312,23 @@ export default function LogiaChart({
   }, [selectedPlanet, chartData, t]);
 
   return (
-    <div
-      className="astrology-chart-section"
-      style={{ position: "relative", zIndex: 0 }}
-    >
-      <div className="astrology-chart-container" id="chart">
-        {isGeneratingChart && <Loading />}
+    <>
+      <h1 className="page-title">{chartT.title.toLowerCase()}</h1>
+      <div
+        className="astrology-chart-section"
+        style={{ position: "relative", zIndex: 0 }}
+      >
+        <div className="astrology-chart-container" id="chart">
+          {isGeneratingChart && <Loading />}
+        </div>
+        <div className="astrology-info-box">
+          <div
+            className="astrology-info-text"
+            dangerouslySetInnerHTML={{ __html: chartInfoHtml }}
+          />
+          {memoizedPlanetInfo}
+        </div>
       </div>
-      <div className="astrology-info-box">
-        <div
-          className="astrology-info-text"
-          dangerouslySetInnerHTML={{ __html: chartInfoHtml }}
-        />
-        {memoizedPlanetInfo}
-      </div>
-    </div>
+    </>
   );
 }

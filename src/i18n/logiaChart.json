@@ -3,15 +3,15 @@
     "loading": {
       "generatingChart": "calculating..."
     },
+    "title": "this is your logia",
     "infoPanel": {
       "title": "planet information",
       "sign": "sign",
-      "element": "element",
       "house": "house",
       "position": "position"
     },
     "table": {
-      "planet": "Planet",
+      "planet": "planet",
       "sign": "Sign",
       "element": "Element",
       "angle": "Angle",
