@@ -120,6 +120,7 @@
   font-weight: 600;
   color: var(--color-primary);
   opacity: 0.8;
+  text-transform: uppercase;
 }
 
 .astrology-info-text tr:hover {
@@ -226,6 +227,7 @@
 .astrology-table th {
   font-weight: bold;
   background-color: var(--scroll-track);
+  text-transform: uppercase;
 }
 
 .astrology-table td {
@@ -417,6 +419,11 @@
   filter: brightness(0.7);
 }
 
+.astrology-table td.planet-cell {
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
 @media (max-width: 1024px) {
   .astrology-chart-section {
     min-width: 100%;
@@ -433,7 +440,6 @@
 
   .astrology-info-box {
     width: 100%;
-    height: 400px;
     min-width: unset;
   }
 }

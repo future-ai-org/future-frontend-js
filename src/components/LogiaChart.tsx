@@ -129,9 +129,9 @@ export async function printChartInfo(
             .map(
               (planet) => `
             <tr>
-              <td>${planet.planet}</td>
-              <td>${planet.longitude.toFixed(2)}°</td>
-              <td>${planet.sign}</td>
+              <td class="planet-cell">${planet.planet}</td>
+              <td class="planet-cell">${planet.longitude.toFixed(2)}°</td>
+              <td class="planet-cell">${planet.sign}</td>
             </tr>
           `,
             )
