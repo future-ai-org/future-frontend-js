@@ -542,6 +542,7 @@
   object-fit: contain;
   filter: drop-shadow(0 0 30px var(--color-glow-shadow));
   animation: float 6s ease-in-out infinite;
+  transform: scale(1.2);
 }
 
 .saturn-group {
@@ -572,7 +573,7 @@
 
 .logia-decorative-image:hover .logia-image {
   filter: drop-shadow(0 0 40px var(--color-glow-shadow-hover));
-  transform: scale(1.05);
+  transform: scale(1.25);
 }
 
 .logia-decorative-image:hover .saturn-group {

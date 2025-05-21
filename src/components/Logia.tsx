@@ -28,10 +28,13 @@ const SpaceDecoration = () => {
   // Function to create a 5-pointed star
   const createStar = (cx: number, cy: number, r: number) => {
     const points = [];
-    for (let i = 0; i < 5; i++) {
-      const angle = (i * 2 * Math.PI) / 5 - Math.PI / 2;
-      const x = cx + r * Math.cos(angle);
-      const y = cy + r * Math.sin(angle);
+    const innerRadius = r * 0.4; // Inner radius for star points
+    
+    for (let i = 0; i < 10; i++) {
+      const angle = (i * Math.PI) / 5 - Math.PI / 2;
+      const radius = i % 2 === 0 ? r : innerRadius;
+      const x = cx + radius * Math.cos(angle);
+      const y = cy + radius * Math.sin(angle);
       points.push(`${x},${y}`);
     }
     return points.join(' ');
@@ -44,13 +47,13 @@ const SpaceDecoration = () => {
       xmlns="http://www.w3.org/2000/svg"
     >
       {/* Background stars */}
-      {Array.from({ length: 50 }).map((_, i) => (
+      {Array.from({ length: 30 }).map((_, i) => (
         <polygon
           key={`star-${i}`}
           points={createStar(
-            Math.random() * 600,
-            Math.random() * 600,
-            Math.random() * 3 + 2
+            Math.random() * 500 + 50,
+            Math.random() * 500 + 50,
+            Math.random() * 6 + 5
           )}
           fill="var(--color-primary)"
           opacity={0.6}
