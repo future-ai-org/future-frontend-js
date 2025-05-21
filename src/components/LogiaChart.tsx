@@ -37,6 +37,9 @@ interface PlanetInfoPanelProps {
 interface PlanetResponse {
   sign: string;
   degrees: number;
+  house?: number;
+  position?: number;
+  element?: string;
 }
 
 interface ApiResponse {
@@ -45,6 +48,25 @@ interface ApiResponse {
 
 const t = strings.en;
 const chartT = chartStrings.en;
+
+// Helper function to get element for a sign
+function getElementForSign(sign: string): string {
+  const elementMap: { [key: string]: string } = {
+    aries: 'fire',
+    leo: 'fire',
+    sagittarius: 'fire',
+    taurus: 'earth',
+    virgo: 'earth',
+    capricorn: 'earth',
+    gemini: 'air',
+    libra: 'air',
+    aquarius: 'air',
+    cancer: 'water',
+    scorpio: 'water',
+    pisces: 'water'
+  };
+  return elementMap[sign.toLowerCase()] || '-';
+}
 
 export function calculateChart(
   birthDate: string,
@@ -161,6 +183,9 @@ export async function printChartInfo(
           planet,
           sign: info.sign,
           longitude: info.degrees,
+          house: info.house,
+          position: info.position,
+          element: info.element || getElementForSign(info.sign)
         };
       },
     );
@@ -169,9 +194,12 @@ export async function printChartInfo(
       <table class="astrology-table">
         <thead>
           <tr>
-            <th>Planet</th>
-            <th>Angle</th>
-            <th>Sign</th>
+            <th>${chartT.table.planet}</th>
+            <th>${chartT.table.sign}</th>
+            <th>${chartT.table.element}</th>
+            <th>${chartT.table.position}</th>
+            <th>${chartT.table.house}</th>
+            <th>${chartT.table.effects}</th>
           </tr>
         </thead>
         <tbody>
@@ -180,8 +208,11 @@ export async function printChartInfo(
               (planet) => `
             <tr>
               <td class="planet-cell">${planet.planet.toLowerCase()}</td>
-              <td class="planet-cell">${planet.longitude.toFixed(2)}°</td>
               <td class="planet-cell">${planet.sign.toLowerCase()}</td>
+              <td class="planet-cell">${getElementForSign(planet.sign)}</td>
+              <td class="planet-cell">${planet.longitude.toFixed(2)}°</td>
+              <td class="planet-cell">${planet.house || '-'}</td>
+              <td class="planet-cell">-</td>
             </tr>
           `,
             )
@@ -202,7 +233,7 @@ const PlanetInfoPanel: React.FC<PlanetInfoPanelProps> = React.memo(
 
     return (
       <div className="astrology-info-panel">
-        <h3>{chartT.infoPanel.title}</h3>
+        <h3>{chartT.title}</h3>
         <div className="astrology-planet-info">
           <div>
             <strong>{planet.name}</strong>{" "}
@@ -211,16 +242,16 @@ const PlanetInfoPanel: React.FC<PlanetInfoPanelProps> = React.memo(
             </span>
           </div>
           <div>
-            {chartT.infoPanel.sign}: {planet.sign}{" "}
+            {chartT.table.sign}: {planet.sign}{" "}
             <span className="zodiac-symbol" data-sign={planet.sign}>
               {getZodiacSymbol(planet.sign)}
             </span>
           </div>
           <div>
-            {chartT.infoPanel.house}: {planet.house}
+            {chartT.table.house}: {planet.house}
           </div>
           <div>
-            {chartT.infoPanel.position}: {planet.position.toFixed(1)}°
+            {chartT.table.position}: {planet.position?.toFixed(1) || '-'}°
           </div>
         </div>
       </div>

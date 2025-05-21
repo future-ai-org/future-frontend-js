@@ -1,22 +1,13 @@
 {
   "en": {
-    "loading": {
-      "generatingChart": "calculating..."
-    },
-    "title": "this is your logia",
-    "infoPanel": {
-      "title": "planet information",
-      "sign": "sign",
-      "house": "house",
-      "position": "position"
-    },
+    "title": "this is the map of your avatar",
     "table": {
       "planet": "planet",
-      "sign": "Sign",
-      "element": "Element",
-      "angle": "Angle",
-      "house": "House",
-      "effects": "Effects"
+      "sign": "sign",
+      "element": "element",
+      "house": "house",
+      "position": "position",
+      "effects": "effects"
     }
   }
 }

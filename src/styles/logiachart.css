@@ -12,8 +12,8 @@
 
 .astrology-container {
   padding: 0;
-  max-width: 100%;
-  margin: 0;
+  max-width: 95%;
+  margin: 0 auto;
   color: var(--color-primary);
   display: flex;
   min-height: 100vh;
@@ -66,6 +66,7 @@
   align-items: center;
   transition: var(--transition-all);
   z-index: 1;
+  margin-right: 2rem;
 }
 
 .astrology-chart-container svg {
@@ -107,16 +108,18 @@
 
 .astrology-info-text {
   flex: 1;
+  overflow-x: auto;
   overflow-y: auto;
   color: var(--color-primary);
   font-size: 0.9rem;
   line-height: 1.5;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   padding: 0;
   margin: 0;
   height: auto;
+  width: 100%;
 }
 
 .astrology-info-text table {
@@ -203,44 +206,51 @@
   width: 100%;
   border-collapse: collapse;
   margin: 2.5rem 0 2rem 0;
-  padding: 0;
+  padding: 0 2rem;
   font-size: 0.9rem;
 }
 
 .astrology-table th,
 .astrology-table td {
-  padding: 0.5rem;
-  padding-bottom: 0.75rem;
-  text-align: center;
+  padding: 0.75rem 1rem;
+  text-align: left;
   color: var(--color-primary);
   line-height: 1.2;
+  white-space: nowrap;
 }
 
 .astrology-table th {
   font-weight: bold;
   background-color: var(--scroll-track);
   text-transform: uppercase;
+  padding-top: 1rem;
 }
 
 .astrology-table td {
-  padding: 0.5rem;
-  text-align: center;
+  padding: 0.75rem 1rem;
+  text-align: left;
   color: var(--color-primary);
   font-weight: 500;
 }
 
 .astrology-table td:first-child {
-  font-size: 1.4em;
+  font-size: 1.2em;
   font-weight: 900;
+  padding-left: 2rem;
+}
+
+.astrology-table td:nth-child(2) {
+  width: 150px;
 }
 
 .astrology-table td:nth-child(3) {
-  font-size: 1.4em;
+  font-size: 1.2em;
   font-weight: 900;
+  width: 120px;
 }
 
 .astrology-table td:nth-child(4) {
-  font-size: 1.2em;
+  font-size: 1.1em;
   font-weight: 900;
   filter: brightness(0.7);
   font-family: monospace;
@@ -248,7 +258,15 @@
   font-feature-settings: "liga" 0;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  width: 150px;
+}
+
+.astrology-table td:nth-child(5) {
+  width: 120px;
+}
+
+.astrology-table td:nth-child(6) {
+  width: 150px;
 }
 
 .astrology-positions {
