@@ -42,7 +42,11 @@
     "text": {
       "and": " to personalize ",
       "intelFromOracle": "from our oracle agents",
-      "startMakingSmarterChoices": "start making smarter choice decisions",
+      "startMakingSmarterChoices": {
+        "prefix": "start making smarter",
+        "link": "choices",
+        "suffix": "decisions"
+      },
       "profileAndPriorities": "and actions",
       "leverage": "leverage smart"
     }

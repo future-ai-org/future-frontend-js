@@ -107,7 +107,13 @@ export default function Home() {
               {strings.en.text.profileAndPriorities}
             </>
           ) : (
-            ` and ${strings.en.text.startMakingSmarterChoices}`
+            <>
+              {strings.en.text.startMakingSmarterChoices.prefix}{" "}
+              <Link href={ROUTES.TRADE}>
+                {strings.en.text.startMakingSmarterChoices.link}
+              </Link>{" "}
+              {strings.en.text.startMakingSmarterChoices.suffix}
+            </>
           )}
         </>
       );
