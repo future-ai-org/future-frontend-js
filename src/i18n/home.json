@@ -30,15 +30,20 @@
       "three": "3"
     },
     "links": {
-      "logia": "calculate your logia",
-      "dashboard": "personalize",
+      "logia": {
+        "prefix": "calculate",
+        "link": "your logia"
+      },
+      "dashboard": {
+        "link": "your profile"
+      },
       "predict": "predictive intel"
     },
     "text": {
-      "and": " to ",
+      "and": " to personalize ",
       "intelFromOracle": "from our oracle agents",
       "startMakingSmarterChoices": "start making smarter choice decisions",
-      "profileAndPriorities": "your profile and priorities",
+      "profileAndPriorities": "and actions",
       "leverage": "leverage smart"
     }
   }

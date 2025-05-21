@@ -67,7 +67,7 @@ export default function Home() {
       return cardNumber === strings.en.numbers.one ? (
         <span>{strings.en.features.one.connectWallet}</span>
       ) : cardNumber === strings.en.numbers.two ? (
-        <span>{strings.en.links.logia}</span>
+        <span>{strings.en.links.logia.prefix} {strings.en.links.logia.link}</span>
       ) : (
         <span>{strings.en.links.predict}</span>
       );
@@ -99,12 +99,13 @@ export default function Home() {
     if (cardNumber === strings.en.numbers.two) {
       return (
         <>
-          <Link href={ROUTES.LOGIA}>{strings.en.links.logia}</Link>
+          {strings.en.links.logia.prefix}{" "}
+          <Link href={ROUTES.LOGIA}>{strings.en.links.logia.link}</Link>
           {isConnected ? (
             <>
               {strings.en.text.and}
               <Link href={ROUTES.DASHBOARD}>
-                {strings.en.links.dashboard}
+                {strings.en.links.dashboard.link}
               </Link>{" "}
               {strings.en.text.profileAndPriorities}
             </>
