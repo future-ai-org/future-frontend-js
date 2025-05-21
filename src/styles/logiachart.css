@@ -192,55 +192,11 @@
   color: var(--background-color);
 }
 
-.astrology-chart-loading {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-.astrology-loading-dots {
-  display: flex;
-  gap: 8px;
-}
-
-.astrology-loading-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background-color: var(--color-primary);
-  animation: astrology-loading-dot 1.4s infinite ease-in-out both;
-}
-
-.astrology-loading-dot:nth-child(1) {
-  animation-delay: -0.32s;
-}
-
-.astrology-loading-dot:nth-child(2) {
-  animation-delay: -0.16s;
-}
-
-@keyframes astrology-loading-dot {
-  0%,
-  80%,
-  100% {
-    transform: scale(0);
-    opacity: 0.3;
-  }
-  40% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
+.astrology-chart-loading,
+.astrology-loading-dots,
+.astrology-loading-dot,
 .astrology-loading-text {
-  color: var(--color-primary);
-  font-size: 1rem;
-  text-shadow: var(--text-glow);
+  display: none;
 }
 
 .astrology-table {
@@ -461,6 +417,11 @@
 }
 
 @media (max-width: 1024px) {
+  .astrology-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
   .astrology-chart-section {
     min-width: 100%;
     height: auto;
