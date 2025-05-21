@@ -80,16 +80,6 @@
   backdrop-filter: blur(8px);
 }
 
-.landing-feature-card::before {
-  content: "";
-  position: absolute;
-  top: -1px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 2.5rem;
-  height: 1px;
-}
-
 .landing-feature-card:hover {
   border-color: var(--color-primary);
 }
@@ -163,35 +153,6 @@
 
 .landing-feature-description a:hover::after {
   width: 100%;
-}
-
-.landing-feature-link {
-  color: var(--primary-color);
-  text-decoration: none;
-  position: relative;
-  transition: all var(--transition-duration) var(--transition-timing);
-}
-
-.landing-feature-link::after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 1px;
-  bottom: -2px;
-  left: 0;
-  background-color: var(--primary-color);
-  transform: scaleX(1);
-  transform-origin: bottom left;
-  transition: transform 0.3s ease-out;
-}
-
-.landing-feature-link:hover {
-  color: var(--primary-color);
-}
-
-.landing-feature-link:hover::after {
-  transform: scaleX(1.1);
-  transform-origin: bottom left;
 }
 
 .wallet-info {
