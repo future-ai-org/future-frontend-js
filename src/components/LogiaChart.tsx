@@ -11,6 +11,7 @@ import {
 import { useTheme } from "../utils/themeContext";
 import chartStrings from "../i18n/logiaChart.json";
 import Loading from "../utils/loading";
+import "../styles/logiachart.css";
 import {
   calculateChartDimensions,
   createBaseChart,
@@ -166,7 +167,7 @@ export async function printChartInfo(
     );
 
     return `
-      <table class="astrology-table" style="font-family: 'Arial Unicode MS', 'Arial', sans-serif;">
+      <table class="astrology-table">
         <thead>
           <tr>
             <th class="astrology-table-header">${chartT.table.planet}</th>
@@ -183,19 +184,19 @@ export async function printChartInfo(
               const element = getElementForSign(planet.sign);
               const elementInfo =
                 {
-                  "🜂": "Fire - Represents energy, passion, and creativity",
-                  "🜃": "Earth - Represents stability, practicality, and material matters",
-                  "🜁": "Air - Represents intellect, communication, and social connections",
-                  "🜄": "Water - Represents emotions, intuition, and sensitivity",
+                  "🜂": chartT.elements.fire,
+                  "🜃": chartT.elements.earth,
+                  "🜁": chartT.elements.air,
+                  "🜄": chartT.elements.water,
                 }[element] || element;
               return `
             <tr>
-              <td class="planet-cell" style="color: var(--color-primary); font-size: 20px; font-weight: 500; text-shadow: 0 0 8px var(--color-primary);">${PLANET_SYMBOLS[planet.planet.toLowerCase() as keyof typeof PLANET_SYMBOLS]}</td>
-              <td class="planet-cell" style="color: var(--color-primary); font-size: 20px; font-weight: 500; text-shadow: 0 0 8px var(--color-primary);">${getZodiacSymbol(planet.sign)}</td>
-              <td class="planet-cell" style="color: var(--color-primary); font-size: 20px; font-weight: 500; text-shadow: 0 0 8px var(--color-primary);" title="${elementInfo}">${element}</td>
-              <td class="planet-cell" style="color: var(--color-primary);">${planet.longitude.toFixed(2)}°</td>
-              <td class="planet-cell" style="color: var(--color-primary);">${planet.house}</td>
-              <td class="planet-cell" style="color: var(--color-primary);">${chartT.effects[planet.planet.toLowerCase() as keyof typeof chartT.effects] || "-"}</td>
+              <td class="planet-cell" data-tooltip="${elementInfo}">${PLANET_SYMBOLS[planet.planet.toLowerCase() as keyof typeof PLANET_SYMBOLS]}</td>
+              <td class="planet-cell">${getZodiacSymbol(planet.sign)}</td>
+              <td class="planet-cell" data-tooltip="${elementInfo}">${element}</td>
+              <td class="planet-cell">${planet.longitude.toFixed(2)}°</td>
+              <td class="planet-cell">${planet.house}</td>
+              <td class="planet-cell">${chartT.effects[planet.planet.toLowerCase() as keyof typeof chartT.effects] || "-"}</td>
             </tr>
           `;
             })
@@ -205,7 +206,7 @@ export async function printChartInfo(
     `;
   } catch (error: unknown) {
     const errorMessage =
-      error instanceof Error ? error.message : "An unknown error occurred";
+      error instanceof Error ? error.message : chartT.errors.unknownError;
     return `<div class="astrology-error">Error: ${errorMessage}</div>`;
   }
 }
@@ -330,10 +331,7 @@ export default function LogiaChart({
   return (
     <>
       <h1 className="page-title">{chartT.title.toLowerCase()}</h1>
-      <div
-        className="astrology-chart-section"
-        style={{ position: "relative", zIndex: 0 }}
-      >
+      <div className="astrology-chart-section">
         <div className="astrology-chart-container" id="chart">
           {isGeneratingChart && <Loading />}
         </div>

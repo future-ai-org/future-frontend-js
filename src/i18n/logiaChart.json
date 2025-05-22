@@ -9,6 +9,12 @@
       "position": "position",
       "effects": "effect"
     },
+    "elements": {
+      "fire": "the fire element is linked to energy, passion, and creativity",
+      "earth": "the earth element is linked to stability, practicality, and material matters",
+      "air": "the air element is linked to intellect, communication, and social connections",
+      "water": "the water element is linked to emotions, intuition, and sensitivity"
+    },
     "effects": {
       "sun": "emphasizes",
       "moon": "reflects",
@@ -27,7 +33,8 @@
       "apiRequestFailed": "api request failed with status {status}: {error}",
       "invalidResponseType": "invalid response type: {type}",
       "invalidApiResponse": "invalid api response format",
-      "invalidPlanetData": "invalid planet data for {planet}"
+      "invalidPlanetData": "invalid planet data for {planet}",
+      "unknownError": "an unknown error occurred"
     }
   }
 }
