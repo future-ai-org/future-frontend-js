@@ -1,5 +1,8 @@
 import { ChartData, ZODIAC_SIGNS } from "../config/logiaChart";
 import * as d3 from "d3";
+import chartStrings from "../i18n/logiaChart.json";
+
+type ZodiacSign = keyof typeof chartStrings.en.signs;
 
 export interface ChartDimensions {
   width: number;
@@ -136,7 +139,9 @@ export function drawZodiacSymbols(
     .style("border-radius", "4px")
     .style("font-size", "0.8rem")
     .style("pointer-events", "none")
-    .style("z-index", "1000");
+    .style("z-index", "1000")
+    .style("max-width", "300px")
+    .style("white-space", "normal");
 
   for (let index = 0; index < 12; index++) {
     const angle = ((index * 30 - 90 + 15) * Math.PI) / 180;
@@ -166,9 +171,12 @@ export function drawZodiacSymbols(
           .style("font-size", "24px")
           .style("text-shadow", "0 0 12px var(--color-primary)");
 
+        const signName = zodiacNames[index].toLowerCase() as ZodiacSign;
+        const signDescription = chartStrings.en.signs[signName];
+        
         tooltip
           .style("visibility", "visible")
-          .text(zodiacNames[index])
+          .html(`<strong>${zodiacNames[index]}</strong><br/>${signDescription}`)
           .style("left", event.pageX + 10 + "px")
           .style("top", event.pageY - 10 + "px");
       })

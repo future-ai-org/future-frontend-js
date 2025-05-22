@@ -9,6 +9,20 @@
       "position": "position",
       "effects": "effect"
     },
+    "signs": {
+        "aries": "the 1st sign of the zodiac, ruled by mars, is linked to new beginnings, courage, leadership, a pioneering spirit, and dynamic energy",
+        "taurus": "the 2nd sign of the zodiac, ruled by venus, is linked to stability, sensuality, material security, comfort, beauty, and the pleasures of life",
+        "gemini": "the 3rd sign of the zodiac, ruled by mercury, is linked to communication, curiosity, adaptability, and intellectual versatility",
+        "cancer": "the 4th sign of the zodiac, ruled by the moon, is linked to emotional depth, nurturing, intuition, home, family, and emotional security",
+        "leo": "the 5th sign of the zodiac, ruled by the sun, is linked to creativity, self-expression, leadership, confidence, and natural charisma",
+        "virgo": "the 6th sign of the zodiac, ruled by mercury, is linked to precision, service, practical wisdom, analysis, and attention to detail",
+        "libra": "the 7th sign of the zodiac, ruled by venus, is linked to balance, harmony, relationships, fairness, and beauty in all aspects of life",
+        "scorpio": "the 8th sign of the zodiac, ruled by mars and pluto, is linked to intensity, transformation, depth, and powerful emotional and psychological insights",
+        "sagittarius": "the 9th sign of the zodiac, ruled by jupiter, is linked to expansion, philosophy, adventure, and seeking truth and meaning through exploration",
+        "capricorn": "the 10th sign of the zodiac, ruled by saturn, is linked to ambition, discipline, achievements, and building lasting structures through patience and hard work",
+        "aquarius": "the 11th sign of the zodiac, ruled by uranus and saturn, is linked to innovation, humanitarianism, individuality, progressive ideas, and social change",
+        "pisces": "the 12th sign of the zodiac, ruled by neptune and jupiter, is linked to compassion, imagination, spiritual connection, the dissolution of boundaries, and connection with universal consciousness"
+      },
     "elements": {
       "fire": "the fire element is linked to energy, passion, and creativity",
       "earth": "the earth element is linked to stability, practicality, and material matters",
