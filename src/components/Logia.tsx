@@ -6,7 +6,6 @@ import strings from "../i18n/logia.json";
 import LogiaChart, { calculateChart, printChartInfo } from "./LogiaChart";
 import { geocodeCity, searchCities, CitySuggestion } from "../utils/geocoding";
 import Loading from "../utils/loading";
-import LogiaInfoBox from "./LogiaInfoBox";
 import { SpaceDecoration } from "../utils/spaceDecoration";
 import "../styles/logiachart.css";
 import "../styles/logia.css";
@@ -415,5 +414,26 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
         {isGeneratingChart ? <Loading /> : t.buttons.generateChart}
       </button>
     </form>
+  );
+}
+
+function LogiaInfoBox() {
+  return (
+    <div className="logia-info-wrapper">
+      <div className="logia-info-box">
+        <h2 className="logia-about-title">{t.about.title}</h2>
+        <div className="logia-about-features">
+          {t.about.features.map((feature, index) => {
+            const number = feature.split(" ")[0];
+            const text = feature.split(" ").slice(1).join(" ");
+            return (
+              <p key={index} className="logia-about-feature">
+                <span className="logia-feature-number">{number}</span> {text}
+              </p>
+            );
+          })}
+        </div>
+      </div>
+    </div>
   );
 }
