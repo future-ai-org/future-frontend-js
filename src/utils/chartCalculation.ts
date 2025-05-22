@@ -4,6 +4,18 @@ import chartStrings from "../i18n/logiaChart.json";
 
 type ZodiacSign = keyof typeof chartStrings.en.signs;
 
+
+let globalTooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any> | null = null;
+
+function getGlobalTooltip(): d3.Selection<HTMLDivElement, unknown, HTMLElement, any> {
+  if (!globalTooltip) {
+    globalTooltip = d3.select("body")
+      .append("div")
+      .attr("class", "tooltip");
+  }
+  return globalTooltip;
+}
+
 export interface ChartDimensions {
   width: number;
   height: number;
@@ -47,9 +59,7 @@ export function drawChartCircles(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
   radius: number,
 ) {
-  g.append("circle")
-    .attr("r", radius)
-    .attr("class", "chart-circle");
+  g.append("circle").attr("r", radius).attr("class", "chart-circle");
 
   g.append("circle")
     .attr("r", radius + 30)
@@ -62,28 +72,26 @@ export function drawHouseNumbers(
   ascendantAngle: number,
 ) {
   const houseNumberRadius = radius * 0.2;
-
-  const tooltip = d3
-    .select("body")
-    .append("div")
-    .attr("class", "tooltip");
+  const tooltip = getGlobalTooltip();
 
   for (let i = 0; i < 12; i++) {
-    const angle =
-      ((((ascendantAngle - i * 30 + 360) % 360) - 90 + 15) * Math.PI) / 180;
+    const angle = (((150 + i * 30 + 15) * Math.PI) / 180);
     const x = houseNumberRadius * Math.cos(angle);
     const y = houseNumberRadius * Math.sin(angle);
 
     g.append("text")
       .attr("x", x)
       .attr("y", y)
-      .attr("dy", "0.35em")
+      .attr("text-anchor", "middle")
+      .attr("dominant-baseline", "middle")
       .attr("class", "house-number")
       .text((i + 1).toString())
       .on("mouseover", function (event) {
-        const houseNumber = (i + 1).toString() as keyof typeof chartStrings.en.houses;
+        const houseNumber = (
+          i + 1
+        ).toString() as keyof typeof chartStrings.en.houses;
         const houseDescription = chartStrings.en.houses[houseNumber];
-        
+
         tooltip
           .classed("visible", true)
           .text(`house ${houseNumber}\n\n${houseDescription}`)
@@ -96,8 +104,7 @@ export function drawHouseNumbers(
           .style("top", event.pageY - 10 + "px");
       })
       .on("mouseout", function () {
-        tooltip
-          .classed("visible", false);
+        tooltip.classed("visible", false);
       });
   }
 }
@@ -116,10 +123,7 @@ export function drawAscendant(
     .append("g")
     .attr("transform", `translate(${ascX},${ascY})`);
 
-  ascGroup
-    .append("circle")
-    .attr("r", 8)
-    .attr("class", "ascendant-circle");
+  ascGroup.append("circle").attr("r", 8).attr("class", "ascendant-circle");
 
   ascGroup
     .append("text")
@@ -135,12 +139,10 @@ export function drawZodiacSymbols(
   zodiacSymbols: string[],
 ) {
   const zodiacRadius = radius + 15;
-  const zodiacNames = ZODIAC_SIGNS.map(sign => sign.charAt(0) + sign.slice(1));
-
-  const tooltip = d3
-    .select("body")
-    .append("div")
-    .attr("class", "tooltip");
+  const zodiacNames = ZODIAC_SIGNS.map(
+    (sign) => sign.charAt(0) + sign.slice(1),
+  );
+  const tooltip = getGlobalTooltip();
 
   for (let index = 0; index < 12; index++) {
     const angle = ((index * 30 - 90 + 15) * Math.PI) / 180;
@@ -157,7 +159,7 @@ export function drawZodiacSymbols(
       .on("mouseover", function (event) {
         const signName = zodiacNames[index].toLowerCase() as ZodiacSign;
         const signDescription = chartStrings.en.signs[signName];
-        
+
         tooltip
           .classed("visible", true)
           .html(`<strong>${zodiacNames[index]}</strong>\n\n${signDescription}`)
@@ -170,8 +172,7 @@ export function drawZodiacSymbols(
           .style("top", event.pageY - 10 + "px");
       })
       .on("mouseout", function () {
-        tooltip
-          .classed("visible", false);
+        tooltip.classed("visible", false);
       });
   }
 }
@@ -181,9 +182,11 @@ export function drawHouses(
   radius: number,
   houses: number[],
 ) {
-  houses.forEach((angle) => {
-    const x = radius * Math.cos(((angle - 90) * Math.PI) / 180);
-    const y = radius * Math.sin(((angle - 90) * Math.PI) / 180);
+  // Draw all 12 lines at 30-degree intervals
+  for (let i = 0; i < 12; i++) {
+    const angle = i * 30; // 0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330
+    const x = radius * Math.cos((angle * Math.PI) / 180);
+    const y = radius * Math.sin((angle * Math.PI) / 180);
 
     g.append("line")
       .attr("x1", 0)
@@ -191,7 +194,7 @@ export function drawHouses(
       .attr("x2", x)
       .attr("y2", y)
       .attr("class", "house-line");
-  });
+  }
 }
 
 export function drawAspects(
@@ -230,10 +233,7 @@ export function drawPlanets(
   onPlanetClick: (planetName: string) => void,
   getPlanetSymbol: (name: string) => string,
 ) {
-  const tooltip = d3
-    .select("body")
-    .append("div")
-    .attr("class", "tooltip");
+  const tooltip = getGlobalTooltip();
 
   chartData.planets.forEach((planet) => {
     const x =
@@ -248,7 +248,9 @@ export function drawPlanets(
       .on("mouseover", function (event) {
         tooltip
           .classed("visible", true)
-          .html(`<strong>${planet.name}</strong>\n\nIn ${planet.sign} (${planet.position.toFixed(1)}°)`)
+          .html(
+            `<strong>${planet.name}</strong>\n\nIn ${planet.sign} (${planet.position.toFixed(1)}°)`,
+          )
           .style("left", event.pageX + 10 + "px")
           .style("top", event.pageY - 10 + "px");
       })
@@ -258,14 +260,10 @@ export function drawPlanets(
           .style("top", event.pageY - 10 + "px");
       })
       .on("mouseout", function () {
-        tooltip
-          .classed("visible", false);
+        tooltip.classed("visible", false);
       });
 
-    planetGroup
-      .append("circle")
-      .attr("r", 8)
-      .attr("class", "planet-circle");
+    planetGroup.append("circle").attr("r", 8).attr("class", "planet-circle");
 
     planetGroup
       .append("text")

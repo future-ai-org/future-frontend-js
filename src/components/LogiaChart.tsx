@@ -17,13 +17,11 @@ import {
   createBaseChart,
   drawChartCircles,
   drawHouseNumbers,
-  drawAscendant,
   drawZodiacSymbols,
   drawHouses,
   drawAspects,
   drawPlanets,
 } from "./../utils/chartCalculation";
-import * as d3 from "d3";
 
 interface LogiaChartProps {
   chartData: ChartData | null;
@@ -190,12 +188,13 @@ export async function printChartInfo(
                   "🜁": chartT.elements.air,
                   "🜄": chartT.elements.water,
                 }[element] || element;
-              const elementName = {
-                "🜂": chartT.elements.names.fire,
-                "🜃": chartT.elements.names.earth,
-                "🜁": chartT.elements.names.air,
-                "🜄": chartT.elements.names.water,
-              }[element] || element;
+              const elementName =
+                {
+                  "🜂": chartT.elements.names.fire,
+                  "🜃": chartT.elements.names.earth,
+                  "🜁": chartT.elements.names.air,
+                  "🜄": chartT.elements.names.water,
+                }[element] || element;
               return `
             <tr>
               <td class="planet-cell">${PLANET_SYMBOLS[planet.planet.toLowerCase() as keyof typeof PLANET_SYMBOLS]}</td>
@@ -259,7 +258,9 @@ export default function LogiaChart({
   isGeneratingChart,
 }: LogiaChartProps) {
   const { theme } = useTheme();
-  const [selectedPlanet, setSelectedPlanet] = React.useState<string | null>(null);
+  const [selectedPlanet, setSelectedPlanet] = React.useState<string | null>(
+    null,
+  );
   const [chartInfoHtml, setChartInfoHtml] = React.useState<string>("");
 
   const ZODIAC_ORDER = [
@@ -292,7 +293,6 @@ export default function LogiaChart({
 
       drawChartCircles(g, dimensions.radius);
       drawHouseNumbers(g, dimensions.radius, chartData.houses[0]);
-      drawAscendant(g, dimensions.radius, chartData.houses[0]);
       drawZodiacSymbols(g, dimensions.radius, ZODIAC_ORDER);
       drawHouses(g, dimensions.radius, chartData.houses);
       drawAspects(g, dimensions.radius, chartData);
