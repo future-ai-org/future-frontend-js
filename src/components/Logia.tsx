@@ -164,7 +164,6 @@ export default function Logia() {
       const chartInfoHtml = await printChartInfo(
         birthDate,
         birthTime,
-        city,
         coordinates.lat,
         coordinates.lon,
       );

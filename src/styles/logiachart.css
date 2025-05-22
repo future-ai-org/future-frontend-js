@@ -126,7 +126,8 @@
   font-weight: 900;
   text-transform: uppercase;
   padding-top: 0rem;
-  padding-bottom: 1.5rem;
+  padding-bottom: 1.6rem;
+  text-align: center;
 }
 
 .astrology-table td {

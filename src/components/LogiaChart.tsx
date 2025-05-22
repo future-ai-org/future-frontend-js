@@ -219,8 +219,9 @@ export async function printChartInfo(
         </tbody>
       </table>
     `;
-  } catch (error: any) {
-    return `<div class="astrology-error">Error: ${error.message}</div>`;
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+    return `<div class="astrology-error">Error: ${errorMessage}</div>`;
   }
 }
 
