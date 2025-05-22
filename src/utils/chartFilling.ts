@@ -70,13 +70,21 @@ export function drawZodiacSymbols(
         const signDescription = chartStrings.en.signs[signName];
 
         tooltip
-          .classed("visible", true)
+          .style("visibility", "visible")
+          .style("opacity", "1")
           .html(`<strong>${zodiacNames[index]}</strong>\n\n${signDescription}`)
           .style("left", event.pageX + 10 + "px")
           .style("top", event.pageY - 10 + "px");
       })
+      .on("mousemove", function (event) {
+        tooltip
+          .style("left", event.pageX + 10 + "px")
+          .style("top", event.pageY - 10 + "px");
+      })
       .on("mouseout", function () {
-        tooltip.classed("visible", false);
+        tooltip
+          .style("visibility", "hidden")
+          .style("opacity", "0");
       });
   }
 }
