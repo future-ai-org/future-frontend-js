@@ -62,6 +62,12 @@ export function drawChartCircles(
   g.append("circle").attr("r", radius).attr("class", "chart-circle");
 
   g.append("circle")
+    .attr("r", radius * 0.2)
+    .attr("class", "chart-circle-inner")
+    .style("stroke", "#666")
+    .style("fill", "none");
+
+  g.append("circle")
     .attr("r", radius + 30)
     .attr("class", "chart-circle-outer");
 }
@@ -69,15 +75,13 @@ export function drawChartCircles(
 export function drawHouseNumbers(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
   radius: number,
-  ascendantAngle: number,
 ) {
-  const houseNumberRadius = radius * 0.2;
   const tooltip = getGlobalTooltip();
 
   for (let i = 0; i < 12; i++) {
     const angle = (((150 + i * 30 + 15) * Math.PI) / 180);
-    const x = houseNumberRadius * Math.cos(angle);
-    const y = houseNumberRadius * Math.sin(angle);
+    const x = (radius * 0.15) * Math.cos(angle);
+    const y = (radius * 0.15) * Math.sin(angle);
 
     g.append("text")
       .attr("x", x)
@@ -85,6 +89,7 @@ export function drawHouseNumbers(
       .attr("text-anchor", "middle")
       .attr("dominant-baseline", "middle")
       .attr("class", "house-number")
+      .style("font-size", "8px")
       .text((i + 1).toString())
       .on("mouseover", function (event) {
         const houseNumber = (
