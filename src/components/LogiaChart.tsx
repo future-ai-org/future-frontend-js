@@ -38,31 +38,9 @@ interface PlanetInfoPanelProps {
 interface PlanetResponse {
   sign: string;
   degrees: number;
-  house?: number;
-  position?: number;
-  element?: string;
-}
-
-interface ApiResponse {
-  [key: string]: PlanetResponse;
 }
 
 const chartT = chartStrings.en;
-
-const ZODIAC_ORDER = [
-  ZODIAC_SYMBOLS.pisces,
-  ZODIAC_SYMBOLS.aquarius,
-  ZODIAC_SYMBOLS.capricorn,
-  ZODIAC_SYMBOLS.sagittarius,
-  ZODIAC_SYMBOLS.scorpio,
-  ZODIAC_SYMBOLS.libra,
-  ZODIAC_SYMBOLS.virgo,
-  ZODIAC_SYMBOLS.leo,
-  ZODIAC_SYMBOLS.cancer,
-  ZODIAC_SYMBOLS.gemini,
-  ZODIAC_SYMBOLS.taurus,
-  ZODIAC_SYMBOLS.aries,
-];
 
 export function calculateChart(
   birthDate: string,
@@ -79,6 +57,10 @@ export async function printChartInfo(
   latitude: number,
   longitude: number,
 ): Promise<string> {
+  interface ApiResponse {
+    [key: string]: PlanetResponse;
+  }
+
   try {
     const [year, month, day] = birthDate
       .split("-")
@@ -177,8 +159,8 @@ export async function printChartInfo(
           sign: info.sign,
           longitude: info.degrees,
           house: planetData?.house || "-",
-          position: info.position,
-          element: info.element || getElementForSign(info.sign),
+          position: info.degrees,
+          element: getElementForSign(info.sign),
         };
       },
     );
@@ -273,6 +255,21 @@ export default function LogiaChart({
     null,
   );
   const [chartInfoHtml, setChartInfoHtml] = React.useState<string>("");
+
+  const ZODIAC_ORDER = [
+    ZODIAC_SYMBOLS.pisces,
+    ZODIAC_SYMBOLS.aquarius,
+    ZODIAC_SYMBOLS.capricorn,
+    ZODIAC_SYMBOLS.sagittarius,
+    ZODIAC_SYMBOLS.scorpio,
+    ZODIAC_SYMBOLS.libra,
+    ZODIAC_SYMBOLS.virgo,
+    ZODIAC_SYMBOLS.leo,
+    ZODIAC_SYMBOLS.cancer,
+    ZODIAC_SYMBOLS.gemini,
+    ZODIAC_SYMBOLS.taurus,
+    ZODIAC_SYMBOLS.aries,
+  ];
 
   useEffect(() => {
     if (chartInfo) {
