@@ -23,10 +23,12 @@ import {
   drawAspects,
   drawPlanets,
 } from "../utils/chartFilling";
+import { geocodeCity } from "../utils/geocoding";
 
 interface LogiaChartProps {
-  chartData: ChartData | null;
-  chartInfo: string | null;
+  birthDate: string;
+  birthTime: string;
+  city: string;
   isGeneratingChart: boolean;
 }
 
@@ -44,8 +46,9 @@ export function calculateChart(
   latitude: number,
   longitude: number,
   city: string,
+  ascendantData: { sign: string; degrees: number }
 ): ChartData {
-  return calculateChartData(birthDate, birthTime, latitude, longitude, city);
+  return calculateChartData(birthDate, birthTime, latitude, longitude, city, ascendantData);
 }
 
 export async function printChartInfo(
@@ -54,7 +57,7 @@ export async function printChartInfo(
   latitude: number,
   longitude: number,
   city: string,
-): Promise<string> {
+): Promise<{ html: string; ascendantData: { sign: string; degrees: number } }> {
   interface PlanetResponse {
     sign: string;
     degrees: number;
@@ -185,27 +188,33 @@ export async function printChartInfo(
       })
     ].join('');
 
-    return `
-      <table class="astrology-table">
-        <thead>
-          <tr>
-            <th class="astrology-table-header">${chartT.table.planet}</th>
-            <th class="astrology-table-header">${chartT.table.sign}</th>
-            <th class="astrology-table-header">${chartT.table.element}</th>
-            <th class="astrology-table-header">${chartT.table.position}</th>
-            <th class="astrology-table-header">${chartT.table.house}</th>
-            <th class="astrology-table-header">${chartT.table.effects}</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${tableRows}
-        </tbody>
-      </table>
-    `;
+    return {
+      html: `
+        <table class="astrology-table">
+          <thead>
+            <tr>
+              <th class="astrology-table-header">${chartT.table.planet}</th>
+              <th class="astrology-table-header">${chartT.table.sign}</th>
+              <th class="astrology-table-header">${chartT.table.element}</th>
+              <th class="astrology-table-header">${chartT.table.position}</th>
+              <th class="astrology-table-header">${chartT.table.house}</th>
+              <th class="astrology-table-header">${chartT.table.effects}</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${tableRows}
+          </tbody>
+        </table>
+      `,
+      ascendantData
+    };
   } catch (error: unknown) {
     const errorMessage =
       error instanceof Error ? error.message : chartT.errors.unknownError;
-    return `<div class="astrology-error">${errorMessage}</div>`;
+    return {
+      html: `<div class="astrology-error">${errorMessage}</div>`,
+      ascendantData: { sign: "", degrees: 0 }
+    };
   }
 }
 
@@ -245,14 +254,16 @@ const PlanetInfoPanel: React.FC<PlanetInfoPanelProps> = React.memo(
 PlanetInfoPanel.displayName = "PlanetInfoPanel";
 
 export default function LogiaChart({
-  chartData,
-  chartInfo,
+  birthDate,
+  birthTime,
+  city,
   isGeneratingChart,
 }: LogiaChartProps) {
-  const [selectedPlanet, setSelectedPlanet] = React.useState<string | null>(
-    null,
-  );
+  const [selectedPlanet, setSelectedPlanet] = React.useState<string | null>(null);
   const [chartInfoHtml, setChartInfoHtml] = React.useState<string>("");
+  const [chartData, setChartData] = React.useState<ChartData | null>(null);
+  const [error, setError] = React.useState<string | null>(null);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const ZODIAC_ORDER = [
     ZODIAC_SYMBOLS.pisces,
@@ -270,10 +281,45 @@ export default function LogiaChart({
   ];
 
   useEffect(() => {
-    if (chartInfo) {
-      setChartInfoHtml(chartInfo);
+    const calculateChartData = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const coordinates = await geocodeCity(city);
+        if (!coordinates) {
+          setError("City not found");
+          return;
+        }
+
+        const { html: chartInfoHtml, ascendantData } = await printChartInfo(
+          birthDate,
+          birthTime,
+          coordinates.lat,
+          coordinates.lon,
+          city
+        );
+        setChartInfoHtml(chartInfoHtml);
+
+        const chart = calculateChart(
+          birthDate,
+          birthTime,
+          coordinates.lat,
+          coordinates.lon,
+          city,
+          ascendantData
+        );
+        setChartData(chart);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An unknown error occurred");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (birthDate && birthTime && city) {
+      calculateChartData();
     }
-  }, [chartInfo]);
+  }, [birthDate, birthTime, city]);
 
   const drawChart = useCallback(
     (container: HTMLElement) => {
@@ -324,6 +370,14 @@ export default function LogiaChart({
     );
   }, [selectedPlanet, chartData]);
 
+  if (error) {
+    return <div className="astrology-error-message">{error}</div>;
+  }
+
+  if (isLoading || isGeneratingChart) {
+    return <Loading />;
+  }
+
   return (
     <>
       <h1 className="astrology-title">{chartT.title.toLowerCase()}</h1>
@@ -339,7 +393,7 @@ export default function LogiaChart({
       )}
       <div className="astrology-chart-section">
         <div className="astrology-chart-container" id="chart">
-          {isGeneratingChart && <Loading />}
+          {isLoading && <Loading />}
         </div>
         <div className="astrology-info-box">
           <div

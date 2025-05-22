@@ -1,13 +1,11 @@
 "use client";
 
 import React, { useState, useCallback, useRef } from "react";
-import { ChartData } from "../config/logiaChart";
 import strings from "../i18n/logia.json";
-import LogiaChart, { calculateChart, printChartInfo } from "./LogiaChart";
-import { geocodeCity, searchCities, CitySuggestion } from "../utils/geocoding";
+import LogiaChart from "./LogiaChart";
+import { searchCities, CitySuggestion } from "../utils/geocoding";
 import Loading from "../utils/loading";
 import { SpaceDecoration } from "../utils/spaceDecoration";
-import "../styles/logiachart.css";
 import "../styles/logia.css";
 
 const t = strings.en;
@@ -25,66 +23,28 @@ interface LogiaFormProps {
 }
 
 export default function Logia() {
-  const [chartData, setChartData] = useState<ChartData | null>(null);
-  const [chartInfo, setChartInfo] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [formData, setFormData] = useState<FormData>({
+    birthDate: "",
+    birthTime: "",
+    city: "",
+  });
+  const [showChart, setShowChart] = useState(false);
 
   const handleSubmit = useCallback(async (data: FormData) => {
-    const { birthDate, birthTime, city } = data;
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const coordinates = await geocodeCity(city);
-      if (!coordinates) {
-        setError(t.errors.cityNotFound);
-        return;
-      }
-
-      console.log('Coordinates:', coordinates);
-      console.log('Birth Date:', birthDate);
-      console.log('Birth Time:', birthTime);
-
-      const chart = calculateChart(
-        birthDate,
-        birthTime,
-        coordinates.lat,
-        coordinates.lon,
-        city
-      );
-      console.log('Chart Data:', chart);
-      setChartData(chart);
-      const chartInfoHtml = await printChartInfo(
-        birthDate,
-        birthTime,
-        coordinates.lat,
-        coordinates.lon,
-        city
-      );
-      console.log('Chart Info HTML:', chartInfoHtml);
-      setChartInfo(chartInfoHtml);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : t.errors.unknownError);
-    } finally {
-      setIsLoading(false);
-    }
+    setFormData(data);
+    setShowChart(true);
   }, []);
 
   const renderContent = () => {
-    if (isLoading) {
-      return <Loading />;
-    }
-
-    if (!chartInfo) {
+    if (!showChart) {
       return (
         <>
           <h1 className="logia-title">{t.title.toLowerCase()}</h1>
           <div className="logia-container">
             <LogiaForm
               onSubmit={handleSubmit}
-              isGeneratingChart={isLoading}
-              error={error}
+              isGeneratingChart={false}
+              error={null}
             />
           </div>
         </>
@@ -93,18 +53,19 @@ export default function Logia() {
 
     return (
       <LogiaChart
-        chartData={chartData}
-        chartInfo={chartInfo}
-        isGeneratingChart={isLoading}
+        birthDate={formData.birthDate}
+        birthTime={formData.birthTime}
+        city={formData.city}
+        isGeneratingChart={false}
       />
     );
   };
 
   return (
     <div className="astrology-container">
-      {!chartInfo && <LogiaInfoBox />}
+      {!showChart && <LogiaInfoBox />}
       <div className="astrology-form-section">{renderContent()}</div>
-      {!chartInfo && (
+      {!showChart && (
         <div className="logia-decorative-image">
           <SpaceDecoration />
         </div>
@@ -119,11 +80,8 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
     birthTime: "",
     city: "",
   });
-  const [timePeriod, setTimePeriod] = useState<
-    typeof t.labels.am | typeof t.labels.pm
-  >(t.labels.am);
-  const [showTimePeriodSuggestions, setShowTimePeriodSuggestions] =
-    useState(false);
+  const [timePeriod, setTimePeriod] = useState<typeof t.labels.am | typeof t.labels.pm>(t.labels.am);
+  const [showTimePeriodSuggestions, setShowTimePeriodSuggestions] = useState(false);
   const [citySuggestions, setCitySuggestions] = useState<CitySuggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchTimeoutRef = useRef<NodeJS.Timeout>();
@@ -132,8 +90,8 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
   const dayInputRef = useRef<HTMLInputElement>(null);
   const hourInputRef = useRef<HTMLInputElement>(null);
   const minuteInputRef = useRef<HTMLInputElement>(null);
-  const timePeriodRef = useRef<HTMLInputElement>(null);
   const cityInputRef = useRef<HTMLInputElement>(null);
+  const timePeriodRef = useRef<HTMLInputElement>(null);
 
   const handleYearChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -264,8 +222,8 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
       if (!formData.birthDate || !formData.birthTime || !formData.city) return;
       const [hour, minute] = formData.birthTime.split(":");
       let hour24 = parseInt(hour, 10);
-      if (timePeriod === "PM" && hour24 < 12) hour24 += 12;
-      if (timePeriod === "AM" && hour24 === 12) hour24 = 0;
+      if (timePeriod === t.labels.pm && hour24 < 12) hour24 += 12;
+      if (timePeriod === t.labels.am && hour24 === 12) hour24 = 0;
 
       const time24 = `${hour24}:${minute}`;
       onSubmit({ ...formData, birthTime: time24 });
@@ -348,15 +306,11 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             type="text"
             value={timePeriod}
             onChange={(e) => {
-              setTimePeriod(
-                e.target.value as typeof t.labels.am | typeof t.labels.pm,
-              );
+              setTimePeriod(e.target.value as typeof t.labels.am | typeof t.labels.pm);
               cityInputRef.current?.focus();
             }}
             onFocus={() => setShowTimePeriodSuggestions(true)}
-            onBlur={() =>
-              setTimeout(() => setShowTimePeriodSuggestions(false), 200)
-            }
+            onBlur={() => setTimeout(() => setShowTimePeriodSuggestions(false), 200)}
             readOnly
           />
           {showTimePeriodSuggestions && (

@@ -110,7 +110,7 @@ export function calculateChartData(
   latitude: number,
   longitude: number,
   city: string,
-  ascendantData?: { sign: string; degrees: number }
+  ascendantData: { sign: string; degrees: number }
 ): ChartData {
   const [year, month, day] = birthDate.split("-").map(Number);
   const [hours, minutes] = birthTime.split(":").map(Number);
@@ -118,11 +118,8 @@ export function calculateChartData(
   const timezoneOffset = localDate.getTimezoneOffset();
   const utcDate = new Date(localDate.getTime() - timezoneOffset * 60000);
   const julianDay = getJulianDay(utcDate);
-  const greenwichSiderealTime = calculateSiderealTime(julianDay, 0);
-  const localSiderealTime = (greenwichSiderealTime + longitude) % 360;
   
-  // Use ascendant from API if provided, otherwise calculate it
-  const ascendant = ascendantData ? ascendantData.degrees : calculateAscendant(localSiderealTime, latitude, julianDay);
+  const ascendant = ascendantData.degrees;
   
   const planets: PlanetPosition[] = [
     calculatePlanetPosition("sun", julianDay),
@@ -216,35 +213,6 @@ export function calculateSiderealTime(
 
   theta = (theta + longitude) % 360;
   return theta < 0 ? theta + 360 : theta;
-}
-
-export function calculateAscendant(
-  siderealTime: number,
-  latitude: number,
-  julianDay: number,
-): number {
-  const T = (siderealTime * Math.PI) / 180;
-  const lat = (latitude * Math.PI) / 180;
-
-  const T_centuries = (julianDay - 2451545.0) / 36525;
-  const epsilon =
-    ((23.4392911 -
-      0.0130042 * T_centuries -
-      0.00000016 * T_centuries * T_centuries +
-      0.000000504 * T_centuries * T_centuries * T_centuries) *
-      Math.PI) /
-    180;
-
-  const tanAsc =
-    (Math.cos(T) * Math.sin(epsilon) + Math.tan(lat) * Math.cos(epsilon)) /
-    Math.sin(T);
-  let ascendant = (Math.atan(tanAsc) * 180) / Math.PI;
-
-  if (Math.sin(T) < 0) {
-    ascendant += 180;
-  }
-
-  return (360 - ascendant) % 360;
 }
 
 function calculatePlanetPosition(
