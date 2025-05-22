@@ -85,7 +85,8 @@
       "invalidApiResponse": "invalid api response format",
       "invalidPlanetData": "invalid planet data for {planet}",
       "unknownError": "an unknown error occurred",
-      "apiUrlNotConfigured": "API URL is not configured"
+      "apiUrlNotConfigured": "API URL is not configured",
+      "cityNotFound": "city not found"
     },
     "planetTooltip": "in {sign} ({position}°)"
   }

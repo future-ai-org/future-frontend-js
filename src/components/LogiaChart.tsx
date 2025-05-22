@@ -287,7 +287,7 @@ export default function LogiaChart({
       try {
         const coordinates = await geocodeCity(city);
         if (!coordinates) {
-          setError("City not found");
+          setError(chartT.errors.cityNotFound);
           return;
         }
 
@@ -310,7 +310,7 @@ export default function LogiaChart({
         );
         setChartData(chart);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "An unknown error occurred");
+        setError(err instanceof Error ? err.message : chartT.errors.unknownError);
       } finally {
         setIsLoading(false);
       }
