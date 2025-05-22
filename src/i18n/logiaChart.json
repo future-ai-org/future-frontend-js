@@ -24,10 +24,16 @@
         "pisces": "the 12th sign of the zodiac, ruled by neptune and jupiter, is linked to compassion, imagination, spiritual connection, the dissolution of boundaries, and connection with universal consciousness"
       },
     "elements": {
-      "fire": "the fire element is linked to energy, passion, and creativity",
-      "earth": "the earth element is linked to stability, practicality, and material matters",
-      "air": "the air element is linked to intellect, communication, and social connections",
-      "water": "the water element is linked to emotions, intuition, and sensitivity"
+        "fire": "linked to energy, passion, creativity, transformation, ambition, action, motivation, and the courage to pursue goals",
+        "earth": "linked to stability, practicality, material matters, patience, reliability, the foundations of life, nature, hard work, and building lasting structures",
+        "air": "linked to intellect, communication, social connections, clarity, curiosity, the exchange of ideas, learning, and the ability to see different perspectives",
+        "water": "linked to emotions, intuition, sensitivity, healing, empathy, the subconscious, dreams, deep feelings, and the flow of inner experience",
+        "names": {
+            "fire": "fire",
+            "earth": "earth",
+            "air": "air",
+            "water": "water"
+        }
     },
     "effects": {
       "sun": "emphasizes",
@@ -40,6 +46,20 @@
       "uranus": "disrupts",
       "neptune": "diffuses",
       "pluto": "empowers"
+    },
+    "houses": {
+      "1": "linked to self, personality, appearance, and how others see you",
+      "2": "linked to values, possessions, material resources, and self-worth",
+      "3": "linked to communication, siblings, early education, and local environment",
+      "4": "linked to home, family, roots, and emotional foundation",
+      "5": "linked to creativity, romance, children, and self-expression",
+      "6": "linked to work, health, service, and daily routines",
+      "7": "linked to partnerships, marriage, and significant relationships",
+      "8": "linked to transformation, shared resources, and deep psychological matters",
+      "9": "linked to higher education, philosophy, travel, and spiritual growth",
+      "10": "linked to career, public image, and life achievements",
+      "11": "linked to groups, friendships, hopes, and aspirations",
+      "12": "linked to spirituality, subconscious, hidden matters, and closure"
     },
     "errors": {
       "invalidDateFormat": "invalid date format. please use yyyy-mm-dd format.",

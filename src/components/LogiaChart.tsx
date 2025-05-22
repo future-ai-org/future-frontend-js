@@ -23,6 +23,7 @@ import {
   drawAspects,
   drawPlanets,
 } from "./../utils/chartCalculation";
+import * as d3 from "d3";
 
 interface LogiaChartProps {
   chartData: ChartData | null;
@@ -189,14 +190,20 @@ export async function printChartInfo(
                   "🜁": chartT.elements.air,
                   "🜄": chartT.elements.water,
                 }[element] || element;
+              const elementName = {
+                "🜂": chartT.elements.names.fire,
+                "🜃": chartT.elements.names.earth,
+                "🜁": chartT.elements.names.air,
+                "🜄": chartT.elements.names.water,
+              }[element] || element;
               return `
             <tr>
-              <td class="planet-cell" data-tooltip="${elementInfo}">${PLANET_SYMBOLS[planet.planet.toLowerCase() as keyof typeof PLANET_SYMBOLS]}</td>
+              <td class="planet-cell">${PLANET_SYMBOLS[planet.planet.toLowerCase() as keyof typeof PLANET_SYMBOLS]}</td>
               <td class="planet-cell">${getZodiacSymbol(planet.sign)}</td>
-              <td class="planet-cell" data-tooltip="${elementInfo}">${element}</td>
+              <td class="planet-cell element-cell" data-tooltip="${elementName}\n\n${elementInfo}">${element}</td>
               <td class="planet-cell">${planet.longitude.toFixed(2)}°</td>
               <td class="planet-cell">${planet.house}</td>
-              <td class="planet-cell">${chartT.effects[planet.planet.toLowerCase() as keyof typeof chartT.effects] || "-"}</td>
+              <td class="planet-cell" data-tooltip="${chartT.effects[planet.planet.toLowerCase() as keyof typeof chartT.effects] || "-"}">${chartT.effects[planet.planet.toLowerCase() as keyof typeof chartT.effects] || "-"}</td>
             </tr>
           `;
             })
@@ -252,9 +259,7 @@ export default function LogiaChart({
   isGeneratingChart,
 }: LogiaChartProps) {
   const { theme } = useTheme();
-  const [selectedPlanet, setSelectedPlanet] = React.useState<string | null>(
-    null,
-  );
+  const [selectedPlanet, setSelectedPlanet] = React.useState<string | null>(null);
   const [chartInfoHtml, setChartInfoHtml] = React.useState<string>("");
 
   const ZODIAC_ORDER = [

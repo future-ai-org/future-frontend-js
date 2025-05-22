@@ -31,14 +31,13 @@ export function createBaseChart(
   const svg = d3
     .select(container)
     .append("svg")
-    .attr("width", "100%")
-    .attr("height", "100%")
+    .attr("class", "chart-svg")
     .attr("viewBox", `0 0 ${width} ${height}`)
-    .attr("preserveAspectRatio", "xMidYMid meet")
-    .style("background-color", "transparent");
+    .attr("preserveAspectRatio", "xMidYMid meet");
 
   const g = svg
     .append("g")
+    .attr("class", "chart-group")
     .attr("transform", `translate(${width / 2},${height / 2})`);
 
   return { svg, g };
@@ -50,16 +49,11 @@ export function drawChartCircles(
 ) {
   g.append("circle")
     .attr("r", radius)
-    .style("fill", "none")
-    .style("stroke", "var(--color-primary)")
-    .style("stroke-width", 2);
+    .attr("class", "chart-circle");
 
   g.append("circle")
     .attr("r", radius + 30)
-    .style("fill", "none")
-    .style("stroke", "var(--color-primary)")
-    .style("stroke-width", 1.5)
-    .style("opacity", 0.8);
+    .attr("class", "chart-circle-outer");
 }
 
 export function drawHouseNumbers(
@@ -68,6 +62,11 @@ export function drawHouseNumbers(
   ascendantAngle: number,
 ) {
   const houseNumberRadius = radius * 0.2;
+
+  const tooltip = d3
+    .select("body")
+    .append("div")
+    .attr("class", "tooltip");
 
   for (let i = 0; i < 12; i++) {
     const angle =
@@ -78,13 +77,28 @@ export function drawHouseNumbers(
     g.append("text")
       .attr("x", x)
       .attr("y", y)
-      .attr("text-anchor", "middle")
       .attr("dy", "0.35em")
+      .attr("class", "house-number")
       .text((i + 1).toString())
-      .style("font-size", "12px")
-      .style("fill", "var(--color-primary)")
-      .style("opacity", "0.8")
-      .style("font-weight", "800");
+      .on("mouseover", function (event) {
+        const houseNumber = (i + 1).toString() as keyof typeof chartStrings.en.houses;
+        const houseDescription = chartStrings.en.houses[houseNumber];
+        
+        tooltip
+          .classed("visible", true)
+          .text(`house ${houseNumber}\n\n${houseDescription}`)
+          .style("left", event.pageX + 10 + "px")
+          .style("top", event.pageY - 10 + "px");
+      })
+      .on("mousemove", function (event) {
+        tooltip
+          .style("left", event.pageX + 10 + "px")
+          .style("top", event.pageY - 10 + "px");
+      })
+      .on("mouseout", function () {
+        tooltip
+          .classed("visible", false);
+      });
   }
 }
 
@@ -130,18 +144,7 @@ export function drawZodiacSymbols(
   const tooltip = d3
     .select("body")
     .append("div")
-    .attr("class", "tooltip")
-    .style("position", "absolute")
-    .style("visibility", "hidden")
-    .style("background-color", "var(--color-primary)")
-    .style("color", "white")
-    .style("padding", "0.5rem")
-    .style("border-radius", "4px")
-    .style("font-size", "0.8rem")
-    .style("pointer-events", "none")
-    .style("z-index", "1000")
-    .style("max-width", "300px")
-    .style("white-space", "normal");
+    .attr("class", "tooltip");
 
   for (let index = 0; index < 12; index++) {
     const angle = ((index * 30 - 90 + 15) * Math.PI) / 180;
@@ -175,8 +178,8 @@ export function drawZodiacSymbols(
         const signDescription = chartStrings.en.signs[signName];
         
         tooltip
-          .style("visibility", "visible")
-          .html(`<strong>${zodiacNames[index]}</strong><br/>${signDescription}`)
+          .classed("visible", true)
+          .html(`<strong>${zodiacNames[index]}</strong>\n\n${signDescription}`)
           .style("left", event.pageX + 10 + "px")
           .style("top", event.pageY - 10 + "px");
       })
@@ -191,7 +194,8 @@ export function drawZodiacSymbols(
           .style("font-size", "20px")
           .style("text-shadow", "0 0 8px var(--color-primary)");
 
-        tooltip.style("visibility", "hidden");
+        tooltip
+          .classed("visible", false);
       });
   }
 }
@@ -258,16 +262,7 @@ export function drawPlanets(
   const tooltip = d3
     .select("body")
     .append("div")
-    .attr("class", "tooltip")
-    .style("position", "absolute")
-    .style("visibility", "hidden")
-    .style("background-color", "var(--color-primary)")
-    .style("color", "white")
-    .style("padding", "0.5rem")
-    .style("border-radius", "4px")
-    .style("font-size", "0.8rem")
-    .style("pointer-events", "none")
-    .style("z-index", "1000");
+    .attr("class", "tooltip");
 
   chartData.planets.forEach((planet) => {
     const x =
@@ -281,10 +276,8 @@ export function drawPlanets(
       .on("click", () => onPlanetClick(planet.name))
       .on("mouseover", function (event) {
         tooltip
-          .style("visibility", "visible")
-          .text(
-            `${planet.name} in ${planet.sign} (${planet.position.toFixed(1)}°)`,
-          )
+          .classed("visible", true)
+          .html(`<strong>${planet.name}</strong>\n\nIn ${planet.sign} (${planet.position.toFixed(1)}°)`)
           .style("left", event.pageX + 10 + "px")
           .style("top", event.pageY - 10 + "px");
       })
@@ -294,7 +287,8 @@ export function drawPlanets(
           .style("top", event.pageY - 10 + "px");
       })
       .on("mouseout", function () {
-        tooltip.style("visibility", "hidden");
+        tooltip
+          .classed("visible", false);
       })
       .style(
         "cursor",
