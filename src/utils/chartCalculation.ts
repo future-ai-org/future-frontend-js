@@ -80,7 +80,7 @@ export function drawHouseNumbers(
   const tooltip = getGlobalTooltip();
 
   for (let i = 0; i < 12; i++) {
-    const angle = (((150 + i * 30 + 15) * Math.PI) / 180);
+    const angle = (((150 - i * 30 + 15) * Math.PI) / 180);
     const x = (radius * 0.15) * Math.cos(angle);
     const y = (radius * 0.15) * Math.sin(angle);
 
@@ -90,8 +90,6 @@ export function drawHouseNumbers(
       .attr("text-anchor", "middle")
       .attr("dominant-baseline", "middle")
       .attr("class", "house-number")
-      .style("font-size", "8px")
-      .style("font-weight", "bold")
       .text((i + 1).toString())
       .on("mouseover", function (event) {
         const houseNumber = (
