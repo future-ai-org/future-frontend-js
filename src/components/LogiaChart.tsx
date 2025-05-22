@@ -8,7 +8,6 @@ import {
   calculateChartData,
   getElementForSign,
 } from "../config/logiaChart";
-import { useTheme } from "../utils/themeContext";
 import chartStrings from "../i18n/logiaChart.json";
 import Loading from "../utils/loading";
 import "../styles/logiachart.css";
@@ -37,11 +36,6 @@ interface PlanetInfoPanelProps {
   translations: typeof chartT;
 }
 
-interface PlanetResponse {
-  sign: string;
-  degrees: number;
-}
-
 const chartT = chartStrings.en;
 
 export function calculateChart(
@@ -61,6 +55,11 @@ export async function printChartInfo(
   longitude: number,
   city: string,
 ): Promise<string> {
+  interface PlanetResponse {
+    sign: string;
+    degrees: number;
+  }
+
   interface ApiResponse {
     [key: string]: PlanetResponse;
   }
@@ -164,9 +163,7 @@ export async function printChartInfo(
       ascendantData
     );
 
-    // Create table rows for all data
     const tableRows = [
-      // Ascendant row
       `<tr>
         <td class="planet-cell">AC</td>
         <td class="planet-cell">${getZodiacSymbol(ascendantData.sign)}</td>
@@ -175,7 +172,6 @@ export async function printChartInfo(
         <td class="planet-cell">1</td>
         <td class="planet-cell">${chartT.effects.ascendant || "-"}</td>
       </tr>`,
-      // Planet rows
       ...Object.entries(planetsData).map(([planet, info]) => {
         const planetData = chartData.planets.find(p => p.name.toLowerCase() === planet.toLowerCase());
         return `<tr>
@@ -253,7 +249,6 @@ export default function LogiaChart({
   chartInfo,
   isGeneratingChart,
 }: LogiaChartProps) {
-  const { theme } = useTheme();
   const [selectedPlanet, setSelectedPlanet] = React.useState<string | null>(
     null,
   );
@@ -316,7 +311,7 @@ export default function LogiaChart({
         g.remove();
       }
     };
-  }, [drawChart, theme]);
+  }, [drawChart]);
 
   const memoizedPlanetInfo = useMemo(() => {
     if (!selectedPlanet || !chartData) return null;
@@ -331,10 +326,15 @@ export default function LogiaChart({
 
   return (
     <>
-      <h1 className="page-title">{chartT.title.toLowerCase()}</h1>
+      <h1 className="astrology-title">{chartT.title.toLowerCase()}</h1>
       {chartData && (
         <div className="astrology-subtitle">
-          {chartData.birthDate} {chartData.birthTime} • {chartData.city} ({chartData.latitude.toFixed(2)}°, {chartData.longitude.toFixed(2)}°)
+          {chartT.subtitle
+            .replace("{birthDate}", chartData.birthDate)
+            .replace("{birthTime}", chartData.birthTime)
+            .replace("{city}", chartData.city)
+            .replace("{latitude}", chartData.latitude.toFixed(2))
+            .replace("{longitude}", chartData.longitude.toFixed(2))}
         </div>
       )}
       <div className="astrology-chart-section">

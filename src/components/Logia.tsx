@@ -79,7 +79,7 @@ export default function Logia() {
     if (!chartInfo) {
       return (
         <>
-          <h1 className="page-title">{t.title.toLowerCase()}</h1>
+          <h1 className="logia-title">{t.title.toLowerCase()}</h1>
           <div className="logia-container">
             <LogiaForm
               onSubmit={handleSubmit}

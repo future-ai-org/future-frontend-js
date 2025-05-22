@@ -394,10 +394,22 @@
   filter: brightness(1.2);
 }
 
+.astrology-title {
+  font-size: 4rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 0rem;
+  color: var(--text-color);
+  letter-spacing: 0.05em;
+  text-shadow: var(--text-glow);
+}
+
 .astrology-subtitle {
   text-align: center;
   color: var(--text-color);
-  font-size: 1.1rem;
-  margin: 0.5rem 0 2rem;
+  font-size: 0.9rem;
   opacity: 0.8;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  margin-bottom: 3rem;
 }

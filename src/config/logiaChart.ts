@@ -1,7 +1,6 @@
-import i18next from 'i18next';
-import { en } from '../i18n/logiaChart.json';
+import logiaChartTranslations from '../i18n/logiaChart.json';
 
-export const ZODIAC_SIGNS = en.zodiacSigns as readonly string[];
+export const ZODIAC_SIGNS = logiaChartTranslations.en.zodiacSigns as readonly string[];
 
 export interface PlanetPosition {
   name: string;

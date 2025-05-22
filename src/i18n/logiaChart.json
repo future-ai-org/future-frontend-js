@@ -1,6 +1,7 @@
 {
   "en": {
     "title": "your blueprint",
+    "subtitle": "logia for {birthDate} at {birthTime} in {city} ({latitude}°, {longitude}°)",
     "zodiacSigns": [
       "pisces",
       "aquarius",
