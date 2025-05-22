@@ -10,7 +10,10 @@ function getGlobalTooltip(): d3.Selection<HTMLDivElement, unknown, HTMLElement, 
   if (!globalTooltip) {
     globalTooltip = d3.select("body")
       .append("div")
-      .attr("class", "tooltip");
+      .attr("class", "tooltip")
+      .style("position", "absolute")
+      .style("visibility", "hidden")
+      .style("opacity", "0");
   }
   return globalTooltip;
 }
@@ -72,11 +75,6 @@ export function drawZodiacSymbols(
           .style("left", event.pageX + 10 + "px")
           .style("top", event.pageY - 10 + "px");
       })
-      .on("mousemove", function (event) {
-        tooltip
-          .style("left", event.pageX + 10 + "px")
-          .style("top", event.pageY - 10 + "px");
-      })
       .on("mouseout", function () {
         tooltip.classed("visible", false);
       });
@@ -103,22 +101,27 @@ export function drawPlanets(
       .attr("transform", `translate(${x},${y})`)
       .attr("class", "planet-group")
       .on("click", () => onPlanetClick(planet.name))
-      .on("mouseover", function (event) {
+      .on("mouseover", function(event) {
         tooltip
-          .classed("visible", true)
+          .style("visibility", "visible")
+          .style("opacity", "1")
           .html(
-            `<strong>${planet.name}</strong>\n\nIn ${planet.sign} (${planet.position.toFixed(1)}°)`,
+            `<strong>${planet.name}</strong> ${chartStrings.en.planetTooltip
+              .replace("{sign}", planet.sign)
+              .replace("{position}", planet.position.toFixed(1))}`,
           )
           .style("left", event.pageX + 10 + "px")
           .style("top", event.pageY - 10 + "px");
       })
-      .on("mousemove", function (event) {
+      .on("mousemove", function(event) {
         tooltip
           .style("left", event.pageX + 10 + "px")
           .style("top", event.pageY - 10 + "px");
       })
-      .on("mouseout", function () {
-        tooltip.classed("visible", false);
+      .on("mouseout", function() {
+        tooltip
+          .style("visibility", "hidden")
+          .style("opacity", "0");
       });
 
     planetGroup

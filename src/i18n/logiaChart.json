@@ -86,6 +86,7 @@
       "invalidPlanetData": "invalid planet data for {planet}",
       "unknownError": "an unknown error occurred",
       "apiUrlNotConfigured": "API URL is not configured"
-    }
+    },
+    "planetTooltip": "in {sign} ({position}°)"
   }
 }
