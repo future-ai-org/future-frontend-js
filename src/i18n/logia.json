@@ -16,7 +16,9 @@
       "birthDate": "your birth date",
       "birthTime": "your birth time",
       "birthCity": "your birth city",
-      "cityPlaceholder": "e.g., los angeles"
+      "cityPlaceholder": "e.g., los angeles",
+      "am": "AM",
+      "pm": "PM"
     },
     "buttons": {
       "generateChart": "show me!"

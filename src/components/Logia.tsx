@@ -112,14 +112,14 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
     birthTime: "",
     city: "",
   });
-  const [timePeriod, setTimePeriod] = useState<"AM" | "PM">("AM");
+  const [timePeriod, setTimePeriod] = useState<
+    typeof t.labels.am | typeof t.labels.pm
+  >(t.labels.am);
   const [showTimePeriodSuggestions, setShowTimePeriodSuggestions] =
     useState(false);
   const [citySuggestions, setCitySuggestions] = useState<CitySuggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchTimeoutRef = useRef<NodeJS.Timeout>();
-
-  // Add refs for input fields
   const yearInputRef = useRef<HTMLInputElement>(null);
   const monthInputRef = useRef<HTMLInputElement>(null);
   const dayInputRef = useRef<HTMLInputElement>(null);
@@ -228,12 +228,9 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
       const value = e.target.value;
       setFormData((prev) => ({ ...prev, city: value }));
 
-      // Clear any existing timeout
       if (searchTimeoutRef.current) {
         clearTimeout(searchTimeoutRef.current);
       }
-
-      // Set a new timeout to debounce the search
       searchTimeoutRef.current = setTimeout(async () => {
         if (value.trim()) {
           const suggestions = await searchCities(value);
@@ -243,7 +240,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
           setCitySuggestions([]);
           setShowSuggestions(false);
         }
-      }, 300); // Wait 300ms after the user stops typing
+      }, 300);
     },
     [],
   );
@@ -258,8 +255,6 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
     (e: React.FormEvent) => {
       e.preventDefault();
       if (!formData.birthDate || !formData.birthTime || !formData.city) return;
-
-      // Convert 12-hour format to 24-hour format
       const [hour, minute] = formData.birthTime.split(":");
       let hour24 = parseInt(hour, 10);
       if (timePeriod === "PM" && hour24 < 12) hour24 += 12;
@@ -346,7 +341,9 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             type="text"
             value={timePeriod}
             onChange={(e) => {
-              setTimePeriod(e.target.value as "AM" | "PM");
+              setTimePeriod(
+                e.target.value as typeof t.labels.am | typeof t.labels.pm,
+              );
               cityInputRef.current?.focus();
             }}
             onFocus={() => setShowTimePeriodSuggestions(true)}
@@ -359,23 +356,23 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             <ul className="astrology-city-suggestions">
               <li
                 onClick={() => {
-                  setTimePeriod("AM");
+                  setTimePeriod(t.labels.am);
                   setShowTimePeriodSuggestions(false);
                   cityInputRef.current?.focus();
                 }}
                 className="astrology-city-suggestion"
               >
-                AM
+                {t.labels.am}
               </li>
               <li
                 onClick={() => {
-                  setTimePeriod("PM");
+                  setTimePeriod(t.labels.pm);
                   setShowTimePeriodSuggestions(false);
                   cityInputRef.current?.focus();
                 }}
                 className="astrology-city-suggestion"
               >
-                PM
+                {t.labels.pm}
               </li>
             </ul>
           )}

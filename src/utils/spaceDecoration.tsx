@@ -109,4 +109,4 @@ export const SpaceDecoration = () => {
       />
     </svg>
   );
-}; 
+};

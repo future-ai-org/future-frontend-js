@@ -151,8 +151,12 @@ export async function printChartInfo(
       throw new Error(chartT.errors.invalidApiResponse);
     }
 
-
-    const chartData = calculateChartData(birthDate, birthTime, latitude, longitude);
+    const chartData = calculateChartData(
+      birthDate,
+      birthTime,
+      latitude,
+      longitude,
+    );
     const planets = Object.entries(data).map(
       ([planet, info]: [string, PlanetResponse]) => {
         if (
@@ -165,7 +169,9 @@ export async function printChartInfo(
             chartT.errors.invalidPlanetData.replace("{planet}", planet),
           );
         }
-        const planetData = chartData.planets.find(p => p.name.toLowerCase() === planet.toLowerCase());
+        const planetData = chartData.planets.find(
+          (p) => p.name.toLowerCase() === planet.toLowerCase(),
+        );
         return {
           planet,
           sign: info.sign,
@@ -191,33 +197,33 @@ export async function printChartInfo(
         </thead>
         <tbody>
           ${planets
-            .map(
-              (planet) => {
-                const element = getElementForSign(planet.sign);
-                const elementInfo = {
-                  '🜂': 'Fire - Represents energy, passion, and creativity',
-                  '🜃': 'Earth - Represents stability, practicality, and material matters',
-                  '🜁': 'Air - Represents intellect, communication, and social connections',
-                  '🜄': 'Water - Represents emotions, intuition, and sensitivity'
+            .map((planet) => {
+              const element = getElementForSign(planet.sign);
+              const elementInfo =
+                {
+                  "🜂": "Fire - Represents energy, passion, and creativity",
+                  "🜃": "Earth - Represents stability, practicality, and material matters",
+                  "🜁": "Air - Represents intellect, communication, and social connections",
+                  "🜄": "Water - Represents emotions, intuition, and sensitivity",
                 }[element] || element;
-                return `
+              return `
             <tr>
               <td class="planet-cell" style="color: var(--color-primary); font-size: 20px; font-weight: 500; text-shadow: 0 0 8px var(--color-primary);">${PLANET_SYMBOLS[planet.planet.toLowerCase() as keyof typeof PLANET_SYMBOLS]}</td>
               <td class="planet-cell" style="color: var(--color-primary); font-size: 20px; font-weight: 500; text-shadow: 0 0 8px var(--color-primary);">${getZodiacSymbol(planet.sign)}</td>
               <td class="planet-cell" style="color: var(--color-primary); font-size: 20px; font-weight: 500; text-shadow: 0 0 8px var(--color-primary);" title="${elementInfo}">${element}</td>
               <td class="planet-cell" style="color: var(--color-primary);">${planet.longitude.toFixed(2)}°</td>
               <td class="planet-cell" style="color: var(--color-primary);">${planet.house}</td>
-              <td class="planet-cell" style="color: var(--color-primary);">${chartT.effects[planet.planet.toLowerCase() as keyof typeof chartT.effects] || '-'}</td>
+              <td class="planet-cell" style="color: var(--color-primary);">${chartT.effects[planet.planet.toLowerCase() as keyof typeof chartT.effects] || "-"}</td>
             </tr>
           `;
-              }
-            )
+            })
             .join("")}
         </tbody>
       </table>
     `;
   } catch (error: unknown) {
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+    const errorMessage =
+      error instanceof Error ? error.message : "An unknown error occurred";
     return `<div class="astrology-error">Error: ${errorMessage}</div>`;
   }
 }
