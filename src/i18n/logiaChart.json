@@ -45,7 +45,8 @@
       "saturn": "corrects",
       "uranus": "disrupts",
       "neptune": "diffuses",
-      "pluto": "empowers"
+      "pluto": "empowers",
+      "ascendant": "indentifies"
     },
     "houses": {
       "1": "linked to self, personality, appearance, and how others see you",
@@ -68,7 +69,8 @@
       "invalidResponseType": "invalid response type: {type}",
       "invalidApiResponse": "invalid api response format",
       "invalidPlanetData": "invalid planet data for {planet}",
-      "unknownError": "an unknown error occurred"
+      "unknownError": "an unknown error occurred",
+      "apiUrlNotConfigured": "API URL is not configured"
     }
   }
 }

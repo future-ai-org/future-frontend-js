@@ -83,35 +83,6 @@ export function drawZodiacSymbols(
   }
 }
 
-export function drawAspects(
-  g: d3.Selection<SVGGElement, unknown, null, undefined>,
-  radius: number,
-  chartData: ChartData,
-) {
-  chartData.aspects.forEach((aspect) => {
-    const planet1 = chartData.planets.find((p) => p.name === aspect.planet1);
-    const planet2 = chartData.planets.find((p) => p.name === aspect.planet2);
-
-    if (planet1 && planet2) {
-      const x1 =
-        (radius - 35) * Math.cos(((planet1.position - 90) * Math.PI) / 180);
-      const y1 =
-        (radius - 35) * Math.sin(((planet1.position - 90) * Math.PI) / 180);
-      const x2 =
-        (radius - 35) * Math.cos(((planet2.position - 90) * Math.PI) / 180);
-      const y2 =
-        (radius - 35) * Math.sin(((planet2.position - 90) * Math.PI) / 180);
-
-      g.append("line")
-        .attr("x1", x1)
-        .attr("y1", y1)
-        .attr("x2", x2)
-        .attr("y2", y2)
-        .attr("class", "aspect-line");
-    }
-  });
-}
-
 export function drawPlanets(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
   radius: number,
@@ -122,14 +93,15 @@ export function drawPlanets(
   const tooltip = getGlobalTooltip();
 
   chartData.planets.forEach((planet) => {
-    const x =
-      (radius - 35) * Math.cos(((planet.position - 90) * Math.PI) / 180);
-    const y =
-      (radius - 35) * Math.sin(((planet.position - 90) * Math.PI) / 180);
+    const angle = ((planet.position - 90) * Math.PI) / 180;
+    
+    const x = (radius - 35) * Math.cos(angle);
+    const y = (radius - 35) * Math.sin(angle);
 
     const planetGroup = g
       .append("g")
       .attr("transform", `translate(${x},${y})`)
+      .attr("class", "planet-group")
       .on("click", () => onPlanetClick(planet.name))
       .on("mouseover", function (event) {
         tooltip
@@ -149,7 +121,16 @@ export function drawPlanets(
         tooltip.classed("visible", false);
       });
 
-    planetGroup.append("circle").attr("r", 8).attr("class", "planet-circle");
+    planetGroup
+      .append("circle")
+      .attr("r", 10)
+      .attr("class", "planet-glow")
+      .attr("opacity", 0.3);
+
+    planetGroup
+      .append("circle")
+      .attr("r", 8)
+      .attr("class", "planet-circle");
 
     planetGroup
       .append("text")
@@ -158,4 +139,33 @@ export function drawPlanets(
       .text(getPlanetSymbol(planet.name))
       .attr("class", "planet-text");
   });
-} 
+}
+
+export function drawAspects(
+    g: d3.Selection<SVGGElement, unknown, null, undefined>,
+    radius: number,
+    chartData: ChartData,
+  ) {
+    chartData.aspects.forEach((aspect) => {
+      const planet1 = chartData.planets.find((p) => p.name === aspect.planet1);
+      const planet2 = chartData.planets.find((p) => p.name === aspect.planet2);
+  
+      if (planet1 && planet2) {
+        const x1 =
+          (radius - 35) * Math.cos(((planet1.position - 90) * Math.PI) / 180);
+        const y1 =
+          (radius - 35) * Math.sin(((planet1.position - 90) * Math.PI) / 180);
+        const x2 =
+          (radius - 35) * Math.cos(((planet2.position - 90) * Math.PI) / 180);
+        const y2 =
+          (radius - 35) * Math.sin(((planet2.position - 90) * Math.PI) / 180);
+  
+        g.append("line")
+          .attr("x1", x1)
+          .attr("y1", y1)
+          .attr("x2", x2)
+          .attr("y2", y2)
+          .attr("class", "aspect-line");
+      }
+    });
+  }

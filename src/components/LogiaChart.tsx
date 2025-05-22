@@ -63,6 +63,11 @@ export async function printChartInfo(
     [key: string]: PlanetResponse;
   }
 
+  interface AscendantResponse {
+    sign: string;
+    degrees: number;
+  }
+
   try {
     const [year, month, day] = birthDate
       .split("-")
@@ -97,41 +102,54 @@ export async function printChartInfo(
     const formattedTime = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
     const formattedDateTime = `${formattedDate}T${formattedTime}`;
 
-    const response = await fetch(process.env.NEXT_PUBLIC_LILIT_ASTRO_API_URL!, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        API_KEY: process.env.NEXT_PUBLIC_LILIT_ASTRO_API_KEY!,
-      },
-      body: JSON.stringify({
-        date_time: formattedDateTime,
-        latitude: latitude,
-        longitude: longitude,
-      }),
-    });
+    const baseUrl = process.env.NEXT_PUBLIC_LILIT_ASTRO_API_URL;
+    if (!baseUrl) {
+      throw new Error(chartT.errors.apiUrlNotConfigured);
+    }
 
-    if (!response.ok) {
-      const errorText = await response.text();
+    const requestBody = {
+      date_time: formattedDateTime,
+      latitude: latitude,
+      longitude: longitude,
+    };
+
+    const [planetsResponse, ascendantResponse] = await Promise.all([
+      fetch(`${baseUrl}/planets`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "API_KEY": process.env.NEXT_PUBLIC_LILIT_ASTRO_API_KEY!,
+        },
+        body: JSON.stringify(requestBody),
+      }),
+      fetch(`${baseUrl}/ascendant`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "API_KEY": process.env.NEXT_PUBLIC_LILIT_ASTRO_API_KEY!,
+        },
+        body: JSON.stringify(requestBody),
+      }),
+    ]);
+
+    if (!planetsResponse.ok || !ascendantResponse.ok) {
+      const errorText = await (planetsResponse.ok ? ascendantResponse.text() : planetsResponse.text());
       throw new Error(
         chartT.errors.apiRequestFailed
-          .replace("{status}", response.status.toString())
+          .replace("{status}", (planetsResponse.ok ? ascendantResponse.status : planetsResponse.status).toString())
           .replace("{error}", errorText),
       );
     }
 
-    const contentType = response.headers.get("content-type");
-    if (!contentType || !contentType.includes("application/json")) {
-      throw new Error(
-        chartT.errors.invalidResponseType.replace(
-          "{type}",
-          contentType || "unknown",
-        ),
-      );
-    }
+    const [planetsData, ascendantData] = await Promise.all([
+      planetsResponse.json() as Promise<ApiResponse>,
+      ascendantResponse.json() as Promise<AscendantResponse>,
+    ]);
 
-    const data: ApiResponse = await response.json();
+    console.log('Planets Data:', planetsData);
+    console.log('Ascendant Data:', ascendantData);
 
-    if (!data || typeof data !== "object") {
+    if (!planetsData || typeof planetsData !== "object" || !ascendantData || typeof ascendantData !== "object") {
       throw new Error(chartT.errors.invalidApiResponse);
     }
 
@@ -141,31 +159,31 @@ export async function printChartInfo(
       latitude,
       longitude,
     );
-    const planets = Object.entries(data).map(
-      ([planet, info]: [string, PlanetResponse]) => {
-        if (
-          !info ||
-          typeof info !== "object" ||
-          !info.sign ||
-          typeof info.degrees !== "number"
-        ) {
-          throw new Error(
-            chartT.errors.invalidPlanetData.replace("{planet}", planet),
-          );
-        }
-        const planetData = chartData.planets.find(
-          (p) => p.name.toLowerCase() === planet.toLowerCase(),
-        );
-        return {
-          planet,
-          sign: info.sign,
-          longitude: info.degrees,
-          house: planetData?.house || "-",
-          position: info.degrees,
-          element: getElementForSign(info.sign),
-        };
-      },
-    );
+
+    // Create table rows for all data
+    const tableRows = [
+      // Ascendant row
+      `<tr>
+        <td class="planet-cell">AC</td>
+        <td class="planet-cell">${getZodiacSymbol(ascendantData.sign)}</td>
+        <td class="planet-cell">${getElementForSign(ascendantData.sign)}</td>
+        <td class="planet-cell">${ascendantData.degrees.toFixed(2)}°</td>
+        <td class="planet-cell">1</td>
+        <td class="planet-cell">${chartT.effects.ascendant || "-"}</td>
+      </tr>`,
+      // Planet rows
+      ...Object.entries(planetsData).map(([planet, info]) => {
+        const planetData = chartData.planets.find(p => p.name.toLowerCase() === planet.toLowerCase());
+        return `<tr>
+          <td class="planet-cell">${PLANET_SYMBOLS[planet.toLowerCase() as keyof typeof PLANET_SYMBOLS]}</td>
+          <td class="planet-cell">${getZodiacSymbol(info.sign)}</td>
+          <td class="planet-cell">${getElementForSign(info.sign)}</td>
+          <td class="planet-cell">${info.degrees.toFixed(2)}°</td>
+          <td class="planet-cell">${planetData?.house || "-"}</td>
+          <td class="planet-cell">${chartT.effects[planet.toLowerCase() as keyof typeof chartT.effects] || "-"}</td>
+        </tr>`;
+      })
+    ].join('');
 
     return `
       <table class="astrology-table">
@@ -180,35 +198,7 @@ export async function printChartInfo(
           </tr>
         </thead>
         <tbody>
-          ${planets
-            .map((planet) => {
-              const element = getElementForSign(planet.sign);
-              const elementInfo =
-                {
-                  "🜂": chartT.elements.fire,
-                  "🜃": chartT.elements.earth,
-                  "🜁": chartT.elements.air,
-                  "🜄": chartT.elements.water,
-                }[element] || element;
-              const elementName =
-                {
-                  "🜂": chartT.elements.names.fire,
-                  "🜃": chartT.elements.names.earth,
-                  "🜁": chartT.elements.names.air,
-                  "🜄": chartT.elements.names.water,
-                }[element] || element;
-              return `
-            <tr>
-              <td class="planet-cell">${PLANET_SYMBOLS[planet.planet.toLowerCase() as keyof typeof PLANET_SYMBOLS]}</td>
-              <td class="planet-cell">${getZodiacSymbol(planet.sign)}</td>
-              <td class="planet-cell element-cell" data-tooltip="${elementName}\n\n${elementInfo}">${element}</td>
-              <td class="planet-cell">${planet.longitude.toFixed(2)}°</td>
-              <td class="planet-cell">${planet.house}</td>
-              <td class="planet-cell" data-tooltip="${chartT.effects[planet.planet.toLowerCase() as keyof typeof chartT.effects] || "-"}">${chartT.effects[planet.planet.toLowerCase() as keyof typeof chartT.effects] || "-"}</td>
-            </tr>
-          `;
-            })
-            .join("")}
+          ${tableRows}
         </tbody>
       </table>
     `;

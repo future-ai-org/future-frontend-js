@@ -182,6 +182,17 @@
   font-weight: 700;
 }
 
+.astrology-table .ascendant-row {
+  background-color: var(--color-primary);
+  opacity: 0.1;
+  border-radius: 4px;
+}
+
+.astrology-table .ascendant-row td {
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
 .page-title {
   text-transform: lowercase;
 }
@@ -341,4 +352,44 @@
 .chart-circle-center {
   stroke: #666;
   fill: none;
+}
+
+.planet-group {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.planet-group:hover {
+  transform: scale(1.2);
+}
+
+.planet-glow {
+  fill: var(--color-primary);
+  filter: blur(4px);
+}
+
+.planet-circle {
+  fill: var(--color-primary);
+  stroke: var(--background-color);
+  stroke-width: 2;
+  transition: all 0.3s ease;
+}
+
+.planet-group:hover .planet-circle {
+  fill: var(--color-primary);
+  stroke: var(--color-primary);
+  stroke-width: 3;
+  filter: brightness(1.2);
+}
+
+.planet-text {
+  font-size: 16px;
+  fill: var(--color-primary);
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.planet-group:hover .planet-text {
+  font-size: 18px;
+  filter: brightness(1.2);
 }

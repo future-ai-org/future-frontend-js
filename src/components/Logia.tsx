@@ -42,12 +42,17 @@ export default function Logia() {
         return;
       }
 
+      console.log('Coordinates:', coordinates);
+      console.log('Birth Date:', birthDate);
+      console.log('Birth Time:', birthTime);
+
       const chart = calculateChart(
         birthDate,
         birthTime,
         coordinates.lat,
         coordinates.lon,
       );
+      console.log('Chart Data:', chart);
       setChartData(chart);
       const chartInfoHtml = await printChartInfo(
         birthDate,
@@ -55,6 +60,7 @@ export default function Logia() {
         coordinates.lat,
         coordinates.lon,
       );
+      console.log('Chart Info HTML:', chartInfoHtml);
       setChartInfo(chartInfoHtml);
     } catch (err) {
       setError(err instanceof Error ? err.message : t.errors.unknownError);
