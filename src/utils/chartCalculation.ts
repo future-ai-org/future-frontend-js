@@ -73,6 +73,27 @@ export function drawChartCircles(
     .attr("class", "chart-circle-outer");
 }
 
+export function drawHouseLines(
+  g: d3.Selection<SVGGElement, unknown, null, undefined>,
+  radius: number,
+  houses: any
+) {
+  for (let i = 0; i < 12; i++) {
+    const angle = i * 30;
+    const x = radius * Math.cos((angle * Math.PI) / 180);
+    const y = radius * Math.sin((angle * Math.PI) / 180);
+    const innerX = (radius * 0.1) * Math.cos((angle * Math.PI) / 180);
+    const innerY = (radius * 0.1) * Math.sin((angle * Math.PI) / 180);
+
+    g.append("line")
+      .attr("x1", innerX)
+      .attr("y1", innerY)
+      .attr("x2", x)
+      .attr("y2", y)
+      .attr("class", "house-line");
+  }
+}
+
 export function drawHouseNumbers(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
   radius: number,
@@ -179,28 +200,6 @@ export function drawZodiacSymbols(
       .on("mouseout", function () {
         tooltip.classed("visible", false);
       });
-  }
-}
-
-export function drawHouses(
-  g: d3.Selection<SVGGElement, unknown, null, undefined>,
-  radius: number,
-  houses: number[],
-) {
-  // Draw all 12 lines at 30-degree intervals
-  for (let i = 0; i < 12; i++) {
-    const angle = i * 30; // 0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330
-    const x = radius * Math.cos((angle * Math.PI) / 180);
-    const y = radius * Math.sin((angle * Math.PI) / 180);
-    const innerX = (radius * 0.1) * Math.cos((angle * Math.PI) / 180);
-    const innerY = (radius * 0.1) * Math.sin((angle * Math.PI) / 180);
-
-    g.append("line")
-      .attr("x1", innerX)
-      .attr("y1", innerY)
-      .attr("x2", x)
-      .attr("y2", y)
-      .attr("class", "house-line");
   }
 }
 

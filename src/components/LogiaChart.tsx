@@ -16,12 +16,13 @@ import {
   calculateChartDimensions,
   createBaseChart,
   drawChartCircles,
+  drawHouseLines,
   drawHouseNumbers,
+  drawAscendant,
   drawZodiacSymbols,
-  drawHouses,
   drawAspects,
   drawPlanets,
-} from "./../utils/chartCalculation";
+} from "../utils/chartCalculation";
 
 interface LogiaChartProps {
   chartData: ChartData | null;
@@ -292,9 +293,9 @@ export default function LogiaChart({
       const { g } = createBaseChart(container, dimensions);
 
       drawChartCircles(g, dimensions.radius);
-      drawHouseNumbers(g, dimensions.radius, chartData.houses[0]);
+      drawHouseLines(g, dimensions.radius, chartData.houses);
+      drawHouseNumbers(g, dimensions.radius);
       drawZodiacSymbols(g, dimensions.radius, ZODIAC_ORDER);
-      drawHouses(g, dimensions.radius, chartData.houses);
       drawAspects(g, dimensions.radius, chartData);
       drawPlanets(
         g,
