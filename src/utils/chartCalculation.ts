@@ -4,7 +4,6 @@ import chartStrings from "../i18n/logiaChart.json";
 
 type ZodiacSign = keyof typeof chartStrings.en.signs;
 
-
 let globalTooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any> | null = null;
 
 function getGlobalTooltip(): d3.Selection<HTMLDivElement, unknown, HTMLElement, any> {
@@ -63,15 +62,11 @@ export function drawChartCircles(
 
   g.append("circle")
     .attr("r", radius * 0.2)
-    .attr("class", "chart-circle-inner")
-    .style("stroke", "#666")
-    .style("fill", "none");
+    .attr("class", "chart-circle-inner");
 
   g.append("circle")
     .attr("r", radius * 0.1)
-    .attr("class", "chart-circle-center")
-    .style("stroke", "#666")
-    .style("fill", "none");
+    .attr("class", "chart-circle-center");
 
   g.append("circle")
     .attr("r", radius + 30)
