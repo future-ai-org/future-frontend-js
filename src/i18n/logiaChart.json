@@ -1,6 +1,20 @@
 {
   "en": {
     "title": "your blueprint",
+    "zodiacSigns": [
+      "pisces",
+      "aquarius",
+      "capricorn",
+      "sagittarius",
+      "scorpio",
+      "libra",
+      "virgo",
+      "leo",
+      "cancer",
+      "gemini",
+      "taurus",
+      "aries"
+    ],
     "table": {
       "planet": "planet",
       "sign": "sign",

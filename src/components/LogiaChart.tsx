@@ -5,7 +5,7 @@ import {
   getZodiacSymbol,
   ZODIAC_SYMBOLS,
   PLANET_SYMBOLS,
-  calculateChart as calculateChartData,
+  calculateChartData,
   getElementForSign,
 } from "../config/logiaChart";
 import { useTheme } from "../utils/themeContext";
@@ -49,8 +49,9 @@ export function calculateChart(
   birthTime: string,
   latitude: number,
   longitude: number,
+  city: string,
 ): ChartData {
-  return calculateChartData(birthDate, birthTime, latitude, longitude);
+  return calculateChartData(birthDate, birthTime, latitude, longitude, city);
 }
 
 export async function printChartInfo(
@@ -58,6 +59,7 @@ export async function printChartInfo(
   birthTime: string,
   latitude: number,
   longitude: number,
+  city: string,
 ): Promise<string> {
   interface ApiResponse {
     [key: string]: PlanetResponse;
@@ -158,6 +160,8 @@ export async function printChartInfo(
       birthTime,
       latitude,
       longitude,
+      city,
+      ascendantData
     );
 
     // Create table rows for all data
@@ -328,6 +332,11 @@ export default function LogiaChart({
   return (
     <>
       <h1 className="page-title">{chartT.title.toLowerCase()}</h1>
+      {chartData && (
+        <div className="astrology-subtitle">
+          {chartData.birthDate} {chartData.birthTime} • {chartData.city} ({chartData.latitude.toFixed(2)}°, {chartData.longitude.toFixed(2)}°)
+        </div>
+      )}
       <div className="astrology-chart-section">
         <div className="astrology-chart-container" id="chart">
           {isGeneratingChart && <Loading />}

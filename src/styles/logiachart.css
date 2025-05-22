@@ -393,3 +393,11 @@
   font-size: 18px;
   filter: brightness(1.2);
 }
+
+.astrology-subtitle {
+  text-align: center;
+  color: var(--text-color);
+  font-size: 1.1rem;
+  margin: 0.5rem 0 2rem;
+  opacity: 0.8;
+}

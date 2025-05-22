@@ -1,17 +1,7 @@
-export const ZODIAC_SIGNS = [
-  "pisces",
-  "aquarius",
-  "capricorn",
-  "sagittarius",
-  "scorpio",
-  "libra",
-  "virgo",
-  "leo",
-  "cancer",
-  "gemini",
-  "taurus",
-  "aries",
-] as const;
+import i18next from 'i18next';
+import { en } from '../i18n/logiaChart.json';
+
+export const ZODIAC_SIGNS = en.zodiacSigns as readonly string[];
 
 export interface PlanetPosition {
   name: string;
@@ -31,6 +21,11 @@ export interface ChartData {
   planets: PlanetPosition[];
   houses: number[];
   aspects: Aspect[];
+  birthDate: string;
+  birthTime: string;
+  latitude: number;
+  longitude: number;
+  city: string;
 }
 
 export const PLANET_SYMBOLS = {
@@ -110,11 +105,13 @@ export function getElementForSign(sign: string): string {
   return ELEMENTS[elementMap[sign.toLowerCase()]] || sign;
 }
 
-export function calculateChart(
+export function calculateChartData(
   birthDate: string,
   birthTime: string,
   latitude: number,
   longitude: number,
+  city: string,
+  ascendantData?: { sign: string; degrees: number }
 ): ChartData {
   const [year, month, day] = birthDate.split("-").map(Number);
   const [hours, minutes] = birthTime.split(":").map(Number);
@@ -124,7 +121,10 @@ export function calculateChart(
   const julianDay = getJulianDay(utcDate);
   const greenwichSiderealTime = calculateSiderealTime(julianDay, 0);
   const localSiderealTime = (greenwichSiderealTime + longitude) % 360;
-  const ascendant = calculateAscendant(localSiderealTime, latitude, julianDay);
+  
+  // Use ascendant from API if provided, otherwise calculate it
+  const ascendant = ascendantData ? ascendantData.degrees : calculateAscendant(localSiderealTime, latitude, julianDay);
+  
   const planets: PlanetPosition[] = [
     calculatePlanetPosition("sun", julianDay),
     calculatePlanetPosition("moon", julianDay),
@@ -140,6 +140,7 @@ export function calculateChart(
     ...planet,
     position: planet.position,
     sign: ZODIAC_SIGNS[Math.floor(planet.position / 30)],
+    house: Math.floor(((planet.position - ascendant + 360) % 360) / 30) + 1
   }));
 
   const houses = calculateHouses(ascendant);
@@ -171,6 +172,11 @@ export function calculateChart(
     })),
     houses,
     aspects,
+    birthDate,
+    birthTime,
+    latitude,
+    longitude,
+    city,
   };
 }
 

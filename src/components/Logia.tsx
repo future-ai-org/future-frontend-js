@@ -51,6 +51,7 @@ export default function Logia() {
         birthTime,
         coordinates.lat,
         coordinates.lon,
+        city
       );
       console.log('Chart Data:', chart);
       setChartData(chart);
@@ -59,6 +60,7 @@ export default function Logia() {
         birthTime,
         coordinates.lat,
         coordinates.lon,
+        city
       );
       console.log('Chart Info HTML:', chartInfoHtml);
       setChartInfo(chartInfoHtml);
