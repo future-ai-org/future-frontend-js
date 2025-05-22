@@ -18,7 +18,12 @@
       "birthCity": "your birth city",
       "cityPlaceholder": "e.g., los angeles",
       "am": "AM",
-      "pm": "PM"
+      "pm": "PM",
+      "yearPlaceholder": "YYYY",
+      "monthPlaceholder": "MM",
+      "dayPlaceholder": "DD",
+      "hourPlaceholder": "HH",
+      "minutePlaceholder": "MM"
     },
     "buttons": {
       "generateChart": "show me!"

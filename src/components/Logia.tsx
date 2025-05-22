@@ -281,7 +281,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             name="birthYear"
             value={formData.birthDate.split("-")[0] || ""}
             onChange={handleYearChange}
-            placeholder="YYYY"
+            placeholder={t.labels.yearPlaceholder}
             maxLength={4}
             required
           />
@@ -292,7 +292,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             name="birthMonth"
             value={formData.birthDate.split("-")[1] || ""}
             onChange={handleMonthChange}
-            placeholder="MM"
+            placeholder={t.labels.monthPlaceholder}
             maxLength={2}
             required
           />
@@ -303,7 +303,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             name="birthDay"
             value={formData.birthDate.split("-")[2] || ""}
             onChange={handleDayChange}
-            placeholder="DD"
+            placeholder={t.labels.dayPlaceholder}
             maxLength={2}
             required
           />
@@ -319,7 +319,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             name="birthHour"
             value={formData.birthTime.split(":")[0] || ""}
             onChange={handleHourChange}
-            placeholder="HH"
+            placeholder={t.labels.hourPlaceholder}
             maxLength={2}
             required
           />
@@ -330,7 +330,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             name="birthMinute"
             value={formData.birthTime.split(":")[1] || ""}
             onChange={handleMinuteChange}
-            placeholder="MM"
+            placeholder={t.labels.minutePlaceholder}
             maxLength={2}
             required
           />
