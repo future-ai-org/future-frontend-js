@@ -207,7 +207,7 @@ export async function printChartInfo(
   } catch (error: unknown) {
     const errorMessage =
       error instanceof Error ? error.message : chartT.errors.unknownError;
-    return `<div class="astrology-error">Error: ${errorMessage}</div>`;
+    return `<div class="astrology-error">${errorMessage}</div>`;
   }
 }
 

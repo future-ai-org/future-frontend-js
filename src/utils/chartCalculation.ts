@@ -1,4 +1,4 @@
-import { ChartData } from "../config/logiaChart";
+import { ChartData, ZODIAC_SIGNS } from "../config/logiaChart";
 import * as d3 from "d3";
 
 export interface ChartDimensions {
@@ -121,20 +121,7 @@ export function drawZodiacSymbols(
   zodiacSymbols: string[],
 ) {
   const zodiacRadius = radius + 15;
-  const zodiacNames = [
-    "Pisces",
-    "Aquarius",
-    "Capricorn",
-    "Sagittarius",
-    "Scorpio",
-    "Libra",
-    "Virgo",
-    "Leo",
-    "Cancer",
-    "Gemini",
-    "Taurus",
-    "Aries",
-  ];
+  const zodiacNames = ZODIAC_SIGNS.map(sign => sign.charAt(0) + sign.slice(1));
 
   // Create tooltip div
   const tooltip = d3
@@ -259,7 +246,7 @@ export function drawPlanets(
   onPlanetClick: (planetName: string) => void,
   getPlanetSymbol: (name: string) => string,
 ) {
-  // Create tooltip div
+
   const tooltip = d3
     .select("body")
     .append("div")
