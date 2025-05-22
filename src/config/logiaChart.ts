@@ -13,19 +13,6 @@ export const ZODIAC_SIGNS = [
   "aries",
 ] as const;
 
-export const ASTROLOGY_EFFECTS = {
-  sun: "emphasizes",
-  moon: "contracts",
-  mercury: "communicates",
-  venus: "harmonizes",
-  mars: "challenges",
-  jupiter: "expands",
-  saturn: "corrects",
-  uranus: "disrupts",
-  neptune: "diffuses",
-  pluto: "empowers",
-} as const;
-
 export interface PlanetPosition {
   name: string;
   position: number;
@@ -123,67 +110,21 @@ export function getElementForSign(sign: string): string {
   return ELEMENTS[elementMap[sign.toLowerCase()]] || sign;
 }
 
-export function getEmptyChart(): string {
-  return `
-    <div class="astrology-chart-header">
-      <div class="astrology-chart-date">loading...</div>
-      <div class="astrology-chart-time">loading...</div>
-      <div class="astrology-chart-location">
-        <span class="astrology-chart-city">loading...</span>
-        <span class="astrology-chart-coordinates">loading...</span>
-      </div>
-    </div>
-    <div class="astrology-positions">
-      <div class="astrology-position">
-        <span class="astrology-position-label">ascendant</span>
-        <span class="astrology-position-value">loading...</span>
-      </div>
-      ${Object.keys(PLANET_SYMBOLS)
-        .map(
-          (planet) => `
-        <div class="astrology-position">
-          <span class="astrology-position-label">${planet.toLowerCase()} ${getPlanetSymbol(planet)}</span>
-          <span class="astrology-position-value">loading...</span>
-        </div>
-      `,
-        )
-        .join("")}
-    </div>
-  `;
-}
-
 export function calculateChart(
   birthDate: string,
   birthTime: string,
   latitude: number,
   longitude: number,
 ): ChartData {
-  // Parse the date and time components
   const [year, month, day] = birthDate.split("-").map(Number);
   const [hours, minutes] = birthTime.split(":").map(Number);
-
-  // Create date object in local time
   const localDate = new Date(year, month - 1, day, hours, minutes);
-
-  // Get the timezone offset in minutes
   const timezoneOffset = localDate.getTimezoneOffset();
-
-  // Create UTC date by subtracting the timezone offset
   const utcDate = new Date(localDate.getTime() - timezoneOffset * 60000);
-
-  // Calculate Julian Day at midnight UTC
   const julianDay = getJulianDay(utcDate);
-
-  // Calculate sidereal time at Greenwich
   const greenwichSiderealTime = calculateSiderealTime(julianDay, 0);
-
-  // Adjust sidereal time for the observer's longitude
   const localSiderealTime = (greenwichSiderealTime + longitude) % 360;
-
-  // Calculate ascendant
   const ascendant = calculateAscendant(localSiderealTime, latitude, julianDay);
-
-  // Calculate planet positions
   const planets: PlanetPosition[] = [
     calculatePlanetPosition("sun", julianDay),
     calculatePlanetPosition("moon", julianDay),
@@ -201,10 +142,8 @@ export function calculateChart(
     sign: ZODIAC_SIGNS[Math.floor(planet.position / 30)],
   }));
 
-  // Calculate house cusps using whole house system
   const houses = calculateHouses(ascendant);
 
-  // Calculate aspects
   const aspects: Aspect[] = [];
   for (let i = 0; i < planets.length; i++) {
     for (let j = i + 1; j < planets.length; j++) {
@@ -235,7 +174,6 @@ export function calculateChart(
   };
 }
 
-// Helper functions for astronomical calculations
 export function getJulianDay(date: Date): number {
   const year = date.getUTCFullYear();
   const month = date.getUTCMonth() + 1;
@@ -323,7 +261,6 @@ function calculatePlanetPosition(
 
     const signIndex = Math.floor(position / 30);
     const sign = ZODIAC_SIGNS[signIndex];
-    // Calculate house using whole sign system
     const house = Math.floor(position / 30) + 1;
 
     return {
@@ -349,7 +286,6 @@ function calculatePlanetPosition(
   const position = ((julianDay / periods[planet]) % 1) * 360;
   const signIndex = Math.floor(position / 30);
   const sign = ZODIAC_SIGNS[signIndex];
-  // Calculate house using whole sign system
   const house = Math.floor(position / 30) + 1;
 
   return {

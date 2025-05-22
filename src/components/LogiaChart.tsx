@@ -7,7 +7,6 @@ import {
   PLANET_SYMBOLS,
   calculateChart as calculateChartData,
   getElementForSign,
-  ASTROLOGY_EFFECTS,
 } from "../config/logiaChart";
 import { useTheme } from "../utils/themeContext";
 import chartStrings from "../i18n/logiaChart.json";
@@ -152,9 +151,8 @@ export async function printChartInfo(
       throw new Error(chartT.errors.invalidApiResponse);
     }
 
-    // Calculate chart data to get house information
-    const chartData = calculateChartData(birthDate, birthTime, latitude, longitude);
 
+    const chartData = calculateChartData(birthDate, birthTime, latitude, longitude);
     const planets = Object.entries(data).map(
       ([planet, info]: [string, PlanetResponse]) => {
         if (
@@ -167,7 +165,6 @@ export async function printChartInfo(
             chartT.errors.invalidPlanetData.replace("{planet}", planet),
           );
         }
-        // Find the corresponding planet in chartData to get house information
         const planetData = chartData.planets.find(p => p.name.toLowerCase() === planet.toLowerCase());
         return {
           planet,
@@ -210,7 +207,7 @@ export async function printChartInfo(
               <td class="planet-cell" style="color: var(--color-primary); font-size: 20px; font-weight: 500; text-shadow: 0 0 8px var(--color-primary);" title="${elementInfo}">${element}</td>
               <td class="planet-cell" style="color: var(--color-primary);">${planet.longitude.toFixed(2)}°</td>
               <td class="planet-cell" style="color: var(--color-primary);">${planet.house}</td>
-              <td class="planet-cell" style="color: var(--color-primary);">${ASTROLOGY_EFFECTS[planet.planet.toLowerCase() as keyof typeof ASTROLOGY_EFFECTS] || '-'}</td>
+              <td class="planet-cell" style="color: var(--color-primary);">${chartT.effects[planet.planet.toLowerCase() as keyof typeof chartT.effects] || '-'}</td>
             </tr>
           `;
               }

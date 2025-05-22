@@ -7,15 +7,27 @@
       "element": "element",
       "house": "house",
       "position": "position",
-      "effects": "effects"
+      "effects": "effect"
+    },
+    "effects": {
+      "sun": "emphasizes",
+      "moon": "reflects",
+      "mercury": "communicates",
+      "venus": "harmonizes",
+      "mars": "challenges",
+      "jupiter": "expands",
+      "saturn": "corrects",
+      "uranus": "disrupts",
+      "neptune": "diffuses",
+      "pluto": "empowers"
     },
     "errors": {
-      "invalidDateFormat": "Invalid date format. Please use YYYY-MM-DD format.",
-      "invalidTimeFormat": "Invalid time format. Please use HH:MM format.",
-      "apiRequestFailed": "API request failed with status {status}: {error}",
-      "invalidResponseType": "Invalid response type: {type}",
-      "invalidApiResponse": "Invalid API response format",
-      "invalidPlanetData": "Invalid planet data for {planet}"
+      "invalidDateFormat": "invalid date format. please use yyyy-mm-dd format.",
+      "invalidTimeFormat": "invalid time format. please use hh:mm format.",
+      "apiRequestFailed": "api request failed with status {status}: {error}",
+      "invalidResponseType": "invalid response type: {type}",
+      "invalidApiResponse": "invalid api response format",
+      "invalidPlanetData": "invalid planet data for {planet}"
     }
   }
 }
