@@ -119,17 +119,14 @@ export function drawAscendant(
   ascGroup
     .append("circle")
     .attr("r", 8)
-    .style("fill", "var(--primary-color)")
-    .style("stroke", "var(--background-color)")
-    .style("stroke-width", 2);
+    .attr("class", "ascendant-circle");
 
   ascGroup
     .append("text")
     .attr("x", 12)
     .attr("y", 5)
     .text("ASC")
-    .style("font-size", "16px")
-    .style("fill", "var(--color-primary)");
+    .attr("class", "ascendant-text");
 }
 
 export function drawZodiacSymbols(
@@ -140,7 +137,6 @@ export function drawZodiacSymbols(
   const zodiacRadius = radius + 15;
   const zodiacNames = ZODIAC_SIGNS.map(sign => sign.charAt(0) + sign.slice(1));
 
-  // Create tooltip div
   const tooltip = d3
     .select("body")
     .append("div")
@@ -156,24 +152,9 @@ export function drawZodiacSymbols(
       .attr("y", y)
       .attr("text-anchor", "middle")
       .attr("dy", "0.35em")
+      .attr("class", "zodiac-symbol")
       .text(zodiacSymbols[index])
-      .style("font-family", "'Arial Unicode MS', 'Arial', sans-serif")
-      .style("font-size", "20px")
-      .style("fill", "var(--color-primary)")
-      .style("opacity", "0.8")
-      .style("font-weight", "500")
-      .style("text-shadow", "0 0 8px var(--color-primary)")
-      .style("transition", "all 0.3s ease")
-      .style(
-        "cursor",
-        "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%23FF69B4'><path d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/></svg>\") 12 12, auto",
-      )
       .on("mouseover", function (event) {
-        d3.select(this)
-          .style("opacity", "1")
-          .style("font-size", "24px")
-          .style("text-shadow", "0 0 12px var(--color-primary)");
-
         const signName = zodiacNames[index].toLowerCase() as ZodiacSign;
         const signDescription = chartStrings.en.signs[signName];
         
@@ -189,11 +170,6 @@ export function drawZodiacSymbols(
           .style("top", event.pageY - 10 + "px");
       })
       .on("mouseout", function () {
-        d3.select(this)
-          .style("opacity", "0.8")
-          .style("font-size", "20px")
-          .style("text-shadow", "0 0 8px var(--color-primary)");
-
         tooltip
           .classed("visible", false);
       });
@@ -214,9 +190,7 @@ export function drawHouses(
       .attr("y1", 0)
       .attr("x2", x)
       .attr("y2", y)
-      .style("stroke", "var(--color-primary)")
-      .style("stroke-width", 1)
-      .style("opacity", "0.9");
+      .attr("class", "house-line");
   });
 }
 
@@ -244,9 +218,7 @@ export function drawAspects(
         .attr("y1", y1)
         .attr("x2", x2)
         .attr("y2", y2)
-        .style("stroke", "var(--primary-color)")
-        .style("stroke-width", 0.5)
-        .style("stroke-dasharray", "3,3");
+        .attr("class", "aspect-line");
     }
   });
 }
@@ -258,7 +230,6 @@ export function drawPlanets(
   onPlanetClick: (planetName: string) => void,
   getPlanetSymbol: (name: string) => string,
 ) {
-
   const tooltip = d3
     .select("body")
     .append("div")
@@ -289,25 +260,18 @@ export function drawPlanets(
       .on("mouseout", function () {
         tooltip
           .classed("visible", false);
-      })
-      .style(
-        "cursor",
-        "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%23FF69B4'><path d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/></svg>\") 12 12, auto",
-      );
+      });
 
     planetGroup
       .append("circle")
       .attr("r", 8)
-      .style("fill", "var(--primary-color)")
-      .style("stroke", "var(--background-color)")
-      .style("stroke-width", 2);
+      .attr("class", "planet-circle");
 
     planetGroup
       .append("text")
       .attr("x", 12)
       .attr("y", 5)
       .text(getPlanetSymbol(planet.name))
-      .style("font-size", "16px")
-      .style("fill", "var(--color-primary)");
+      .attr("class", "planet-text");
   });
 }
