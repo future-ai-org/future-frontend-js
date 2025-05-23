@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import strings from "../i18n/logia.json";
 import LogiaChart from "./LogiaChart";
 import { searchCities, CitySuggestion } from "../utils/geocoding";
@@ -29,6 +29,24 @@ export default function Logia() {
     city: "",
   });
   const [showChart, setShowChart] = useState(false);
+  const [stylesLoaded, setStylesLoaded] = useState(false);
+
+  useEffect(() => {
+    // Check if CSS variables are loaded
+    const checkStyles = () => {
+      const computedStyle = getComputedStyle(document.documentElement);
+      const primaryColor = computedStyle
+        .getPropertyValue("--color-primary")
+        .trim();
+      if (primaryColor) {
+        setStylesLoaded(true);
+      } else {
+        // If styles aren't loaded yet, check again after a short delay
+        setTimeout(checkStyles, 50);
+      }
+    };
+    checkStyles();
+  }, []);
 
   const handleSubmit = useCallback(async (data: FormData) => {
     setFormData(data);
@@ -60,6 +78,14 @@ export default function Logia() {
       />
     );
   };
+
+  if (!stylesLoaded) {
+    return (
+      <div className="logia-container">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className="astrology-container">
