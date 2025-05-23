@@ -127,7 +127,6 @@ const Wallet: React.FC = () => {
       await disconnect();
       setSelectedWallet(null);
       router.push("/");
-      window.location.reload();
     } catch (error) {
       setError(
         error instanceof Error ? error.message : strings.en.connectionError,
