@@ -107,7 +107,9 @@
   transform: translateX(4px);
 }
 
-.astrology-input {
+.astrology-input,
+.astrology-time-period-select,
+.astrology-unsure-checkbox input[type="checkbox"] {
   padding: 1rem;
   border: 1px solid var(--color-primary);
   border-radius: 1.5rem;
@@ -121,6 +123,10 @@
   text-align: center;
   outline: none;
   box-sizing: border-box;
+}
+
+.astrology-input,
+.astrology-time-period-select {
   width: 100%;
 }
 
@@ -129,15 +135,34 @@
   opacity: var(--opacity-medium);
 }
 
-.astrology-input:focus {
+.astrology-input:focus,
+.astrology-time-period-select:focus {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 4px var(--color-glow-shadow);
+  box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb), 0.2);
   transform: translateY(-1px);
   background-color: var(--card-bg);
 }
 
 .astrology-input:not(:placeholder-shown) {
   background-color: var(--card-bg);
+}
+
+/* Ensure consistent border radius for all input states */
+.astrology-input,
+.astrology-input:focus,
+.astrology-input:active,
+.astrology-input:hover,
+.astrology-input:-webkit-autofill,
+.astrology-input:-webkit-autofill:hover,
+.astrology-input:-webkit-autofill:focus,
+.astrology-input:-webkit-autofill:active,
+.astrology-time-period-select,
+.astrology-time-period-select:focus,
+.astrology-time-period-select:active,
+.astrology-time-period-select:hover {
+  border-radius: 1.5rem !important;
+  -webkit-border-radius: 1.5rem !important;
+  -moz-border-radius: 1.5rem !important;
 }
 
 .astrology-input:-webkit-autofill,
@@ -147,6 +172,22 @@
   -webkit-box-shadow: 0 0 0 30px var(--card-bg) inset !important;
   -webkit-text-fill-color: var(--color-primary) !important;
   transition: background-color 5000s ease-in-out 0s;
+  border: 1px solid var(--color-primary) !important;
+  box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb), 0.2) !important;
+}
+
+.astrology-time-period-select {
+  width: 80px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.astrology-time-period-select option {
+  background-color: var(--card-bg);
+  color: var(--color-primary);
+  padding: 0.1rem;
+  font-weight: 600;
+  width: 40px;
 }
 
 .astrology-button {
@@ -280,38 +321,6 @@
   100% {
     opacity: var(--opacity-medium);
   }
-}
-
-.astrology-time-period-select {
-  width: 80px;
-  flex-shrink: 0;
-  cursor: pointer;
-  background-color: var(--card-bg);
-  color: var(--color-primary);
-  border: 1px solid var(--color-primary);
-  border-radius: 1.5rem;
-  padding: 1rem;
-  font-size: 1rem;
-  text-align: center;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  outline: none;
-  transition: all var(--transition-duration) var(--transition-timing);
-}
-
-.astrology-time-period-select:focus {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 4px var(--color-glow-shadow);
-  transform: translateY(-1px);
-}
-
-.astrology-time-period-select option {
-  background-color: var(--card-bg);
-  color: var(--color-primary);
-  padding: 0.1rem;
-  font-weight: 600;
-  width: 40px;
 }
 
 .astrology-input-group {
@@ -685,7 +694,7 @@
 
 .astrology-unsure-checkbox:hover {
   transform: translateY(-1px);
-  box-shadow: 0 0 0 4px var(--color-glow-shadow);
+  box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb), 0.2);
   border-color: var(--color-primary);
 }
 
@@ -697,11 +706,8 @@
   border-radius: 4px;
   transition: all var(--transition-duration) var(--transition-timing);
   outline: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  border: 1px solid var(--color-primary);
-  background-color: var(--card-bg);
+  padding: 0;
+  margin: 0;
 }
 
 .astrology-unsure-checkbox input[type="checkbox"]:checked {
@@ -710,21 +716,9 @@
   animation: checkboxPop 0.3s ease-in-out;
 }
 
-@keyframes checkboxPop {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
 .astrology-unsure-checkbox input[type="checkbox"]:focus {
   outline: none;
-  box-shadow: none;
+  box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb), 0.2);
 }
 
 .astrology-unsure-checkbox label {
