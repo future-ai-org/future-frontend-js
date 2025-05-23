@@ -119,6 +119,9 @@
   -moz-appearance: none;
   appearance: none;
   text-align: center;
+  outline: none;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .astrology-input::placeholder {
@@ -280,24 +283,21 @@
 }
 
 .astrology-time-period-select {
-  padding: 1rem;
-  border: 1px solid var(--color-primary);
-  border-radius: 1.5rem;
+  width: 80px;
+  flex-shrink: 0;
+  cursor: pointer;
   background-color: var(--card-bg);
   color: var(--color-primary);
-  transition: all var(--transition-duration) var(--transition-timing);
+  border: 1px solid var(--color-primary);
+  border-radius: 1.5rem;
+  padding: 1rem;
   font-size: 1rem;
-  width: 100px;
-  appearance: none;
+  text-align: center;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 1rem center;
-  background-size: 1em;
-  padding-right: 2.5rem;
-  cursor: pointer;
-  font-weight: 600;
+  appearance: none;
+  outline: none;
+  transition: all var(--transition-duration) var(--transition-timing);
 }
 
 .astrology-time-period-select:focus {
@@ -317,23 +317,18 @@
 .astrology-input-group {
   display: flex;
   gap: 0.5rem;
-  justify-content: center;
   width: 100%;
-}
-
-.astrology-time-input-group {
-  display: flex;
-  gap: 0.15rem;
   justify-content: center;
-  width: 100%;
-}
-
-.astrology-input-year {
-  width: 80px;
 }
 
 .astrology-input-short {
-  width: 60px;
+  width: 80px;
+  flex-shrink: 0;
+}
+
+.astrology-input-year {
+  width: 120px;
+  flex-shrink: 0;
 }
 
 .logia-info-wrapper {
