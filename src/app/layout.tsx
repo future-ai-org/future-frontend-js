@@ -4,13 +4,20 @@ import dynamic from "next/dynamic";
 import { ThemeProvider } from "../utils/themeContext";
 import { Web3Provider } from "../utils/web3ModalContext";
 import strings from "../i18n/header.json";
-import { Quicksand } from "next/font/google";
+import { Quicksand, Satisfy } from "next/font/google";
 
 const quicksand = Quicksand({
   subsets: ["latin"],
   display: "swap",
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-quicksand",
+});
+
+const satisfy = Satisfy({
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400"],
+  variable: "--font-satisfy",
 });
 
 const Header = dynamic(() => import("../components/Header"), { ssr: false });
@@ -30,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${quicksand.variable}`}>
+    <html lang="en" className={`${quicksand.variable} ${satisfy.variable}`}>
       <body>
         <ThemeProvider>
           <Web3Provider>
