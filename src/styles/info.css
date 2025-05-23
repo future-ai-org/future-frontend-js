@@ -83,6 +83,7 @@
   font-size: 2.5rem;
   text-align: left;
   line-height: 1;
+  text-shadow: var(--text-glow);
 }
 
 .signature-name {
@@ -90,6 +91,7 @@
   text-align: right;
   margin-right: 1rem;
   line-height: 1;
+  text-shadow: var(--text-glow);
 }
 
 @media (max-width: 768px) {
@@ -174,8 +176,8 @@
   display: inline-block;
   color: var(--color-primary);
   font-weight: 700;
-  text-shadow: 0 0 10px var(--color-primary);
-  animation: glow 2s ease-in-out infinite;
+  text-shadow: 0 0 20px var(--color-primary);
+  animation: glow 1s ease-in-out infinite;
 }
 
 @keyframes glow {
