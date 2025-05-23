@@ -16,6 +16,15 @@ interface PlanetPosition {
   position: number;
 }
 
+interface PlanetApiResponse {
+  sign: string;
+  degrees: number;
+}
+
+interface ApiResponse {
+  [key: string]: PlanetApiResponse;
+}
+
 const formatPosition = (position: number): string => {
   return `${position.toFixed(2)}°`;
 };
@@ -77,14 +86,12 @@ export const PlanetsSlider: React.FC = () => {
         throw new Error(`API request failed with status ${response.status}`);
       }
 
-      const data = await response.json();
-      const formattedPlanets = Object.entries(data).map(
-        ([name, info]: [string, any]) => ({
-          name: name.toLowerCase(),
-          sign: info.sign.toLowerCase(),
-          position: info.degrees,
-        }),
-      );
+      const data = (await response.json()) as ApiResponse;
+      const formattedPlanets = Object.entries(data).map(([name, info]) => ({
+        name: name.toLowerCase(),
+        sign: info.sign.toLowerCase(),
+        position: info.degrees,
+      }));
 
       setPlanets(formattedPlanets);
       setIsLoading(false);

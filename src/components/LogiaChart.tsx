@@ -294,20 +294,23 @@ export default function LogiaChart({
   const [error, setError] = React.useState<string | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const ZODIAC_ORDER = [
-    ZODIAC_SYMBOLS.pisces,
-    ZODIAC_SYMBOLS.aquarius,
-    ZODIAC_SYMBOLS.capricorn,
-    ZODIAC_SYMBOLS.sagittarius,
-    ZODIAC_SYMBOLS.scorpio,
-    ZODIAC_SYMBOLS.libra,
-    ZODIAC_SYMBOLS.virgo,
-    ZODIAC_SYMBOLS.leo,
-    ZODIAC_SYMBOLS.cancer,
-    ZODIAC_SYMBOLS.gemini,
-    ZODIAC_SYMBOLS.taurus,
-    ZODIAC_SYMBOLS.aries,
-  ];
+  const ZODIAC_ORDER = useMemo(
+    () => [
+      ZODIAC_SYMBOLS.pisces,
+      ZODIAC_SYMBOLS.aquarius,
+      ZODIAC_SYMBOLS.capricorn,
+      ZODIAC_SYMBOLS.sagittarius,
+      ZODIAC_SYMBOLS.scorpio,
+      ZODIAC_SYMBOLS.libra,
+      ZODIAC_SYMBOLS.virgo,
+      ZODIAC_SYMBOLS.leo,
+      ZODIAC_SYMBOLS.cancer,
+      ZODIAC_SYMBOLS.gemini,
+      ZODIAC_SYMBOLS.taurus,
+      ZODIAC_SYMBOLS.aries,
+    ],
+    [],
+  );
 
   useEffect(() => {
     const calculateChartData = async () => {
@@ -374,7 +377,7 @@ export default function LogiaChart({
 
       return g;
     },
-    [chartData],
+    [chartData, ZODIAC_ORDER],
   );
 
   useEffect(() => {
@@ -417,7 +420,7 @@ export default function LogiaChart({
           {chartT.subtitle
             .replace("{birthDate}", formatDate(chartData.birthDate))
             .replace("{birthTime}", formatTime(chartData.birthTime))
-            .replace("{city}", chartData.city)
+            .replace("{city}", chartData.city.toLowerCase())
             .replace(
               "{latitude}",
               formatCoordinates(chartData.latitude, chartData.longitude),

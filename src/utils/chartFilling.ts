@@ -8,14 +8,14 @@ let globalTooltip: d3.Selection<
   HTMLDivElement,
   unknown,
   HTMLElement,
-  any
+  unknown
 > | null = null;
 
 function getGlobalTooltip(): d3.Selection<
   HTMLDivElement,
   unknown,
   HTMLElement,
-  any
+  unknown
 > {
   if (!globalTooltip) {
     globalTooltip = d3
