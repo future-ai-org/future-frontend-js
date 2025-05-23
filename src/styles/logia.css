@@ -531,6 +531,24 @@
   color: var(--background-color);
   flex-shrink: 0;
   margin-top: 0.1rem;
+  animation: numberBounce 2s ease-in-out infinite;
+  box-shadow: 0 0 10px var(--color-glow-shadow);
+  transition: all var(--transition-duration) var(--transition-timing);
+}
+
+.logia-feature-number:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 20px var(--color-glow-shadow-hover);
+  animation-play-state: paused;
+}
+
+@keyframes numberBounce {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.1);
+  }
 }
 
 .logia-decorative-image {
