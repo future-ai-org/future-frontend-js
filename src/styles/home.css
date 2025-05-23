@@ -2,27 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Layout Components */
+/* ===== Layout Components ===== */
 .landing-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: clamp(1rem, 3vw, 2rem);
+  margin: clamp(2rem, 5vh, 3rem) auto 0;
+  max-width: min(1200px, 95vw);
   color: var(--text-color);
   text-align: center;
-  max-width: min(1200px, 95vw);
-  margin: clamp(2rem, 5vh, 3rem) auto 0;
   position: relative;
   overflow: visible;
 }
 
-/* Decorative Elements */
+/* ===== Decorative Elements ===== */
 .decorative-star {
   position: fixed;
   width: clamp(15px, 2vw, 20px);
   height: clamp(15px, 2vw, 20px);
   background: var(--color-primary);
+  opacity: 0.6;
+  z-index: -1;
+  will-change: transform, opacity;
   clip-path: polygon(
     50% 0%,
     61% 35%,
@@ -35,63 +38,57 @@
     2% 35%,
     39% 35%
   );
-  opacity: 0.6;
   animation:
     twinkle 3s ease-in-out infinite,
     float 7s ease-in-out infinite;
-  z-index: -1;
-  will-change: transform, opacity;
 }
 
-/* Typography */
+/* ===== Typography ===== */
 .landing-title {
   font-size: clamp(3rem, 8vw, 7rem);
-  margin: clamp(2rem, 10vh, 6rem) 0 clamp(1rem, 4vh, 2rem);
-  text-shadow: var(--text-glow);
-  animation: glow 3s ease-in-out infinite alternate;
   line-height: 1.2;
   font-weight: 900;
-  @supports not (text-shadow: var(--text-glow)) {
-    color: var(--color-primary);
-  }
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  margin: clamp(2rem, 10vh, 6rem) 0 clamp(1rem, 4vh, 2rem);
   word-wrap: break-word;
   overflow-wrap: break-word;
   hyphens: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-shadow: var(--text-glow);
+  animation: glow 3s ease-in-out infinite alternate;
 }
 
 .landing-subtitle {
   font-size: clamp(1.25rem, 3vw, 2rem);
-  margin-bottom: clamp(3rem, 8vh, 5rem);
-  opacity: var(--opacity-light);
-  max-width: min(1200px, 95vw);
   line-height: 1.3;
   font-weight: 700;
+  margin-bottom: clamp(3rem, 8vh, 5rem);
+  max-width: min(1200px, 95vw);
+  opacity: var(--opacity-light);
 }
 
-/* Feature Grid */
+/* ===== Feature Grid ===== */
 .landing-feature-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
   gap: clamp(2em, 5vw, 4em);
-  margin-top: clamp(2rem, 5vh, 4rem);
   width: 100%;
   max-width: min(1200px, 95vw);
+  margin-top: clamp(2rem, 5vh, 4rem);
   padding: 0 clamp(0.5rem, 2vw, 1rem);
 }
 
-/* Feature Cards */
+/* ===== Feature Cards ===== */
 .landing-feature-card {
-  padding: clamp(1.5rem, 3vw, 2rem);
-  border-radius: clamp(1rem, 3vw, 2rem);
-  border: 1px solid var(--color-primary);
-  min-height: 160px;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  position: relative;
+  min-height: 160px;
+  padding: clamp(1.5rem, 3vw, 2rem);
+  border-radius: clamp(1rem, 3vw, 2rem);
+  border: 1px solid var(--color-primary);
   background-color: var(--card-bg);
   box-shadow: 0 8px 32px var(--color-shadow-black);
   backdrop-filter: blur(8px);
@@ -101,8 +98,8 @@
 }
 
 .landing-feature-card:hover {
-  border-color: var(--color-primary);
   transform: translateY(-2px);
+  border-color: var(--color-primary);
 }
 
 .landing-feature-number {
@@ -110,64 +107,61 @@
   top: -1.5rem;
   left: 50%;
   transform: translateX(-50%);
-  background-color: var(--text-color);
-  border: 1px solid var(--border-color);
-  border-radius: 50%;
-  width: clamp(2rem, 4vw, 2.5rem);
-  height: clamp(2rem, 4vw, 2.5rem);
   display: flex;
   align-items: center;
   justify-content: center;
+  width: clamp(2rem, 4vw, 2.5rem);
+  height: clamp(2rem, 4vw, 2.5rem);
   font-size: clamp(1rem, 2vw, 1.2rem);
   font-weight: bold;
   color: var(--background-color);
+  background-color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
 }
 
 .landing-feature-title {
-  margin: clamp(0.5rem, 1vw, 0.75rem) 0;
-  color: var(--text-color);
   font-size: clamp(1.1rem, 2vw, 1.25rem);
   font-weight: 800;
-  text-align: center;
+  margin: clamp(0.5rem, 1vw, 0.75rem) 0;
+  color: var(--text-color);
 }
 
 .landing-feature-description {
-  color: var(--text-color);
-  opacity: var(--opacity-light);
   font-size: clamp(0.85rem, 1.5vw, 0.9rem);
   line-height: 1.6;
-  text-align: center;
   font-weight: bold;
+  color: var(--text-color);
+  opacity: var(--opacity-light);
 }
 
-/* Links */
+/* ===== Links ===== */
 .landing-feature-description a {
-  color: var(--primary-color);
-  text-decoration: none;
-  position: relative;
-  transition: all 0.3s ease;
   display: inline-block;
-  opacity: 0.9;
-  font-weight: 800;
   padding: 0 2px;
+  color: var(--primary-color);
+  font-weight: 800;
+  opacity: 0.9;
+  text-decoration: none;
   border-bottom: 1px dashed var(--primary-color);
+  transition: all 0.3s ease;
 }
 
 .landing-feature-description a::after {
   content: "";
   position: absolute;
-  width: 0;
-  height: 2px;
   bottom: -2px;
   left: 50%;
+  width: 0;
+  height: 2px;
   background-color: var(--primary-color);
   transform: translateX(-50%);
   transition: width 0.3s ease-out;
 }
 
 .landing-feature-description a:hover {
-  font-weight: 900;
   opacity: 1;
+  font-weight: 900;
   transform: translateY(-1px);
   border-bottom: none;
 }
@@ -176,16 +170,16 @@
   width: 100%;
 }
 
-/* Wallet Info */
+/* ===== Wallet Info ===== */
 .wallet-info {
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  background-color: var(--background-color-light);
-  padding: clamp(0.5rem, 1vw, 0.75rem) clamp(1rem, 1.5vw, 1.25rem);
-  border-radius: 0.75rem;
   margin: clamp(0.5rem, 2vh, 1rem) 0;
+  padding: clamp(0.5rem, 1vw, 0.75rem) clamp(1rem, 1.5vw, 1.25rem);
+  background-color: var(--background-color-light);
   border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
   transition: all var(--transition-duration) var(--transition-timing);
 }
 
@@ -195,37 +189,36 @@
 }
 
 .wallet-label {
-  color: var(--text-color-secondary);
   font-size: clamp(0.8rem, 1.5vw, 0.9rem);
   font-weight: bold;
+  color: var(--text-color-secondary);
 }
 
 .wallet-address {
-  color: var(--text-color);
   font-size: clamp(0.8rem, 1.5vw, 0.9rem);
   font-weight: 600;
+  color: var(--text-color);
 }
 
-/* Action Buttons */
+/* ===== Action Buttons ===== */
 .landing-feature-action {
   padding: clamp(0.4rem, 1vw, 0.5rem) clamp(0.8rem, 1.5vw, 1rem);
-  border-radius: 0.4rem;
-  border: 1px solid var(--color-primary);
-  transition: var(--transition-all);
-  background: transparent;
-  color: var(--color-primary);
   font-size: clamp(0.85rem, 1.5vw, 0.9rem);
-  text-align: center;
   margin: clamp(0.4rem, 1vh, 0.5rem) 0;
+  color: var(--color-primary);
+  background: transparent;
+  border: 1px solid var(--color-primary);
+  border-radius: 0.4rem;
+  transition: var(--transition-all);
 }
 
 .landing-feature-action:hover {
-  background: var(--color-primary);
   color: var(--background-color);
+  background: var(--color-primary);
   transform: var(--hover-transform);
 }
 
-/* Animations */
+/* ===== Animations ===== */
 @keyframes twinkle {
   0%,
   100% {
