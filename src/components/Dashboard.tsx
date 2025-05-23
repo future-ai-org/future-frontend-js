@@ -120,6 +120,25 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
         </div>
+
+        <div className="dashboard-card">
+          <h3>My Logia</h3>
+          <div className="card-content">{/* Logia content will go here */}</div>
+        </div>
+
+        <div className="dashboard-card">
+          <h3>My Favorite Assets</h3>
+          <div className="card-content">
+            {/* Favorite assets content will go here */}
+          </div>
+        </div>
+
+        <div className="dashboard-card">
+          <h3>My Predictions</h3>
+          <div className="card-content">
+            {/* Predictions content will go here */}
+          </div>
+        </div>
       </div>
     </div>
   );

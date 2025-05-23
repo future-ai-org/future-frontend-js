@@ -4,20 +4,45 @@
 
 /* Layout */
 .dashboard {
-  @apply p-8 md:p-12 max-w-[1400px] mx-auto min-h-[calc(100vh-200px)];
+  @apply p-4 md:p-6 w-full mx-auto min-h-[calc(100vh-200px)];
+  background-color: var(--background-color);
 }
 
 .dashboard-grid {
-  @apply flex flex-row gap-8 justify-center items-stretch flex-1 min-h-0 max-w-[1800px] mx-auto;
+  @apply grid grid-cols-2 gap-4 justify-center items-stretch flex-1 min-h-0 w-full max-w-[1800px] mx-auto;
+}
+
+.dashboard-grid > div:first-child,
+.dashboard-grid > div:nth-child(2) {
+  @apply flex-1;
+}
+
+.dashboard-grid > div:first-child {
+  @apply flex flex-row gap-8;
+}
+
+.dashboard-grid > div:first-child > div {
+  @apply flex-1;
+}
+
+.dashboard-grid > div:nth-child(2),
+.dashboard-grid > div:nth-child(3) {
+  @apply flex-1;
 }
 
 /* Header */
 .dashboard-header {
-  @apply mb-8 flex justify-between items-center py-8;
+  @apply mb-4 flex justify-between items-center py-4;
 }
 
 .dashboard-header h2 {
-  @apply m-0 py-4 text-3xl text-left;
+  font-size: clamp(2rem, 8vw, 4rem);
+  font-weight: 800;
+  text-align: left;
+  margin: 0;
+  margin-top: 1rem;
+  padding: 0.5rem 0;
+  color: var(--text-color);
   text-shadow: var(--text-glow);
 }
 
@@ -36,13 +61,14 @@
 
 /* Cards */
 .dashboard-card {
-  @apply bg-[var(--card-bg)] rounded-2xl p-10 flex flex-col min-h-[500px] max-h-[calc(100vh-300px)] overflow-y-auto;
+  @apply bg-[var(--card-bg)] rounded-2xl p-5 flex flex-col min-h-[300px] max-h-[calc(100vh-450px)] overflow-y-auto;
   box-shadow:
     var(--base-shadow),
     0 0 20px var(--glow-shadow);
-  border: 2px solid var(--border-color);
+  border-color: var(--color-primary);
+  border-width: 1px;
   transition: all var(--transition-duration) var(--transition-timing);
-  min-width: 500px;
+  width: 100%;
 }
 
 .dashboard-card:hover {
@@ -133,9 +159,19 @@
 }
 
 /* Responsive */
+@media (max-width: 1200px) {
+  .dashboard-grid {
+    @apply grid-cols-1;
+  }
+
+  .dashboard-card {
+    @apply min-w-0;
+  }
+}
+
 @media (max-width: 768px) {
   .dashboard {
-    @apply p-6 px-4;
+    @apply p-4;
   }
 
   .dashboard-header {
@@ -143,10 +179,10 @@
   }
 
   .dashboard-grid {
-    @apply flex-col gap-6;
+    @apply gap-4;
   }
 
   .dashboard-card {
-    @apply p-5 min-h-[400px];
+    @apply p-4 min-h-[250px];
   }
 }
