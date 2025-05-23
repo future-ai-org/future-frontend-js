@@ -535,7 +535,7 @@
 
 .logia-decorative-image {
   position: absolute;
-  left: calc(50% + 350px);
+  left: calc(50% + 250px);
   top: 55%;
   transform: translateY(-50%);
   width: 500px;
