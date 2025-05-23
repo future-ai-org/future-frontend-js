@@ -17,9 +17,24 @@ interface CoinGeckoPriceData {
 }
 
 const formatPrice = (price: number): string => {
+  // For prices less than 1, show up to 6 decimal places
+  if (price < 1) {
+    return `$${price.toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 6,
+    })}`;
+  }
+  // For prices between 1 and 100, show 2 decimal places
+  if (price < 100) {
+    return `$${price.toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`;
+  }
+  // For prices 100 and above, show 0 decimal places
   return `$${price.toLocaleString(undefined, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   })}`;
 };
 
