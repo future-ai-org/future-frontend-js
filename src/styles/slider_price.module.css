@@ -11,8 +11,9 @@
   display: flex;
   gap: 1.5rem;
   padding: 0 1rem;
-  animation: slide 20s linear infinite;
+  animation: slide 40s linear infinite;
   will-change: transform; /* Optimize animation performance */
+  width: fit-content;
 }
 
 .priceItemsContainer:hover {

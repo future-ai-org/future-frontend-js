@@ -143,9 +143,9 @@ export const SliderPrice: React.FC = () => {
   return (
     <div className={styles.sliderContainer}>
       <div className={styles.priceItemsContainer}>
-        {prices.map((price) => (
+        {[...prices, ...prices].map((price, index) => (
           <div
-            key={price.symbol}
+            key={`${price.symbol}-${index}`}
             className={`${styles.priceItem} ${
               price.change >= 0 ? styles.positive : styles.negative
             }`}
