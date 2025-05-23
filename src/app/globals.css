@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  /* Light theme colors */
+  /* Theme Colors - Light */
   --light-primary: rgb(87, 76, 145);
   --light-background: rgb(224, 222, 226);
   --light-text: rgb(65, 62, 62);
@@ -25,7 +25,7 @@
   --light-glow-pink-light: rgba(255, 192, 203, 0.7);
   --light-glow-pink-dark: rgba(190, 133, 195, 0.5);
 
-  /* Dark theme colors */
+  /* Theme Colors - Dark */
   --dark-primary: rgb(132, 117, 249);
   --dark-background: rgb(14, 14, 14);
   --dark-text: rgb(255, 255, 255);
@@ -47,13 +47,19 @@
   --dark-glow-pink-light: rgba(155, 222, 192, 0.5);
   --dark-glow-pink-dark: rgba(64, 235, 158, 0.4);
 
-  /* Common opacity values */
-  --opacity-light: 0.8;
-  --opacity-medium: 0.5;
-  --opacity-dark: 0.3;
-  --opacity-very-light: 0.1;
-  --opacity-high: 0.8;
-  --opacity-low: 0.2;
+  /* Opacity Values */
+  --opacity-100: 1;
+  --opacity-80: 0.8;
+  --opacity-50: 0.5;
+  --opacity-30: 0.3;
+  --opacity-20: 0.2;
+  --opacity-10: 0.1;
+
+  /* Common Variables */
+  --transition-duration: 0.3s;
+  --transition-timing: ease;
+  --hover-background: rgba(255, 255, 255, 0.1);
+  --active-background: rgba(255, 255, 255, 0.15);
 
   /* Default to light theme */
   --color-primary: var(--light-primary);
@@ -93,10 +99,6 @@
   --base-shadow: 0 0 5px var(--glow-shadow);
   --trending-shadow-light: var(--color-shadow-trending-light);
   --trending-shadow-dark: var(--color-shadow-trending-dark);
-  --glow-pink-light: var(--light-glow-pink-light);
-  --glow-pink-dark: var(--light-glow-pink-dark);
-  --transition-duration: 0.3s;
-  --transition-timing: ease;
 }
 
 /* Dark theme */
@@ -126,104 +128,19 @@ html.dark {
 body {
   font-family:
     var(--font-quicksand),
+    system-ui,
     -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    "Roboto",
-    "Oxygen",
-    "Ubuntu",
-    "Cantarell",
-    "Fira Sans",
-    "Droid Sans",
-    "Helvetica Neue",
     sans-serif;
   color: var(--color-primary);
-  background-color: var(--background-color);
+  background-color: var(--color-background);
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-/* Shared Button Styles */
-.button {
-  padding: 0.5rem 1rem;
-  border-radius: 0.4rem;
-  border: 1px solid var(--color-primary);
-  cursor: pointer;
-  font-weight: 600;
-  transition: all var(--transition-duration) var(--transition-timing);
-  text-shadow: var(--text-glow);
-  background: transparent;
-  color: var(--color-primary);
-  font-size: 0.9rem;
-}
-
-.button:hover {
-  background: var(--color-primary);
-  color: var(--background-color);
-  box-shadow: var(--glow-shadow-hover);
-  transform: translateY(-2px);
-}
-
-/* Shared Card Styles */
-.card {
-  background-color: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 0.5rem;
-  transition: all var(--transition-duration) var(--transition-timing);
-}
-
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--glow-shadow-hover);
-  border-color: var(--color-primary);
-}
-
-/* Shared Modal Styles */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: var(--opacity-dark);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  backdrop-filter: blur(8px);
-}
-
-.modal {
-  background-color: var(--background-color);
-  border-radius: 1rem;
-  padding: 2rem;
-  width: 90%;
-  max-width: 400px;
-  box-shadow: var(--base-shadow);
-  border: 1px solid var(--border-color);
-  animation: modalFadeIn 0.3s ease-out;
-  position: relative;
-  z-index: 1001;
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-
-.modal-header h2 {
-  margin: 0;
-  color: var(--color-primary);
-  font-size: 1.5rem;
-  text-shadow: var(--text-glow);
-  animation: glow 2s ease-in-out infinite alternate;
-}
-
-/* Shared Animations */
+/* Animations */
 @keyframes modalFadeIn {
   from {
     opacity: 0;
@@ -262,6 +179,7 @@ body {
 /* Utility Classes */
 .glow-text {
   text-shadow: var(--text-glow);
+  will-change: text-shadow;
 }
 
 .positive {
@@ -272,81 +190,64 @@ body {
   color: var(--bearish-color);
 }
 
-/* Link Styles */
+/* Links */
 a {
   color: var(--color-primary);
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: text-shadow var(--transition-duration) var(--transition-timing);
 }
 
 a:hover {
-  color: var(--text-color);
+  text-shadow: var(--text-glow-hover);
 }
 
-/* App Layout */
+/* Layout */
 .App {
-  display: flex;
+  text-align: center;
   min-height: 100vh;
-  background-color: var(--background-color);
-  color: var(--color-primary);
-  padding-bottom: 80px;
+  display: flex;
+  flex-direction: column;
 }
 
 .App-header {
-  flex: 1;
+  background-color: var(--background-color);
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  margin-top: 20px;
-  padding: 1rem;
-  background-color: var(--background-color);
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: var(--color-text);
 }
 
 .App-link {
-  color: var(--primary-color);
-}
-
-button {
   color: var(--color-primary);
 }
 
-/* Theme Transitions */
-.theme-transition {
-  transition: all var(--transition-duration) var(--transition-timing);
+/* Form Elements */
+button {
+  font-family: inherit;
 }
 
-* {
+/* Transitions */
+.theme-transition {
   transition:
     background-color var(--transition-duration) var(--transition-timing),
     color var(--transition-duration) var(--transition-timing),
     border-color var(--transition-duration) var(--transition-timing);
 }
 
-/* Uniform Title Styles */
-.page-title {
-  font-size: 4rem;
-  font-weight: 800;
-  text-align: center;
-  margin-bottom: 2rem;
-  margin-top: 2rem;
-  color: var(--text-color);
-  letter-spacing: 0.05em;
-  text-shadow: var(--text-glow);
+/* Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.page-subtitle {
-  font-size: 1.5rem;
-  margin-bottom: 2rem;
-  opacity: var(--opacity-light);
-  text-align: center;
-}
-
+/* Layout Components */
 .main-content-wrapper {
-  padding-top: 40px;
-  min-height: calc(100vh - 80px);
-  width: 100%;
+  padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  width: 100%;
 }

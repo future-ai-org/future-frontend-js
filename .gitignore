@@ -57,11 +57,3 @@ node_modules/
 .next/static/
 .next/trace
 .next/turbo
-
-# Tailwind CSS
-*.css.map
-*.css
-!tailwind.css
-!tailwind.config.js
-!src/styles/*
-!src/utils/*

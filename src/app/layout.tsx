@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "../styles/global.css";
+import "./globals.css";
 import dynamic from "next/dynamic";
 import { ThemeProvider } from "../utils/themeContext";
 import { Web3Provider } from "../utils/web3ModalContext";
