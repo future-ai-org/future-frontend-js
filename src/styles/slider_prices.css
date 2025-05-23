@@ -20,6 +20,10 @@
   animation: flow 45s linear infinite;
   min-width: 300%;
   white-space: nowrap;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000;
 }
 
 .price-items-container:hover {
@@ -60,11 +64,40 @@
   opacity: 0.5;
 }
 
+.price-item.error {
+  background-color: var(--error-background, rgba(255, 0, 0, 0.1));
+  color: var(--error-color, #ff4444);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.retry-button {
+  background-color: var(--error-color, #ff4444);
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: opacity 0.2s ease;
+}
+
+.retry-button:hover {
+  opacity: 0.8;
+}
+
+.price-items-container.error {
+  animation: none;
+  justify-content: center;
+}
+
 @keyframes flow {
   0% {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
   100% {
-    transform: translateX(-33.33%);
+    transform: translate3d(-33.33%, 0, 0);
   }
 }

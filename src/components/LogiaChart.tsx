@@ -8,7 +8,6 @@ import {
   calculateChartData,
   getElementForSign,
 } from "../config/logiaChart";
-import chartStrings from "../i18n/logiaChart.json";
 import Loading from "../utils/loading";
 import "../styles/logiachart.css";
 import {
@@ -29,6 +28,7 @@ import {
   formatDate,
   formatTime,
 } from "../utils/geocoding";
+import chartStrings from "../i18n/logiaChart.json";
 
 interface LogiaChartProps {
   birthDate: string;
@@ -159,8 +159,7 @@ export async function printChartInfo(
             (planetsResponse.ok
               ? ascendantResponse.status
               : planetsResponse.status
-            ).toString(),
-          )
+            ).toString())
           .replace("{error}", errorText),
       );
     }

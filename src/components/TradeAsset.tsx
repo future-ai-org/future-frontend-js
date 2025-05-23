@@ -115,7 +115,7 @@ const sampleData = Array.from({ length: 30 }, (_, i) => ({
 
 export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
   const [chartData, setChartData] = useState<CandleData[]>([]);
-  const [timePeriod, setTimePeriod] = useState<TimePeriod>("1M");
+  const [timePeriod, setTimePeriod] = useState<TimePeriod>("1D");
   const [colors, setColors] = useState({
     background: "var(--background-color)",
     bullish: "var(--bullish-color)",

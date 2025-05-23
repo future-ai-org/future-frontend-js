@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useMemo, useCallback } from "react";
+import React, { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import "../styles/slider_prices.css";
 import pricesData from "../i18n/slider_prices.json";
 import { PRICE_SLIDER_CONFIG } from "../config/slider_prices";
@@ -11,10 +11,16 @@ interface CryptoPrice {
   change: number;
 }
 
-interface CoinData {
-  current_price: number;
-  symbol: string;
-  price_change_percentage_24h?: number;
+interface CachedData {
+  prices: CryptoPrice[];
+  timestamp: number;
+}
+
+interface CoinGeckoPrice {
+  [key: string]: {
+    usd: number;
+    usd_24h_change: number;
+  };
 }
 
 const formatPrice = (price: number): string => {
@@ -29,6 +35,35 @@ const formatPrice = (price: number): string => {
 
 const formatChange = (change: number): string => {
   return `${change >= 0 ? pricesData.en.change.up : pricesData.en.change.down} ${Math.abs(change).toFixed(2)}%`;
+};
+
+const getCachedPrices = (): CryptoPrice[] | null => {
+  try {
+    const cached = localStorage.getItem(PRICE_SLIDER_CONFIG.CACHE.KEY);
+    if (!cached) return null;
+    
+    const { prices, timestamp }: CachedData = JSON.parse(cached);
+    if (Date.now() - timestamp > PRICE_SLIDER_CONFIG.CACHE.DURATION) {
+      localStorage.removeItem(PRICE_SLIDER_CONFIG.CACHE.KEY);
+      return null;
+    }
+    
+    return prices;
+  } catch {
+    return null;
+  }
+};
+
+const setCachedPrices = (prices: CryptoPrice[]) => {
+  try {
+    const cacheData: CachedData = {
+      prices,
+      timestamp: Date.now(),
+    };
+    localStorage.setItem(PRICE_SLIDER_CONFIG.CACHE.KEY, JSON.stringify(cacheData));
+  } catch (error) {
+    console.error('Failed to cache prices:', error);
+  }
 };
 
 const renderItem = (crypto: CryptoPrice | null, index: number) => {
@@ -55,36 +90,114 @@ const renderItem = (crypto: CryptoPrice | null, index: number) => {
   );
 };
 
+class PriceSliderErrorBoundary extends React.Component<
+  { children: React.ReactNode },
+  { hasError: boolean; error: Error | null }
+> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('Price slider error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="slider-container">
+          <div className="price-items-container error">
+            <div className="price-item error">
+              <span className="symbol">⚠️</span>
+              <span className="price">{pricesData.en.errors.fetchFailed}</span>
+              <button
+                onClick={() => this.setState({ hasError: false, error: null })}
+                className="retry-button"
+              >
+                Retry
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
 export const SliderPrices: React.FC = () => {
-  const [prices, setPrices] = useState<CryptoPrice[]>([]);
+  const [prices, setPrices] = useState<CryptoPrice[]>(() => getCachedPrices() || []);
   const [retryCount, setRetryCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const wsRef = useRef<WebSocket | null>(null);
+
+  const connectWebSocket = useCallback(() => {
+    if (wsRef.current?.readyState === WebSocket.OPEN) return;
+
+    const symbols = PRICE_SLIDER_CONFIG.API.CRYPTO_IDS.map(id => 
+      `${id.toLowerCase()}${PRICE_SLIDER_CONFIG.WEBSOCKET.STREAM_PREFIX}`
+    ).join('/');
+    
+    wsRef.current = new WebSocket(`${PRICE_SLIDER_CONFIG.WEBSOCKET.BASE_URL}?streams=${symbols}`);
+
+    wsRef.current.onmessage = (event) => {
+      try {
+        const { data } = JSON.parse(event.data);
+        if (data.e === 'ticker') {
+          setPrices(prevPrices => {
+            const newPrices = prevPrices.map(price => {
+              if (price.symbol.toLowerCase() === data.s.replace('USDT', '')) {
+                return {
+                  ...price,
+                  price: parseFloat(data.c),
+                  change: parseFloat(data.P),
+                };
+              }
+              return price;
+            });
+            setCachedPrices(newPrices);
+            return newPrices;
+          });
+        }
+      } catch (error) {
+        console.error('WebSocket message error:', error);
+      }
+    };
+
+    wsRef.current.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+
+    wsRef.current.onclose = () => {
+      setTimeout(connectWebSocket, 5000);
+    };
+  }, []);
+
+  useEffect(() => {
+    connectWebSocket();
+    return () => {
+      if (wsRef.current) {
+        wsRef.current.close();
+      }
+    };
+  }, [connectWebSocket]);
 
   const fetchPrices = useCallback(
     async (isRetry = false) => {
       try {
         setIsLoading(true);
         const queryParams = new URLSearchParams({
-          vs_currency: PRICE_SLIDER_CONFIG.API.PARAMS.VS_CURRENCY,
-          ids: PRICE_SLIDER_CONFIG.API.CRYPTO_IDS.join(","),
-          order: PRICE_SLIDER_CONFIG.API.PARAMS.ORDER,
-          per_page: PRICE_SLIDER_CONFIG.API.PARAMS.PER_PAGE.toString(),
-          page: PRICE_SLIDER_CONFIG.API.PARAMS.PAGE.toString(),
-          sparkline: PRICE_SLIDER_CONFIG.API.PARAMS.SPARKLINE.toString(),
+          ids: PRICE_SLIDER_CONFIG.API.CRYPTO_IDS.join(','),
+          vs_currencies: 'usd',
+          include_24hr_change: 'true'
         });
-
-        const controller = new AbortController();
-        const timeoutId = setTimeout(
-          () => controller.abort(),
-          PRICE_SLIDER_CONFIG.API.TIMEOUT,
-        );
-
-        const response = await fetch(
-          `${PRICE_SLIDER_CONFIG.API.URL}?${queryParams.toString()}`,
-          { signal: controller.signal },
-        );
-
-        clearTimeout(timeoutId);
+        const response = await fetch(`${PRICE_SLIDER_CONFIG.API.URL}?${queryParams}`);
 
         if (!response.ok) {
           throw new Error(
@@ -95,16 +208,13 @@ export const SliderPrices: React.FC = () => {
           );
         }
 
-        const data = await response.json();
-        const formattedPrices = data
-          .filter(
-            (coin: CoinData) =>
-              coin.current_price > 0 && coin.symbol.toUpperCase() !== "USDT",
-          )
-          .map((coin: CoinData) => ({
-            symbol: coin.symbol.toUpperCase(),
-            price: coin.current_price,
-            change: coin.price_change_percentage_24h || 0,
+        const data: CoinGeckoPrice = await response.json();
+        const formattedPrices = Object.entries(data)
+          .filter(([, price]) => price.usd > 0)
+          .map(([id, price]) => ({
+            symbol: id.toUpperCase(),
+            price: price.usd,
+            change: price.usd_24h_change,
           }));
 
         if (formattedPrices.length === 0) {
@@ -112,6 +222,7 @@ export const SliderPrices: React.FC = () => {
         }
 
         setPrices(formattedPrices);
+        setCachedPrices(formattedPrices);
         if (isRetry) {
           setRetryCount(0);
         }
@@ -156,15 +267,20 @@ export const SliderPrices: React.FC = () => {
     [validPrices],
   );
 
-  const displayPrices = isLoading
-    ? Array(PRICE_SLIDER_CONFIG.DUPLICATION_FACTOR * 2).fill(null)
-    : duplicatedPrices;
+  const displayPrices = useMemo(() => {
+    if (isLoading) {
+      return Array(PRICE_SLIDER_CONFIG.DUPLICATION_FACTOR * 2).fill(null);
+    }
+    return duplicatedPrices;
+  }, [isLoading, duplicatedPrices]);
 
   return (
-    <div className="slider-container">
-      <div className="price-items-container">
-        {displayPrices.map((price, index) => renderItem(price, index))}
+    <PriceSliderErrorBoundary>
+      <div className="slider-container">
+        <div className="price-items-container">
+          {displayPrices.map((price, index) => renderItem(price, index))}
+        </div>
       </div>
-    </div>
+    </PriceSliderErrorBoundary>
   );
 };

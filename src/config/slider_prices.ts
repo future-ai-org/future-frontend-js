@@ -1,8 +1,8 @@
-import { API_CONFIG } from "./api";
 import { CRYPTO_CONFIG } from "./crypto";
+import { API_CONFIG } from "./api";
 
 export const PRICE_SLIDER_CONFIG = {
-  REFRESH_INTERVAL: 30000,
+  REFRESH_INTERVAL: 120000,
   MAX_RETRIES: 5,
   RETRY_DELAY: {
     BASE: 1000,
@@ -16,10 +16,21 @@ export const PRICE_SLIDER_CONFIG = {
     },
   },
   API: {
-    URL: `${API_CONFIG.COINGECKO.BASE_URL}${API_CONFIG.COINGECKO.ENDPOINTS.MARKETS}`,
-    PARAMS: API_CONFIG.COINGECKO.PARAMS,
+    URL: `${API_CONFIG.COINGECKO.BASE_URL}/simple/price`,
+    PARAMS: {
+      ids: CRYPTO_CONFIG.CRYPTO_IDS.join(','),
+      vs_currencies: 'usd',
+      include_24hr_change: true,
+    },
     CRYPTO_IDS: CRYPTO_CONFIG.CRYPTO_IDS,
-    TIMEOUT: 5000,
   },
-  DUPLICATION_FACTOR: 6,
+  WEBSOCKET: {
+    BASE_URL: 'wss://stream.binance.com:9443/stream',
+    STREAM_PREFIX: 'usdt@ticker',
+  },
+  DUPLICATION_FACTOR: 10,
+  CACHE: {
+    KEY: 'crypto_prices_cache',
+    DURATION: 5 * 60 * 1000, // 5 minutes
+  },
 } as const;
