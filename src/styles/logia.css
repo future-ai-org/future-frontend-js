@@ -48,7 +48,7 @@
 .astrology-form {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
   margin-bottom: 2rem;
   background-color: var(--card-bg);
   padding: 2rem;
