@@ -4,8 +4,7 @@
 
 @font-face {
   font-family: "Astrology";
-  src: url("https://cdn.jsdelivr.net/gh/google/fonts/ofl/astrology/Astrology-Regular.ttf")
-    format("truetype");
+  src: url("/fonts/Astrology-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }

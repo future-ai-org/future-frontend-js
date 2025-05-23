@@ -4,8 +4,7 @@
 
 @font-face {
   font-family: "Astrology";
-  src: url("https://cdn.jsdelivr.net/gh/google/fonts/ofl/astrology/Astrology-Regular.ttf")
-    format("truetype");
+  src: url("/fonts/Astrology-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -13,8 +12,7 @@
 [data-tooltip] {
   position: relative;
   cursor:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%23FF69B4'><path d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/></svg>")
-      12 12,
+    url("/assets/cursors/star-cursor.svg") 12 12,
     auto;
 }
 
@@ -239,8 +237,7 @@
   opacity: 0;
   transition: all 0.2s ease;
   cursor:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%23FF69B4'><path d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/></svg>")
-      12 12,
+    url("/assets/cursors/star-cursor.svg") 12 12,
     auto;
   box-shadow: var(--glow-shadow);
   border: 1px solid var(--color-primary);
@@ -295,8 +292,7 @@
   text-anchor: middle;
   transition: all 0.3s ease;
   cursor:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%23FF69B4'><path d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/></svg>")
-      12 12,
+    url("/assets/cursors/star-cursor.svg") 12 12,
     auto;
 }
 
