@@ -156,7 +156,7 @@ export const SliderPrices: React.FC = () => {
   const wsRef = useRef<WebSocket | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [scrollPosition, setScrollPosition] = useState(0);
-  const scrollSpeed = 1; // pixels per frame
+  const scrollSpeed = 1;
 
   useEffect(() => {
     let animationFrameId: number;
@@ -191,71 +191,22 @@ export const SliderPrices: React.FC = () => {
     return () => cancelAnimationFrame(animationFrameId);
   }, []);
 
-  const connectWebSocket = useCallback(() => {
-    if (wsRef.current?.readyState === WebSocket.OPEN) return;
-
-    const symbols = PRICE_SLIDER_CONFIG.API.CRYPTO_IDS.map(
-      (id) =>
-        `${id.toLowerCase()}${PRICE_SLIDER_CONFIG.WEBSOCKET.STREAM_PREFIX}`,
-    ).join("/");
-
-    wsRef.current = new WebSocket(
-      `${PRICE_SLIDER_CONFIG.WEBSOCKET.BASE_URL}?streams=${symbols}`,
-    );
-
-    wsRef.current.onmessage = (event) => {
-      try {
-        const { data } = JSON.parse(event.data);
-        if (data.e === "ticker") {
-          setPrices((prevPrices) => {
-            const newPrices = prevPrices.map((price) => {
-              if (price.symbol.toLowerCase() === data.s.replace("USDT", "")) {
-                return {
-                  ...price,
-                  price: parseFloat(data.c),
-                  change: parseFloat(data.P),
-                };
-              }
-              return price;
-            });
-            setCachedPrices(newPrices);
-            return newPrices;
-          });
-        }
-      } catch (error) {
-        console.error("WebSocket message error:", error);
-      }
-    };
-
-    wsRef.current.onerror = (error) => {
-      console.error("WebSocket error:", error);
-    };
-
-    wsRef.current.onclose = () => {
-      setTimeout(connectWebSocket, 5000);
-    };
-  }, []);
-
-  useEffect(() => {
-    connectWebSocket();
-    return () => {
-      if (wsRef.current) {
-        wsRef.current.close();
-      }
-    };
-  }, [connectWebSocket]);
-
   const fetchPrices = useCallback(
     async (isRetry = false) => {
       try {
         setIsLoading(true);
         const queryParams = new URLSearchParams({
           ids: PRICE_SLIDER_CONFIG.API.CRYPTO_IDS.join(","),
-          vs_currencies: "usd",
-          include_24hr_change: "true",
+          vs_currencies: PRICE_SLIDER_CONFIG.API.PARAMS.vs_currencies,
+          include_24hr_change:
+            PRICE_SLIDER_CONFIG.API.PARAMS.include_24hr_change.toString(),
         });
         const response = await fetch(
           `${PRICE_SLIDER_CONFIG.API.URL}?${queryParams}`,
+          {
+            headers: PRICE_SLIDER_CONFIG.API.HEADERS,
+            credentials: "omit", // Don't send credentials for cross-origin requests
+          },
         );
 
         if (!response.ok) {
@@ -303,6 +254,103 @@ export const SliderPrices: React.FC = () => {
     },
     [retryCount],
   );
+
+  const connectWebSocket = useCallback(() => {
+    if (wsRef.current?.readyState === WebSocket.OPEN) return;
+
+    const selectedSymbols = PRICE_SLIDER_CONFIG.API.CRYPTO_IDS.slice(
+      0,
+      PRICE_SLIDER_CONFIG.WEBSOCKET.MAX_STREAMS,
+    );
+
+    try {
+      // Create a single WebSocket connection for the first symbol
+      const symbol = selectedSymbols[0];
+      const streamName = `${symbol.toLowerCase()}usdt${PRICE_SLIDER_CONFIG.WEBSOCKET.STREAM_PREFIX}`;
+
+      const wsUrl = new URL(
+        streamName,
+        PRICE_SLIDER_CONFIG.WEBSOCKET.BASE_URL,
+      ).toString();
+      wsRef.current = new WebSocket(wsUrl);
+
+      wsRef.current.onopen = () => {
+        console.log("WebSocket connection established");
+        setRetryCount(0);
+      };
+
+      wsRef.current.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          if (data.e === "ticker") {
+            setPrices((prevPrices) => {
+              const newPrices = prevPrices.map((price) => {
+                if (price.symbol.toLowerCase() === data.s.replace("USDT", "")) {
+                  return {
+                    ...price,
+                    price: parseFloat(data.c),
+                    change: parseFloat(data.P),
+                  };
+                }
+                return price;
+              });
+              setCachedPrices(newPrices);
+              return newPrices;
+            });
+          }
+        } catch (error) {
+          console.error("WebSocket message error:", error);
+        }
+      };
+
+      wsRef.current.onerror = (error) => {
+        console.error("WebSocket connection error:", {
+          error,
+          readyState: wsRef.current?.readyState,
+          url: wsUrl,
+        });
+
+        // If WebSocket fails, fall back to REST API
+        fetchPrices(true);
+      };
+
+      wsRef.current.onclose = (event) => {
+        console.warn("WebSocket closed:", {
+          code: event.code,
+          reason: event.reason,
+          wasClean: event.wasClean,
+        });
+
+        // Only attempt to reconnect if the connection was not cleanly closed
+        if (!event.wasClean && retryCount < PRICE_SLIDER_CONFIG.MAX_RETRIES) {
+          const delay = Math.min(
+            PRICE_SLIDER_CONFIG.RETRY_DELAY.BASE * Math.pow(2, retryCount),
+            PRICE_SLIDER_CONFIG.RETRY_DELAY.MAX,
+          );
+          setTimeout(() => {
+            setRetryCount((prev) => prev + 1);
+            connectWebSocket();
+          }, delay);
+        } else {
+          // If max retries reached or clean close, fall back to REST API
+          fetchPrices(true);
+        }
+      };
+    } catch (error) {
+      console.error("Failed to establish WebSocket connection:", error);
+      // Fall back to REST API
+      fetchPrices(true);
+    }
+  }, [retryCount, fetchPrices]);
+
+  useEffect(() => {
+    connectWebSocket();
+    return () => {
+      if (wsRef.current) {
+        wsRef.current.close();
+      }
+    };
+  }, [connectWebSocket]);
 
   useEffect(() => {
     fetchPrices();

@@ -4,7 +4,8 @@
       "fetchFailed": "failed to fetch prices",
       "noValidPrices": "no valid prices received",
       "httpError": "http error! status: {status}",
-      "consoleError": "error fetching prices:"
+      "consoleError": "error fetching prices:",
+      "websocketError": "WebSocket connection error"
     },
     "currencyPair": "{symbol}",
     "placeholders": {

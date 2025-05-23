@@ -16,6 +16,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { ethers } from "ethers";
 import { WALLET_CONFIG } from "../config/wallet";
+import { PRICE_SLIDER_CONFIG } from "../config/slider_prices";
 import strings from "../i18n/home.json";
 
 // Create query client
@@ -160,7 +161,7 @@ const Web3ProviderInner: React.FC<{ children: ReactNode }> = ({ children }) => {
       // Get ETH balance
       const balance = await provider.getBalance(address);
       const ethPrice = await fetch(
-        `${WALLET_CONFIG.COINGECKO.API_URL}?ids=ethereum&vs_currencies=usd&include_24hr_change=true`,
+        `${PRICE_SLIDER_CONFIG.API.URL}?ids=ethereum&vs_currencies=usd&include_24hr_change=true`,
       )
         .then((res) => res.json())
         .then((data) => ({
@@ -187,7 +188,7 @@ const Web3ProviderInner: React.FC<{ children: ReactNode }> = ({ children }) => {
             const balance = await contract.balanceOf(address);
             const decimals = await contract.decimals();
             const tokenPrice = await fetch(
-              `${WALLET_CONFIG.COINGECKO.API_URL}?ids=${token.symbol.toLowerCase()}&vs_currencies=usd&include_24hr_change=true`,
+              `${PRICE_SLIDER_CONFIG.API.URL}?ids=${token.symbol.toLowerCase()}&vs_currencies=usd&include_24hr_change=true`,
             )
               .then((res) => res.json())
               .then((data) => ({

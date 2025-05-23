@@ -20,6 +20,11 @@ export const CRYPTO_SYMBOL_MAP: { [key: string]: string } = {
   worldcoin: "WLD",
   hyperliquid: "HL",
   story: "STORY",
+  litecoin: "LTC",
+  tether: "USDT",
+  polkadot: "DOT",
+  chainlink: "LINK",
+  shiba: "SHIB",
 } as const;
 
 export const PRICE_SLIDER_CONFIG = {
@@ -44,10 +49,15 @@ export const PRICE_SLIDER_CONFIG = {
       include_24hr_change: true,
     },
     CRYPTO_IDS: CRYPTO_CONFIG.CRYPTO_IDS,
+    HEADERS: {
+      Accept: "application/json",
+    },
   },
   WEBSOCKET: {
-    BASE_URL: "wss://stream.binance.com:9443/stream",
-    STREAM_PREFIX: "usdt@ticker",
+    BASE_URL: "wss://stream.binance.com:9443/ws",
+    STREAM_PREFIX: "@ticker",
+    RECONNECT_DELAY: 5000, // 5 seconds
+    MAX_STREAMS: 5, // Maximum number of simultaneous WebSocket streams
   },
   DUPLICATION_FACTOR: 3,
   CACHE: {
