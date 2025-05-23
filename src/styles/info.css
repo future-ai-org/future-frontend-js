@@ -46,6 +46,8 @@
   overflow-y: auto;
   padding-right: 1rem;
   letter-spacing: -0.01em;
+  text-shadow: 0 0 10px rgba(var(--color-primary-rgb), 0.1);
+  transition: all 0.3s ease;
 }
 
 .info-content::-webkit-scrollbar {
@@ -64,6 +66,12 @@
 
 .info-content p {
   margin-bottom: 1.5rem;
+  transition: transform 0.3s ease, text-shadow 0.3s ease;
+}
+
+.info-content p:hover {
+  transform: translateX(5px);
+  text-shadow: 0 0 15px rgba(var(--color-primary-rgb), 0.2);
 }
 
 .info-content p:last-child {
