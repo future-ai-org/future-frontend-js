@@ -54,7 +54,7 @@ const renderItem = (planet: PlanetPosition | null, index: number) => {
   );
 };
 
-export const PlanetsSlider: React.FC = () => {
+export const SliderPlanets: React.FC = () => {
   const [planets, setPlanets] = useState<PlanetPosition[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 

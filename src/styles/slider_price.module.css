@@ -1,0 +1,62 @@
+.sliderContainer {
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--background-color);
+  padding: 0.5rem 0;
+}
+
+.priceItemsContainer {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0 1rem;
+  animation: slide 20s linear infinite;
+}
+
+.priceItemsContainer:hover {
+  animation-play-state: paused;
+}
+
+.priceItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.symbol {
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.price {
+  color: var(--text-color);
+}
+
+.change {
+  font-weight: 500;
+}
+
+.positive .change {
+  color: var(--bullish-color);
+}
+
+.negative .change {
+  color: var(--bearish-color);
+}
+
+.loading {
+  text-align: center;
+  color: var(--text-color);
+  padding: 0.5rem;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}

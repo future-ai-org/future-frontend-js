@@ -5,9 +5,29 @@
     "close": "close",
     "connecting": "connecting...",
     "connectionError": "connection error. please try again.",
-    "walletNotFound": "Wallet not found",
-    "unsupportedWallet": "Unsupported wallet",
-    "phantomNotInstalled": "Phantom wallet not found. Please install Phantom wallet extension.",
-    "phantomConnectionError": "Failed to connect to Phantom wallet. Please try again."
+    "walletNotFound": "wallet not found",
+    "unsupportedWallet": "unsupported wallet",
+    "phantomNotInstalled": "phantom wallet not found. please install phantom wallet extension.",
+    "phantomConnectionError": "failed to connect to phantom wallet. please try again.",
+    "errors": {
+      "ens": {
+        "resolution": "error resolving ens name",
+        "afterRetries": "error resolving ens name after retries",
+        "noProvider": "no ethereum provider found"
+      },
+      "connection": {
+        "failed": "failed to connect wallet. please try again.",
+        "multipleProviders": "multiple wallet providers detected. please disable other wallet extensions and try again."
+      },
+      "web3": {
+        "context": "useweb3 must be used within a web3provider"
+      },
+      "portfolio": {
+        "refresh": "error refreshing portfolio"
+      },
+      "token": {
+        "balance": "error fetching {symbol} balance"
+      }
+    }
   }
 }

@@ -1,0 +1,9 @@
+{
+  "en": {
+    "errors": {
+      "cacheFailed": "failed to cache prices:",
+      "fetchFailed": "error fetching prices:",
+      "loading": "loading prices..."
+    }
+  }
+}

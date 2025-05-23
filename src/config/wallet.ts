@@ -64,7 +64,11 @@ export const WALLET_CONFIG = {
         symbol: "WBTC",
         name: "Wrapped Bitcoin",
       },
-    ],
+    ] as Array<{
+      address: string;
+      symbol: string;
+      name: string;
+    }>,
     ERC20_ABI: [
       "function balanceOf(address owner) view returns (uint256)",
       "function decimals() view returns (uint8)",

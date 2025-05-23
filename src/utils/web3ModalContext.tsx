@@ -16,8 +16,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { ethers } from "ethers";
 import { WALLET_CONFIG } from "../config/wallet";
-import { PRICE_SLIDER_CONFIG } from "../config/slider_prices";
 import strings from "../i18n/home.json";
+import walletStrings from "../i18n/wallet.json";
 
 // Create query client
 const queryClient = new QueryClient();
@@ -31,7 +31,14 @@ const config = createConfig({
   },
 });
 
-// Define the context type
+interface PortfolioItem {
+  symbol: string;
+  name: string;
+  balance: number;
+  value: number;
+  change24h: number;
+}
+
 interface Web3ContextType {
   address: string | undefined;
   account: string | null;
@@ -39,13 +46,7 @@ interface Web3ContextType {
   isConnected: boolean;
   connect: () => Promise<void>;
   disconnect: () => void;
-  portfolio: Array<{
-    symbol: string;
-    name: string;
-    balance: number;
-    value: number;
-    change24h: number;
-  }>;
+  portfolio: PortfolioItem[];
   totalPortfolioValue: number;
   portfolioChange24h: number;
 }
@@ -121,9 +122,9 @@ const Web3ProviderInner: React.FC<{ children: ReactNode }> = ({ children }) => {
         // If all retries failed, cache the null result
         ensCache.current.set(address, null);
         setEnsName(null);
-        console.error("Error resolving ENS name after retries:", lastError);
+        console.error(walletStrings.en.errors.ens.afterRetries, lastError);
       } catch (error) {
-        console.error("Error resolving ENS name:", error);
+        console.error(walletStrings.en.errors.ens.resolution, error);
         setEnsName(null);
       }
     },
@@ -143,7 +144,7 @@ const Web3ProviderInner: React.FC<{ children: ReactNode }> = ({ children }) => {
 
     try {
       if (!window.ethereum) {
-        throw new Error(WALLET_CONFIG.ERRORS.NO_PROVIDER);
+        throw new Error(walletStrings.en.errors.ens.noProvider);
       }
 
       // Handle multiple providers
@@ -161,7 +162,7 @@ const Web3ProviderInner: React.FC<{ children: ReactNode }> = ({ children }) => {
       // Get ETH balance
       const balance = await provider.getBalance(address);
       const ethPrice = await fetch(
-        `${PRICE_SLIDER_CONFIG.API.URL}?ids=ethereum&vs_currencies=usd&include_24hr_change=true`,
+        `${WALLET_CONFIG.COINGECKO.API_URL}?ids=ethereum&vs_currencies=usd&include_24hr_change=true`,
       )
         .then((res) => res.json())
         .then((data) => ({
@@ -188,7 +189,7 @@ const Web3ProviderInner: React.FC<{ children: ReactNode }> = ({ children }) => {
             const balance = await contract.balanceOf(address);
             const decimals = await contract.decimals();
             const tokenPrice = await fetch(
-              `${PRICE_SLIDER_CONFIG.API.URL}?ids=${token.symbol.toLowerCase()}&vs_currencies=usd&include_24hr_change=true`,
+              `${WALLET_CONFIG.COINGECKO.API_URL}?ids=${token.symbol.toLowerCase()}&vs_currencies=usd&include_24hr_change=true`,
             )
               .then((res) => res.json())
               .then((data) => ({
@@ -210,13 +211,19 @@ const Web3ProviderInner: React.FC<{ children: ReactNode }> = ({ children }) => {
               change24h: tokenPrice.change24h,
             };
           } catch (error) {
-            console.error(`Error fetching ${token.symbol} balance:`, error);
+            console.error(
+              walletStrings.en.errors.token.balance.replace(
+                "{symbol}",
+                token.symbol,
+              ),
+              error,
+            );
             return null;
           }
         }),
       );
 
-      // Filter out null results and add ETH
+      // Filter out null results
       const validTokenBalances = tokenBalances.filter(
         (token): token is NonNullable<typeof token> => token !== null,
       );
@@ -226,28 +233,32 @@ const Web3ProviderInner: React.FC<{ children: ReactNode }> = ({ children }) => {
         (token) => token.balance > 0,
       );
 
-      const allAssets = [
-        {
+      // Add ETH to the portfolio if balance is non-zero
+      if (ethValue > 0) {
+        nonZeroBalances.push({
           symbol: "ETH",
           name: "Ethereum",
           balance: Number(ethers.formatEther(balance)),
           value: ethValue,
           change24h: ethPrice.change24h,
-        },
-        ...nonZeroBalances,
-      ].filter((asset) => parseFloat(asset.balance.toString()) > 0);
+        });
+      }
 
-      const totalValue = allAssets.reduce((sum, asset) => sum + asset.value, 0);
-      const weightedChange = allAssets.reduce(
+      // Calculate total portfolio value and weighted change
+      const totalValue = nonZeroBalances.reduce(
+        (sum, asset) => sum + asset.value,
+        0,
+      );
+      const weightedChange = nonZeroBalances.reduce(
         (sum, asset) => sum + (asset.value / totalValue) * asset.change24h,
         0,
       );
 
-      setPortfolio(allAssets);
+      setPortfolio(nonZeroBalances);
       setTotalPortfolioValue(totalValue);
       setPortfolioChange24h(weightedChange);
     } catch (error) {
-      console.error("Error refreshing portfolio:", error);
+      console.error(walletStrings.en.errors.portfolio.refresh, error);
     }
   }, [address]);
 
@@ -271,7 +282,7 @@ const Web3ProviderInner: React.FC<{ children: ReactNode }> = ({ children }) => {
       try {
         await connect({ connector: config.connectors[0] });
       } catch (error) {
-        console.error("Connection error:", error);
+        console.error(walletStrings.en.errors.connection.failed, error);
         throw error;
       }
     },
@@ -301,7 +312,7 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({
 export const useWeb3 = () => {
   const context = useContext(Web3Context);
   if (context === undefined) {
-    throw new Error(WALLET_CONFIG.ERRORS.WEB3_CONTEXT);
+    throw new Error(walletStrings.en.errors.web3.context);
   }
   return context;
 };
