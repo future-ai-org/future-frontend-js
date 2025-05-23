@@ -6,7 +6,7 @@ import strings from "../i18n/home.json";
 import { useWeb3 } from "../utils/web3ModalContext";
 import Link from "next/link";
 import { ROUTES } from "../config/routes";
-import DecorativeStars from "../utils/DecorativeStars";
+import DecorativeStars from "../utils/decorativeStars";
 
 type CardNumber = "1" | "2" | "3";
 

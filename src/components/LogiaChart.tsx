@@ -23,7 +23,12 @@ import {
   drawAspects,
   drawPlanets,
 } from "../utils/chartFilling";
-import { geocodeCity } from "../utils/geocoding";
+import {
+  geocodeCity,
+  formatCoordinates,
+  formatDate,
+  formatTime,
+} from "../utils/geocoding";
 
 interface LogiaChartProps {
   birthDate: string;
@@ -410,11 +415,13 @@ export default function LogiaChart({
       {chartData && (
         <div className="astrology-subtitle">
           {chartT.subtitle
-            .replace("{birthDate}", chartData.birthDate)
-            .replace("{birthTime}", chartData.birthTime)
+            .replace("{birthDate}", formatDate(chartData.birthDate))
+            .replace("{birthTime}", formatTime(chartData.birthTime))
             .replace("{city}", chartData.city)
-            .replace("{latitude}", chartData.latitude.toFixed(2))
-            .replace("{longitude}", chartData.longitude.toFixed(2))}
+            .replace(
+              "{latitude}",
+              formatCoordinates(chartData.latitude, chartData.longitude),
+            )}
         </div>
       )}
       <div className="astrology-chart-section">

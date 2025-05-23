@@ -2,7 +2,7 @@ import React from "react";
 
 const DecorativeStars: React.FC = () => {
   // Create a grid of positions
-  const gridSize = 10; // 10x10 grid
+  const gridSize = 10;
   const positions = [];
 
   // Generate base grid positions
