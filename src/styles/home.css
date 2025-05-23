@@ -90,16 +90,22 @@
   border-radius: clamp(1rem, 3vw, 2rem);
   border: 1px solid var(--color-primary);
   background-color: var(--card-bg);
-  box-shadow: 0 8px 32px var(--color-shadow-black);
+  box-shadow:
+    0 8px 32px var(--color-shadow-black),
+    0 0 15px var(--glow-shadow),
+    0 0 30px var(--glow-shadow);
   backdrop-filter: blur(8px);
-  transition:
-    transform 0.3s ease,
-    border-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .landing-feature-card:hover {
   transform: translateY(-2px);
   border-color: var(--color-primary);
+  box-shadow:
+    0 12px 40px var(--color-shadow-black),
+    0 0 20px var(--glow-shadow-hover),
+    0 0 40px var(--glow-shadow),
+    0 0 60px var(--glow-pink-light);
 }
 
 .landing-feature-number {

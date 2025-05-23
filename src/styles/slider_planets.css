@@ -72,11 +72,12 @@
 
 .planet-item .symbol,
 .planet-item .sign {
-  color: var(--primary-color);
-  font-size: 1rem;
+  color: var(--planet-symbol-color);
+  font-size: 1.2rem;
   font-family: "Astrology", monospace;
   margin: 0;
   padding: 0;
+  font-weight: 900; /* Making symbols bolder */
 }
 
 .planet-item .symbol,

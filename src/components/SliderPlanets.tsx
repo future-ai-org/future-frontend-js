@@ -38,9 +38,9 @@ const getZodiacSymbol = (sign: string): string => {
 const renderItem = (planet: PlanetPosition | null, index: number) => {
   const symbol = planet?.name
     ? PLANET_SYMBOLS[planet.name as keyof typeof PLANET_SYMBOLS]
-    : "?";
-  const sign = planet?.sign ? getZodiacSymbol(planet.sign) : "-";
-  const position = planet ? formatPosition(planet.position) : "-";
+    : "...";
+  const sign = planet?.sign ? getZodiacSymbol(planet.sign) : "";
+  const position = planet ? formatPosition(planet.position) : "";
 
   return (
     <div

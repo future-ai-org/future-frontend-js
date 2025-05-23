@@ -2,7 +2,7 @@
   "en": {
     "errors": {
       "apiUrlNotConfigured": "API URL is not configured",
-      "fetchPlanetsFailed": "Error fetching planets: {error}"
+      "fetchPlanetsFailed": "error fetching planets: {error}"
     }
   }
 }
