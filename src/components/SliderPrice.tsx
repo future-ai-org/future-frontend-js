@@ -11,6 +11,11 @@ interface CryptoPrice {
   change: number;
 }
 
+interface CoinGeckoPriceData {
+  usd: number;
+  usd_24h_change: number;
+}
+
 const formatPrice = (price: number): string => {
   return `$${price.toLocaleString(undefined, {
     minimumFractionDigits: 2,
@@ -84,8 +89,8 @@ export const SliderPrice: React.FC = () => {
       }
 
       const data = await response.json();
-      const formattedPrices = Object.entries(data).map(
-        ([id, price]: [string, any]) => ({
+      const formattedPrices = Object.entries(data as Record<string, CoinGeckoPriceData>).map(
+        ([id, price]) => ({
           symbol: id.toUpperCase(),
           price: price.usd,
           change: price.usd_24h_change,
