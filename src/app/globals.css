@@ -26,26 +26,26 @@
   --light-glow-pink-dark: rgba(190, 133, 195, 0.5);
 
   /* Theme Colors - Dark */
-  --dark-primary: rgb(132, 117, 249);
-  --dark-background: rgb(14, 14, 14);
-  --dark-text: rgb(255, 255, 255);
-  --dark-bearish: rgb(243, 151, 208);
-  --dark-bullish: rgb(148, 246, 160);
-  --dark-border: rgba(132, 117, 249, 0.2);
-  --dark-glow-shadow: rgba(132, 117, 249, 0.3);
-  --dark-glow-shadow-hover: rgba(132, 117, 249, 0.5);
-  --dark-scroll-track: rgba(132, 117, 249, 0.1);
-  --dark-card-bg: rgba(255, 255, 255, 0.1);
-  --dark-info-bg: rgba(255, 255, 255, 0.2);
-  --dark-shadow-black: rgba(255, 255, 255, 0.2);
-  --dark-shadow-white: rgba(14, 14, 14, 0.3);
-  --dark-shadow-trending-light: rgba(132, 117, 249, 0.5);
-  --dark-shadow-trending-dark: rgba(132, 117, 249, 0.3);
-  --dark-text-glow-normal: 0 0 10px rgba(132, 117, 249, 0.7);
+  --dark-primary: rgb(0, 170, 255);
+  --dark-background: rgb(8, 12, 18);
+  --dark-text: rgb(220, 220, 255);
+  --dark-bearish: rgb(255, 64, 129);
+  --dark-bullish: rgb(0, 255, 170);
+  --dark-border: rgba(0, 170, 255, 0.2);
+  --dark-glow-shadow: rgba(0, 170, 255, 0.3);
+  --dark-glow-shadow-hover: rgba(0, 170, 255, 0.5);
+  --dark-scroll-track: rgba(0, 170, 255, 0.1);
+  --dark-card-bg: rgba(16, 20, 30, 0.8);
+  --dark-info-bg: rgba(0, 170, 255, 0.1);
+  --dark-shadow-black: rgba(0, 0, 0, 0.4);
+  --dark-shadow-white: rgba(255, 255, 255, 0.05);
+  --dark-shadow-trending-light: rgba(0, 170, 255, 0.5);
+  --dark-shadow-trending-dark: rgba(0, 170, 255, 0.3);
+  --dark-text-glow-normal: 0 0 10px rgba(0, 170, 255, 0.7);
   --dark-text-glow-hover:
-    0 0 30px rgba(132, 117, 249, 0.7), 0 0 50px rgba(132, 117, 249, 0.5);
-  --dark-glow-pink-light: rgba(155, 222, 192, 0.5);
-  --dark-glow-pink-dark: rgba(64, 235, 158, 0.4);
+    0 0 30px rgba(0, 170, 255, 0.7), 0 0 50px rgba(0, 170, 255, 0.5);
+  --dark-glow-pink-light: rgba(255, 64, 129, 0.5);
+  --dark-glow-pink-dark: rgba(0, 255, 170, 0.4);
 
   /* Opacity Values */
   --opacity-100: 1;

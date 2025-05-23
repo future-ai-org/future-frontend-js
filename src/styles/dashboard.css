@@ -162,12 +162,10 @@
 /* States */
 .positive-change {
   @apply text-[var(--bullish-color)];
-  text-shadow: 0 0 8px var(--bullish-color);
 }
 
 .negative-change {
   @apply text-[var(--bearish-color)];
-  text-shadow: 0 0 8px var(--bearish-color);
 }
 
 /* Responsive */
