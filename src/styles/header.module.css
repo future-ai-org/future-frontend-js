@@ -78,11 +78,30 @@
   background: transparent;
   cursor: pointer;
   z-index: 101;
-  transition: text-shadow 0.2s ease;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.navLink::after {
+  content: "";
+  position: absolute;
+  bottom: -0.5px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary-color);
+  transform: translateX(-50%);
+  transition: width 0.3s ease-out;
 }
 
 .navLink:hover {
   text-shadow: var(--text-glow-hover);
+  background-color: rgba(var(--primary-color-rgb), 0.1);
+  transform: scale(1.1);
+}
+
+.navLink:hover::after {
+  width: calc(100% - 8px);
 }
 
 .navLink.active {
