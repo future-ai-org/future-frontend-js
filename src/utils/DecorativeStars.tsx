@@ -2,7 +2,7 @@ import React from "react";
 
 const DecorativeStars: React.FC = () => {
   // Create a grid of positions
-  const gridSize = 10;
+  const gridSize = 15; // Increased from 10 to 15 for more potential positions
   const positions = [];
 
   // Generate base grid positions
@@ -15,9 +15,9 @@ const DecorativeStars: React.FC = () => {
       const baseTop = (row / gridSize) * 100;
       const baseLeft = (col / gridSize) * 100;
 
-      // Add some randomness to the position
-      const top = baseTop + (Math.random() * 8 - 4); // ±4% variation
-      const left = baseLeft + (Math.random() * 8 - 4); // ±4% variation
+      // Add more randomness to the position
+      const top = baseTop + (Math.random() * 12 - 6); // ±6% variation
+      const left = baseLeft + (Math.random() * 12 - 6); // ±6% variation
 
       positions.push({ top, left });
     }
@@ -26,12 +26,12 @@ const DecorativeStars: React.FC = () => {
   // Shuffle the positions
   const shuffledPositions = positions.sort(() => Math.random() - 0.5);
 
-  // Take only the number of stars we want
+  // Take more stars
   const stars = shuffledPositions.slice(0, 50).map((pos, index) => {
     const twinkleDelay = Math.random() * 2;
     const floatDelay = Math.random() * 7;
-    const size = Math.random() * 10 + 6; // Size range: 6-16px
-    const opacity = Math.random() * 0.4 + 0.1; // Varying opacity: 0.2-0.6
+    const size = Math.random() * 12 + 4; // Size range: 4-16px
+    const opacity = Math.random() * 0.5 + 0.2; // Varying opacity: 0.2-0.7
 
     return (
       <div
