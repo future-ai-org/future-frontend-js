@@ -19,12 +19,12 @@ interface CoinData {
 
 const formatPrice = (price: number): string => {
   const isSmallPrice = price < 1;
-  return price.toLocaleString(undefined, {
+  return `$${price.toLocaleString(undefined, {
     minimumFractionDigits: PRICE_SLIDER_CONFIG.PRICE_FORMAT.MIN_FRACTION_DIGITS,
     maximumFractionDigits: isSmallPrice
       ? PRICE_SLIDER_CONFIG.PRICE_FORMAT.MAX_FRACTION_DIGITS.SMALL
       : PRICE_SLIDER_CONFIG.PRICE_FORMAT.MAX_FRACTION_DIGITS.LARGE,
-  });
+  })}`;
 };
 
 const formatChange = (change: number): string => {
