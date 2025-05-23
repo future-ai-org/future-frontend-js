@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -127,7 +125,7 @@ html.dark {
 /* Base Styles */
 body {
   font-family:
-    "Quicksand",
+    var(--font-quicksand),
     -apple-system,
     BlinkMacSystemFont,
     "Segoe UI",

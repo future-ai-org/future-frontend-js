@@ -78,12 +78,10 @@
 
 .navLink:hover {
   text-shadow: var(--text-glow-hover);
-
 }
 
 .navLink.active {
   font-weight: 800;
-
 }
 
 .headerRight {
@@ -161,4 +159,3 @@
     padding: 0.2rem 0.4rem;
   }
 }
-

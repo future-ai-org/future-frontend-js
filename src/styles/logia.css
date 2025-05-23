@@ -641,7 +641,9 @@
 }
 
 .planet-cell[title] {
-  cursor: url("/assets/cursors/star-cursor.svg") 12 12, auto;
+  cursor:
+    url("/assets/cursors/star-cursor.svg") 12 12,
+    auto;
 }
 
 .planet-cell[title]:hover::after {

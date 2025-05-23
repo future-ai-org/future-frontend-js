@@ -10,9 +10,6 @@ module.exports = {
       colors: {
         // Add your custom colors here
       },
-      fontFamily: {
-        'quicksand': ['Quicksand', 'sans-serif'],
-      },
       spacing: {
         // Add your custom spacing here
       },
