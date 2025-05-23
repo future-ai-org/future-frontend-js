@@ -1,12 +1,12 @@
 .header {
   background-color: var(--background-color);
-  padding: 0.8rem 0 0.4rem 0;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  margin-bottom: 2rem;
+  width: 100%;
+  box-sizing: border-box;
   backdrop-filter: blur(8px);
   width: 100vw;
   margin-left: calc(-50vw + 50%);
@@ -14,15 +14,13 @@
 }
 
 .headerContent {
+  width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 2rem;
-  display: flex;
+  padding: 0.5rem 1rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  position: relative;
-  height: 100%;
-  box-shadow: var(--glow-shadow);
-  min-height: 60px;
   gap: 2rem;
 }
 
@@ -30,9 +28,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  transition: transform var(--transition-duration) var(--transition-timing);
-  height: 100%;
-  margin-right: 2rem;
+  transition: transform 0.2s ease;
 }
 
 .headerTitleContainer:hover {
@@ -40,7 +36,7 @@
 }
 
 .headerTitle {
-  font-size: 2.1rem;
+  font-size: clamp(1.2rem, 2vw, 2.1rem);
   font-weight: 900;
   color: var(--primary-color);
   margin: 0;
@@ -54,80 +50,48 @@
   text-shadow: var(--text-glow-hover);
 }
 
-.headerRight {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  height: 100%;
-  margin-left: auto;
-  min-width: 300px;
-  justify-content: flex-end;
-}
-
 .headerNav {
-  position: relative;
-  left: 0;
-  transform: none;
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  height: 100%;
-  min-width: 400px;
+  justify-content: center;
+  gap: clamp(0.5rem, 1vw, 1.5rem);
+  flex-wrap: wrap;
+  padding: 0.5rem;
 }
 
 .navLink {
   color: var(--primary-color);
-  font-size: 1rem;
+  font-size: clamp(0.8rem, 1vw, 1rem);
   font-weight: 700;
   text-decoration: none;
-  padding: 0.4rem 0.8rem;
+  padding: clamp(0.2rem, 0.5vw, 0.4rem) clamp(0.4rem, 1vw, 0.8rem);
   position: relative;
-  transition: all var(--transition-duration) var(--transition-timing);
+  transition: all 0.2s ease;
   letter-spacing: 0.5px;
   display: inline-block;
   text-shadow: var(--text-glow);
   white-space: nowrap;
-  width: auto;
   text-align: center;
   border-radius: 4px;
-}
-
-.navLink::after {
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: 0;
-  left: 50%;
-  background-color: var(--primary-color);
-  transform: translateX(-50%);
-  transition: width 0.3s ease-out;
+  background: transparent;
 }
 
 .navLink:hover {
   text-shadow: var(--text-glow-hover);
-}
 
-.navLink:hover::after {
-  width: 80%;
 }
 
 .navLink.active {
   font-weight: 800;
-  letter-spacing: 0.7px;
-  transform: scale(1.05);
+
 }
 
-.navLink.active::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 80%;
-  height: 2px;
-  background-color: var(--primary-color);
-  transform: translateX(-50%);
-  opacity: 1;
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.5rem, 1vw, 1.5rem);
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .logoLink {
@@ -135,14 +99,14 @@
   color: var(--primary-color);
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 0.5rem;
 }
 
 .logoImage {
-  width: 30px;
-  height: 30px;
+  width: clamp(24px, 3vw, 30px);
+  height: clamp(24px, 3vw, 30px);
   filter: drop-shadow(var(--text-glow));
-  transition: all var(--transition-duration) var(--transition-timing);
+  transition: all 0.2s ease;
 }
 
 .logoImage:hover {
@@ -152,31 +116,49 @@
 
 @media (max-width: 768px) {
   .headerContent {
-    flex-direction: column;
-    gap: 0.8rem;
+    grid-template-columns: 1fr;
+    padding: 0.5rem;
+    gap: 0.5rem;
   }
 
-  .headerRight {
-    flex-direction: column;
-    gap: 0.8rem;
+  .headerTitleContainer {
+    justify-content: center;
   }
 
   .headerNav {
-    position: relative;
-    left: 0;
-    transform: none;
-    justify-content: center;
+    order: 3;
     width: 100%;
-    min-width: unset;
+    padding: 0.5rem 0;
+    gap: 0.5rem;
   }
 
-  .headerTitle {
-    font-size: 1.4rem;
+  .headerRight {
+    order: 2;
+    width: 100%;
+    justify-content: center;
+    padding: 0.5rem 0;
   }
 
   .navLink {
-    font-size: 0.9rem;
     padding: 0.3rem 0.6rem;
-    width: auto;
   }
 }
+
+@media (max-width: 480px) {
+  .headerContent {
+    padding: 0.3rem;
+  }
+
+  .headerNav {
+    gap: 0.3rem;
+  }
+
+  .headerRight {
+    gap: 0.3rem;
+  }
+
+  .navLink {
+    padding: 0.2rem 0.4rem;
+  }
+}
+
