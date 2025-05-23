@@ -20,10 +20,7 @@ const Header: React.FC = () => {
     if (path === "/") {
       return pathname === "/";
     }
-    return (
-      pathname?.startsWith(path) &&
-      (pathname === path || pathname.charAt(path.length) === "/")
-    );
+    return pathname === path;
   };
 
   return (
