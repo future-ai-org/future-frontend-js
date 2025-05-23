@@ -153,9 +153,11 @@
   font-variant: normal;
   text-transform: none;
   color: var(--color-primary);
+  fill: var(--color-primary);
   opacity: 1;
   font-weight: 900;
-  filter: brightness(0.7);
+  text-shadow: 0 0 8px var(--color-primary);
+  filter: drop-shadow(0 0 8px var(--color-primary));
 }
 
 /* Planet cell styles */
