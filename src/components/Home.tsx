@@ -6,6 +6,7 @@ import strings from "../i18n/home.json";
 import { useWeb3 } from "../utils/web3ModalContext";
 import Link from "next/link";
 import { ROUTES } from "../config/routes";
+import DecorativeStars from "../utils/DecorativeStars";
 
 type CardNumber = "1" | "2" | "3";
 
@@ -168,6 +169,7 @@ export default function Home() {
 
   return (
     <div className="landing-container">
+      <DecorativeStars />
       <h1 className="landing-title">{strings.en.title.toUpperCase()}</h1>
       <h2 className="landing-subtitle">{strings.en.subtitle.toUpperCase()}</h2>
       <div className="landing-feature-grid">

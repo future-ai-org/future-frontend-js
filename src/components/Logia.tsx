@@ -80,8 +80,11 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
     birthTime: "",
     city: "",
   });
-  const [timePeriod, setTimePeriod] = useState<typeof t.labels.am | typeof t.labels.pm>(t.labels.am);
-  const [showTimePeriodSuggestions, setShowTimePeriodSuggestions] = useState(false);
+  const [timePeriod, setTimePeriod] = useState<
+    typeof t.labels.am | typeof t.labels.pm
+  >(t.labels.am);
+  const [showTimePeriodSuggestions, setShowTimePeriodSuggestions] =
+    useState(false);
   const [citySuggestions, setCitySuggestions] = useState<CitySuggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchTimeoutRef = useRef<NodeJS.Timeout>();
@@ -306,11 +309,15 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             type="text"
             value={timePeriod}
             onChange={(e) => {
-              setTimePeriod(e.target.value as typeof t.labels.am | typeof t.labels.pm);
+              setTimePeriod(
+                e.target.value as typeof t.labels.am | typeof t.labels.pm,
+              );
               cityInputRef.current?.focus();
             }}
             onFocus={() => setShowTimePeriodSuggestions(true)}
-            onBlur={() => setTimeout(() => setShowTimePeriodSuggestions(false), 200)}
+            onBlur={() =>
+              setTimeout(() => setShowTimePeriodSuggestions(false), 200)
+            }
             readOnly
           />
           {showTimePeriodSuggestions && (

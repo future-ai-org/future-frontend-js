@@ -4,11 +4,22 @@ import chartStrings from "../i18n/logiaChart.json";
 
 type ZodiacSign = keyof typeof chartStrings.en.signs;
 
-let globalTooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any> | null = null;
+let globalTooltip: d3.Selection<
+  HTMLDivElement,
+  unknown,
+  HTMLElement,
+  any
+> | null = null;
 
-function getGlobalTooltip(): d3.Selection<HTMLDivElement, unknown, HTMLElement, any> {
+function getGlobalTooltip(): d3.Selection<
+  HTMLDivElement,
+  unknown,
+  HTMLElement,
+  any
+> {
   if (!globalTooltip) {
-    globalTooltip = d3.select("body")
+    globalTooltip = d3
+      .select("body")
       .append("div")
       .attr("class", "tooltip")
       .style("position", "absolute")
@@ -82,9 +93,7 @@ export function drawZodiacSymbols(
           .style("top", event.pageY - 10 + "px");
       })
       .on("mouseout", function () {
-        tooltip
-          .style("visibility", "hidden")
-          .style("opacity", "0");
+        tooltip.style("visibility", "hidden").style("opacity", "0");
       });
   }
 }
@@ -100,7 +109,7 @@ export function drawPlanets(
 
   chartData.planets.forEach((planet) => {
     const angle = ((planet.position - 90) * Math.PI) / 180;
-    
+
     const x = (radius - 35) * Math.cos(angle);
     const y = (radius - 35) * Math.sin(angle);
 
@@ -109,7 +118,7 @@ export function drawPlanets(
       .attr("transform", `translate(${x},${y})`)
       .attr("class", "planet-group")
       .on("click", () => onPlanetClick(planet.name))
-      .on("mouseover", function(event) {
+      .on("mouseover", function (event) {
         tooltip
           .style("visibility", "visible")
           .style("opacity", "1")
@@ -121,15 +130,13 @@ export function drawPlanets(
           .style("left", event.pageX + 10 + "px")
           .style("top", event.pageY - 10 + "px");
       })
-      .on("mousemove", function(event) {
+      .on("mousemove", function (event) {
         tooltip
           .style("left", event.pageX + 10 + "px")
           .style("top", event.pageY - 10 + "px");
       })
-      .on("mouseout", function() {
-        tooltip
-          .style("visibility", "hidden")
-          .style("opacity", "0");
+      .on("mouseout", function () {
+        tooltip.style("visibility", "hidden").style("opacity", "0");
       });
 
     planetGroup
@@ -138,10 +145,7 @@ export function drawPlanets(
       .attr("class", "planet-glow")
       .attr("opacity", 0.3);
 
-    planetGroup
-      .append("circle")
-      .attr("r", 8)
-      .attr("class", "planet-circle");
+    planetGroup.append("circle").attr("r", 8).attr("class", "planet-circle");
 
     planetGroup
       .append("text")
@@ -153,30 +157,30 @@ export function drawPlanets(
 }
 
 export function drawAspects(
-    g: d3.Selection<SVGGElement, unknown, null, undefined>,
-    radius: number,
-    chartData: ChartData,
-  ) {
-    chartData.aspects.forEach((aspect) => {
-      const planet1 = chartData.planets.find((p) => p.name === aspect.planet1);
-      const planet2 = chartData.planets.find((p) => p.name === aspect.planet2);
-  
-      if (planet1 && planet2) {
-        const x1 =
-          (radius - 35) * Math.cos(((planet1.position - 90) * Math.PI) / 180);
-        const y1 =
-          (radius - 35) * Math.sin(((planet1.position - 90) * Math.PI) / 180);
-        const x2 =
-          (radius - 35) * Math.cos(((planet2.position - 90) * Math.PI) / 180);
-        const y2 =
-          (radius - 35) * Math.sin(((planet2.position - 90) * Math.PI) / 180);
-  
-        g.append("line")
-          .attr("x1", x1)
-          .attr("y1", y1)
-          .attr("x2", x2)
-          .attr("y2", y2)
-          .attr("class", "aspect-line");
-      }
-    });
-  }
+  g: d3.Selection<SVGGElement, unknown, null, undefined>,
+  radius: number,
+  chartData: ChartData,
+) {
+  chartData.aspects.forEach((aspect) => {
+    const planet1 = chartData.planets.find((p) => p.name === aspect.planet1);
+    const planet2 = chartData.planets.find((p) => p.name === aspect.planet2);
+
+    if (planet1 && planet2) {
+      const x1 =
+        (radius - 35) * Math.cos(((planet1.position - 90) * Math.PI) / 180);
+      const y1 =
+        (radius - 35) * Math.sin(((planet1.position - 90) * Math.PI) / 180);
+      const x2 =
+        (radius - 35) * Math.cos(((planet2.position - 90) * Math.PI) / 180);
+      const y2 =
+        (radius - 35) * Math.sin(((planet2.position - 90) * Math.PI) / 180);
+
+      g.append("line")
+        .attr("x1", x1)
+        .attr("y1", y1)
+        .attr("x2", x2)
+        .attr("y2", y2)
+        .attr("class", "aspect-line");
+    }
+  });
+}

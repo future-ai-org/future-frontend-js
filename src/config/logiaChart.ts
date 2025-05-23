@@ -1,6 +1,7 @@
-import logiaChartTranslations from '../i18n/logiaChart.json';
+import logiaChartTranslations from "../i18n/logiaChart.json";
 
-export const ZODIAC_SIGNS = logiaChartTranslations.en.zodiacSigns as readonly string[];
+export const ZODIAC_SIGNS = logiaChartTranslations.en
+  .zodiacSigns as readonly string[];
 
 export interface PlanetPosition {
   name: string;
@@ -110,7 +111,7 @@ export function calculateChartData(
   latitude: number,
   longitude: number,
   city: string,
-  ascendantData: { sign: string; degrees: number }
+  ascendantData: { sign: string; degrees: number },
 ): ChartData {
   const [year, month, day] = birthDate.split("-").map(Number);
   const [hours, minutes] = birthTime.split(":").map(Number);
@@ -118,9 +119,9 @@ export function calculateChartData(
   const timezoneOffset = localDate.getTimezoneOffset();
   const utcDate = new Date(localDate.getTime() - timezoneOffset * 60000);
   const julianDay = getJulianDay(utcDate);
-  
+
   const ascendant = ascendantData.degrees;
-  
+
   const planets: PlanetPosition[] = [
     calculatePlanetPosition("sun", julianDay),
     calculatePlanetPosition("moon", julianDay),
@@ -136,7 +137,7 @@ export function calculateChartData(
     ...planet,
     position: planet.position,
     sign: ZODIAC_SIGNS[Math.floor(planet.position / 30)],
-    house: Math.floor(((planet.position - ascendant + 360) % 360) / 30) + 1
+    house: Math.floor(((planet.position - ascendant + 360) % 360) / 30) + 1,
   }));
 
   const houses = calculateHouses(ascendant);

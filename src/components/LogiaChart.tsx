@@ -46,9 +46,16 @@ export function calculateChart(
   latitude: number,
   longitude: number,
   city: string,
-  ascendantData: { sign: string; degrees: number }
+  ascendantData: { sign: string; degrees: number },
 ): ChartData {
-  return calculateChartData(birthDate, birthTime, latitude, longitude, city, ascendantData);
+  return calculateChartData(
+    birthDate,
+    birthTime,
+    latitude,
+    longitude,
+    city,
+    ascendantData,
+  );
 }
 
 export async function printChartInfo(
@@ -122,7 +129,7 @@ export async function printChartInfo(
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "API_KEY": process.env.NEXT_PUBLIC_LILIT_ASTRO_API_KEY!,
+          API_KEY: process.env.NEXT_PUBLIC_LILIT_ASTRO_API_KEY!,
         },
         body: JSON.stringify(requestBody),
       }),
@@ -130,17 +137,25 @@ export async function printChartInfo(
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "API_KEY": process.env.NEXT_PUBLIC_LILIT_ASTRO_API_KEY!,
+          API_KEY: process.env.NEXT_PUBLIC_LILIT_ASTRO_API_KEY!,
         },
         body: JSON.stringify(requestBody),
       }),
     ]);
 
     if (!planetsResponse.ok || !ascendantResponse.ok) {
-      const errorText = await (planetsResponse.ok ? ascendantResponse.text() : planetsResponse.text());
+      const errorText = await (planetsResponse.ok
+        ? ascendantResponse.text()
+        : planetsResponse.text());
       throw new Error(
         chartT.errors.apiRequestFailed
-          .replace("{status}", (planetsResponse.ok ? ascendantResponse.status : planetsResponse.status).toString())
+          .replace(
+            "{status}",
+            (planetsResponse.ok
+              ? ascendantResponse.status
+              : planetsResponse.status
+            ).toString(),
+          )
           .replace("{error}", errorText),
       );
     }
@@ -150,10 +165,15 @@ export async function printChartInfo(
       ascendantResponse.json() as Promise<AscendantResponse>,
     ]);
 
-    console.log('Planets Data:', planetsData);
-    console.log('Ascendant Data:', ascendantData);
+    console.log("Planets Data:", planetsData);
+    console.log("Ascendant Data:", ascendantData);
 
-    if (!planetsData || typeof planetsData !== "object" || !ascendantData || typeof ascendantData !== "object") {
+    if (
+      !planetsData ||
+      typeof planetsData !== "object" ||
+      !ascendantData ||
+      typeof ascendantData !== "object"
+    ) {
       throw new Error(chartT.errors.invalidApiResponse);
     }
 
@@ -163,7 +183,7 @@ export async function printChartInfo(
       latitude,
       longitude,
       city,
-      ascendantData
+      ascendantData,
     );
 
     const tableRows = [
@@ -176,7 +196,9 @@ export async function printChartInfo(
         <td class="planet-cell">${chartT.effects.ascendant || "-"}</td>
       </tr>`,
       ...Object.entries(planetsData).map(([planet, info]) => {
-        const planetData = chartData.planets.find(p => p.name.toLowerCase() === planet.toLowerCase());
+        const planetData = chartData.planets.find(
+          (p) => p.name.toLowerCase() === planet.toLowerCase(),
+        );
         return `<tr>
           <td class="planet-cell">${PLANET_SYMBOLS[planet.toLowerCase() as keyof typeof PLANET_SYMBOLS]}</td>
           <td class="planet-cell">${getZodiacSymbol(info.sign)}</td>
@@ -185,8 +207,8 @@ export async function printChartInfo(
           <td class="planet-cell">${planetData?.house || "-"}</td>
           <td class="planet-cell">${chartT.effects[planet.toLowerCase() as keyof typeof chartT.effects] || "-"}</td>
         </tr>`;
-      })
-    ].join('');
+      }),
+    ].join("");
 
     return {
       html: `
@@ -206,14 +228,14 @@ export async function printChartInfo(
           </tbody>
         </table>
       `,
-      ascendantData
+      ascendantData,
     };
   } catch (error: unknown) {
     const errorMessage =
       error instanceof Error ? error.message : chartT.errors.unknownError;
     return {
       html: `<div class="astrology-error">${errorMessage}</div>`,
-      ascendantData: { sign: "", degrees: 0 }
+      ascendantData: { sign: "", degrees: 0 },
     };
   }
 }
@@ -259,7 +281,9 @@ export default function LogiaChart({
   city,
   isGeneratingChart,
 }: LogiaChartProps) {
-  const [selectedPlanet, setSelectedPlanet] = React.useState<string | null>(null);
+  const [selectedPlanet, setSelectedPlanet] = React.useState<string | null>(
+    null,
+  );
   const [chartInfoHtml, setChartInfoHtml] = React.useState<string>("");
   const [chartData, setChartData] = React.useState<ChartData | null>(null);
   const [error, setError] = React.useState<string | null>(null);
@@ -296,7 +320,7 @@ export default function LogiaChart({
           birthTime,
           coordinates.lat,
           coordinates.lon,
-          city
+          city,
         );
         setChartInfoHtml(chartInfoHtml);
 
@@ -306,11 +330,13 @@ export default function LogiaChart({
           coordinates.lat,
           coordinates.lon,
           city,
-          ascendantData
+          ascendantData,
         );
         setChartData(chart);
       } catch (err) {
-        setError(err instanceof Error ? err.message : chartT.errors.unknownError);
+        setError(
+          err instanceof Error ? err.message : chartT.errors.unknownError,
+        );
       } finally {
         setIsLoading(false);
       }

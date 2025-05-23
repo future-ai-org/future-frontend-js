@@ -1,13 +1,21 @@
 import * as d3 from "d3";
 import chartStrings from "../i18n/logiaChart.json";
 
-let globalTooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any> | null = null;
+let globalTooltip: d3.Selection<
+  HTMLDivElement,
+  unknown,
+  HTMLElement,
+  any
+> | null = null;
 
-function getGlobalTooltip(): d3.Selection<HTMLDivElement, unknown, HTMLElement, any> {
+function getGlobalTooltip(): d3.Selection<
+  HTMLDivElement,
+  unknown,
+  HTMLElement,
+  any
+> {
   if (!globalTooltip) {
-    globalTooltip = d3.select("body")
-      .append("div")
-      .attr("class", "tooltip");
+    globalTooltip = d3.select("body").append("div").attr("class", "tooltip");
   }
   return globalTooltip;
 }
@@ -72,14 +80,14 @@ export function drawChartCircles(
 
 export function drawHouseLines(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
-  radius: number
+  radius: number,
 ) {
   for (let i = 0; i < 12; i++) {
     const angle = i * 30;
     const x = radius * Math.cos((angle * Math.PI) / 180);
     const y = radius * Math.sin((angle * Math.PI) / 180);
-    const innerX = (radius * 0.1) * Math.cos((angle * Math.PI) / 180);
-    const innerY = (radius * 0.1) * Math.sin((angle * Math.PI) / 180);
+    const innerX = radius * 0.1 * Math.cos((angle * Math.PI) / 180);
+    const innerY = radius * 0.1 * Math.sin((angle * Math.PI) / 180);
 
     g.append("line")
       .attr("x1", innerX)
@@ -97,9 +105,9 @@ export function drawHouseNumbers(
   const tooltip = getGlobalTooltip();
 
   for (let i = 0; i < 12; i++) {
-    const angle = (((150 - i * 30 + 15) * Math.PI) / 180);
-    const x = (radius * 0.15) * Math.cos(angle);
-    const y = (radius * 0.15) * Math.sin(angle);
+    const angle = ((150 - i * 30 + 15) * Math.PI) / 180;
+    const x = radius * 0.15 * Math.cos(angle);
+    const y = radius * 0.15 * Math.sin(angle);
 
     g.append("text")
       .attr("x", x)
