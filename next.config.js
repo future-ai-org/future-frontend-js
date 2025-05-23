@@ -24,9 +24,9 @@ const nextConfig = {
             value: [
               "default-src 'self'",
               "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
-              "style-src 'self' 'unsafe-inline'",
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "img-src 'self' data: blob:",
-              "font-src 'self' https://cdn.jsdelivr.net",
+              "font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com",
               "connect-src 'self' https://api.coingecko.com https://nominatim.openstreetmap.org wss://stream.binance.com https://lilit-service-astro.vercel.app",
               "media-src 'self'",
               "object-src 'none'",
