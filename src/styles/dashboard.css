@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Variables */
+:root {
+  --card-min-height: 300px;
+  --card-max-height: calc(100vh - 450px);
+}
+
 /* Layout */
 .dashboard {
   @apply p-4 md:p-6 w-full mx-auto min-h-[calc(100vh-200px)];
@@ -12,19 +18,11 @@
   @apply grid grid-cols-2 gap-4 justify-center items-stretch flex-1 min-h-0 w-full max-w-[1800px] mx-auto;
 }
 
-.dashboard-grid > div:first-child,
-.dashboard-grid > div:nth-child(2) {
-  @apply flex-1;
-}
-
 .dashboard-grid > div:first-child {
-  @apply flex flex-row gap-8;
+  @apply flex-1 flex flex-row gap-8;
 }
 
-.dashboard-grid > div:first-child > div {
-  @apply flex-1;
-}
-
+.dashboard-grid > div:first-child > div,
 .dashboard-grid > div:nth-child(2),
 .dashboard-grid > div:nth-child(3) {
   @apply flex-1;
@@ -36,17 +34,14 @@
 }
 
 .dashboard-header h2 {
+  @apply m-0 mt-4 py-2 text-left;
   font-size: clamp(2rem, 8vw, 4rem);
   font-weight: 800;
-  text-align: left;
-  margin: 0;
-  margin-top: 1rem;
-  padding: 0.5rem 0;
   color: var(--text-color);
   text-shadow: var(--text-glow);
 }
 
-/* Wallet Info */
+/* Wallet */
 .wallet-info {
   @apply flex items-center gap-3 bg-[var(--background-color-light)] px-5 py-3 rounded-xl;
 }
@@ -61,14 +56,15 @@
 
 /* Cards */
 .dashboard-card {
-  @apply bg-[var(--card-bg)] rounded-2xl p-5 flex flex-col min-h-[300px] max-h-[calc(100vh-450px)] overflow-y-auto;
+  @apply bg-[var(--card-bg)] rounded-2xl p-2 flex flex-col w-full;
+  min-height: var(--card-min-height);
+  max-height: var(--card-max-height);
   box-shadow:
     var(--base-shadow),
     0 0 20px var(--glow-shadow);
-  border-color: var(--color-primary);
-  border-width: 1px;
+  border: 1px solid var(--color-primary);
   transition: all var(--transition-duration) var(--transition-timing);
-  width: 100%;
+  overflow-y: auto;
 }
 
 .dashboard-card:hover {
@@ -80,12 +76,12 @@
 }
 
 .dashboard-card h3 {
-  @apply mb-4 font-extrabold text-[var(--color-primary)];
+  @apply mb-2 font-extrabold text-[var(--color-primary)] text-xl px-4 pt-4;
   text-shadow: 0 0 10px var(--color-primary);
 }
 
 .card-content {
-  @apply text-[var(--text-color-secondary)] flex-1 flex flex-col gap-6;
+  @apply text-[var(--text-color-secondary)] flex-1 flex flex-col items-center justify-center gap-0 px-0;
 }
 
 .card-content p {
@@ -95,30 +91,44 @@
 
 /* Portfolio */
 .portfolio-summary {
-  @apply bg-[var(--background-color-light)] p-5 mb-6 flex items-center justify-between gap-8;
-  border: 1px solid var(--border-color);
-  border-radius: 0.75rem;
+  @apply bg-[var(--background-color-light)] p-2 mb-3 flex items-center justify-center gap-2;
+  background: linear-gradient(
+    to right,
+    var(--background-color-light),
+    var(--card-bg)
+  );
 }
 
 .total-value {
-  @apply text-xl font-bold text-[var(--text-color)] whitespace-nowrap;
+  @apply text-lg font-bold text-[var(--text-color)] whitespace-nowrap text-center;
 }
 
 .portfolio-change {
-  @apply text-xl font-bold whitespace-nowrap;
+  @apply text-lg font-bold whitespace-nowrap text-center;
 }
 
 /* Assets */
 .portfolio-assets {
-  @apply flex flex-col gap-1;
+  @apply flex flex-col gap-0 w-full items-start justify-start;
 }
 
 .portfolio-asset {
-  @apply p-2 rounded-xl transition-all duration-300 ease-in-out flex items-center justify-between gap-2;
+  @apply py-1 pr-1 transition-all duration-300 ease-in-out flex items-center justify-start gap-1;
+  background: linear-gradient(
+    to right,
+    var(--background-color-light),
+    transparent
+  );
+  width: 100%;
+}
+
+.portfolio-asset:hover {
+  @apply bg-[var(--background-color-light)];
+  transform: translateX(2px);
 }
 
 .asset-info {
-  @apply flex flex-col;
+  @apply flex flex-col items-start pl-1;
 }
 
 .asset-symbol {
@@ -126,46 +136,44 @@
 }
 
 .asset-details {
-  @apply flex items-center gap-3 flex-1;
+  @apply flex items-center justify-start gap-1;
 }
 
 .asset-balance {
-  @apply flex items-center gap-1 min-w-[120px];
+  @apply flex items-center justify-start gap-0.5;
 }
 
 .balance-amount {
-  @apply font-mono text-[var(--text-color)] text-base min-w-[80px] text-right font-semibold;
+  @apply font-mono text-[var(--text-color)] text-sm text-left font-semibold;
 }
 
 .balance-symbol {
-  @apply text-[var(--text-color-secondary)] text-sm min-w-[40px] font-semibold;
+  @apply text-[var(--text-color-secondary)] text-xs text-left font-semibold;
 }
 
 .asset-value {
-  @apply text-[var(--text-color)] font-bold text-base min-w-[100px] text-right;
+  @apply text-[var(--text-color)] font-bold text-sm text-left;
 }
 
 .asset-change {
-  @apply text-right font-bold text-base min-w-[80px];
+  @apply text-left font-bold text-sm;
 }
 
 /* States */
 .positive-change {
   @apply text-[var(--bullish-color)];
+  text-shadow: 0 0 8px var(--bullish-color);
 }
 
 .negative-change {
   @apply text-[var(--bearish-color)];
+  text-shadow: 0 0 8px var(--bearish-color);
 }
 
 /* Responsive */
 @media (max-width: 1200px) {
   .dashboard-grid {
     @apply grid-cols-1;
-  }
-
-  .dashboard-card {
-    @apply min-w-0;
   }
 }
 
@@ -183,6 +191,7 @@
   }
 
   .dashboard-card {
-    @apply p-4 min-h-[250px];
+    @apply p-4;
+    min-height: 250px;
   }
 }

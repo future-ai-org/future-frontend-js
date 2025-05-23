@@ -10,7 +10,7 @@
       }
     },
     "portfolio": {
-      "title": "portfolio",
+      "title": "my portfolio",
       "totalValue": "value",
       "change24h": "24h"
     },
@@ -21,6 +21,17 @@
         "style": "currency",
         "minimumFractionDigits": 2,
         "maximumFractionDigits": 2
+      }
+    },
+    "cards": {
+      "logia": {
+        "title": "my logia"
+      },
+      "favorites": {
+        "title": "my favorite assets"
+      },
+      "predictions": {
+        "title": "my predictions"
       }
     }
   }
