@@ -17,7 +17,7 @@
 .price-items-container {
   display: flex;
   gap: 20px;
-  animation: flow 30s linear infinite;
+  animation: flow 45s linear infinite;
   min-width: 300%;
   white-space: nowrap;
 }

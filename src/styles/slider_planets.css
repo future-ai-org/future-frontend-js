@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Astrology";
+  src: url("https://cdn.jsdelivr.net/gh/google/fonts/ofl/astrology/Astrology-Regular.ttf")
+    format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.planets-slider {
+  display: flex;
+  overflow: hidden;
+  gap: 10px;
+  padding: 0.1rem 0;
+  background-color: var(--background-color);
+  position: relative;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  opacity: 0.9;
+}
+
+.planets-slider::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: var(--primary-color);
+  opacity: 0.3;
+}
+
+.planets-items-container {
+  display: flex;
+  gap: 30px;
+  animation: flow 45s linear infinite;
+  min-width: 300%;
+  white-space: nowrap;
+}
+
+.planets-items-container:hover {
+  animation-play-state: paused;
+}
+
+.planet-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  padding: 5px 10px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--primary-color);
+}
+
+.planet-item .symbol {
+  color: var(--primary-color);
+  font-size: 1rem;
+  font-family: "Astrology", monospace;
+  -webkit-font-feature-settings: "liga" 0;
+  font-feature-settings: "liga" 0;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-variant: normal;
+  text-transform: none;
+  margin: 0;
+  padding: 0;
+}
+
+.planet-item .sign {
+  color: var(--primary-color);
+  font-size: 1rem;
+  font-family: "Astrology", monospace;
+  -webkit-font-feature-settings: "liga" 0;
+  font-feature-settings: "liga" 0;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-variant: normal;
+  text-transform: none;
+  margin: 0;
+  padding: 0;
+}
+
+.planet-item .position {
+  color: var(--primary-color);
+  font-family: inherit;
+  font-size: 0.8rem;
+  opacity: 0.9;
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+}
+
+@keyframes flow {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.33%);
+  }
+}

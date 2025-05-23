@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect, useState, useMemo, useCallback } from "react";
-import "../styles/slider.css";
-import pricesData from "../i18n/slider.json";
-import { PRICE_SLIDER_CONFIG } from "../config/slider";
+import "../styles/slider_prices.css";
+import pricesData from "../i18n/slider_prices.json";
+import { PRICE_SLIDER_CONFIG } from "../config/slider_prices";
 
 interface CryptoPrice {
   symbol: string;
@@ -55,7 +55,7 @@ const renderItem = (crypto: CryptoPrice | null, index: number) => {
   );
 };
 
-export const Slider: React.FC = () => {
+export const SliderPrices: React.FC = () => {
   const [prices, setPrices] = useState<CryptoPrice[]>([]);
   const [retryCount, setRetryCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
