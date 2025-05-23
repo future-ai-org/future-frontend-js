@@ -15,6 +15,10 @@ export default function InfoPage() {
             <p>{strings.en.description.second_paragraph}</p>
             <p>{strings.en.description.third_paragraph}</p>
           </div>
+          <div className="info-signature">
+            <div className="signature-love">{strings.en.signature.love}</div>
+            <div className="signature-name">{strings.en.signature.name}</div>
+          </div>
         </div>
       </div>
     </main>
