@@ -9,9 +9,10 @@
   padding: 0.1rem 0;
   background-color: var(--background-color);
   position: relative;
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
-  margin-right: calc(-50vw + 50%);
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  isolation: isolate;
 }
 
 .price-items-container {
