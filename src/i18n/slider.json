@@ -9,7 +9,7 @@
     "currencyPair": "{symbol}",
     "placeholders": {
       "symbol": "loading...",
-      "price": "loading...",
+      "price": "",
       "change": ""
     },
     "change": {
