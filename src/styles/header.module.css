@@ -1,16 +1,18 @@
 .header {
-  background-color: var(--background-color);
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
-  width: 100%;
-  box-sizing: border-box;
-  backdrop-filter: blur(8px);
   width: 100vw;
+  background-color: var(--background-color);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 100;
+  box-sizing: border-box;
   margin-left: calc(-50vw + 50%);
   margin-right: calc(-50vw + 50%);
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 .headerContent {
@@ -22,6 +24,8 @@
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 2rem;
+  position: relative;
+  z-index: 10000;
 }
 
 .headerTitleContainer {
@@ -36,14 +40,14 @@
 }
 
 .headerTitle {
+  margin: 0;
   font-size: clamp(1.2rem, 2vw, 2.1rem);
   font-weight: 900;
   color: var(--primary-color);
-  margin: 0;
   text-shadow: var(--text-glow);
-  transition: all var(--transition-duration) var(--transition-timing);
-  letter-spacing: -0.5px;
   text-transform: uppercase;
+  letter-spacing: -0.5px;
+  transition: text-shadow var(--transition-duration) var(--transition-timing);
 }
 
 .headerTitle:hover {
@@ -60,20 +64,21 @@
 }
 
 .navLink {
+  display: inline-block;
+  padding: clamp(0.2rem, 0.5vw, 0.4rem) clamp(0.4rem, 1vw, 0.8rem);
   color: var(--primary-color);
   font-size: clamp(0.8rem, 1vw, 1rem);
   font-weight: 700;
   text-decoration: none;
-  padding: clamp(0.2rem, 0.5vw, 0.4rem) clamp(0.4rem, 1vw, 0.8rem);
-  position: relative;
-  transition: all 0.2s ease;
-  letter-spacing: 0.5px;
-  display: inline-block;
-  text-shadow: var(--text-glow);
-  white-space: nowrap;
   text-align: center;
+  text-shadow: var(--text-glow);
+  letter-spacing: 0.5px;
+  white-space: nowrap;
   border-radius: 4px;
   background: transparent;
+  cursor: pointer;
+  z-index: 101;
+  transition: text-shadow 0.2s ease;
 }
 
 .navLink:hover {
@@ -93,11 +98,11 @@
 }
 
 .logoLink {
-  text-decoration: none;
-  color: var(--primary-color);
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  color: var(--primary-color);
+  text-decoration: none;
 }
 
 .logoImage {
@@ -147,10 +152,7 @@
     padding: 0.3rem;
   }
 
-  .headerNav {
-    gap: 0.3rem;
-  }
-
+  .headerNav,
   .headerRight {
     gap: 0.3rem;
   }

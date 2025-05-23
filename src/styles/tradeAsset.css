@@ -41,7 +41,7 @@
   width: calc(100% - 32px);
   margin: 3px auto;
   border-collapse: collapse;
-  padding: 20;
+  padding: 20px;
   border-spacing: 0;
   table-layout: fixed;
   text-align: center;
@@ -161,6 +161,11 @@
     min-width: 70px;
     max-width: 100px;
   }
+
+  .chartiq-container {
+    height: 500px;
+    padding: 20px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -170,8 +175,8 @@
 
   .chartiq-container {
     height: 400px;
-    padding: 20px;
-    margin: 30px auto;
+    padding: 15px;
+    margin: 20px auto;
   }
 
   .time-period-selector {
@@ -223,6 +228,12 @@
   margin: 40px auto;
   box-shadow: var(--base-shadow);
   position: relative;
+  border: 1px solid var(--border-color);
+  transition: all var(--transition-duration) var(--transition-timing);
+}
+
+.chartiq-container:hover {
+  box-shadow: var(--glow-shadow-hover);
 }
 
 .chartiq-container canvas {

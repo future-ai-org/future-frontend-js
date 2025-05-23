@@ -9,6 +9,17 @@
   font-style: normal;
 }
 
+/* Common font optimization properties */
+.font-optimized {
+  -webkit-font-feature-settings: "liga" 0;
+  font-feature-settings: "liga" 0;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-variant: normal;
+  text-transform: none;
+}
+
 .planets-slider {
   display: flex;
   overflow: hidden;
@@ -39,6 +50,7 @@
   animation: flow 45s linear infinite;
   min-width: 300%;
   white-space: nowrap;
+  will-change: transform; /* Optimize animation performance */
 }
 
 .planets-items-container:hover {
@@ -58,34 +70,18 @@
   color: var(--primary-color);
 }
 
-.planet-item .symbol {
-  color: var(--primary-color);
-  font-size: 1rem;
-  font-family: "Astrology", monospace;
-  -webkit-font-feature-settings: "liga" 0;
-  font-feature-settings: "liga" 0;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-variant: normal;
-  text-transform: none;
-  margin: 0;
-  padding: 0;
-}
-
+.planet-item .symbol,
 .planet-item .sign {
   color: var(--primary-color);
   font-size: 1rem;
   font-family: "Astrology", monospace;
-  -webkit-font-feature-settings: "liga" 0;
-  font-feature-settings: "liga" 0;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-variant: normal;
-  text-transform: none;
   margin: 0;
   padding: 0;
+}
+
+.planet-item .symbol,
+.planet-item .sign {
+  composes: font-optimized;
 }
 
 .planet-item .position {
@@ -98,10 +94,10 @@
 }
 
 @keyframes flow {
-  0% {
+  from {
     transform: translateX(0);
   }
-  100% {
+  to {
     transform: translateX(-33.33%);
   }
 }

@@ -2,10 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Layout */
 .dashboard {
   @apply p-8 md:p-12 max-w-[1400px] mx-auto min-h-[calc(100vh-200px)];
 }
 
+.dashboard-grid {
+  @apply flex flex-row gap-8 justify-center items-stretch flex-1 min-h-0 max-w-[1800px] mx-auto;
+}
+
+/* Header */
 .dashboard-header {
   @apply mb-8 flex justify-between items-center py-8;
 }
@@ -15,6 +21,7 @@
   text-shadow: var(--text-glow);
 }
 
+/* Wallet Info */
 .wallet-info {
   @apply flex items-center gap-3 bg-[var(--background-color-light)] px-5 py-3 rounded-xl;
 }
@@ -27,10 +34,7 @@
   @apply font-mono text-[var(--text-color)];
 }
 
-.dashboard-grid {
-  @apply flex flex-row gap-8 justify-center items-stretch flex-1 min-h-0 max-w-[1800px] mx-auto;
-}
-
+/* Cards */
 .dashboard-card {
   @apply bg-[var(--card-bg)] rounded-2xl p-10 flex flex-col min-h-[500px] max-h-[calc(100vh-300px)] overflow-y-auto;
   box-shadow:
@@ -50,10 +54,8 @@
 }
 
 .dashboard-card h3 {
-  font-weight: 800;
+  @apply mb-4 font-extrabold text-[var(--color-primary)];
   text-shadow: 0 0 10px var(--color-primary);
-  color: var(--color-primary);
-  margin-bottom: 1rem;
 }
 
 .card-content {
@@ -65,6 +67,7 @@
   opacity: var(--opacity-light);
 }
 
+/* Portfolio */
 .portfolio-summary {
   @apply bg-[var(--background-color-light)] p-5 mb-6 flex items-center justify-between gap-8;
   border: 1px solid var(--border-color);
@@ -79,6 +82,7 @@
   @apply text-xl font-bold whitespace-nowrap;
 }
 
+/* Assets */
 .portfolio-assets {
   @apply flex flex-col gap-1;
 }
@@ -119,6 +123,7 @@
   @apply text-right font-bold text-base min-w-[80px];
 }
 
+/* States */
 .positive-change {
   @apply text-[var(--bullish-color)];
 }
@@ -127,6 +132,7 @@
   @apply text-[var(--bearish-color)];
 }
 
+/* Responsive */
 @media (max-width: 768px) {
   .dashboard {
     @apply p-6 px-4;

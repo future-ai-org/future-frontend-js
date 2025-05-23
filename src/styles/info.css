@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Base container styles */
 .info-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -13,18 +14,19 @@
   position: relative;
 }
 
+/* Title styles */
 .info-title {
   font-size: clamp(2rem, 8vw, 4rem);
   font-weight: 800;
   text-align: center;
-  margin-bottom: 4rem;
-  margin-top: 3rem;
+  margin: 3rem 0 4rem;
   color: var(--text-color);
   width: 100%;
   padding: 0 1rem;
   text-shadow: var(--text-glow);
 }
 
+/* Main content box */
 .info-box {
   background-color: var(--card-bg);
   padding: 3rem;
@@ -37,6 +39,7 @@
   flex-direction: column;
 }
 
+/* Content styles */
 .info-content {
   color: var(--text-color);
   font-size: 1.3rem;
@@ -65,6 +68,7 @@
   margin-bottom: 0;
 }
 
+/* Signature styles */
 .info-signature {
   position: absolute;
   bottom: 7rem;
@@ -94,6 +98,24 @@
   text-shadow: var(--text-glow);
 }
 
+/* Animations */
+@keyframes sparkle {
+  0%,
+  100% {
+    text-shadow:
+      0 0 20px rgba(var(--color-primary-rgb), 1),
+      0 0 40px rgba(var(--color-primary-rgb), 0.8),
+      0 0 60px rgba(var(--color-primary-rgb), 0.6);
+  }
+  50% {
+    text-shadow:
+      0 0 30px rgba(var(--color-primary-rgb), 1),
+      0 0 60px rgba(var(--color-primary-rgb), 0.8),
+      0 0 90px rgba(var(--color-primary-rgb), 0.6);
+  }
+}
+
+/* Media Queries */
 @media (max-width: 768px) {
   .info-container {
     padding: 1rem;
@@ -138,54 +160,5 @@
 
   .signature-name {
     font-size: 2rem;
-  }
-}
-
-@keyframes sparkle {
-  0% {
-    text-shadow:
-      0 0 20px rgba(var(--color-primary-rgb), 1),
-      0 0 40px rgba(var(--color-primary-rgb), 0.8),
-      0 0 60px rgba(var(--color-primary-rgb), 0.6);
-  }
-  50% {
-    text-shadow:
-      0 0 30px rgba(var(--color-primary-rgb), 1),
-      0 0 60px rgba(var(--color-primary-rgb), 0.8),
-      0 0 90px rgba(var(--color-primary-rgb), 0.6);
-  }
-  100% {
-    text-shadow:
-      0 0 20px rgba(var(--color-primary-rgb), 1),
-      0 0 40px rgba(var(--color-primary-rgb), 0.8),
-      0 0 60px rgba(var(--color-primary-rgb), 0.6);
-  }
-}
-
-@keyframes glow {
-  0%,
-  100% {
-    text-shadow: 0 0 10px var(--color-primary);
-  }
-  50% {
-    text-shadow: 0 0 20px var(--color-primary);
-  }
-}
-
-.cute-effect {
-  display: inline-block;
-  color: var(--color-primary);
-  font-weight: 700;
-  text-shadow: 0 0 20px var(--color-primary);
-  animation: glow 1s ease-in-out infinite;
-}
-
-@keyframes glow {
-  0%,
-  100% {
-    text-shadow: 0 0 10px var(--color-primary);
-  }
-  50% {
-    text-shadow: 0 0 20px var(--color-primary);
   }
 }

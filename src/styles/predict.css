@@ -2,21 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --container-max-width: 1200px;
+  --content-max-width: 32rem;
+  --border-radius: 12px;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 2.5rem;
+}
+
 .predict-container {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: var(--background-color);
-  padding: 2rem;
-  max-width: 1200px;
+  padding: var(--spacing-lg);
+  max-width: var(--container-max-width);
   margin: 0 auto;
 }
 
 .predict-title {
-  font-size: 2.5rem;
+  font-size: var(--spacing-xl);
   font-weight: bold;
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--spacing-md);
   color: var(--primary-color);
   text-align: center;
   text-shadow: var(--text-glow);
@@ -24,27 +34,19 @@
 
 .predict-content {
   text-align: center;
-  padding: 2rem;
-  max-width: 32rem;
+  padding: var(--spacing-lg);
+  max-width: var(--content-max-width);
   background: rgba(var(--primary-color-rgb), 0.05);
-  border-radius: 12px;
+  border-radius: var(--border-radius);
   box-shadow: var(--glow-shadow);
   margin: 0 auto;
 }
 
-.predict-description {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  color: var(--text-primary);
-  line-height: 1.6;
-  text-align: center;
-}
-
+.predict-description,
 .infoParagraph {
-  font-size: 1.5rem;
+  font-size: var(--spacing-md);
   font-weight: 600;
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-sm);
   color: var(--text-primary);
   line-height: 1.6;
   text-align: center;
@@ -52,14 +54,14 @@
 
 @media (max-width: 768px) {
   .predict-container {
-    padding: 1rem;
+    padding: var(--spacing-sm);
   }
 
   .predict-title {
-    font-size: 2rem;
+    font-size: var(--spacing-lg);
   }
 
   .predict-content {
-    padding: 1.5rem;
+    padding: var(--spacing-md);
   }
 }

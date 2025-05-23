@@ -1,21 +1,25 @@
+/* Container styles */
 .sliderContainer {
   width: 100%;
+  padding: 0.5rem 0;
   overflow: hidden;
   background-color: var(--background-color);
-  padding: 0.5rem 0;
 }
 
+/* Price items container with animation */
 .priceItemsContainer {
   display: flex;
   gap: 1.5rem;
   padding: 0 1rem;
   animation: slide 20s linear infinite;
+  will-change: transform; /* Optimize animation performance */
 }
 
 .priceItemsContainer:hover {
   animation-play-state: paused;
 }
 
+/* Individual price item styles */
 .priceItem {
   display: flex;
   align-items: center;
@@ -25,6 +29,7 @@
   font-weight: 500;
 }
 
+/* Price components */
 .symbol {
   color: var(--text-color);
   font-weight: 600;
@@ -38,6 +43,7 @@
   font-weight: 500;
 }
 
+/* Price change states */
 .positive .change {
   color: var(--bullish-color);
 }
@@ -46,17 +52,19 @@
   color: var(--bearish-color);
 }
 
+/* Loading state */
 .loading {
+  padding: 0.5rem;
   text-align: center;
   color: var(--text-color);
-  padding: 0.5rem;
 }
 
+/* Animation keyframes */
 @keyframes slide {
-  0% {
+  from {
     transform: translateX(0);
   }
-  100% {
+  to {
     transform: translateX(-50%);
   }
 }

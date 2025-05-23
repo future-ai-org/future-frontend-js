@@ -89,13 +89,13 @@ export const SliderPrice: React.FC = () => {
       }
 
       const data = await response.json();
-      const formattedPrices = Object.entries(data as Record<string, CoinGeckoPriceData>).map(
-        ([id, price]) => ({
-          symbol: id.toUpperCase(),
-          price: price.usd,
-          change: price.usd_24h_change,
-        }),
-      );
+      const formattedPrices = Object.entries(
+        data as Record<string, CoinGeckoPriceData>,
+      ).map(([id, price]) => ({
+        symbol: id.toUpperCase(),
+        price: price.usd,
+        change: price.usd_24h_change,
+      }));
 
       setPrices(formattedPrices);
       setCachedPrices(formattedPrices);

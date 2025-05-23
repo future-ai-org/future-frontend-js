@@ -2,44 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ===== Animations ===== */
 @keyframes pulse {
-  0% {
+  0%,
+  100% {
     box-shadow: 0 0 0 0 var(--color-glow-shadow);
   }
   70% {
     box-shadow: 0 0 0 10px var(--color-glow-shadow-hover);
   }
-  100% {
-    box-shadow: 0 0 0 0 var(--color-glow-shadow-hover);
-  }
 }
 
 @keyframes text-glow {
-  0% {
+  0%,
+  100% {
     text-shadow: var(--color-text-glow-normal);
   }
   50% {
     text-shadow: var(--color-text-glow-hover);
   }
-  100% {
-    text-shadow: var(--color-text-glow-normal);
-  }
 }
 
 @keyframes pulseGreen {
-  0% {
+  0%,
+  100% {
     transform: scale(1) rotate(-5deg);
   }
   50% {
     transform: scale(1.1) rotate(5deg);
   }
-  100% {
-    transform: scale(1) rotate(-5deg);
-  }
 }
 
 @keyframes trendingPulse {
-  0% {
+  0%,
+  100% {
     transform: scale(1);
     box-shadow: 0 0 20px var(--trending-shadow-light);
   }
@@ -47,24 +43,19 @@
     transform: scale(1.1);
     box-shadow: 0 0 30px var(--trending-shadow-light);
   }
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 20px var(--trending-shadow-light);
-  }
 }
 
 @keyframes arrowFloat {
-  0% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
     transform: translateY(-4px);
   }
-  100% {
-    transform: translateY(0);
-  }
 }
 
+/* ===== Layout & Container Styles ===== */
 .dashboard-container {
   padding: 20px;
   background-color: var(--background-color);
@@ -76,6 +67,7 @@
   flex-direction: column;
 }
 
+/* ===== Table Styles ===== */
 .table {
   width: 100%;
   max-width: 1400px;
@@ -89,33 +81,32 @@
   flex: 1;
 }
 
+/* Table Column Widths */
 .table th:nth-child(1) {
   width: 22%;
-} /* Asset column */
+} /* Asset */
 .table th:nth-child(2) {
   width: 15%;
-} /* Price column */
+} /* Price */
 .table th:nth-child(3) {
   width: 15%;
-} /* Change column */
+} /* Change */
 .table th:nth-child(4) {
   width: 15%;
-} /* Market cap column */
+} /* Market cap */
 .table th:nth-child(5) {
   width: 15%;
-} /* ATH column */
+} /* ATH */
 .table th:nth-child(6) {
   width: 18%;
-} /* Chart column */
+} /* Chart */
 
 .table-header {
-  padding: 15px;
+  padding: 15px 15px 25px;
   font-size: 0.8rem;
-  text-align: center;
   color: var(--color-primary);
   font-weight: 1000;
   text-transform: uppercase;
-  padding-bottom: 25px;
   width: 100%;
   display: table-cell;
   vertical-align: middle;
@@ -136,14 +127,12 @@
   background-color: var(--scroll-track);
 }
 
-.table-row:hover .table-cell {
-  background-color: transparent;
-}
-
+.table-row:hover .table-cell,
 .table-row:hover .chart-container {
   background-color: transparent;
 }
 
+/* ===== Chart Styles ===== */
 .chart-link {
   display: block;
   text-decoration: none;
@@ -178,14 +167,12 @@
 }
 
 .chart-container svg {
-  width: 100%;
-  height: 100%;
+  width: 200px;
+  height: 50px;
   display: block;
   margin: 0 auto;
   transform: scale(1);
   transform-origin: center;
-  width: 200px;
-  height: 50px;
   transition: transform 0.3s ease;
 }
 
@@ -193,29 +180,21 @@
   transform: scale(1.7);
 }
 
-.chart-container svg .chart-line {
+.chart-container svg .chart-line,
+.chart-container svg polyline {
   stroke-width: 1.2;
   stroke-opacity: 0.9;
-}
-
-.chart-container svg polyline {
   fill: none;
-  stroke-width: 1.5;
-  stroke-opacity: 0.9;
 }
 
 .chart-container svg polyline.positive {
   stroke: var(--bullish-color);
 }
-
 .chart-container svg polyline.negative {
   stroke: var(--bearish-color);
 }
 
-.chart-container:hover svg polyline.positive {
-  stroke: var(--color-primary);
-}
-
+.chart-container:hover svg polyline.positive,
 .chart-container:hover svg polyline.negative {
   stroke: var(--color-primary);
 }
@@ -228,15 +207,11 @@
 .chart-container svg text.positive {
   fill: var(--bullish-color);
 }
-
 .chart-container svg text.negative {
   fill: var(--bearish-color);
 }
 
-.chart-container:hover {
-  background-color: transparent;
-}
-
+/* ===== Crypto Name Cell Styles ===== */
 .crypto-name-cell {
   white-space: normal;
   overflow: visible;
@@ -273,7 +248,6 @@
 .crypto-icon.positive {
   color: var(--bullish-color);
 }
-
 .crypto-icon.negative {
   color: var(--bearish-color);
 }
@@ -282,15 +256,9 @@
   text-shadow: var(--text-glow-hover);
 }
 
-.crypto-name-cell.positive .crypto-icon,
-.crypto-name-cell.negative .crypto-icon {
-  color: inherit;
-}
-
 .crypto-name-cell.positive .crypto-icon {
   color: var(--bullish-color);
 }
-
 .crypto-name-cell.negative .crypto-icon {
   color: var(--bearish-color) !important;
 }
@@ -327,6 +295,7 @@
   margin-top: 2px;
 }
 
+/* ===== Glowing Emoji Styles ===== */
 .glowing-emoji {
   display: inline-flex;
   align-items: center;
@@ -362,26 +331,24 @@
   color: var(--bearish-color);
 }
 
-.zoom-link {
-  color: var(--bullish-color);
-  text-decoration: none;
+/* ===== Price & Change Cell Styles ===== */
+.crypto-price-cell,
+.crypto-change-cell,
+.crypto-market-cap-cell {
+  text-align: center;
+  font-weight: 600;
+}
+
+.crypto-price-cell,
+.crypto-change-cell {
   font-size: 1.2rem;
-  transition: all var(--transition-duration) var(--transition-timing);
 }
 
-.zoom-link:hover {
-  text-shadow: var(--text-glow);
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+.crypto-market-cap-cell {
+  font-size: 1.1em;
 }
 
 .crypto-change-cell {
-  font-size: 1.2rem;
-  text-align: center;
-  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -391,7 +358,8 @@
   margin: 0;
 }
 
-.crypto-change-cell .decimal-part {
+.crypto-change-cell .decimal-part,
+.crypto-price-cell .decimal-part {
   font-size: 0.8em;
   opacity: 0.8;
   display: inline-flex;
@@ -399,52 +367,7 @@
   line-height: 1;
 }
 
-.crypto-symbol-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2em;
-  font-weight: 800;
-  min-width: 24px;
-  height: 24px;
-  margin-right: 4px;
-  text-shadow: var(--text-glow);
-  transition: all var(--transition-duration) var(--transition-timing);
-}
-
-.crypto-symbol-cell:hover .crypto-symbol-icon {
-  text-shadow: var(--text-glow-hover);
-}
-
-@keyframes glow {
-  0% {
-    text-shadow: var(--color-text-glow-normal);
-  }
-  50% {
-    text-shadow: var(--color-text-glow-hover);
-  }
-  100% {
-    text-shadow: var(--color-text-glow-normal);
-  }
-}
-
-.crypto-price-cell {
-  font-size: 1.2rem;
-  text-align: center;
-  font-weight: 600;
-}
-
-.crypto-price-cell .decimal-part {
-  font-size: 0.8em;
-  opacity: 0.8;
-}
-
-.crypto-market-cap-cell {
-  text-align: center;
-  font-weight: 600;
-  font-size: 1.1em;
-}
-
+/* Color states */
 .crypto-price-cell.positive,
 .crypto-change-cell.positive,
 .crypto-market-cap-cell.positive {
@@ -457,6 +380,26 @@
   color: var(--bearish-color);
 }
 
+/* ===== ATH Cell Styles ===== */
+.crypto-ath-cell {
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ath-date {
+  font-size: 0.5rem;
+  opacity: 0.7;
+  margin-top: -0.01rem;
+  text-align: center;
+  color: var(--color-text);
+}
+
+/* ===== Floating Graph Styles ===== */
 .floating-graph {
   position: fixed;
   z-index: 10000;
@@ -518,20 +461,8 @@
   opacity: 1;
 }
 
-.crypto-ath-cell {
-  text-align: center;
-  padding: 0.5rem;
-  font-size: 0.9rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.ath-date {
-  font-size: 0.5rem;
-  opacity: 0.7;
-  margin-top: -0.01rem;
-  text-align: center;
-  color: var(--color-text);
+/* ===== Scrollbar Styles ===== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
