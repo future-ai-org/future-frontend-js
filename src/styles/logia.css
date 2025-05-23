@@ -543,7 +543,8 @@
 }
 
 @keyframes numberBounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0) scale(1);
   }
   50% {
@@ -661,4 +662,17 @@
   z-index: 1000;
   pointer-events: none;
   margin-bottom: 5px;
+}
+
+.logia-disclaimer {
+  font-size: 0.6rem;
+  color: var(--color-primary);
+  opacity: 0.7;
+  text-align: center;
+  margin-top: 0.5rem;
+  font-style: italic;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.4;
 }

@@ -382,6 +382,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
       >
         {isGeneratingChart ? <Loading /> : t.buttons.generateChart}
       </button>
+      <p className="logia-disclaimer">{t.disclaimer}</p>
     </form>
   );
 }
