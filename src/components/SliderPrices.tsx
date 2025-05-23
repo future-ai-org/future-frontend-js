@@ -1,9 +1,18 @@
 "use client";
 
-import React, { useEffect, useState, useMemo, useCallback, useRef } from "react";
+import React, {
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+  useRef,
+} from "react";
 import "../styles/slider_prices.css";
 import pricesData from "../i18n/slider_prices.json";
-import { PRICE_SLIDER_CONFIG } from "../config/slider_prices";
+import {
+  PRICE_SLIDER_CONFIG,
+  CRYPTO_SYMBOL_MAP,
+} from "../config/slider_prices";
 
 interface CryptoPrice {
   symbol: string;
@@ -41,13 +50,13 @@ const getCachedPrices = (): CryptoPrice[] | null => {
   try {
     const cached = localStorage.getItem(PRICE_SLIDER_CONFIG.CACHE.KEY);
     if (!cached) return null;
-    
+
     const { prices, timestamp }: CachedData = JSON.parse(cached);
     if (Date.now() - timestamp > PRICE_SLIDER_CONFIG.CACHE.DURATION) {
       localStorage.removeItem(PRICE_SLIDER_CONFIG.CACHE.KEY);
       return null;
     }
-    
+
     return prices;
   } catch {
     return null;
@@ -60,15 +69,24 @@ const setCachedPrices = (prices: CryptoPrice[]) => {
       prices,
       timestamp: Date.now(),
     };
-    localStorage.setItem(PRICE_SLIDER_CONFIG.CACHE.KEY, JSON.stringify(cacheData));
+    localStorage.setItem(
+      PRICE_SLIDER_CONFIG.CACHE.KEY,
+      JSON.stringify(cacheData),
+    );
   } catch (error) {
-    console.error('Failed to cache prices:', error);
+    console.error("Failed to cache prices:", error);
   }
+};
+
+const getSymbolFromId = (id: string): string => {
+  return CRYPTO_SYMBOL_MAP[id] || id.toUpperCase();
 };
 
 const renderItem = (crypto: CryptoPrice | null, index: number) => {
   const isPositive = crypto?.change !== undefined && crypto.change >= 0;
-  const symbol = crypto?.symbol || pricesData.en.placeholders.symbol;
+  const symbol = crypto
+    ? getSymbolFromId(crypto.symbol.toLowerCase())
+    : pricesData.en.placeholders.symbol;
   const price = crypto
     ? formatPrice(crypto.price)
     : pricesData.en.placeholders.price;
@@ -81,9 +99,7 @@ const renderItem = (crypto: CryptoPrice | null, index: number) => {
       className={`price-item ${crypto ? (isPositive ? "positive" : "negative") : "loading"}`}
       key={`${crypto ? `${crypto.symbol}-` : "loading-"}${index}`}
     >
-      <span className="symbol">
-        {pricesData.en.currencyPair.replace("{symbol}", symbol)}
-      </span>
+      <span className="symbol">{symbol}</span>
       <span className="price">{price}</span>
       <span className="price-change">{change}</span>
     </div>
@@ -104,7 +120,7 @@ class PriceSliderErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('Price slider error:', error, errorInfo);
+    console.error("Price slider error:", error, errorInfo);
   }
 
   render() {
@@ -132,27 +148,68 @@ class PriceSliderErrorBoundary extends React.Component<
 }
 
 export const SliderPrices: React.FC = () => {
-  const [prices, setPrices] = useState<CryptoPrice[]>(() => getCachedPrices() || []);
+  const [prices, setPrices] = useState<CryptoPrice[]>(
+    () => getCachedPrices() || [],
+  );
   const [retryCount, setRetryCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const wsRef = useRef<WebSocket | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const scrollSpeed = 1; // pixels per frame
+
+  useEffect(() => {
+    let animationFrameId: number;
+    let lastTimestamp: number;
+
+    const animate = (timestamp: number) => {
+      if (!lastTimestamp) lastTimestamp = timestamp;
+      const elapsed = timestamp - lastTimestamp;
+      lastTimestamp = timestamp;
+
+      if (containerRef.current) {
+        const container = containerRef.current;
+        const firstItem = container.firstElementChild as HTMLElement;
+
+        if (firstItem) {
+          const itemWidth = firstItem.offsetWidth + 20; // width + gap
+          setScrollPosition((prev) => {
+            const newPosition = prev + (scrollSpeed * elapsed) / 16;
+            if (newPosition >= itemWidth) {
+              // Instead of moving DOM nodes, we'll reset the position
+              // and let the duplicated items handle the continuous effect
+              return 0;
+            }
+            return newPosition;
+          });
+        }
+      }
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animationFrameId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, []);
 
   const connectWebSocket = useCallback(() => {
     if (wsRef.current?.readyState === WebSocket.OPEN) return;
 
-    const symbols = PRICE_SLIDER_CONFIG.API.CRYPTO_IDS.map(id => 
-      `${id.toLowerCase()}${PRICE_SLIDER_CONFIG.WEBSOCKET.STREAM_PREFIX}`
-    ).join('/');
-    
-    wsRef.current = new WebSocket(`${PRICE_SLIDER_CONFIG.WEBSOCKET.BASE_URL}?streams=${symbols}`);
+    const symbols = PRICE_SLIDER_CONFIG.API.CRYPTO_IDS.map(
+      (id) =>
+        `${id.toLowerCase()}${PRICE_SLIDER_CONFIG.WEBSOCKET.STREAM_PREFIX}`,
+    ).join("/");
+
+    wsRef.current = new WebSocket(
+      `${PRICE_SLIDER_CONFIG.WEBSOCKET.BASE_URL}?streams=${symbols}`,
+    );
 
     wsRef.current.onmessage = (event) => {
       try {
         const { data } = JSON.parse(event.data);
-        if (data.e === 'ticker') {
-          setPrices(prevPrices => {
-            const newPrices = prevPrices.map(price => {
-              if (price.symbol.toLowerCase() === data.s.replace('USDT', '')) {
+        if (data.e === "ticker") {
+          setPrices((prevPrices) => {
+            const newPrices = prevPrices.map((price) => {
+              if (price.symbol.toLowerCase() === data.s.replace("USDT", "")) {
                 return {
                   ...price,
                   price: parseFloat(data.c),
@@ -166,12 +223,12 @@ export const SliderPrices: React.FC = () => {
           });
         }
       } catch (error) {
-        console.error('WebSocket message error:', error);
+        console.error("WebSocket message error:", error);
       }
     };
 
     wsRef.current.onerror = (error) => {
-      console.error('WebSocket error:', error);
+      console.error("WebSocket error:", error);
     };
 
     wsRef.current.onclose = () => {
@@ -193,11 +250,13 @@ export const SliderPrices: React.FC = () => {
       try {
         setIsLoading(true);
         const queryParams = new URLSearchParams({
-          ids: PRICE_SLIDER_CONFIG.API.CRYPTO_IDS.join(','),
-          vs_currencies: 'usd',
-          include_24hr_change: 'true'
+          ids: PRICE_SLIDER_CONFIG.API.CRYPTO_IDS.join(","),
+          vs_currencies: "usd",
+          include_24hr_change: "true",
         });
-        const response = await fetch(`${PRICE_SLIDER_CONFIG.API.URL}?${queryParams}`);
+        const response = await fetch(
+          `${PRICE_SLIDER_CONFIG.API.URL}?${queryParams}`,
+        );
 
         if (!response.ok) {
           throw new Error(
@@ -261,7 +320,7 @@ export const SliderPrices: React.FC = () => {
 
   const duplicatedPrices = useMemo(
     () =>
-      Array(PRICE_SLIDER_CONFIG.DUPLICATION_FACTOR * 2)
+      Array(PRICE_SLIDER_CONFIG.DUPLICATION_FACTOR * 3) // Increased duplication for smoother transition
         .fill(validPrices)
         .flat(),
     [validPrices],
@@ -269,7 +328,7 @@ export const SliderPrices: React.FC = () => {
 
   const displayPrices = useMemo(() => {
     if (isLoading) {
-      return Array(PRICE_SLIDER_CONFIG.DUPLICATION_FACTOR * 2).fill(null);
+      return Array(PRICE_SLIDER_CONFIG.DUPLICATION_FACTOR * 3).fill(null);
     }
     return duplicatedPrices;
   }, [isLoading, duplicatedPrices]);
@@ -277,7 +336,11 @@ export const SliderPrices: React.FC = () => {
   return (
     <PriceSliderErrorBoundary>
       <div className="slider-container">
-        <div className="price-items-container">
+        <div
+          ref={containerRef}
+          className="price-items-container"
+          style={{ transform: `translateX(-${scrollPosition}px)` }}
+        >
           {displayPrices.map((price, index) => renderItem(price, index))}
         </div>
       </div>

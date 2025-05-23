@@ -1,6 +1,27 @@
 import { CRYPTO_CONFIG } from "./crypto";
 import { API_CONFIG } from "./api";
 
+export const CRYPTO_SYMBOL_MAP: { [key: string]: string } = {
+  bitcoin: "BTC",
+  ethereum: "ETH",
+  binancecoin: "BNB",
+  solana: "SOL",
+  cardano: "ADA",
+  tron: "TRX",
+  sui: "SUI",
+  monero: "XMR",
+  dogecoin: "DOGE",
+  pepe: "PEPE",
+  bonk: "BONK",
+  xrp: "XRP",
+  trump: "TRUMP",
+  uniswap: "UNI",
+  cosmos: "ATOM",
+  worldcoin: "WLD",
+  hyperliquid: "HL",
+  story: "STORY",
+} as const;
+
 export const PRICE_SLIDER_CONFIG = {
   REFRESH_INTERVAL: 120000,
   MAX_RETRIES: 5,
@@ -18,19 +39,19 @@ export const PRICE_SLIDER_CONFIG = {
   API: {
     URL: `${API_CONFIG.COINGECKO.BASE_URL}/simple/price`,
     PARAMS: {
-      ids: CRYPTO_CONFIG.CRYPTO_IDS.join(','),
-      vs_currencies: 'usd',
+      ids: CRYPTO_CONFIG.CRYPTO_IDS.join(","),
+      vs_currencies: "usd",
       include_24hr_change: true,
     },
     CRYPTO_IDS: CRYPTO_CONFIG.CRYPTO_IDS,
   },
   WEBSOCKET: {
-    BASE_URL: 'wss://stream.binance.com:9443/stream',
-    STREAM_PREFIX: 'usdt@ticker',
+    BASE_URL: "wss://stream.binance.com:9443/stream",
+    STREAM_PREFIX: "usdt@ticker",
   },
-  DUPLICATION_FACTOR: 10,
+  DUPLICATION_FACTOR: 3,
   CACHE: {
-    KEY: 'crypto_prices_cache',
+    KEY: "crypto_prices_cache",
     DURATION: 5 * 60 * 1000, // 5 minutes
   },
 } as const;

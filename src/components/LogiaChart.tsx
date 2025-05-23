@@ -159,7 +159,8 @@ export async function printChartInfo(
             (planetsResponse.ok
               ? ascendantResponse.status
               : planetsResponse.status
-            ).toString())
+            ).toString(),
+          )
           .replace("{error}", errorText),
       );
     }
