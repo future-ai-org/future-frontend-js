@@ -23,7 +23,8 @@
       "monthPlaceholder": "MM",
       "dayPlaceholder": "DD",
       "hourPlaceholder": "HH",
-      "minutePlaceholder": "MM"
+      "minutePlaceholder": "MM",
+      "unsureTime": "i'm not sure"
     },
     "buttons": {
       "generateChart": "show me!"

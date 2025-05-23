@@ -676,3 +676,73 @@
   margin-right: auto;
   line-height: 1.4;
 }
+
+.astrology-unsure-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-left: 0.75rem;
+  padding: 0.5rem 1rem;
+  border-radius: 1.5rem;
+  border: 1px solid var(--color-primary);
+  background-color: var(--card-bg);
+  transition: all var(--transition-duration) var(--transition-timing);
+}
+
+.astrology-unsure-checkbox:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 4px var(--color-glow-shadow);
+  border-color: var(--color-primary);
+}
+
+.astrology-unsure-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--color-primary);
+  border-radius: 4px;
+  transition: all var(--transition-duration) var(--transition-timing);
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 1px solid var(--color-primary);
+  background-color: var(--card-bg);
+}
+
+.astrology-unsure-checkbox input[type="checkbox"]:checked {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  animation: checkboxPop 0.3s ease-in-out;
+}
+
+@keyframes checkboxPop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.astrology-unsure-checkbox input[type="checkbox"]:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.astrology-unsure-checkbox label {
+  font-size: 0.9rem;
+  color: var(--color-primary);
+  cursor: pointer;
+  user-select: none;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: all var(--transition-duration) var(--transition-timing);
+}
+
+.astrology-unsure-checkbox:hover label {
+  transform: translateX(2px);
+}

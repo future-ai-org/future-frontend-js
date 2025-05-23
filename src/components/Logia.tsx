@@ -83,6 +83,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
   const [timePeriod, setTimePeriod] = useState<
     typeof t.labels.am | typeof t.labels.pm
   >(t.labels.am);
+  const [isUnsure, setIsUnsure] = useState(false);
   const [showTimePeriodSuggestions, setShowTimePeriodSuggestions] =
     useState(false);
   const [citySuggestions, setCitySuggestions] = useState<CitySuggestion[]>([]);
@@ -225,13 +226,17 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
       if (!formData.birthDate || !formData.birthTime || !formData.city) return;
       const [hour, minute] = formData.birthTime.split(":");
       let hour24 = parseInt(hour, 10);
-      if (timePeriod === t.labels.pm && hour24 < 12) hour24 += 12;
-      if (timePeriod === t.labels.am && hour24 === 12) hour24 = 0;
+      if (isUnsure) {
+        hour24 = 12;
+      } else {
+        if (timePeriod === t.labels.pm && hour24 < 12) hour24 += 12;
+        if (timePeriod === t.labels.am && hour24 === 12) hour24 = 0;
+      }
 
       const time24 = `${hour24}:${minute}`;
       onSubmit({ ...formData, birthTime: time24 });
     },
-    [formData, timePeriod, onSubmit],
+    [formData, timePeriod, isUnsure, onSubmit],
   );
 
   const handleBlur = useCallback(() => {
@@ -320,6 +325,25 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             }
             readOnly
           />
+          <div className="astrology-unsure-checkbox">
+            <input
+              type="checkbox"
+              id="unsure-checkbox"
+              checked={isUnsure}
+              onChange={(e) => {
+                setIsUnsure(e.target.checked);
+                if (e.target.checked) {
+                  setTimePeriod(t.labels.pm);
+                  setFormData((prev) => ({
+                    ...prev,
+                    birthTime: "12:00",
+                  }));
+                  cityInputRef.current?.focus();
+                }
+              }}
+            />
+            <label htmlFor="unsure-checkbox">{t.labels.unsureTime}</label>
+          </div>
           {showTimePeriodSuggestions && (
             <ul className="astrology-city-suggestions">
               <li
