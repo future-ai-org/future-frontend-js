@@ -41,7 +41,7 @@
 
 .headerTitle {
   font-size: 2.1rem;
-  font-weight: bold;
+  font-weight: 900;
   color: var(--primary-color);
   margin: 0;
   text-shadow: var(--text-glow);
