@@ -86,7 +86,6 @@
   gap: 4px;
   border: 1px solid var(--color-primary);
   z-index: 1001;
-  cursor: pointer;
 }
 
 /* Chart layout */
@@ -143,9 +142,9 @@
 
 .astrology-table th,
 .astrology-table td {
-  padding: 0.8rem 1rem;
+  padding: 0.8rem 0.8rem;
   font-size: 0.8rem;
-  line-height: 1;
+  line-height: 0.8;
 }
 
 .astrology-table th {
@@ -159,7 +158,7 @@
 /* Zodiac symbol styles */
 .zodiac-symbol {
   font-family: "Astrology", monospace;
-  font-size: 1.2em;
+  font-size: 1.3em;
   display: inline-block;
   margin-left: 0.2em;
   font-feature-settings: "liga" 0;
@@ -173,11 +172,12 @@
   opacity: 1;
   font-weight: 900;
   text-shadow: var(--text-glow);
+  transition: font-size 0.2s ease;
   cursor: pointer;
 }
 
 .zodiac-symbol:hover {
-  opacity: 0.8;
+  font-size: 1.7em;
 }
 
 /* Planet cell styles */
@@ -275,9 +275,15 @@
 }
 
 .planet-text {
-  font-size: 16px;
+  font-size: 1.1em;
   fill: var(--color-primary);
   font-weight: 500;
+  transition: font-size 0.2s ease;
+  cursor: pointer;
+}
+
+.planet-text:hover {
+  font-size: 1.5em;
 }
 
 .chart-circle-inner,
