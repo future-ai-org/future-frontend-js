@@ -21,6 +21,7 @@ import {
   drawZodiacSymbols,
   drawAspects,
   drawPlanets,
+  drawAscendant,
 } from "../utils/chartFilling";
 import {
   geocodeCity,
@@ -374,6 +375,7 @@ export default function LogiaChart({
         setSelectedPlanet,
         getPlanetSymbol,
       );
+      drawAscendant(g, dimensions.radius);
 
       return g;
     },

@@ -15,10 +15,7 @@ function getGlobalTooltip(
     globalTooltip = d3
       .select("body")
       .append("div")
-      .attr("class", `tooltip tooltip-${type}`)
-      .style("position", "absolute")
-      .style("visibility", "hidden")
-      .style("opacity", "0");
+      .attr("class", `tooltip tooltip-${type}`);
   } else {
     // Update the tooltip type
     globalTooltip.attr("class", `tooltip tooltip-${type}`);
@@ -84,16 +81,31 @@ export function drawChartCircles(
     .attr("class", "chart-circle-outer");
 }
 
+export const HOUSE_ANGLES = [
+  150, // House 1 (9 o'clock)
+  120, // House 2
+  90, // House 3
+  60, // House 4 (12 o'clock)
+  30, // House 5
+  0, // House 6
+  330, // House 7 (3 o'clock)
+  300, // House 8
+  270, // House 9
+  240, // House 10 (6 o'clock)
+  210, // House 11
+  180, // House 12
+];
+
 export function drawHouseLines(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
   radius: number,
 ) {
-  for (let i = 0; i < 12; i++) {
-    const angle = i * 30;
-    const x = radius * Math.cos((angle * Math.PI) / 180);
-    const y = radius * Math.sin((angle * Math.PI) / 180);
-    const innerX = radius * 0.1 * Math.cos((angle * Math.PI) / 180);
-    const innerY = radius * 0.1 * Math.sin((angle * Math.PI) / 180);
+  HOUSE_ANGLES.forEach((angle) => {
+    const angleRad = (angle * Math.PI) / 180;
+    const x = radius * Math.cos(angleRad);
+    const y = radius * Math.sin(angleRad);
+    const innerX = radius * 0.1 * Math.cos(angleRad);
+    const innerY = radius * 0.1 * Math.sin(angleRad);
 
     g.append("line")
       .attr("x1", innerX)
@@ -101,7 +113,7 @@ export function drawHouseLines(
       .attr("x2", x)
       .attr("y2", y)
       .attr("class", "house-line");
-  }
+  });
 }
 
 export function drawHouseNumbers(
@@ -110,10 +122,11 @@ export function drawHouseNumbers(
 ) {
   const tooltip = getGlobalTooltip("large");
 
-  for (let i = 0; i < 12; i++) {
-    const angle = ((150 - i * 30 + 15) * Math.PI) / 180;
-    const x = radius * 0.15 * Math.cos(angle);
-    const y = radius * 0.15 * Math.sin(angle);
+  HOUSE_ANGLES.forEach((angle, i) => {
+    // Position the house numbers at the middle of each house (15 degrees offset)
+    const labelAngle = ((angle + 15) * Math.PI) / 180;
+    const x = radius * 0.15 * Math.cos(labelAngle);
+    const y = radius * 0.15 * Math.sin(labelAngle);
 
     g.append("text")
       .attr("x", x)
@@ -132,7 +145,7 @@ export function drawHouseNumbers(
           .style("visibility", "visible")
           .style("opacity", "1")
           .html(
-            `<strong>House ${houseNumber}</strong><p>${houseDescription}</p>`,
+            `<strong>${chartStrings.en.table.house} ${houseNumber}</strong><p>${houseDescription}</p>`,
           )
           .style("left", event.pageX + 10 + "px")
           .style("top", event.pageY - 10 + "px");
@@ -145,5 +158,5 @@ export function drawHouseNumbers(
       .on("mouseout", function () {
         tooltip.style("visibility", "hidden").style("opacity", "0");
       });
-  }
+  });
 }

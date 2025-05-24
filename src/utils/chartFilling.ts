@@ -32,12 +32,10 @@ function getGlobalTooltip(
 export function drawAscendant(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
   radius: number,
-  ascendantAngle: number,
 ) {
-  const ascX =
-    (radius - 35) * Math.cos(((ascendantAngle - 90) * Math.PI) / 180);
-  const ascY =
-    (radius - 35) * Math.sin(((ascendantAngle - 90) * Math.PI) / 180);
+  // The first house is always at 0 degrees in chartDrawing.ts
+  const ascX = radius * Math.cos(0);
+  const ascY = radius * Math.sin(0);
 
   const ascGroup = g
     .append("g")
