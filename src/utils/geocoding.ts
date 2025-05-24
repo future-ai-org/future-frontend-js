@@ -1,4 +1,4 @@
-import { OPENSTREETMAP_API_URL } from "../config/api";
+import { OPENSTREETMAP_API_URL } from "../config/geocoding";
 import strings from "../i18n/logia.json";
 
 export interface Coordinates {
