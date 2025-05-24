@@ -41,11 +41,10 @@
     },
     "text": {
       "and": " and personalize ",
-      "intelFromOracle": "from our oracle agents",
+      "intelFromOracle": "from our oracle AI agents",
       "startMakingSmarterChoices": {
-        "prefix": "start making smarter",
-        "link": "choices",
-        "suffix": "decisions"
+        "prefix": "and start making smarter",
+        "link": "decisions"
       },
       "leverage": "leverage smart"
     }
