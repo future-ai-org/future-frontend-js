@@ -15,6 +15,7 @@
       "apiResponseData": "API Response data:",
       "processedDataPoints": "Processed data points:",
       "fetchError": "Error fetching historical data",
+      "historicalDataError": "Failed to fetch historical data: {{error}}",
       "useEffectTriggered": "useEffect triggered with timePeriod:"
     },
     "labels": {

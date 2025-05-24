@@ -182,6 +182,12 @@ export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
           );
         }
       } catch (err) {
+        console.error(
+          tradingMessages.en.error.historicalDataError.replace(
+            "{{error}}",
+            err instanceof Error ? err.message : String(err),
+          ),
+        );
         setChartData(sampleData);
       }
     },
