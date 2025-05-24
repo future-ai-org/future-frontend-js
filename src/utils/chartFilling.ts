@@ -4,28 +4,14 @@ import chartStrings from "../i18n/logiaChart.json";
 
 type ZodiacSign = keyof typeof chartStrings.en.signs;
 
-let globalTooltip: d3.Selection<
-  HTMLDivElement,
-  unknown,
-  HTMLElement,
-  unknown
-> | null = null;
-
-function getGlobalTooltip(
-  type: "large" | "quick" = "quick",
-): d3.Selection<HTMLDivElement, unknown, HTMLElement, unknown> {
-  if (!globalTooltip) {
-    globalTooltip = d3
-      .select("body")
-      .append("div")
-      .attr("class", `tooltip tooltip-${type}`)
-      .style("position", "absolute")
-      .style("visibility", "hidden")
-      .style("opacity", "0");
-  } else {
-    globalTooltip.attr("class", `tooltip tooltip-${type}`);
-  }
-  return globalTooltip;
+function createTooltip(type: "large" | "quick" = "quick"): d3.Selection<HTMLDivElement, unknown, HTMLElement, unknown> {
+  return d3
+    .select("body")
+    .append("div")
+    .attr("class", `tooltip tooltip-${type}`)
+    .style("position", "absolute")
+    .style("visibility", "hidden")
+    .style("opacity", "0");
 }
 
 export function drawAscendant(
@@ -36,7 +22,7 @@ export function drawAscendant(
   const ascendantAngle = ((360 - chartData.houses[0] + 180) * Math.PI) / 180;
   const ascX = (radius - 35) * Math.cos(ascendantAngle);
   const ascY = (radius - 35) * Math.sin(ascendantAngle);
-  const tooltip = getGlobalTooltip("quick");
+  const tooltip = createTooltip("quick");
 
   const ascGroup = g
     .append("g")
@@ -83,7 +69,7 @@ export function drawZodiacSymbols(
   const zodiacNames = ZODIAC_SIGNS.map(
     (sign) => sign.charAt(0) + sign.slice(1),
   );
-  const tooltip = getGlobalTooltip("large");
+  const tooltip = createTooltip("large");
 
   for (let index = 0; index < 12; index++) {
     const angle = ((index * 30 - 90 + 15) * Math.PI) / 180;
@@ -128,7 +114,7 @@ export function drawPlanets(
   onPlanetClick: (planetName: string) => void,
   getPlanetSymbol: (name: string) => string,
 ) {
-  const tooltip = getGlobalTooltip("quick");
+  const tooltip = createTooltip("quick");
 
   chartData.planets.forEach((planet) => {
     const angle = ((planet.position - 90) * Math.PI) / 180;
