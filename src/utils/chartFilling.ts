@@ -174,12 +174,32 @@ export function drawAspects(
       const y2 =
         (radius - 35) * Math.sin(((planet2.position - 90) * Math.PI) / 180);
 
+      // Calculate the angle difference
+      let angleDiff = Math.abs(planet1.position - planet2.position);
+      if (angleDiff > 180) {
+        angleDiff = 360 - angleDiff;
+      }
+
+      // Determine aspect type and class
+      let aspectClass = "aspect-line";
+      if (Math.abs(angleDiff - 180) < 1) {
+        aspectClass = "aspect-opposition";
+      } else if (Math.abs(angleDiff - 90) < 1) {
+        aspectClass = "aspect-square";
+      } else if (Math.abs(angleDiff - 120) < 1) {
+        aspectClass = "aspect-trine";
+      } else if (Math.abs(angleDiff - 60) < 1) {
+        aspectClass = "aspect-sextile";
+      } else if (Math.abs(angleDiff - 72) < 1) {
+        aspectClass = "aspect-quintile";
+      }
+
       g.append("line")
         .attr("x1", x1)
         .attr("y1", y1)
         .attr("x2", x2)
         .attr("y2", y2)
-        .attr("class", "aspect-line");
+        .attr("class", aspectClass);
     }
   });
 }

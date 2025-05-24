@@ -241,6 +241,44 @@
   stroke-dasharray: 3, 3;
 }
 
+/* Aspect-specific styles */
+.aspect-opposition {
+  stroke: var(--color-primary);
+  stroke-width: 3;
+  stroke-dasharray: none;
+  opacity: 1;
+  filter: drop-shadow(0 0 2px var(--color-primary));
+}
+
+.aspect-square {
+  stroke: var(--color-primary);
+  stroke-width: 2;
+  stroke-dasharray: 12, 6;
+  opacity: 0.9;
+}
+
+.aspect-trine {
+  stroke: var(--color-primary);
+  stroke-width: 2;
+  stroke-dasharray: 6, 3;
+  opacity: 0.85;
+}
+
+.aspect-sextile {
+  stroke: var(--color-primary);
+  stroke-width: 0.8;
+  stroke-dasharray: 0, 6;
+  stroke-linecap: round;
+  opacity: 0.75;
+}
+
+.aspect-quintile {
+  stroke: var(--color-primary);
+  stroke-width: 0.6;
+  stroke-dasharray: 2, 2, 2, 2, 2, 2;
+  opacity: 0.6;
+}
+
 /* Ascendant styles */
 .ascendant-circle {
   fill: var(--color-primary);
