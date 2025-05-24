@@ -47,7 +47,7 @@ export function drawAscendant(
         .style("visibility", "visible")
         .style("opacity", "1")
         .html(
-          `<strong>${chartStrings.en.points.ascendant}</strong> ${chartStrings.en.points.tooltip.replace("{sign}", chartData.ascendantSign.toLowerCase()).replace("{position}", chartData.houses[0].toFixed(2))}`,
+          `${chartStrings.en.points.ascendant} ${chartStrings.en.points.tooltip.replace("{sign}", chartData.ascendantSign.toLowerCase()).replace("{position}", chartData.houses[0].toFixed(2))}`,
         )
         .style("left", event.pageX + 10 + "px")
         .style("top", event.pageY - 10 + "px");
@@ -146,7 +146,7 @@ export function drawPlanets(
           .style("visibility", "visible")
           .style("opacity", "1")
           .html(
-            `<strong>${planet.name}</strong> ${planet.sign} ${planet.position.toFixed(1)}°`,
+            `${planet.name} ${chartStrings.en.planetTooltip.replace("{sign}", planet.sign).replace("{position}", planet.position.toFixed(2))}`,
           )
           .style("left", event.pageX + 10 + "px")
           .style("top", event.pageY - 10 + "px");

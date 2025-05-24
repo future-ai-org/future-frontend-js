@@ -93,6 +93,6 @@
       "apiUrlNotConfigured": "API URL is not configured",
       "cityNotFound": "city not found"
     },
-    "planetTooltip": "in {sign} ({position}°)"
+    "planetTooltip": "in {sign} at {position}°"
   }
 }
