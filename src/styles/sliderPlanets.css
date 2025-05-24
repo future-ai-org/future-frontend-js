@@ -24,7 +24,7 @@
   display: flex;
   overflow: hidden;
   gap: 10px;
-  padding: 0.1rem 0;
+  padding: 0rem 0;
   background-color: var(--background-color);
   position: relative;
   width: 100vw;
