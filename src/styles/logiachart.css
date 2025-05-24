@@ -268,22 +268,25 @@
   stroke-dasharray: 3, 3;
 }
 
-.planet-circle {
-  fill: var(--color-primary);
-  stroke: var(--color-background);
-  stroke-width: 2;
-}
-
 .planet-text {
   font-size: 1.1em;
-  fill: var(--color-primary);
-  font-weight: 500;
-  transition: font-size 0.2s ease;
+  fill: var(--color-background);
+  font-weight: 900;
   cursor: pointer;
+  font-family: "Astrology", monospace;
 }
 
-.planet-text:hover {
-  font-size: 1.5em;
+.planet-background {
+  fill: var(--color-primary);
+  opacity: 0.9;
+}
+
+.planet-group:hover .planet-text {
+  font-size: 1.7em;
+}
+
+.planet-group:hover .planet-background {
+  transform: scale(1.43);
 }
 
 .chart-circle-inner,
@@ -294,11 +297,6 @@
 
 .planet-group {
   cursor: pointer;
-}
-
-.planet-glow {
-  fill: var(--color-primary);
-  filter: blur(4px);
 }
 
 /* Typography */

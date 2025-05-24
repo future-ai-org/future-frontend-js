@@ -141,16 +141,15 @@ export function drawPlanets(
 
     planetGroup
       .append("circle")
-      .attr("r", 10)
-      .attr("class", "planet-glow")
-      .attr("opacity", 0.3);
-
-    planetGroup.append("circle").attr("r", 8).attr("class", "planet-circle");
+      .attr("r", 12)
+      .attr("class", "planet-background");
 
     planetGroup
       .append("text")
-      .attr("x", 12)
-      .attr("y", 5)
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("text-anchor", "middle")
+      .attr("dominant-baseline", "middle")
       .text(getPlanetSymbol(planet.name))
       .attr("class", "planet-text");
   });
