@@ -23,7 +23,6 @@ function getGlobalTooltip(
       .style("visibility", "hidden")
       .style("opacity", "0");
   } else {
-    // Update the tooltip type
     globalTooltip.attr("class", `tooltip tooltip-${type}`);
   }
   return globalTooltip;
@@ -32,10 +31,11 @@ function getGlobalTooltip(
 export function drawAscendant(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
   radius: number,
+  chartData: ChartData,
 ) {
-  // The first house is always at 0 degrees in chartDrawing.ts
-  const ascX = radius * Math.cos(0);
-  const ascY = radius * Math.sin(0);
+  const ascendantAngle = ((360 - chartData.houses[0] + 180) * Math.PI) / 180;
+  const ascX = radius * Math.cos(ascendantAngle);
+  const ascY = radius * Math.sin(ascendantAngle);
 
   const ascGroup = g
     .append("g")

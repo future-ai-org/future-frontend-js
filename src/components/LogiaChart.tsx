@@ -375,7 +375,7 @@ export default function LogiaChart({
         setSelectedPlanet,
         getPlanetSymbol,
       );
-      drawAscendant(g, dimensions.radius);
+      drawAscendant(g, dimensions.radius, chartData);
 
       return g;
     },
