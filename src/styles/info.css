@@ -86,7 +86,7 @@
 }
 
 .signature-love {
-  font-size: clamp(1.5rem, 4vw, 2.1rem);
+  font-size: clamp(1.4rem, 4vw, 2rem);
   text-align: left;
   line-height: 1;
   text-shadow: var(--text-glow);

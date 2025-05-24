@@ -103,9 +103,9 @@
 
 .table-header {
   padding: 15px 15px 25px;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: var(--color-primary);
-  font-weight: 1000;
+  font-weight: 1200;
   text-transform: uppercase;
   width: 100%;
   display: table-cell;
@@ -269,7 +269,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   line-height: 1.2;
-  font-size: clamp(0.9em, 1.1em, 1.2em);
+  font-size: clamp(0.8em, 1em, 1.1em);
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -341,11 +341,11 @@
 
 .crypto-price-cell,
 .crypto-change-cell {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
 .crypto-market-cap-cell {
-  font-size: 1.1em;
+  font-size: 1em;
 }
 
 .crypto-change-cell {
