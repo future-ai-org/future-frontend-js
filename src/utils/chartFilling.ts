@@ -34,21 +34,44 @@ export function drawAscendant(
   chartData: ChartData,
 ) {
   const ascendantAngle = ((360 - chartData.houses[0] + 180) * Math.PI) / 180;
-  const ascX = radius * Math.cos(ascendantAngle);
-  const ascY = radius * Math.sin(ascendantAngle);
+  const ascX = (radius - 35) * Math.cos(ascendantAngle);
+  const ascY = (radius - 35) * Math.sin(ascendantAngle);
+  const tooltip = getGlobalTooltip("quick");
 
   const ascGroup = g
     .append("g")
-    .attr("transform", `translate(${ascX},${ascY})`);
+    .attr("transform", `translate(${ascX},${ascY})`)
+    .attr("class", "planet-group")
+    .on("mouseover", function (event) {
+      tooltip
+        .style("visibility", "visible")
+        .style("opacity", "1")
+        .html(
+          `<strong>${chartStrings.en.points.ascendant}</strong> ${chartStrings.en.points.tooltip.replace("{sign}", chartData.ascendantSign.toLowerCase()).replace("{position}", chartData.houses[0].toFixed(2))}`,
+        )
+        .style("left", event.pageX + 10 + "px")
+        .style("top", event.pageY - 10 + "px");
+    })
+    .on("mousemove", function (event) {
+      tooltip
+        .style("left", event.pageX + 10 + "px")
+        .style("top", event.pageY - 10 + "px");
+    })
+    .on("mouseout", function () {
+      tooltip.style("visibility", "hidden").style("opacity", "0");
+    });
 
-  ascGroup.append("circle").attr("r", 8).attr("class", "ascendant-circle");
+  ascGroup.append("circle").attr("r", 12).attr("class", "planet-background");
 
   ascGroup
     .append("text")
-    .attr("x", 12)
-    .attr("y", 5)
-    .text("ASC")
-    .attr("class", "ascendant-text");
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("text-anchor", "middle")
+    .attr("dominant-baseline", "middle")
+    .style("font-size", "14px")
+    .text(chartStrings.en.points.ascendantEmoji)
+    .attr("class", "planet-text");
 }
 
 export function drawZodiacSymbols(

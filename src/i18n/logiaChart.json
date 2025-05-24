@@ -2,6 +2,11 @@
   "en": {
     "title": "this is your blueprint",
     "subtitle": "logia for {birthDate} at {birthTime} in {city} {latitude}",
+    "points": {
+      "ascendant": "ascendant",
+      "ascendantEmoji": "👩‍🚀",
+      "tooltip": "in {sign} at {position}°"
+    },
     "zodiacSigns": [
       "pisces",
       "aquarius",

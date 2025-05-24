@@ -26,6 +26,7 @@ export interface ChartData {
   latitude: number;
   longitude: number;
   city: string;
+  ascendantSign: string;
 }
 
 export const PLANET_SYMBOLS = {
@@ -174,6 +175,7 @@ export function calculateChartData(
     latitude,
     longitude,
     city,
+    ascendantSign: ascendantData.sign.toLowerCase(),
   };
 }
 
