@@ -1,10 +1,26 @@
-import { API_CONFIG } from "./api";
+export const COINGECKO_CONFIG = {
+  BASE_URL: "https://api.coingecko.com/api/v3",
+  ENDPOINTS: {
+    MARKETS: "/coins/markets",
+    SEARCH: "/search/trending",
+    COIN_DETAILS: "/coins/{{id}}",
+  },
+  PARAMS: {
+    VS_CURRENCY: "usd",
+    ORDER: "market_cap_desc",
+    PER_PAGE: 30,
+    PAGE: 1,
+    SPARKLINE: false,
+  },
+  MARKET_CHART: (coinId: string, days: string | number, interval: string) =>
+    `/coins/${coinId.toLowerCase()}/market_chart?vs_currency=usd&days=${days}&interval=${interval}`,
+} as const;
 
 export const CRYPTO_CONFIG = {
   MEMECOIN_IDS: ["shiba-inu", "pepe", "floki-inu", "bonk"],
   TOP_CRYPTO_COUNT: 10,
-  CURRENCY: API_CONFIG.COINGECKO.PARAMS.VS_CURRENCY,
-  ORDER_BY: API_CONFIG.COINGECKO.PARAMS.ORDER,
+  CURRENCY: COINGECKO_CONFIG.PARAMS.VS_CURRENCY,
+  ORDER_BY: COINGECKO_CONFIG.PARAMS.ORDER,
   CRYPTO_IDS: [
     "bitcoin",
     "ethereum",
@@ -25,4 +41,52 @@ export const CRYPTO_CONFIG = {
     "hyperliquid",
     "story",
   ],
+} as const;
+
+export const CRYPTO_ICONS: { [key: string]: string } = {
+  // Main tracked cryptocurrencies
+  BTC: "₿",
+  ETH: "Ξ",
+  BNB: "B",
+  SOL: "◎",
+  ADA: "₳",
+  DOGE: "Ð",
+  SHIB: "🐕",
+  PEPE: "🐸",
+  FLOKI: "🐺",
+  BONK: "🦴",
+  USDT: "₮",
+
+  // Common trending cryptocurrencies
+  XRP: "✕",
+  DOT: "●",
+  LINK: "🔗",
+  MATIC: "⬡",
+  AVAX: "🅰",
+  LTC: "Ł",
+  XLM: "★",
+  XMR: "ɱ",
+  ATOM: "⚛️",
+  UNI: "🦄",
+  AAVE: "🦇",
+  CAKE: "🥞",
+  SUSHI: "🍣",
+  YFI: "💰",
+  COMP: "🏦",
+  SNX: "⚡",
+  MKR: "🏭",
+  CRV: "🔄",
+  "1INCH": "1️⃣",
+  ALGO: "🔢",
+  NEAR: "Ⓝ",
+  FTM: "👻",
+  GRT: "🌐",
+  HBAR: "ⓗ",
+  ICP: "🌐",
+  MANA: "🎮",
+  THETA: "θ",
+  TRX: "T",
+  VET: "Ⓥ",
+  XTZ: "ꜩ",
+  ZEC: "ⓩ",
 } as const;

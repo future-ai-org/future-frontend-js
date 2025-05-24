@@ -10,14 +10,14 @@ import {
   ReferenceLine,
   Line,
 } from "recharts";
-import "../styles/tradeAsset.css";
+import "@/styles/tradeAsset.css";
 import {
   TimePeriod,
   TIME_PERIOD_CONFIG,
   TIME_PERIODS,
-} from "../config/tradeAsset";
-import { API_CONFIG } from "../config/api";
-import tradingMessages from "../i18n/tradeAsset.json";
+} from "@/config/tradeAsset";
+import tradingMessages from "@/i18n/tradeAsset.json";
+import { COINGECKO_CONFIG } from "@/config/crypto";
 
 interface TradeAssetProps {
   assetId: string;
@@ -127,16 +127,15 @@ export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
       try {
         const { days, dataPoints, interval } = TIME_PERIOD_CONFIG[period];
 
-        const response = await fetch(
-          `${API_CONFIG.COINGECKO.BASE_URL}${API_CONFIG.COINGECKO.MARKET_CHART(assetId, days, interval)}`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
+        const chartUrl = `${COINGECKO_CONFIG.BASE_URL}${COINGECKO_CONFIG.MARKET_CHART(assetId, days, interval)}`;
+
+        const response = await fetch(chartUrl, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
           },
-        );
+        });
 
         if (!response.ok) {
           const errorText = await response.text();

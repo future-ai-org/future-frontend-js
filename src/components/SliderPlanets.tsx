@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useMemo, useCallback } from "react";
-import "../styles/slider_planets.css";
+import "../styles/sliderPlanets.css";
 import { PLANET_SYMBOLS, ZODIAC_SYMBOLS } from "../config/logiaChart";
 import {
   LOS_ANGELES_LATITUDE,
