@@ -15,7 +15,13 @@ function getGlobalTooltip(): d3.Selection<
   unknown
 > {
   if (!globalTooltip) {
-    globalTooltip = d3.select("body").append("div").attr("class", "tooltip");
+    globalTooltip = d3
+      .select("body")
+      .append("div")
+      .attr("class", "tooltip")
+      .style("position", "absolute")
+      .style("visibility", "hidden")
+      .style("opacity", "0");
   }
   return globalTooltip;
 }
@@ -124,7 +130,7 @@ export function drawHouseNumbers(
 
         tooltip
           .classed("visible", true)
-          .text(`house ${houseNumber}\n\n${houseDescription}`)
+          .html(`<strong>House ${houseNumber}</strong>${houseDescription}`)
           .style("left", event.pageX + 10 + "px")
           .style("top", event.pageY - 10 + "px");
       })

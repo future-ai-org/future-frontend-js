@@ -18,13 +18,7 @@ function getGlobalTooltip(): d3.Selection<
   unknown
 > {
   if (!globalTooltip) {
-    globalTooltip = d3
-      .select("body")
-      .append("div")
-      .attr("class", "tooltip")
-      .style("position", "absolute")
-      .style("visibility", "hidden")
-      .style("opacity", "0");
+    globalTooltip = d3.select("body").append("div").attr("class", "tooltip");
   }
   return globalTooltip;
 }
@@ -81,9 +75,8 @@ export function drawZodiacSymbols(
         const signDescription = chartStrings.en.signs[signName];
 
         tooltip
-          .style("visibility", "visible")
-          .style("opacity", "1")
-          .html(`<strong>${zodiacNames[index]}</strong>\n\n${signDescription}`)
+          .classed("visible", true)
+          .html(`<strong>${zodiacNames[index]}</strong>${signDescription}`)
           .style("left", event.pageX + 10 + "px")
           .style("top", event.pageY - 10 + "px");
       })
@@ -93,7 +86,7 @@ export function drawZodiacSymbols(
           .style("top", event.pageY - 10 + "px");
       })
       .on("mouseout", function () {
-        tooltip.style("visibility", "hidden").style("opacity", "0");
+        tooltip.classed("visible", false);
       });
   }
 }
@@ -120,10 +113,9 @@ export function drawPlanets(
       .on("click", () => onPlanetClick(planet.name))
       .on("mouseover", function (event) {
         tooltip
-          .style("visibility", "visible")
-          .style("opacity", "1")
+          .classed("visible", true)
           .html(
-            `<strong>${planet.name}</strong> ${chartStrings.en.planetTooltip
+            `<strong>${planet.name}</strong>${chartStrings.en.planetTooltip
               .replace("{sign}", planet.sign)
               .replace("{position}", planet.position.toFixed(1))}`,
           )
@@ -136,7 +128,7 @@ export function drawPlanets(
           .style("top", event.pageY - 10 + "px");
       })
       .on("mouseout", function () {
-        tooltip.style("visibility", "hidden").style("opacity", "0");
+        tooltip.classed("visible", false);
       });
 
     planetGroup
