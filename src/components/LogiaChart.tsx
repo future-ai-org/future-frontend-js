@@ -366,7 +366,7 @@ export default function LogiaChart({
       drawChartCircles(g, dimensions.radius);
       drawHouseLines(g, dimensions.radius);
       drawHouseNumbers(g, dimensions.radius);
-      drawZodiacSymbols(g, dimensions.radius, ZODIAC_ORDER);
+      drawZodiacSymbols(g, dimensions.radius, ZODIAC_ORDER, chartData);
       drawAspects(g, dimensions.radius, chartData);
       drawPlanets(
         g,

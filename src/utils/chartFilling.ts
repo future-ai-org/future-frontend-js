@@ -57,20 +57,50 @@ export function drawZodiacSymbols(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
   radius: number,
   zodiacSymbols: string[],
+  chartData: ChartData,
 ) {
   const zodiacRadius = radius + 15;
-  const zodiacNames = ZODIAC_SIGNS.map(
-    (sign) => sign.charAt(0) + sign.slice(1),
-  );
   const tooltip = d3
     .select("body")
     .append("div")
     .attr("class", "tooltip tooltip-large");
 
+  // Find the index of the ascendant sign in ZODIAC_SIGNS
+  const ascendantIndex = ZODIAC_SIGNS.findIndex(
+    (sign) => sign.toLowerCase() === chartData.ascendantSign.toLowerCase()
+  );
+
+  // Create an array of signs starting from the ascendant
+  const orderedSigns = [
+    ...ZODIAC_SIGNS.slice(ascendantIndex),
+    ...ZODIAC_SIGNS.slice(0, ascendantIndex),
+  ];
+
+  // House angles from chartDrawing.ts
+  const HOUSE_ANGLES = [
+    150, // House 1 (9 o'clock)
+    120, // House 2
+    90, // House 3
+    60, // House 4 (12 o'clock)
+    30, // House 5
+    0, // House 6
+    330, // House 7 (3 o'clock)
+    300, // House 8
+    270, // House 9
+    240, // House 10 (6 o'clock)
+    210, // House 11
+    180, // House 12
+  ];
+
   for (let index = 0; index < 12; index++) {
-    const angle = ((index * 30 - 90 + 15) * Math.PI) / 180;
-    const x = zodiacRadius * Math.cos(angle);
-    const y = zodiacRadius * Math.sin(angle);
+    // Add 15 degrees to place the symbol in the middle of each house slice
+    const houseAngle = HOUSE_ANGLES[index];
+    const middleAngle = (houseAngle + 15) * Math.PI / 180;
+    const x = zodiacRadius * Math.cos(middleAngle);
+    const y = zodiacRadius * Math.sin(middleAngle);
+
+    const signName = orderedSigns[index].toLowerCase() as ZodiacSign;
+    const signSymbol = zodiacSymbols[ZODIAC_SIGNS.indexOf(orderedSigns[index])];
 
     g.append("text")
       .attr("x", x)
@@ -78,16 +108,15 @@ export function drawZodiacSymbols(
       .attr("text-anchor", "middle")
       .attr("dy", "0.35em")
       .attr("class", "zodiac-symbol")
-      .text(zodiacSymbols[index])
+      .text(signSymbol)
       .on("mouseover", function (event) {
-        const signName = zodiacNames[index].toLowerCase() as ZodiacSign;
         const signDescription = chartStrings.en.signs[signName];
 
         tooltip
           .style("visibility", "visible")
           .style("opacity", "1")
           .html(
-            `<strong>${zodiacNames[index]}</strong><p>${signDescription}</p>`,
+            `<strong>${orderedSigns[index]}</strong><p>${signDescription}</p>`,
           )
           .style("left", event.pageX + 10 + "px")
           .style("top", event.pageY - 10 + "px");
