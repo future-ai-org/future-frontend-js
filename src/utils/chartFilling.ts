@@ -11,14 +11,20 @@ let globalTooltip: d3.Selection<
   unknown
 > | null = null;
 
-function getGlobalTooltip(): d3.Selection<
-  HTMLDivElement,
-  unknown,
-  HTMLElement,
-  unknown
-> {
+function getGlobalTooltip(
+  type: "large" | "quick" = "quick",
+): d3.Selection<HTMLDivElement, unknown, HTMLElement, unknown> {
   if (!globalTooltip) {
-    globalTooltip = d3.select("body").append("div").attr("class", "tooltip");
+    globalTooltip = d3
+      .select("body")
+      .append("div")
+      .attr("class", `tooltip tooltip-${type}`)
+      .style("position", "absolute")
+      .style("visibility", "hidden")
+      .style("opacity", "0");
+  } else {
+    // Update the tooltip type
+    globalTooltip.attr("class", `tooltip tooltip-${type}`);
   }
   return globalTooltip;
 }
@@ -56,7 +62,7 @@ export function drawZodiacSymbols(
   const zodiacNames = ZODIAC_SIGNS.map(
     (sign) => sign.charAt(0) + sign.slice(1),
   );
-  const tooltip = getGlobalTooltip();
+  const tooltip = getGlobalTooltip("large");
 
   for (let index = 0; index < 12; index++) {
     const angle = ((index * 30 - 90 + 15) * Math.PI) / 180;
@@ -75,8 +81,11 @@ export function drawZodiacSymbols(
         const signDescription = chartStrings.en.signs[signName];
 
         tooltip
-          .classed("visible", true)
-          .html(`<strong>${zodiacNames[index]}</strong>${signDescription}`)
+          .style("visibility", "visible")
+          .style("opacity", "1")
+          .html(
+            `<strong>${zodiacNames[index]}</strong><p>${signDescription}</p>`,
+          )
           .style("left", event.pageX + 10 + "px")
           .style("top", event.pageY - 10 + "px");
       })
@@ -86,7 +95,7 @@ export function drawZodiacSymbols(
           .style("top", event.pageY - 10 + "px");
       })
       .on("mouseout", function () {
-        tooltip.classed("visible", false);
+        tooltip.style("visibility", "hidden").style("opacity", "0");
       });
   }
 }
@@ -98,7 +107,7 @@ export function drawPlanets(
   onPlanetClick: (planetName: string) => void,
   getPlanetSymbol: (name: string) => string,
 ) {
-  const tooltip = getGlobalTooltip();
+  const tooltip = getGlobalTooltip("quick");
 
   chartData.planets.forEach((planet) => {
     const angle = ((planet.position - 90) * Math.PI) / 180;
@@ -113,11 +122,10 @@ export function drawPlanets(
       .on("click", () => onPlanetClick(planet.name))
       .on("mouseover", function (event) {
         tooltip
-          .classed("visible", true)
+          .style("visibility", "visible")
+          .style("opacity", "1")
           .html(
-            `<strong>${planet.name}</strong>${chartStrings.en.planetTooltip
-              .replace("{sign}", planet.sign)
-              .replace("{position}", planet.position.toFixed(1))}`,
+            `<strong>${planet.name}</strong> ${planet.sign} ${planet.position.toFixed(1)}°`,
           )
           .style("left", event.pageX + 10 + "px")
           .style("top", event.pageY - 10 + "px");
@@ -128,7 +136,7 @@ export function drawPlanets(
           .style("top", event.pageY - 10 + "px");
       })
       .on("mouseout", function () {
-        tooltip.classed("visible", false);
+        tooltip.style("visibility", "hidden").style("opacity", "0");
       });
 
     planetGroup

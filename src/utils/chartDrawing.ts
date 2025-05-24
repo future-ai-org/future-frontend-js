@@ -8,20 +8,20 @@ let globalTooltip: d3.Selection<
   unknown
 > | null = null;
 
-function getGlobalTooltip(): d3.Selection<
-  HTMLDivElement,
-  unknown,
-  HTMLElement,
-  unknown
-> {
+function getGlobalTooltip(
+  type: "large" | "quick" = "quick",
+): d3.Selection<HTMLDivElement, unknown, HTMLElement, unknown> {
   if (!globalTooltip) {
     globalTooltip = d3
       .select("body")
       .append("div")
-      .attr("class", "tooltip")
+      .attr("class", `tooltip tooltip-${type}`)
       .style("position", "absolute")
       .style("visibility", "hidden")
       .style("opacity", "0");
+  } else {
+    // Update the tooltip type
+    globalTooltip.attr("class", `tooltip tooltip-${type}`);
   }
   return globalTooltip;
 }
@@ -108,7 +108,7 @@ export function drawHouseNumbers(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
   radius: number,
 ) {
-  const tooltip = getGlobalTooltip();
+  const tooltip = getGlobalTooltip("large");
 
   for (let i = 0; i < 12; i++) {
     const angle = ((150 - i * 30 + 15) * Math.PI) / 180;
@@ -129,8 +129,11 @@ export function drawHouseNumbers(
         const houseDescription = chartStrings.en.houses[houseNumber];
 
         tooltip
-          .classed("visible", true)
-          .html(`<strong>House ${houseNumber}</strong>${houseDescription}`)
+          .style("visibility", "visible")
+          .style("opacity", "1")
+          .html(
+            `<strong>House ${houseNumber}</strong><p>${houseDescription}</p>`,
+          )
           .style("left", event.pageX + 10 + "px")
           .style("top", event.pageY - 10 + "px");
       })
@@ -140,7 +143,7 @@ export function drawHouseNumbers(
           .style("top", event.pageY - 10 + "px");
       })
       .on("mouseout", function () {
-        tooltip.classed("visible", false);
+        tooltip.style("visibility", "hidden").style("opacity", "0");
       });
   }
 }

@@ -8,36 +8,42 @@
   src: url("/fonts/Astrology-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 /* Common variables and utilities */
 :root {
-  --cursor-star: url("/assets/cursors/star-cursor.svg") 12 12, auto;
+  --tooltip-font-size: 0.8rem;
+  --tooltip-border-radius: 16px;
+  --tooltip-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --tooltip-shadow: var(--glow-shadow);
+  --tooltip-blur: blur(8px);
+  --tooltip-large-bg: var(--color-primary);
+  --tooltip-quick-bg: var(--color-primary);
 }
 
-/* Tooltip styles */
+/* Base tooltip styles */
 .tooltip {
   position: absolute;
-  padding: 12px 16px;
-  background-color: var(--color-primary);
-  color: var(--background-color);
-  font-size: 0.9rem;
-  border-radius: 8px;
+  padding: 16px 20px;
+  font-size: var(--tooltip-font-size);
+  border-radius: var(--tooltip-border-radius);
   white-space: pre-line;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.2s ease;
+  transition: var(--tooltip-transition);
   z-index: 1000;
   pointer-events: none;
-  min-width: 250px;
-  max-width: 400px;
+  min-width: var(--tooltip-min-width);
+  max-width: var(--tooltip-max-width);
   text-align: left;
   line-height: 1.4;
-  box-shadow: var(--glow-shadow);
-  border: 1px solid var(--color-primary);
-  backdrop-filter: blur(8px);
+  box-shadow: var(--tooltip-shadow);
+  backdrop-filter: var(--tooltip-blur);
   transform: translateY(4px);
   display: block;
+  will-change: transform, opacity, visibility;
+  cursor: pointer;
 }
 
 .tooltip.visible {
@@ -46,12 +52,41 @@
   transform: translateY(0);
 }
 
-.tooltip strong {
+/* Large tooltip */
+.tooltip-large {
+  background-color: var(--tooltip-large-bg);
+  color: var(--color-background);
+  text-align: center;
+  font-weight: 700;
+  max-width: 400px;
+  min-width: 200px;
+}
+
+.tooltip-large strong {
   display: block;
-  font-size: 1.1em;
-  margin-bottom: 8px;
-  color: var(--background-color);
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  color: var(--color-background);
   text-shadow: var(--text-glow);
+}
+
+.tooltip-large p {
+  margin: 0 0 8px 0;
+  color: var(--color-background);
+}
+
+/* Quick tooltip */
+.tooltip-quick {
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  max-width: 250px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--color-primary);
+  z-index: 1001;
+  cursor: pointer;
 }
 
 /* Chart layout */
@@ -137,8 +172,12 @@
   fill: var(--color-primary);
   opacity: 1;
   font-weight: 900;
-  text-shadow: 0 0 8px var(--color-primary);
-  filter: drop-shadow(0 0 8px var(--color-primary));
+  text-shadow: var(--text-glow);
+  cursor: pointer;
+}
+
+.zodiac-symbol:hover {
+  opacity: 0.8;
 }
 
 /* Planet cell styles */
@@ -149,7 +188,7 @@
 .astrology-table td.planet-cell:nth-child(-n + 3) {
   font-size: 20px;
   font-weight: 500;
-  text-shadow: 0 0 8px var(--color-primary);
+  text-shadow: var(--text-glow);
 }
 
 .astrology-table td.planet-cell:nth-child(n + 4) {
@@ -158,7 +197,7 @@
 
 .astrology-table .ascendant-row {
   background-color: var(--color-primary);
-  opacity: 0.1;
+  opacity: var(--opacity-10);
   border-radius: 4px;
 }
 
@@ -178,12 +217,12 @@
   fill: none;
   stroke: var(--color-primary);
   stroke-width: 1.5;
-  opacity: 0.8;
+  opacity: var(--opacity-80);
 }
 
 .ascendant-circle {
-  fill: var(--primary-color);
-  stroke: var(--background-color);
+  fill: var(--color-primary);
+  stroke: var(--color-background);
   stroke-width: 2;
 }
 
@@ -206,32 +245,32 @@
   font-size: 8px;
   font-weight: bold;
   fill: var(--color-primary);
-  opacity: 0.8;
+  opacity: var(--opacity-80);
   text-anchor: middle;
   transition: all 0.3s ease;
-  cursor: var(--cursor-star);
+  cursor: pointer;
 }
 
 .house-number:hover {
-  opacity: 1;
+  opacity: var(--opacity-100);
   font-size: 14px;
 }
 
 .house-line {
   stroke: var(--color-primary);
   stroke-width: 1;
-  opacity: 0.9;
+  opacity: var(--opacity-90);
 }
 
 .aspect-line {
-  stroke: var(--primary-color);
+  stroke: var(--color-primary);
   stroke-width: 0.5;
   stroke-dasharray: 3, 3;
 }
 
 .planet-circle {
   fill: var(--color-primary);
-  stroke: var(--background-color);
+  stroke: var(--color-background);
   stroke-width: 2;
 }
 
@@ -243,7 +282,7 @@
 
 .chart-circle-inner,
 .chart-circle-center {
-  stroke: #666;
+  stroke: var(--color-text);
   fill: none;
 }
 
@@ -262,16 +301,16 @@
   font-weight: 800;
   text-align: center;
   margin-bottom: 0;
-  color: var(--text-color);
+  color: var(--color-primary);
   letter-spacing: 0.05em;
   text-shadow: var(--text-glow);
 }
 
 .astrology-subtitle {
   text-align: center;
-  color: var(--text-color);
+  color: var(--color-primary);
   font-size: 0.9rem;
-  opacity: 0.8;
+  opacity: var(--opacity-80);
   font-weight: 900;
   letter-spacing: 0.02em;
   margin-bottom: 3rem;

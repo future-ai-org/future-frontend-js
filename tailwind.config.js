@@ -5,6 +5,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'sans': ['Quicksand', 'system-ui', 'sans-serif'],
+        'astrology': ['Astrology', 'monospace'],
+      },
       colors: {
         primary: {
           50: '#f0f9ff',
