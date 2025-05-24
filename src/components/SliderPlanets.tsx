@@ -7,8 +7,8 @@ import {
   LOS_ANGELES_LATITUDE,
   LOS_ANGELES_LONGITUDE,
   REFRESH_INTERVAL,
-} from "../config/slider_planets";
-import sliderPlanetsData from "../i18n/slider_planets.json";
+} from "../config/sliderPlanets";
+import sliderPlanetsData from "../i18n/sliderPlanets.json";
 
 interface PlanetPosition {
   name: string;

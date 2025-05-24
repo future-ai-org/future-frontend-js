@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "../styles/sliderPrice.module.css";
-import { PRICE_SLIDER_CONFIG } from "../config/slider_prices";
-import sliderPriceI18n from "../i18n/slider_price.json";
+import { PRICE_SLIDER_CONFIG } from "../config/sliderPrices";
+import sliderPriceI18n from "../i18n/sliderPrices.json";
 
 interface CryptoPrice {
   symbol: string;
