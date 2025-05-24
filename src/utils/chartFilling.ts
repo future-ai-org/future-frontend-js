@@ -1,4 +1,4 @@
-import { ChartData, ZODIAC_SIGNS } from "../config/logiaChart";
+import { ChartData, ZODIAC_SIGNS, HOUSE_ANGLES } from "../config/logiaChart";
 import * as d3 from "d3";
 import chartStrings from "../i18n/logiaChart.json";
 
@@ -74,22 +74,6 @@ export function drawZodiacSymbols(
   const orderedSigns = [
     ...ZODIAC_SIGNS.slice(ascendantIndex),
     ...ZODIAC_SIGNS.slice(0, ascendantIndex),
-  ];
-
-  // House angles from chartDrawing.ts
-  const HOUSE_ANGLES = [
-    150, // House 1 (9 o'clock)
-    120, // House 2
-    90, // House 3
-    60, // House 4 (12 o'clock)
-    30, // House 5
-    0, // House 6
-    330, // House 7 (3 o'clock)
-    300, // House 8
-    270, // House 9
-    240, // House 10 (6 o'clock)
-    210, // House 11
-    180, // House 12
   ];
 
   for (let index = 0; index < 12; index++) {

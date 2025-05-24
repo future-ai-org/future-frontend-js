@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 import chartStrings from "../i18n/logiaChart.json";
+import { HOUSE_ANGLES } from "../config/logiaChart";
 
 let globalTooltip: d3.Selection<
   HTMLDivElement,
@@ -80,21 +81,6 @@ export function drawChartCircles(
     .attr("r", radius + 30)
     .attr("class", "chart-circle-outer");
 }
-
-export const HOUSE_ANGLES = [
-  150, // House 1 (9 o'clock)
-  120, // House 2
-  90, // House 3
-  60, // House 4 (12 o'clock)
-  30, // House 5
-  0, // House 6
-  330, // House 7 (3 o'clock)
-  300, // House 8
-  270, // House 9
-  240, // House 10 (6 o'clock)
-  210, // House 11
-  180, // House 12
-];
 
 export function drawHouseLines(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
