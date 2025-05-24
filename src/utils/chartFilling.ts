@@ -4,16 +4,6 @@ import chartStrings from "../i18n/logiaChart.json";
 
 type ZodiacSign = keyof typeof chartStrings.en.signs;
 
-function createTooltip(type: "large" | "quick" = "quick"): d3.Selection<HTMLDivElement, unknown, HTMLElement, unknown> {
-  return d3
-    .select("body")
-    .append("div")
-    .attr("class", `tooltip tooltip-${type}`)
-    .style("position", "absolute")
-    .style("visibility", "hidden")
-    .style("opacity", "0");
-}
-
 export function drawAscendant(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
   radius: number,
@@ -22,7 +12,10 @@ export function drawAscendant(
   const ascendantAngle = ((360 - chartData.houses[0] + 180) * Math.PI) / 180;
   const ascX = (radius - 35) * Math.cos(ascendantAngle);
   const ascY = (radius - 35) * Math.sin(ascendantAngle);
-  const tooltip = createTooltip("quick");
+  const tooltip = d3
+    .select("body")
+    .append("div")
+    .attr("class", "tooltip tooltip-quick");
 
   const ascGroup = g
     .append("g")
@@ -69,7 +62,10 @@ export function drawZodiacSymbols(
   const zodiacNames = ZODIAC_SIGNS.map(
     (sign) => sign.charAt(0) + sign.slice(1),
   );
-  const tooltip = createTooltip("large");
+  const tooltip = d3
+    .select("body")
+    .append("div")
+    .attr("class", "tooltip tooltip-large");
 
   for (let index = 0; index < 12; index++) {
     const angle = ((index * 30 - 90 + 15) * Math.PI) / 180;
@@ -114,7 +110,10 @@ export function drawPlanets(
   onPlanetClick: (planetName: string) => void,
   getPlanetSymbol: (name: string) => string,
 ) {
-  const tooltip = createTooltip("quick");
+  const tooltip = d3
+    .select("body")
+    .append("div")
+    .attr("class", "tooltip tooltip-quick");
 
   chartData.planets.forEach((planet) => {
     const angle = ((planet.position - 90) * Math.PI) / 180;
