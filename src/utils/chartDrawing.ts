@@ -112,9 +112,14 @@ export function drawHouseNumbers(
 
   // Pre-compute tooltip content
   HOUSE_ANGLES.forEach((_, i) => {
-    const houseNumber = (i + 1).toString() as keyof typeof chartStrings.en.houses;
+    const houseNumber = (
+      i + 1
+    ).toString() as keyof typeof chartStrings.en.houses;
     const houseDescription = chartStrings.en.houses[houseNumber];
-    tooltipContent.set(i + 1, `<strong>${chartStrings.en.table.house} ${houseNumber}</strong><p>${houseDescription}</p>`);
+    tooltipContent.set(
+      i + 1,
+      `<strong>${chartStrings.en.table.house} ${houseNumber}</strong><p>${houseDescription}</p>`,
+    );
   });
 
   HOUSE_ANGLES.forEach((angle, i) => {

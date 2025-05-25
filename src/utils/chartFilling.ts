@@ -1,23 +1,57 @@
-import { ChartData, ZODIAC_SIGNS, HOUSE_ANGLES } from "../config/logiaChart";
+import { ChartData, ZODIAC_SIGNS, HOUSE_ANGLES, ZODIAC_SYMBOLS, PLANET_SYMBOLS, getElementForSign, getZodiacSymbol } from "../config/logiaChart";
 import * as d3 from "d3";
 import chartStrings from "../i18n/logiaChart.json";
+import { geocodeCity } from "../utils/geocoding";
 
+export const ZODIAC_ORDER = [
+  ZODIAC_SYMBOLS.pisces,
+  ZODIAC_SYMBOLS.aquarius,
+  ZODIAC_SYMBOLS.capricorn,
+  ZODIAC_SYMBOLS.sagittarius,
+  ZODIAC_SYMBOLS.scorpio,
+  ZODIAC_SYMBOLS.libra,
+  ZODIAC_SYMBOLS.virgo,
+  ZODIAC_SYMBOLS.leo,
+  ZODIAC_SYMBOLS.cancer,
+  ZODIAC_SYMBOLS.gemini,
+  ZODIAC_SYMBOLS.taurus,
+  ZODIAC_SYMBOLS.aries,
+];
 
 type ZodiacSign = keyof typeof chartStrings.en.signs;
-let orderedSigns: Map<string, any> = new Map();
+type PlanetData = {
+  name: string;
+  position: number;
+};
 
+let orderedSigns: Map<string, { planets: PlanetData[] }> = new Map();
 
-export function updateOrderedSigns(ascendantSign: string) {
+export function updateOrderedSigns(
+  ascendantSign: string,
+  chartData: ChartData,
+) {
   const ascendantIndex = ZODIAC_SIGNS.findIndex(
-    (sign) => sign.toLowerCase() === ascendantSign.toLowerCase()
+    (sign) => sign.toLowerCase() === ascendantSign.toLowerCase(),
   );
   const orderedArray = [
     ...ZODIAC_SIGNS.slice(ascendantIndex),
     ...ZODIAC_SIGNS.slice(0, ascendantIndex),
   ];
-  orderedSigns = new Map(orderedArray.map(sign => [sign, {}]));
-}
 
+  // Create a new Map with the ordered signs and fill it with chart data
+  orderedSigns = new Map();
+  orderedArray.forEach((sign) => {
+    const planetsInSign = chartData.planets.filter(
+      (p) => p.sign.toLowerCase() === sign.toLowerCase(),
+    );
+    orderedSigns.set(sign, {
+      planets: planetsInSign.map((p) => ({
+        name: p.name,
+        position: p.position,
+      })),
+    });
+  });
+}
 
 export function drawAscendant(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
@@ -68,12 +102,10 @@ export function drawAscendant(
     .attr("class", "planet-text");
 }
 
-
 export function drawZodiacSymbols(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
   radius: number,
   zodiacSymbols: string[],
-  chartData: ChartData,
 ) {
   const zodiacRadius = radius + 15;
   const tooltip = d3
@@ -81,12 +113,10 @@ export function drawZodiacSymbols(
     .append("div")
     .attr("class", "tooltip tooltip-large");
 
-
-  updateOrderedSigns(chartData.ascendantSign);
   const orderedArray = Array.from(orderedSigns.keys());
   for (let index = 0; index < 12; index++) {
     const houseAngle = HOUSE_ANGLES[index];
-    const middleAngle = (houseAngle + 15) * Math.PI / 180;
+    const middleAngle = ((houseAngle + 15) * Math.PI) / 180;
     const x = zodiacRadius * Math.cos(middleAngle);
     const y = zodiacRadius * Math.sin(middleAngle);
 
@@ -123,7 +153,6 @@ export function drawZodiacSymbols(
   }
 }
 
-
 export function drawPlanets(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
   radius: number,
@@ -136,69 +165,120 @@ export function drawPlanets(
     .append("div")
     .attr("class", "tooltip tooltip-quick");
 
-  chartData.planets.forEach((planet) => {
-    const sign = planet.sign;
-    if (!orderedSigns.has(sign)) {
-      orderedSigns.set(sign, { planets: [] });
-    }
-    const signData = orderedSigns.get(sign);
-    if (signData) {
-      if (!signData.planets) {
-        signData.planets = [];
-      }
-      signData.planets.push({
-        name: planet.name,
-        position: planet.position
-      });
-    }
-  });
+  // Use orderedSigns to draw the planets
+  Array.from(orderedSigns.entries()).forEach(([sign, signData]) => {
+    signData.planets.forEach((planet) => {
+      const angle = ((planet.position - 90) * Math.PI) / 180;
+      const x = (radius - 35) * Math.cos(angle);
+      const y = (radius - 35) * Math.sin(angle);
 
-  chartData.planets.forEach((planet) => {
-    const angle = ((planet.position - 90) * Math.PI) / 180;
+      const planetGroup = g
+        .append("g")
+        .attr("transform", `translate(${x},${y})`)
+        .attr("class", "planet-group")
+        .on("click", () => onPlanetClick(planet.name))
+        .on("mouseover", function (event) {
+          tooltip
+            .style("visibility", "visible")
+            .style("opacity", "1")
+            .html(
+              `${planet.name} ${chartStrings.en.planetTooltip.replace("{sign}", sign).replace("{position}", planet.position.toFixed(2))}`,
+            )
+            .style("left", event.pageX + 10 + "px")
+            .style("top", event.pageY - 10 + "px");
+        })
+        .on("mousemove", function (event) {
+          tooltip
+            .style("left", event.pageX + 10 + "px")
+            .style("top", event.pageY - 10 + "px");
+        })
+        .on("mouseout", function () {
+          tooltip.style("visibility", "hidden").style("opacity", "0");
+        });
 
-    const x = (radius - 35) * Math.cos(angle);
-    const y = (radius - 35) * Math.sin(angle);
+      planetGroup
+        .append("circle")
+        .attr("r", 12)
+        .attr("class", "planet-background");
 
-    const planetGroup = g
-      .append("g")
-      .attr("transform", `translate(${x},${y})`)
-      .attr("class", "planet-group")
-      .on("click", () => onPlanetClick(planet.name))
-      .on("mouseover", function (event) {
-        tooltip
-          .style("visibility", "visible")
-          .style("opacity", "1")
-          .html(
-            `${planet.name} ${chartStrings.en.planetTooltip.replace("{sign}", planet.sign).replace("{position}", planet.position.toFixed(2))}`,
-          )
-          .style("left", event.pageX + 10 + "px")
-          .style("top", event.pageY - 10 + "px");
-      })
-      .on("mousemove", function (event) {
-        tooltip
-          .style("left", event.pageX + 10 + "px")
-          .style("top", event.pageY - 10 + "px");
-      })
-      .on("mouseout", function () {
-        tooltip.style("visibility", "hidden").style("opacity", "0");
-      });
-
-    planetGroup
-      .append("circle")
-      .attr("r", 12)
-      .attr("class", "planet-background");
-
-    planetGroup
-      .append("text")
-      .attr("x", 0)
-      .attr("y", 0)
-      .attr("text-anchor", "middle")
-      .attr("dominant-baseline", "middle")
-      .text(getPlanetSymbol(planet.name))
-      .attr("class", "planet-text");
+      planetGroup
+        .append("text")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "middle")
+        .text(getPlanetSymbol(planet.name))
+        .attr("class", "planet-text");
+    });
   });
 }
 
+export function calculateAspects(planets: { name: string; position: number }[]) {
+  const aspects = [];
+  for (let i = 0; i < planets.length; i++) {
+    for (let j = i + 1; j < planets.length; j++) {
+      const angle = Math.abs(planets[i].position - planets[j].position);
+      const normalizedAngle = Math.min(angle, 360 - angle);
+
+      // Define aspect orbs (you may want to adjust these values)
+      const aspectOrbs = {
+        conjunction: 8,
+        opposition: 8,
+        trine: 8,
+        square: 8,
+        sextile: 6,
+      };
+
+      // Check for aspects
+      if (normalizedAngle <= aspectOrbs.conjunction) {
+        aspects.push({
+          planet1: planets[i].name,
+          planet2: planets[j].name,
+          type: "conjunction",
+          orb: normalizedAngle,
+        });
+      } else if (
+        Math.abs(normalizedAngle - 180) <= aspectOrbs.opposition
+      ) {
+        aspects.push({
+          planet1: planets[i].name,
+          planet2: planets[j].name,
+          type: "opposition",
+          orb: Math.abs(normalizedAngle - 180),
+        });
+      } else if (Math.abs(normalizedAngle - 120) <= aspectOrbs.trine) {
+        aspects.push({
+          planet1: planets[i].name,
+          planet2: planets[j].name,
+          type: "trine",
+          orb: Math.abs(normalizedAngle - 120),
+        });
+      } else if (Math.abs(normalizedAngle - 90) <= aspectOrbs.square) {
+        aspects.push({
+          planet1: planets[i].name,
+          planet2: planets[j].name,
+          type: "square",
+          orb: Math.abs(normalizedAngle - 90),
+        });
+      } else if (Math.abs(normalizedAngle - 60) <= aspectOrbs.sextile) {
+        aspects.push({
+          planet1: planets[i].name,
+          planet2: planets[j].name,
+          type: "sextile",
+          orb: Math.abs(normalizedAngle - 60),
+        });
+      }
+    }
+  }
+  return aspects;
+}
+
+export function calculateHouses(ascendantDegrees: number): number[] {
+  return Array.from(
+    { length: 12 },
+    (_, i) => (ascendantDegrees + i * 30) % 360,
+  );
+}
 
 export function drawAspects(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
@@ -247,4 +327,160 @@ export function drawAspects(
         .attr("class", aspectClass);
     }
   });
+}
+
+export interface ChartCalculationResult {
+  chartData: ChartData;
+  chartInfoHtml: string;
+}
+
+interface PlanetResponse {
+  sign: string;
+  degrees: number;
+}
+
+interface ApiResponse {
+  [key: string]: PlanetResponse;
+}
+
+interface AscendantResponse {
+  sign: string;
+  degrees: number;
+}
+
+export async function calculateChartData(
+  birthDate: string,
+  birthTime: string,
+  city: string,
+  chartT: typeof chartStrings.en
+): Promise<ChartCalculationResult> {
+  const coordinates = await geocodeCity(city);
+  if (!coordinates) {
+    throw new Error(chartT.errors.cityNotFound);
+  }
+
+  const [year, month, day] = birthDate.split("-").map((num) => parseInt(num, 10));
+  if (isNaN(year) || isNaN(month) || isNaN(day) || month < 1 || month > 12 || day < 1 || day > 31) {
+    throw new Error(chartT.errors.invalidDateFormat);
+  }
+
+  const formattedDate = `${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+  const [hour, minute] = birthTime.split(":").map((num) => parseInt(num, 10));
+
+  if (isNaN(hour) || isNaN(minute) || hour < 0 || hour > 23 || minute < 0 || minute > 59) {
+    throw new Error(chartT.errors.invalidTimeFormat);
+  }
+
+  const formattedTime = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
+  const formattedDateTime = `${formattedDate}T${formattedTime}`;
+
+  const baseUrl = process.env.NEXT_PUBLIC_LILIT_ASTRO_API_URL;
+  if (!baseUrl) {
+    throw new Error(chartT.errors.apiUrlNotConfigured);
+  }
+
+  const requestBody = {
+    date_time: formattedDateTime,
+    latitude: coordinates.lat,
+    longitude: coordinates.lon,
+  };
+
+  const [planetsResponse, ascendantResponse] = await Promise.all([
+    fetch(`${baseUrl}/planets`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        API_KEY: process.env.NEXT_PUBLIC_LILIT_ASTRO_API_KEY!,
+      },
+      body: JSON.stringify(requestBody),
+    }),
+    fetch(`${baseUrl}/ascendant`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        API_KEY: process.env.NEXT_PUBLIC_LILIT_ASTRO_API_KEY!,
+      },
+      body: JSON.stringify(requestBody),
+    }),
+  ]);
+
+  if (!planetsResponse.ok || !ascendantResponse.ok) {
+    const errorText = await (planetsResponse.ok ? ascendantResponse.text() : planetsResponse.text());
+    throw new Error(
+      chartT.errors.apiRequestFailed
+        .replace("{status}", (planetsResponse.ok ? ascendantResponse.status : planetsResponse.status).toString())
+        .replace("{error}", errorText)
+    );
+  }
+
+  const [planetsData, ascendantData] = await Promise.all([
+    planetsResponse.json() as Promise<ApiResponse>,
+    ascendantResponse.json() as Promise<AscendantResponse>,
+  ]);
+
+  if (!planetsData || typeof planetsData !== "object" || !ascendantData || typeof ascendantData !== "object") {
+    throw new Error(chartT.errors.invalidApiResponse);
+  }
+
+  const planets = Object.entries(planetsData).map(([name, data]) => ({
+    name: name.toLowerCase(),
+    position: data.degrees,
+    sign: data.sign.toLowerCase(),
+    house: Math.floor(((data.degrees - ascendantData.degrees + 360) % 360) / 30) + 1,
+  }));
+
+  const houses = calculateHouses(ascendantData.degrees);
+
+  const chartData: ChartData = {
+    planets,
+    houses,
+    aspects: calculateAspects(planets),
+    birthDate,
+    birthTime,
+    latitude: coordinates.lat,
+    longitude: coordinates.lon,
+    city,
+    ascendantSign: ascendantData.sign.toLowerCase(),
+  };
+
+  const tableRows = [
+    `<tr>
+      <td class="planet-cell">AC</td>
+      <td class="planet-cell">${getZodiacSymbol(ascendantData.sign)}</td>
+      <td class="planet-cell">${getElementForSign(ascendantData.sign)}</td>
+      <td class="planet-cell">${ascendantData.degrees.toFixed(2)}°</td>
+      <td class="planet-cell">1</td>
+      <td class="planet-cell">${chartT.effects.ascendant || "-"}</td>
+    </tr>`,
+    ...Object.entries(planetsData).map(([planet, info]) => {
+      return `<tr>
+        <td class="planet-cell">${PLANET_SYMBOLS[planet.toLowerCase() as keyof typeof PLANET_SYMBOLS]}</td>
+        <td class="planet-cell">${getZodiacSymbol(info.sign)}</td>
+        <td class="planet-cell">${getElementForSign(info.sign)}</td>
+        <td class="planet-cell">${info.degrees.toFixed(2)}°</td>
+        <td class="planet-cell">${Math.floor(((info.degrees - ascendantData.degrees + 360) % 360) / 30) + 1}</td>
+        <td class="planet-cell">${chartT.effects[planet.toLowerCase() as keyof typeof chartT.effects] || "-"}</td>
+      </tr>`;
+    }),
+  ].join("");
+
+  const chartInfoHtml = `
+    <table class="astrology-table">
+      <thead>
+        <tr>
+          <th class="astrology-table-header">${chartT.table.planet}</th>
+          <th class="astrology-table-header">${chartT.table.sign}</th>
+          <th class="astrology-table-header">${chartT.table.element}</th>
+          <th class="astrology-table-header">${chartT.table.position}</th>
+          <th class="astrology-table-header">${chartT.table.house}</th>
+          <th class="astrology-table-header">${chartT.table.effects}</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${tableRows}
+      </tbody>
+    </table>
+  `;
+
+  return { chartData, chartInfoHtml };
 }

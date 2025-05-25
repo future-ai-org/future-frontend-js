@@ -3,10 +3,8 @@ import {
   ChartData,
   getPlanetSymbol,
   getZodiacSymbol,
-  ZODIAC_SYMBOLS,
-  PLANET_SYMBOLS,
-  calculateChartData,
   getElementForSign,
+  PLANET_SYMBOLS,
 } from "../config/logiaChart";
 import Loading from "../utils/loading";
 import "../styles/logiachart.css";
@@ -22,9 +20,11 @@ import {
   drawAspects,
   drawPlanets,
   drawAscendant,
+  updateOrderedSigns,
+  ZODIAC_ORDER,
+  calculateChartData,
 } from "../utils/chartFilling";
 import {
-  geocodeCity,
   formatCoordinates,
   formatDate,
   formatTime,
@@ -46,31 +46,16 @@ interface PlanetInfoPanelProps {
 
 const chartT = chartStrings.en;
 
-export function calculateChart(
-  birthDate: string,
-  birthTime: string,
-  latitude: number,
-  longitude: number,
-  city: string,
-  ascendantData: { sign: string; degrees: number },
-): ChartData {
-  return calculateChartData(
-    birthDate,
-    birthTime,
-    latitude,
-    longitude,
-    city,
-    ascendantData,
-  );
-}
-
 export async function printChartInfo(
   birthDate: string,
   birthTime: string,
   latitude: number,
   longitude: number,
-  city: string,
-): Promise<{ html: string; ascendantData: { sign: string; degrees: number } }> {
+): Promise<{
+  html: string;
+  ascendantData: { sign: string; degrees: number };
+  planetsData: any;
+}> {
   interface PlanetResponse {
     sign: string;
     degrees: number;
@@ -180,15 +165,6 @@ export async function printChartInfo(
       throw new Error(chartT.errors.invalidApiResponse);
     }
 
-    const chartData = calculateChartData(
-      birthDate,
-      birthTime,
-      latitude,
-      longitude,
-      city,
-      ascendantData,
-    );
-
     const tableRows = [
       `<tr>
         <td class="planet-cell">AC</td>
@@ -199,15 +175,12 @@ export async function printChartInfo(
         <td class="planet-cell">${chartT.effects.ascendant || "-"}</td>
       </tr>`,
       ...Object.entries(planetsData).map(([planet, info]) => {
-        const planetData = chartData.planets.find(
-          (p) => p.name.toLowerCase() === planet.toLowerCase(),
-        );
         return `<tr>
           <td class="planet-cell">${PLANET_SYMBOLS[planet.toLowerCase() as keyof typeof PLANET_SYMBOLS]}</td>
           <td class="planet-cell">${getZodiacSymbol(info.sign)}</td>
           <td class="planet-cell">${getElementForSign(info.sign)}</td>
           <td class="planet-cell">${info.degrees.toFixed(2)}°</td>
-          <td class="planet-cell">${planetData?.house || "-"}</td>
+          <td class="planet-cell">${Math.floor(((info.degrees - ascendantData.degrees + 360) % 360) / 30) + 1}</td>
           <td class="planet-cell">${chartT.effects[planet.toLowerCase() as keyof typeof chartT.effects] || "-"}</td>
         </tr>`;
       }),
@@ -232,6 +205,7 @@ export async function printChartInfo(
         </table>
       `,
       ascendantData,
+      planetsData,
     };
   } catch (error: unknown) {
     const errorMessage =
@@ -239,6 +213,7 @@ export async function printChartInfo(
     return {
       html: `<div class="astrology-error">${errorMessage}</div>`,
       ascendantData: { sign: "", degrees: 0 },
+      planetsData: {},
     };
   }
 }
@@ -284,64 +259,28 @@ export default function LogiaChart({
   city,
   isGeneratingChart,
 }: LogiaChartProps) {
-  const [selectedPlanet, setSelectedPlanet] = React.useState<string | null>(
-    null,
-  );
+  const [selectedPlanet, setSelectedPlanet] = React.useState<string | null>(null);
   const [chartInfoHtml, setChartInfoHtml] = React.useState<string>("");
   const [chartData, setChartData] = React.useState<ChartData | null>(null);
   const [error, setError] = React.useState<string | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const ZODIAC_ORDER = useMemo(
-    () => [
-      ZODIAC_SYMBOLS.pisces,
-      ZODIAC_SYMBOLS.aquarius,
-      ZODIAC_SYMBOLS.capricorn,
-      ZODIAC_SYMBOLS.sagittarius,
-      ZODIAC_SYMBOLS.scorpio,
-      ZODIAC_SYMBOLS.libra,
-      ZODIAC_SYMBOLS.virgo,
-      ZODIAC_SYMBOLS.leo,
-      ZODIAC_SYMBOLS.cancer,
-      ZODIAC_SYMBOLS.gemini,
-      ZODIAC_SYMBOLS.taurus,
-      ZODIAC_SYMBOLS.aries,
-    ],
-    [],
-  );
-
   useEffect(() => {
-    const calculateChartData = async () => {
+    const fetchChartData = async () => {
       setIsLoading(true);
       setError(null);
       try {
-        const coordinates = await geocodeCity(city);
-        if (!coordinates) {
-          setError(chartT.errors.cityNotFound);
-          return;
-        }
-
-        const { html: chartInfoHtml, ascendantData } = await printChartInfo(
+        const { chartData, chartInfoHtml } = await calculateChartData(
           birthDate,
           birthTime,
-          coordinates.lat,
-          coordinates.lon,
           city,
+          chartT
         );
+        setChartData(chartData);
         setChartInfoHtml(chartInfoHtml);
-
-        const chart = calculateChart(
-          birthDate,
-          birthTime,
-          coordinates.lat,
-          coordinates.lon,
-          city,
-          ascendantData,
-        );
-        setChartData(chart);
       } catch (err) {
         setError(
-          err instanceof Error ? err.message : chartT.errors.unknownError,
+          err instanceof Error ? err.message : chartT.errors.unknownError
         );
       } finally {
         setIsLoading(false);
@@ -349,7 +288,7 @@ export default function LogiaChart({
     };
 
     if (birthDate && birthTime && city) {
-      calculateChartData();
+      fetchChartData();
     }
   }, [birthDate, birthTime, city]);
 
@@ -363,7 +302,10 @@ export default function LogiaChart({
       drawChartCircles(g, dimensions.radius);
       drawHouseLines(g, dimensions.radius);
       drawHouseNumbers(g, dimensions.radius);
-      drawZodiacSymbols(g, dimensions.radius, ZODIAC_ORDER, chartData);
+
+      updateOrderedSigns(chartData.ascendantSign, chartData);
+
+      drawZodiacSymbols(g, dimensions.radius, ZODIAC_ORDER);
       drawAspects(g, dimensions.radius, chartData);
       drawPlanets(
         g,
@@ -376,7 +318,7 @@ export default function LogiaChart({
 
       return g;
     },
-    [chartData, ZODIAC_ORDER],
+    [chartData],
   );
 
   useEffect(() => {
