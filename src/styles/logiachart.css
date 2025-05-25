@@ -138,7 +138,7 @@
 .chart-circle-outer {
   fill: none;
   stroke: var(--color-primary);
-  stroke-width: 1.5;
+  stroke-width: 2;
   opacity: var(--opacity-80);
 }
 
