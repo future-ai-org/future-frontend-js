@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Typography */
+.astrology-title {
+  font-size: 4rem;
+  font-weight: 800;
+  margin-bottom: 0;
+  color: var(--color-primary);
+  letter-spacing: 0.05em;
+  text-shadow: var(--text-glow);
+  text-align: center;
+  flex: 1;
+  padding: 0 2rem;
+}
+
+.astrology-subtitle {
+  text-align: center;
+  color: var(--color-primary);
+  font-size: 0.9rem;
+  opacity: var(--opacity-80);
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  margin-bottom: 3rem;
+  width: 100%;
+  padding: 0;
+}
+
+/* Header */
+.astrology-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container */
+.astrology-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: calc(100vh - 4rem);
+  padding: 2rem;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Media queries */
+@media (max-width: 1024px) {
+  .astrology-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .astrology-title {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .astrology-title {
+    font-size: 2.5rem;
+  }
+
+  .astrology-subtitle {
+    font-size: 0.8rem;
+  }
+}

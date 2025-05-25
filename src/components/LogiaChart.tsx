@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useMemo, useCallback, useState } from "react";
 import {
   ChartData,
@@ -501,7 +503,10 @@ export default function LogiaChart({
         {showNotification && (
           <div className="save-notification">{notificationMessage}</div>
         )}
-        <a href="/logia-advanced" className="advanced-view-button">
+        <a
+          href={`/advanced?birthDate=${encodeURIComponent(birthDate)}&birthTime=${encodeURIComponent(birthTime)}&city=${encodeURIComponent(city)}`}
+          className="advanced-view-button"
+        >
           {chartT.advancedView}
         </a>
         <h1 className="astrology-title">{chartT.title.toLowerCase()}</h1>
