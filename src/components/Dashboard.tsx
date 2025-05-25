@@ -214,7 +214,7 @@ const Dashboard: React.FC = () => {
           <h3>{strings.en.cards.logia.title}</h3>
           <div className="card-content">
             {savedCharts.length === 0 ? (
-              <p className="no-charts-message">No saved charts yet</p>
+              <p className="no-charts-message">{strings.en.cards.logia.noCharts}</p>
             ) : (
               <div className="saved-charts-list">
                 {savedCharts.map((chart) => (
@@ -224,7 +224,7 @@ const Dashboard: React.FC = () => {
                         {formatDate(chart.birthDate)}{" "}
                         {formatTime(chart.birthTime)}
                         {chart.isOfficial && (
-                          <span className="official-badge">Official</span>
+                          <span className="official-badge">{strings.en.cards.logia.official}</span>
                         )}
                       </p>
                     </div>
@@ -232,7 +232,7 @@ const Dashboard: React.FC = () => {
                       <button
                         onClick={() => router.push(`/logia/saved/${chart.id}`)}
                         className="view-chart-button"
-                        aria-label="View chart"
+                        aria-label={strings.en.cards.logia.actions.view}
                       >
                         <FaEye />
                       </button>
@@ -240,9 +240,9 @@ const Dashboard: React.FC = () => {
                         <button
                           onClick={() => handleSetOfficial(chart.id)}
                           className="set-official-button"
-                          aria-label="Make this my main chart"
+                          aria-label={strings.en.cards.logia.actions.makeMain}
                           onMouseOver={(e) =>
-                            handleMouseOver(e, "Make this my main chart")
+                            handleMouseOver(e, strings.en.cards.logia.actions.makeMain)
                           }
                           onMouseMove={handleMouseMove}
                           onMouseOut={handleMouseOut}
@@ -253,7 +253,7 @@ const Dashboard: React.FC = () => {
                       <button
                         onClick={() => handleDeleteChart(chart.id)}
                         className="delete-chart-button"
-                        aria-label="Delete chart"
+                        aria-label={strings.en.cards.logia.actions.delete}
                       >
                         <FaTrash />
                       </button>

@@ -25,7 +25,14 @@
     },
     "cards": {
       "logia": {
-        "title": "my logias"
+        "title": "my logias",
+        "noCharts": "no saved charts yet",
+        "official": "main",
+        "actions": {
+          "view": "view chart",
+          "makeMain": "make this my main chart",
+          "delete": "delete chart"
+        }
       },
       "favorites": {
         "title": "my favorite assets"
