@@ -41,8 +41,6 @@ export function updateOrderedSigns(
     ...ZODIAC_SIGNS.slice(ascendantIndex),
     ...ZODIAC_SIGNS.slice(0, ascendantIndex),
   ];
-
-  // Create a new Map with the ordered signs and fill it with chart data
   orderedSigns = new Map();
   orderedArray.forEach((sign) => {
     const planetsInSign = chartData.planets.filter(
@@ -55,55 +53,6 @@ export function updateOrderedSigns(
       })),
     });
   });
-}
-
-export function drawAscendant(
-  g: d3.Selection<SVGGElement, unknown, null, undefined>,
-  radius: number,
-  chartData: ChartData,
-) {
-  const ascendantAngle = ((360 - chartData.houses[0] + 180) * Math.PI) / 180;
-  const ascX = (radius - 35) * Math.cos(ascendantAngle);
-  const ascY = (radius - 35) * Math.sin(ascendantAngle);
-  const tooltip = d3
-    .select("body")
-    .append("div")
-    .attr("class", "tooltip tooltip-quick");
-
-  const ascGroup = g
-    .append("g")
-    .attr("transform", `translate(${ascX},${ascY})`)
-    .attr("class", "planet-group")
-    .on("mouseover", function (event) {
-      tooltip
-        .style("visibility", "visible")
-        .style("opacity", "1")
-        .html(
-          `${chartStrings.en.points.ascendant} ${chartStrings.en.points.tooltip.replace("{sign}", chartData.ascendantSign.toLowerCase()).replace("{position}", chartData.houses[0].toFixed(2))}`,
-        )
-        .style("left", event.pageX + 10 + "px")
-        .style("top", event.pageY - 10 + "px");
-    })
-    .on("mousemove", function (event) {
-      tooltip
-        .style("left", event.pageX + 10 + "px")
-        .style("top", event.pageY - 10 + "px");
-    })
-    .on("mouseout", function () {
-      tooltip.style("visibility", "hidden").style("opacity", "0");
-    });
-
-  ascGroup.append("circle").attr("r", 12).attr("class", "planet-background");
-
-  ascGroup
-    .append("text")
-    .attr("x", 0)
-    .attr("y", 0)
-    .attr("text-anchor", "middle")
-    .attr("dominant-baseline", "middle")
-    .style("font-size", "14px")
-    .text(chartStrings.en.points.ascendantEmoji)
-    .attr("class", "planet-text");
 }
 
 export function drawZodiacSymbols(
@@ -122,7 +71,6 @@ export function drawZodiacSymbols(
     const middleAngle = ((houseAngle + 15) * Math.PI) / 180;
     const x = zodiacRadius * Math.cos(middleAngle);
     const y = zodiacRadius * Math.sin(middleAngle);
-
     const signName = orderedArray[index].toLowerCase() as ZodiacSign;
     const signSymbol = ZODIAC_ORDER[ZODIAC_SIGNS.indexOf(orderedArray[index])];
 
@@ -161,6 +109,7 @@ export function drawPlanets(
   radius: number,
   onPlanetClick: (planetName: string) => void,
   getPlanetSymbol: (name: string) => string,
+  chartData: ChartData,
 ) {
   const tooltip = d3
     .select("body")
@@ -168,6 +117,8 @@ export function drawPlanets(
     .attr("class", "tooltip tooltip-quick");
 
   const orderedArray = Array.from(orderedSigns.keys());
+  const planetPositions: { x: number; y: number }[] = [];
+  
   HOUSE_ANGLES.forEach((houseAngle, index) => {
     const sign = orderedArray[index];
     const signData = orderedSigns.get(sign);
@@ -175,11 +126,14 @@ export function drawPlanets(
 
     const middleAngle = ((houseAngle + 15) * Math.PI) / 180;
     signData.planets.forEach((planet, planetIndex) => {
-      const planetOffset =
-        (planetIndex - (signData.planets.length - 1) / 2) * 10;
+      const planetOffset = (planetIndex - (signData.planets.length - 1) / 2) * 10;
       const angle = middleAngle + (planetOffset * Math.PI) / 180;
       const x = (radius - 35) * Math.cos(angle);
       const y = (radius - 35) * Math.sin(angle);
+      
+      if (index === 0) {
+        planetPositions.push({ x, y });
+      }
 
       const planetGroup = g
         .append("g")
@@ -222,6 +176,47 @@ export function drawPlanets(
         .attr("class", "planet-text");
     });
   });
+
+  const ascendantAngle = ((360 - chartData.houses[0] + 180) * Math.PI) / 180;
+  const ascX = radius * Math.cos(ascendantAngle);
+  const ascY = radius * Math.sin(ascendantAngle);
+
+  const ascGroup = g
+    .append("g")
+    .attr("transform", `translate(${ascX},${ascY})`)
+    .attr("class", "planet-group")
+    .on("mouseover", function (event) {
+      tooltip
+        .style("visibility", "visible")
+        .style("opacity", "1")
+        .html(
+          `${chartStrings.en.points.ascendant} ${chartStrings.en.points.tooltip
+            .replace("{sign}", chartData.ascendantSign.toLowerCase())
+            .replace("{position}", chartData.houses[0].toFixed(2))}`,
+        )
+        .style("left", event.pageX + 10 + "px")
+        .style("top", event.pageY - 10 + "px");
+    })
+    .on("mousemove", function (event) {
+      tooltip
+        .style("left", event.pageX + 10 + "px")
+        .style("top", event.pageY - 10 + "px");
+    })
+    .on("mouseout", function () {
+      tooltip.style("visibility", "hidden").style("opacity", "0");
+    });
+
+  ascGroup.append("circle").attr("r", 12).attr("class", "planet-background");
+
+  ascGroup
+    .append("text")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("text-anchor", "middle")
+    .attr("dominant-baseline", "middle")
+    .style("font-size", "14px")
+    .text(chartStrings.en.points.ascendantEmoji)
+    .attr("class", "planet-text");
 }
 
 export function calculateAspects(
@@ -233,7 +228,7 @@ export function calculateAspects(
       const angle = Math.abs(planets[i].position - planets[j].position);
       const normalizedAngle = Math.min(angle, 360 - angle);
 
-      // Define aspect orbs (you may want to adjust these values)
+
       const aspectOrbs = {
         conjunction: 8,
         opposition: 8,
