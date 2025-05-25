@@ -3,6 +3,8 @@ import {
   ChartData,
   getPlanetSymbol,
   getZodiacSymbol,
+  PLANET_SYMBOLS,
+  getElementForSign,
 } from "../config/logiaChart";
 import Loading from "../utils/loading";
 import "../styles/logiachart.css";
@@ -19,10 +21,203 @@ import {
   drawPlanets,
   drawAscendant,
   updateOrderedSigns,
-  calculateChartData,
+  calculateHouses,
+  calculateAspects,
 } from "../utils/chartFilling";
-import { formatCoordinates, formatDate, formatTime } from "../utils/geocoding";
+import {
+  formatCoordinates,
+  formatDate,
+  formatTime,
+  geocodeCity,
+} from "../utils/geocoding";
 import chartStrings from "../i18n/logiaChart.json";
+
+interface ChartCalculationResult {
+  chartData: ChartData;
+  chartInfoHtml: string;
+}
+
+interface PlanetResponse {
+  sign: string;
+  degrees: number;
+}
+
+interface ApiResponse {
+  [key: string]: PlanetResponse;
+}
+
+interface AscendantResponse {
+  sign: string;
+  degrees: number;
+}
+
+async function calculateChartData(
+  birthDate: string,
+  birthTime: string,
+  city: string,
+  chartT: typeof chartStrings.en,
+): Promise<ChartCalculationResult> {
+  const coordinates = await geocodeCity(city);
+  if (!coordinates) {
+    throw new Error(chartT.errors.cityNotFound);
+  }
+
+  const [year, month, day] = birthDate
+    .split("-")
+    .map((num) => parseInt(num, 10));
+  if (
+    isNaN(year) ||
+    isNaN(month) ||
+    isNaN(day) ||
+    month < 1 ||
+    month > 12 ||
+    day < 1 ||
+    day > 31
+  ) {
+    throw new Error(chartT.errors.invalidDateFormat);
+  }
+
+  const formattedDate = `${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+  const [hour, minute] = birthTime.split(":").map((num) => parseInt(num, 10));
+
+  if (
+    isNaN(hour) ||
+    isNaN(minute) ||
+    hour < 0 ||
+    hour > 23 ||
+    minute < 0 ||
+    minute > 59
+  ) {
+    throw new Error(chartT.errors.invalidTimeFormat);
+  }
+
+  const formattedTime = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
+  const formattedDateTime = `${formattedDate}T${formattedTime}`;
+
+  const baseUrl = process.env.NEXT_PUBLIC_LILIT_ASTRO_API_URL;
+  if (!baseUrl) {
+    throw new Error(chartT.errors.apiUrlNotConfigured);
+  }
+
+  const requestBody = {
+    date_time: formattedDateTime,
+    latitude: coordinates.lat,
+    longitude: coordinates.lon,
+  };
+
+  const [planetsResponse, ascendantResponse] = await Promise.all([
+    fetch(`${baseUrl}/planets`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        API_KEY: process.env.NEXT_PUBLIC_LILIT_ASTRO_API_KEY!,
+      },
+      body: JSON.stringify(requestBody),
+    }),
+    fetch(`${baseUrl}/ascendant`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        API_KEY: process.env.NEXT_PUBLIC_LILIT_ASTRO_API_KEY!,
+      },
+      body: JSON.stringify(requestBody),
+    }),
+  ]);
+
+  if (!planetsResponse.ok || !ascendantResponse.ok) {
+    const errorText = await (planetsResponse.ok
+      ? ascendantResponse.text()
+      : planetsResponse.text());
+    throw new Error(
+      chartT.errors.apiRequestFailed
+        .replace(
+          "{status}",
+          (planetsResponse.ok
+            ? ascendantResponse.status
+            : planetsResponse.status
+          ).toString(),
+        )
+        .replace("{error}", errorText),
+    );
+  }
+
+  const [planetsData, ascendantData] = await Promise.all([
+    planetsResponse.json() as Promise<ApiResponse>,
+    ascendantResponse.json() as Promise<AscendantResponse>,
+  ]);
+
+  if (
+    !planetsData ||
+    typeof planetsData !== "object" ||
+    !ascendantData ||
+    typeof ascendantData !== "object"
+  ) {
+    throw new Error(chartT.errors.invalidApiResponse);
+  }
+
+  const planets = Object.entries(planetsData).map(([name, data]) => ({
+    name: name.toLowerCase(),
+    position: data.degrees,
+    sign: data.sign.toLowerCase(),
+    house:
+      Math.floor(((data.degrees - ascendantData.degrees + 360) % 360) / 30) + 1,
+  }));
+
+  const houses = calculateHouses(ascendantData.degrees);
+
+  const chartData: ChartData = {
+    planets,
+    houses,
+    aspects: calculateAspects(planets),
+    birthDate,
+    birthTime,
+    latitude: coordinates.lat,
+    longitude: coordinates.lon,
+    city,
+    ascendantSign: ascendantData.sign.toLowerCase(),
+  };
+
+  const tableRows = [
+    `<tr>
+      <td class="planet-cell">AC</td>
+      <td class="planet-cell">${getZodiacSymbol(ascendantData.sign)}</td>
+      <td class="planet-cell">${getElementForSign(ascendantData.sign)}</td>
+      <td class="planet-cell">${ascendantData.degrees.toFixed(2)}°</td>
+      <td class="planet-cell">1</td>
+      <td class="planet-cell">${chartT.effects.ascendant || "-"}</td>
+    </tr>`,
+    ...Object.entries(planetsData).map(([planet, info]) => {
+      return `<tr>
+        <td class="planet-cell">${PLANET_SYMBOLS[planet.toLowerCase() as keyof typeof PLANET_SYMBOLS]}</td>
+        <td class="planet-cell">${getZodiacSymbol(info.sign)}</td>
+        <td class="planet-cell">${getElementForSign(info.sign)}</td>
+        <td class="planet-cell">${info.degrees.toFixed(2)}°</td>
+        <td class="planet-cell">${Math.floor(((info.degrees - ascendantData.degrees + 360) % 360) / 30) + 1}</td>
+        <td class="planet-cell">${chartT.effects[planet.toLowerCase() as keyof typeof chartT.effects] || "-"}</td>
+      </tr>`;
+    }),
+  ].join("");
+
+  const chartInfoHtml = `
+    <table class="astrology-table">
+      <thead>
+        <tr>
+          <th class="astrology-table-header">${chartT.table.planet}</th>
+          <th class="astrology-table-header">${chartT.table.sign}</th>
+          <th class="astrology-table-header">${chartT.table.element}</th>
+          <th class="astrology-table-header">${chartT.table.position}</th>
+          <th class="astrology-table-header">${chartT.table.house}</th>
+          <th class="astrology-table-header">${chartT.table.effects}</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${tableRows}
+      </tbody>
+    </table>
+  `;
+
+  return { chartData, chartInfoHtml };
+}
 
 interface LogiaChartProps {
   birthDate: string;
