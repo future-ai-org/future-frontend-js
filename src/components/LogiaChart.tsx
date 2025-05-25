@@ -409,6 +409,23 @@ export default function LogiaChart({
       const savedCharts = JSON.parse(
         localStorage.getItem("savedCharts") || "[]",
       );
+
+      // Check if a chart with the same data already exists
+      const isDuplicate = savedCharts.some((savedChart: SavedChart) => {
+        return (
+          savedChart.birthDate === birthDate &&
+          savedChart.birthTime === birthTime &&
+          savedChart.city === city &&
+          JSON.stringify(savedChart.chartData) === JSON.stringify(chartData)
+        );
+      });
+
+      if (isDuplicate) {
+        alert(chartT.saveChart.duplicate);
+        setIsSaving(false);
+        return;
+      }
+
       const newChart: SavedChart = {
         id: crypto.randomUUID(),
         birthDate,

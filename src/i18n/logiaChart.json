@@ -7,7 +7,8 @@
       "button": "save chart",
       "saving": "saving...",
       "success": "chart saved successfully!",
-      "error": "failed to save chart"
+      "error": "failed to save chart",
+      "duplicate": "this chart has already been saved"
     },
     "points": {
       "ascendant": "ascendant",
