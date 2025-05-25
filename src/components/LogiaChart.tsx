@@ -14,6 +14,7 @@ import {
   drawChartCircles,
   drawHouseLines,
   drawHouseNumbers,
+  toRomanNumeral,
 } from "../utils/chartDrawing";
 import {
   drawZodiacSymbols,
@@ -182,7 +183,7 @@ async function calculateChartData(
       <td class="planet-cell">${getZodiacSymbol(ascendantData.sign)}</td>
       <td class="planet-cell">${getElementForSign(ascendantData.sign)}</td>
       <td class="planet-cell">${ascendantData.degrees.toFixed(2)}°</td>
-      <td class="planet-cell">1</td>
+      <td class="planet-cell">I</td>
       <td class="planet-cell">${chartT.effects.ascendant || "-"}</td>
     </tr>`,
     ...Object.entries(planetsData).map(([planet, info]) => {
@@ -197,7 +198,7 @@ async function calculateChartData(
         <td class="planet-cell">${getZodiacSymbol(info.sign)}</td>
         <td class="planet-cell">${getElementForSign(info.sign)}</td>
         <td class="planet-cell">${info.degrees.toFixed(2)}°</td>
-        <td class="planet-cell">${houseNumber}</td>
+        <td class="planet-cell">${toRomanNumeral(houseNumber)}</td>
         <td class="planet-cell">${chartT.effects[planet.toLowerCase() as keyof typeof chartT.effects] || "-"}</td>
       </tr>`;
     }),
@@ -299,7 +300,7 @@ const PlanetInfoPanel: React.FC<PlanetInfoPanelProps> = React.memo(
             </span>
           </div>
           <div>
-            {translations.table.house}: {planet.house}
+            {translations.table.house}: {toRomanNumeral(planet.house)}
           </div>
           <div>
             {translations.table.position}: {planet.position?.toFixed(2) || "-"}°

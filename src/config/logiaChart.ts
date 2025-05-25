@@ -108,3 +108,18 @@ export const HOUSE_ANGLES = [
   210, // House 11
   180, // House 12
 ] as const;
+
+export const ROMAN_NUMERALS = [
+  { value: 12, symbol: "XII" },
+  { value: 11, symbol: "XI" },
+  { value: 10, symbol: "X" },
+  { value: 9, symbol: "IX" },
+  { value: 8, symbol: "VIII" },
+  { value: 7, symbol: "VII" },
+  { value: 6, symbol: "VI" },
+  { value: 5, symbol: "V" },
+  { value: 4, symbol: "IV" },
+  { value: 3, symbol: "III" },
+  { value: 2, symbol: "II" },
+  { value: 1, symbol: "I" },
+] as const;

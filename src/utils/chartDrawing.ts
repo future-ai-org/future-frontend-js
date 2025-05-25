@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import chartStrings from "../i18n/logiaChart.json";
-import { HOUSE_ANGLES } from "../config/logiaChart";
+import { HOUSE_ANGLES, ROMAN_NUMERALS } from "../config/logiaChart";
 
 let globalTooltip: d3.Selection<
   HTMLDivElement,
@@ -118,7 +118,7 @@ export function drawHouseNumbers(
     const houseDescription = chartStrings.en.houses[houseNumber];
     tooltipContent.set(
       i + 1,
-      `<strong>${chartStrings.en.table.house} ${houseNumber}</strong><p>${houseDescription}</p>`,
+      `<strong>${chartStrings.en.table.house} ${toRomanNumeral(i + 1)}</strong><p>${houseDescription}</p>`,
     );
   });
 
@@ -133,7 +133,7 @@ export function drawHouseNumbers(
       .attr("text-anchor", "middle")
       .attr("dominant-baseline", "middle")
       .attr("class", "house-number")
-      .text((i + 1).toString())
+      .text(toRomanNumeral(i + 1))
       .on("mouseover", function (event) {
         tooltip
           .style("visibility", "visible")
@@ -151,4 +151,9 @@ export function drawHouseNumbers(
         tooltip.style("visibility", "hidden").style("opacity", "0");
       });
   });
+}
+
+export function toRomanNumeral(num: number): string {
+  const numeral = ROMAN_NUMERALS.find((n) => n.value === num);
+  return numeral ? numeral.symbol : num.toString();
 }
