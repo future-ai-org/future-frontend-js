@@ -167,6 +167,12 @@ export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
     fetchAssetInfo();
   }, [assetId]);
 
+  useEffect(() => {
+    if (assetInfo) {
+      document.title = `${assetInfo.name} (${assetInfo.symbol}) - Trading Chart`;
+    }
+  }, [assetInfo]);
+
   const handleToggleFavorite = () => {
     try {
       const favorites = JSON.parse(
