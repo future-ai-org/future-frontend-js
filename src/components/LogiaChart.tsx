@@ -401,7 +401,12 @@ export default function LogiaChart({
 
   return (
     <>
-      <h1 className="astrology-title">{chartT.title.toLowerCase()}</h1>
+      <div className="astrology-header">
+        <a href="/logia-advanced" className="advanced-view-button">
+          {chartT.advancedView}
+        </a>
+        <h1 className="astrology-title">{chartT.title.toLowerCase()}</h1>
+      </div>
       {subtitleContent && (
         <div className="astrology-subtitle">{subtitleContent}</div>
       )}

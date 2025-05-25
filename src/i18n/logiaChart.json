@@ -2,6 +2,7 @@
   "en": {
     "title": "this is your blueprint",
     "subtitle": "logia for {birthDate} at {birthTime} in {city} {latitude}",
+    "advancedView": "advanced view",
     "points": {
       "ascendant": "ascendant",
       "ascendantEmoji": "👩‍🚀",
