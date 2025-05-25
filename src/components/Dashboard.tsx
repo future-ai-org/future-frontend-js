@@ -101,10 +101,28 @@ const Dashboard: React.FC = () => {
 
   const handleSetOfficial = (chartId: string) => {
     try {
-      const updatedCharts = savedCharts.map((chart) => ({
-        ...chart,
-        isOfficial: chart.id === chartId,
-      }));
+      const chartToMakeOfficial = savedCharts.find(
+        (chart) => chart.id === chartId,
+      );
+      if (!chartToMakeOfficial) return;
+
+      // Check for duplicates
+      const duplicateCharts = savedCharts.filter(
+        (chart) =>
+          chart.id !== chartId &&
+          chart.birthDate === chartToMakeOfficial.birthDate &&
+          chart.birthTime === chartToMakeOfficial.birthTime &&
+          chart.city === chartToMakeOfficial.city,
+      );
+
+      // Remove duplicates and set the selected chart as official
+      const updatedCharts = savedCharts
+        .filter((chart) => !duplicateCharts.some((dup) => dup.id === chart.id))
+        .map((chart) => ({
+          ...chart,
+          isOfficial: chart.id === chartId,
+        }));
+
       localStorage.setItem("savedCharts", JSON.stringify(updatedCharts));
       setSavedCharts(updatedCharts);
     } catch (err) {
@@ -220,9 +238,18 @@ const Dashboard: React.FC = () => {
             ) : (
               <div className="saved-charts-list">
                 {savedCharts
-                  .sort(
-                    (a, b) => (b.isOfficial ? 1 : 0) - (a.isOfficial ? 1 : 0),
-                  )
+                  .sort((a, b) => {
+                    // First sort by official status
+                    const officialSort =
+                      (b.isOfficial ? 1 : 0) - (a.isOfficial ? 1 : 0);
+                    if (officialSort !== 0) return officialSort;
+
+                    // Then sort by saved date (newest first)
+                    return (
+                      new Date(b.savedAt).getTime() -
+                      new Date(a.savedAt).getTime()
+                    );
+                  })
                   .map((chart) => (
                     <div key={chart.id} className="saved-chart-container">
                       <div className="saved-chart-item">
