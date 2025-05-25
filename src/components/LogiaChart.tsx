@@ -462,12 +462,10 @@ export default function LogiaChart({
 
   return (
     <>
-      {showNotification && (
-        <div className="save-notification">
-          {notificationMessage}
-        </div>
-      )}
       <div className="astrology-header">
+        {showNotification && (
+          <div className="save-notification">{notificationMessage}</div>
+        )}
         <a href="/logia-advanced" className="advanced-view-button">
           {chartT.advancedView}
         </a>

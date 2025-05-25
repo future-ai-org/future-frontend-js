@@ -295,7 +295,7 @@
 
 .set-official-button:hover {
   color: var(--color-primary);
-  transform: scale(1.2) rotate(5deg);
+  transform: none;
 }
 
 .tooltip {
@@ -341,4 +341,61 @@
   margin-right: 8px;
   font-size: 0.8em;
   font-weight: 600;
+}
+
+/* Favorites */
+.favorite-assets-list {
+  @apply flex flex-col gap-2 w-full;
+}
+
+.favorite-asset-item {
+  @apply flex items-center justify-between p-2 rounded-lg;
+  background: linear-gradient(
+    to right,
+    var(--background-color-light),
+    transparent
+  );
+}
+
+.favorite-asset-item:hover {
+  @apply bg-[var(--background-color-light)];
+}
+
+.asset-info {
+  @apply flex flex-col items-start;
+}
+
+.asset-symbol {
+  @apply font-bold text-[var(--text-color)] text-base;
+}
+
+.asset-name {
+  @apply text-[var(--text-color-secondary)] text-sm;
+}
+
+.asset-actions {
+  @apply flex items-center gap-2;
+}
+
+.view-asset-button,
+.remove-favorite-button {
+  @apply p-2 rounded-lg transition-all duration-200;
+  color: var(--text-color-secondary);
+}
+
+.view-asset-button:hover {
+  @apply bg-[var(--color-primary)];
+  color: var(--background-color);
+  transform: none;
+}
+
+.remove-favorite-button:hover {
+  @apply bg-[var(--bearish-color)];
+  color: var(--background-color);
+  transform: none;
+}
+
+.no-favorites-message {
+  @apply text-center text-[var(--text-color-secondary)];
+  opacity: var(--opacity-light);
 }

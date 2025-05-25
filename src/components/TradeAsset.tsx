@@ -18,6 +18,7 @@ import {
 } from "@/config/tradeAsset";
 import tradingMessages from "@/i18n/tradeAsset.json";
 import { COINGECKO_CONFIG } from "@/config/crypto";
+import { FaStar } from "react-icons/fa";
 
 interface TradeAssetProps {
   assetId: string;
@@ -116,11 +117,113 @@ const sampleData = Array.from({ length: 30 }, (_, i) => ({
 export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
   const [chartData, setChartData] = useState<CandleData[]>([]);
   const [timePeriod, setTimePeriod] = useState<TimePeriod>("1D");
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [assetInfo, setAssetInfo] = useState<{
+    symbol: string;
+    name: string;
+  } | null>(null);
   const [colors, setColors] = useState({
     background: "var(--background-color)",
     bullish: "var(--bullish-color)",
     bearish: "var(--bearish-color)",
   });
+
+  useEffect(() => {
+    const loadFavoriteStatus = () => {
+      try {
+        const favorites = JSON.parse(
+          localStorage.getItem("favoriteAssets") || "[]",
+        );
+        setIsFavorite(
+          favorites.some((fav: { id: string }) => fav.id === assetId),
+        );
+      } catch (err) {
+        console.error("Failed to load favorite status:", err);
+      }
+    };
+
+    loadFavoriteStatus();
+    window.addEventListener("storage", loadFavoriteStatus);
+    return () => window.removeEventListener("storage", loadFavoriteStatus);
+  }, [assetId]);
+
+  useEffect(() => {
+    const fetchAssetInfo = async () => {
+      try {
+        const response = await fetch(
+          `${COINGECKO_CONFIG.BASE_URL}${COINGECKO_CONFIG.ENDPOINTS.COIN_DETAILS.replace("{{id}}", assetId)}`,
+        );
+        if (!response.ok) throw new Error("Failed to fetch asset info");
+        const data = await response.json();
+        setAssetInfo({
+          symbol: data.symbol.toUpperCase(),
+          name: data.name,
+        });
+      } catch (err) {
+        console.error("Failed to fetch asset info:", err);
+      }
+    };
+
+    fetchAssetInfo();
+  }, [assetId]);
+
+  const handleToggleFavorite = () => {
+    try {
+      const favorites = JSON.parse(
+        localStorage.getItem("favoriteAssets") || "[]",
+      );
+      let updatedFavorites;
+
+      if (isFavorite) {
+        updatedFavorites = favorites.filter(
+          (fav: { id: string }) => fav.id !== assetId,
+        );
+      } else {
+        const symbol = assetInfo?.symbol || assetId.toUpperCase();
+        const name = assetInfo?.name || assetId;
+
+        const isAlreadyFavorite = favorites.some(
+          (fav: { id: string }) => fav.id === assetId,
+        );
+
+        if (isAlreadyFavorite) {
+          console.log(tradingMessages.en.error.alreadyFavorite);
+          return;
+        }
+
+        updatedFavorites = [
+          ...favorites,
+          {
+            id: assetId,
+            symbol,
+            name,
+            addedAt: new Date().toISOString(),
+          },
+        ];
+      }
+
+      localStorage.setItem("favoriteAssets", JSON.stringify(updatedFavorites));
+      setIsFavorite(!isFavorite);
+
+      const storageEvent = new StorageEvent("storage", {
+        key: "favoriteAssets",
+        newValue: JSON.stringify(updatedFavorites),
+        oldValue: JSON.stringify(favorites),
+        storageArea: localStorage,
+        url: window.location.href,
+      });
+      window.dispatchEvent(storageEvent);
+
+      window.dispatchEvent(new Event("favoritesUpdated"));
+
+      console.log(tradingMessages.en.success.favoriteUpdated);
+    } catch (err) {
+      console.error(
+        tradingMessages.en.error.saveFavoriteFailed,
+        err instanceof Error ? err.message : String(err),
+      );
+    }
+  };
 
   const fetchHistoricalData = useCallback(
     async (period: TimePeriod) => {
@@ -253,6 +356,27 @@ export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
 
   return (
     <div className="trading-container">
+      <div className="asset-header">
+        <div className="asset-header-content">
+          <button
+            onClick={handleToggleFavorite}
+            className={`favorite-button ${isFavorite ? "active" : ""}`}
+            aria-label={
+              isFavorite
+                ? tradingMessages.en.aria.removeFromFavorites
+                : tradingMessages.en.aria.addToFavorites
+            }
+          >
+            <FaStar />
+          </button>
+          {assetInfo && (
+            <div className="asset-title">
+              <h2>{assetInfo.name}</h2>
+              <span className="asset-symbol">{assetInfo.symbol}</span>
+            </div>
+          )}
+        </div>
+      </div>
       <div className="time-period-selector">
         {TIME_PERIODS.map((period) => (
           <button
@@ -260,7 +384,7 @@ export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
             className={timePeriod === period ? "active" : ""}
             onClick={() => setTimePeriod(period)}
           >
-            {period}
+            {tradingMessages.en.timePeriods[period]}
           </button>
         ))}
       </div>

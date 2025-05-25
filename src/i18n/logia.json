@@ -10,7 +10,9 @@
       "apiRequestFailed": "API request failed with status {status}: {error}",
       "invalidResponseType": "invalid response type: {type}",
       "invalidApiResponse": "invalid API response",
-      "invalidPlanetData": "invalid planet data for {planet}"
+      "invalidPlanetData": "invalid planet data for {planet}",
+      "chartNotFound": "chart not found",
+      "failedToLoadChart": "failed to load chart"
     },
     "labels": {
       "birthDate": "your birth date",

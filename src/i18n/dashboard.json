@@ -36,7 +36,12 @@
         }
       },
       "favorites": {
-        "title": "my favorite assets"
+        "title": "my favorite assets",
+        "noFavorites": "no favorite assets yet",
+        "actions": {
+          "view": "view asset",
+          "remove": "remove from favorites"
+        }
       },
       "predictions": {
         "title": "my predictions"

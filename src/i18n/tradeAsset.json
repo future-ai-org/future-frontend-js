@@ -9,14 +9,19 @@
       "apiError": "API Error: {{status}} {{statusText}}",
       "invalidData": "invalid data format received from API",
       "connectionError": "connection error. please check your internet connection.",
-      "tradingComponentMounted": "Trading component mounted with assetId:",
-      "fetchingData": "Fetching data with config:",
+      "tradingComponentMounted": "trading component mounted with assetId:",
+      "fetchingData": "fetching data with config:",
       "apiResponseStatus": "API Response status:",
       "apiResponseData": "API Response data:",
       "processedDataPoints": "Processed data points:",
-      "fetchError": "Error fetching historical data",
-      "historicalDataError": "Failed to fetch historical data: {{error}}",
-      "useEffectTriggered": "useEffect triggered with timePeriod:"
+      "fetchError": "error fetching historical data",
+      "historicalDataError": "failed to fetch historical data: {{error}}",
+      "useEffectTriggered": "useEffect triggered with timePeriod:",
+      "alreadyFavorite": "asset is already in favorites",
+      "saveFavoriteFailed": "failed to save favorite status"
+    },
+    "success": {
+      "favoriteUpdated": "successfully updated favorites"
     },
     "labels": {
       "currentPrice": "current price",
@@ -27,6 +32,18 @@
       "low24h": "24h low",
       "allTimeHigh": "all time high",
       "allTimeLow": "all time low"
+    },
+    "aria": {
+      "addToFavorites": "add to favorites",
+      "removeFromFavorites": "remove from favorites"
+    },
+    "timePeriods": {
+      "1D": "1D",
+      "1W": "1W",
+      "1M": "1M",
+      "3M": "3M",
+      "1Y": "1Y",
+      "ALL": "ALL"
     }
   }
 }

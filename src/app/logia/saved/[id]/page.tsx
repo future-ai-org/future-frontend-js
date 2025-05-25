@@ -6,6 +6,7 @@ import LogiaChart from "../../../../components/LogiaChart";
 import { ChartData } from "../../../../config/logiaChart";
 import Loading from "../../../../utils/loading";
 import "../../../../styles/logia.css";
+import { useTranslation } from "react-i18next";
 
 interface SavedChart {
   id: string;
@@ -18,6 +19,7 @@ interface SavedChart {
 
 export default function SavedChartPage() {
   const params = useParams();
+  const { t } = useTranslation("logia");
   const [savedChart, setSavedChart] = useState<SavedChart | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -33,17 +35,17 @@ export default function SavedChartPage() {
         if (chart) {
           setSavedChart(chart);
         } else {
-          setError("Chart not found");
+          setError(t("errors.chartNotFound"));
         }
       } catch {
-        setError("Failed to load chart");
+        setError(t("errors.failedToLoadChart"));
       } finally {
         setIsLoading(false);
       }
     };
 
     loadSavedChart();
-  }, [params.id]);
+  }, [params.id, t]);
 
   if (isLoading) {
     return (
@@ -60,7 +62,7 @@ export default function SavedChartPage() {
       <div className="astrology-container">
         <div className="astrology-form-section">
           <div className="astrology-error-message">
-            {error || "Chart not found"}
+            {error || t("errors.chartNotFound")}
           </div>
         </div>
       </div>

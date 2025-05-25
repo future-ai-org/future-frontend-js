@@ -433,3 +433,44 @@
     font-size: 0.7rem;
   }
 }
+
+.asset-header {
+  @apply w-full max-w-[1400px] mb-8;
+}
+
+.asset-header-content {
+  @apply flex items-center gap-4;
+}
+
+.asset-title {
+  @apply flex flex-col items-start;
+}
+
+.asset-title h2 {
+  @apply text-2xl font-bold m-0;
+  color: var(--text-color);
+}
+
+.asset-title .asset-symbol {
+  @apply text-sm;
+  color: var(--text-color-secondary);
+}
+
+.favorite-button {
+  @apply p-3 rounded-full transition-all duration-200 flex-shrink-0;
+  color: var(--text-color-secondary);
+  background: transparent;
+  border: 1px solid var(--text-color-secondary);
+}
+
+.favorite-button:hover {
+  @apply transform scale-110;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.favorite-button.active {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  animation: none;
+}

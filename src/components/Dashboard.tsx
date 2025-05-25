@@ -19,9 +19,17 @@ interface SavedChart {
   isOfficial?: boolean;
 }
 
+interface FavoriteAsset {
+  id: string;
+  symbol: string;
+  name: string;
+  addedAt: string;
+}
+
 const Dashboard: React.FC = () => {
   const router = useRouter();
   const [savedCharts, setSavedCharts] = useState<SavedChart[]>([]);
+  const [favoriteAssets, setFavoriteAssets] = useState<FavoriteAsset[]>([]);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const {
     account,
@@ -52,6 +60,27 @@ const Dashboard: React.FC = () => {
     // Listen for storage changes
     window.addEventListener("storage", loadSavedCharts);
     return () => window.removeEventListener("storage", loadSavedCharts);
+  }, []);
+
+  useEffect(() => {
+    const loadFavoriteAssets = () => {
+      try {
+        const assets = JSON.parse(
+          localStorage.getItem("favoriteAssets") || "[]",
+        );
+        setFavoriteAssets(assets);
+      } catch (err) {
+        console.error("Failed to load favorite assets:", err);
+      }
+    };
+
+    loadFavoriteAssets();
+    window.addEventListener("storage", loadFavoriteAssets);
+    window.addEventListener("favoritesUpdated", loadFavoriteAssets);
+    return () => {
+      window.removeEventListener("storage", loadFavoriteAssets);
+      window.removeEventListener("favoritesUpdated", loadFavoriteAssets);
+    };
   }, []);
 
   useEffect(() => {
@@ -178,6 +207,12 @@ const Dashboard: React.FC = () => {
       .replace("{greeting}", getTimeBasedGreeting)
       .replace("{name}", displayName.toLowerCase());
   }, [getTimeBasedGreeting, displayName]);
+
+  const handleRemoveFavorite = (assetId: string) => {
+    const updatedFavorites = favoriteAssets.filter((fav) => fav.id !== assetId);
+    setFavoriteAssets(updatedFavorites);
+    localStorage.setItem("favoriteAssets", JSON.stringify(updatedFavorites));
+  };
 
   return (
     <div className="dashboard">
@@ -308,7 +343,38 @@ const Dashboard: React.FC = () => {
         <div className="dashboard-card">
           <h3>{strings.en.cards.favorites.title}</h3>
           <div className="card-content">
-            {/* Favorite assets content will go here */}
+            {favoriteAssets.length === 0 ? (
+              <p className="no-favorites-message">
+                {strings.en.cards.favorites.noFavorites}
+              </p>
+            ) : (
+              <div className="favorite-assets-list">
+                {favoriteAssets.map((asset) => (
+                  <div key={asset.id} className="favorite-asset-item">
+                    <div className="asset-info">
+                      <span className="asset-symbol">{asset.symbol}</span>
+                      <span className="asset-name">{asset.name}</span>
+                    </div>
+                    <div className="asset-actions">
+                      <button
+                        onClick={() => router.push(`/trade/${asset.id}`)}
+                        className="view-asset-button"
+                        aria-label={strings.en.cards.favorites.actions.view}
+                      >
+                        <FaEye />
+                      </button>
+                      <button
+                        onClick={() => handleRemoveFavorite(asset.id)}
+                        className="remove-favorite-button"
+                        aria-label={strings.en.cards.favorites.actions.remove}
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
