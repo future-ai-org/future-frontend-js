@@ -188,10 +188,11 @@ async function calculateChartData(
     </tr>`,
     ...Object.entries(planetsData).map(([planet, info]) => {
       const orderedArray = Array.from(orderedSigns.keys());
-      const houseNumber = orderedArray.findIndex((sign) => 
-        (sign as string).toLowerCase() === info.sign.toLowerCase()
-      ) + 1;
-      
+      const houseNumber =
+        orderedArray.findIndex(
+          (sign) => (sign as string).toLowerCase() === info.sign.toLowerCase(),
+        ) + 1;
+
       return `<tr>
         <td class="planet-cell">${PLANET_SYMBOLS[planet.toLowerCase() as keyof typeof PLANET_SYMBOLS]}</td>
         <td class="planet-cell">${getZodiacSymbol(info.sign)}</td>
@@ -258,7 +259,13 @@ const useChartDrawing = (
 
       drawZodiacSymbols(g, dimensions.radius);
       drawAspects(g, dimensions.radius, chartData);
-      drawPlanets(g, dimensions.radius, onPlanetSelect, getPlanetSymbol, chartData);
+      drawPlanets(
+        g,
+        dimensions.radius,
+        onPlanetSelect,
+        getPlanetSymbol,
+        chartData,
+      );
 
       return g;
     },
