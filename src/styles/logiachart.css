@@ -2,15 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Font definitions */
-@font-face {
-  font-family: "Astrology";
-  src: url("/fonts/Astrology-Regular.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
 /* Common variables and utilities */
 :root {
   --tooltip-font-size: 0.8rem;

@@ -1,4 +1,12 @@
-import { ChartData, ZODIAC_SIGNS, HOUSE_ANGLES, ZODIAC_SYMBOLS, PLANET_SYMBOLS, getElementForSign, getZodiacSymbol } from "../config/logiaChart";
+import {
+  ChartData,
+  ZODIAC_SIGNS,
+  HOUSE_ANGLES,
+  ZODIAC_SYMBOLS,
+  PLANET_SYMBOLS,
+  getElementForSign,
+  getZodiacSymbol,
+} from "../config/logiaChart";
 import * as d3 from "d3";
 import chartStrings from "../i18n/logiaChart.json";
 import { geocodeCity } from "../utils/geocoding";
@@ -213,7 +221,9 @@ export function drawPlanets(
   });
 }
 
-export function calculateAspects(planets: { name: string; position: number }[]) {
+export function calculateAspects(
+  planets: { name: string; position: number }[],
+) {
   const aspects = [];
   for (let i = 0; i < planets.length; i++) {
     for (let j = i + 1; j < planets.length; j++) {
@@ -237,9 +247,7 @@ export function calculateAspects(planets: { name: string; position: number }[]) 
           type: "conjunction",
           orb: normalizedAngle,
         });
-      } else if (
-        Math.abs(normalizedAngle - 180) <= aspectOrbs.opposition
-      ) {
+      } else if (Math.abs(normalizedAngle - 180) <= aspectOrbs.opposition) {
         aspects.push({
           planet1: planets[i].name,
           planet2: planets[j].name,
@@ -352,22 +360,39 @@ export async function calculateChartData(
   birthDate: string,
   birthTime: string,
   city: string,
-  chartT: typeof chartStrings.en
+  chartT: typeof chartStrings.en,
 ): Promise<ChartCalculationResult> {
   const coordinates = await geocodeCity(city);
   if (!coordinates) {
     throw new Error(chartT.errors.cityNotFound);
   }
 
-  const [year, month, day] = birthDate.split("-").map((num) => parseInt(num, 10));
-  if (isNaN(year) || isNaN(month) || isNaN(day) || month < 1 || month > 12 || day < 1 || day > 31) {
+  const [year, month, day] = birthDate
+    .split("-")
+    .map((num) => parseInt(num, 10));
+  if (
+    isNaN(year) ||
+    isNaN(month) ||
+    isNaN(day) ||
+    month < 1 ||
+    month > 12 ||
+    day < 1 ||
+    day > 31
+  ) {
     throw new Error(chartT.errors.invalidDateFormat);
   }
 
   const formattedDate = `${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
   const [hour, minute] = birthTime.split(":").map((num) => parseInt(num, 10));
 
-  if (isNaN(hour) || isNaN(minute) || hour < 0 || hour > 23 || minute < 0 || minute > 59) {
+  if (
+    isNaN(hour) ||
+    isNaN(minute) ||
+    hour < 0 ||
+    hour > 23 ||
+    minute < 0 ||
+    minute > 59
+  ) {
     throw new Error(chartT.errors.invalidTimeFormat);
   }
 
@@ -405,11 +430,19 @@ export async function calculateChartData(
   ]);
 
   if (!planetsResponse.ok || !ascendantResponse.ok) {
-    const errorText = await (planetsResponse.ok ? ascendantResponse.text() : planetsResponse.text());
+    const errorText = await (planetsResponse.ok
+      ? ascendantResponse.text()
+      : planetsResponse.text());
     throw new Error(
       chartT.errors.apiRequestFailed
-        .replace("{status}", (planetsResponse.ok ? ascendantResponse.status : planetsResponse.status).toString())
-        .replace("{error}", errorText)
+        .replace(
+          "{status}",
+          (planetsResponse.ok
+            ? ascendantResponse.status
+            : planetsResponse.status
+          ).toString(),
+        )
+        .replace("{error}", errorText),
     );
   }
 
@@ -418,7 +451,12 @@ export async function calculateChartData(
     ascendantResponse.json() as Promise<AscendantResponse>,
   ]);
 
-  if (!planetsData || typeof planetsData !== "object" || !ascendantData || typeof ascendantData !== "object") {
+  if (
+    !planetsData ||
+    typeof planetsData !== "object" ||
+    !ascendantData ||
+    typeof ascendantData !== "object"
+  ) {
     throw new Error(chartT.errors.invalidApiResponse);
   }
 
@@ -426,7 +464,8 @@ export async function calculateChartData(
     name: name.toLowerCase(),
     position: data.degrees,
     sign: data.sign.toLowerCase(),
-    house: Math.floor(((data.degrees - ascendantData.degrees + 360) % 360) / 30) + 1,
+    house:
+      Math.floor(((data.degrees - ascendantData.degrees + 360) % 360) / 30) + 1,
   }));
 
   const houses = calculateHouses(ascendantData.degrees);
