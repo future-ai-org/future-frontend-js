@@ -125,11 +125,22 @@ export function drawPlanets(
     if (!signData) return;
 
     const middleAngle = ((houseAngle + 15) * Math.PI) / 180;
+    const maxPlanetsPerSlice = 5; // Maximum number of planets to show in a slice
+    const angleSpread = 20; // Total angle spread in degrees for planets in a slice
+    
     signData.planets.forEach((planet, planetIndex) => {
-      const planetOffset = (planetIndex - (signData.planets.length - 1) / 2) * 10;
-      const angle = middleAngle + (planetOffset * Math.PI) / 180;
-      const x = (radius - 35) * Math.cos(angle);
-      const y = (radius - 35) * Math.sin(angle);
+      // Calculate position within the slice
+      const totalPlanets = Math.min(signData.planets.length, maxPlanetsPerSlice);
+      const angleStep = angleSpread / (totalPlanets - 1);
+      const offset = (planetIndex - (totalPlanets - 1) / 2) * angleStep;
+      const angle = middleAngle + (offset * Math.PI) / 180;
+      
+      // Adjust radius based on number of planets to prevent overlap
+      const radiusOffset = Math.min(planetIndex * 2, 10); // Max 10px offset
+      const planetRadius = radius - 35 - radiusOffset;
+      
+      const x = planetRadius * Math.cos(angle);
+      const y = planetRadius * Math.sin(angle);
       
       if (index === 0) {
         planetPositions.push({ x, y });
