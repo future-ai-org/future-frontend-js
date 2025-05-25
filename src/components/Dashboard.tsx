@@ -6,6 +6,7 @@ import { useWeb3 } from "../utils/web3ModalContext";
 import strings from "../i18n/dashboard.json";
 import "../styles/dashboard.css";
 import { formatDate, formatTime } from "../utils/geocoding";
+import { FaTrash } from 'react-icons/fa';
 
 interface SavedChart {
   id: string;
@@ -178,13 +179,14 @@ const Dashboard: React.FC = () => {
                         onClick={() => router.push(`/logia/saved/${chart.id}`)}
                         className="view-chart-button"
                       >
-                        View Chart
+                        View
                       </button>
                       <button 
                         onClick={() => handleDeleteChart(chart.id)}
                         className="delete-chart-button"
+                        aria-label="Delete chart"
                       >
-                        Delete
+                        <FaTrash />
                       </button>
                     </div>
                   </div>

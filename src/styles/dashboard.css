@@ -207,48 +207,62 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  background: var(--color-primary);
-  opacity: var(--opacity-10);
+  padding: 1.25rem;
+  background: var(--background-color-light);
   border-radius: 1rem;
-  transition: var(--transition-all);
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .saved-chart-item:hover {
-  opacity: var(--opacity-20);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  border-color: var(--color-primary);
 }
 
 .chart-info {
   flex: 1;
+  padding-right: 1rem;
 }
 
 .chart-info h4 {
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 0.75rem 0;
   color: var(--color-primary);
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 600;
+  text-transform: capitalize;
 }
 
 .chart-info p {
-  margin: 0.25rem 0;
-  font-size: 0.9rem;
+  margin: 0.35rem 0;
+  font-size: 0.95rem;
   color: var(--text-color);
-  opacity: var(--opacity-80);
+  opacity: 0.9;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .chart-actions {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  align-items: center;
 }
 
 .view-chart-button,
 .delete-chart-button {
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
   border-radius: 0.5rem;
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
-  transition: var(--transition-all);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
 }
 
 .view-chart-button {
@@ -258,8 +272,8 @@
 }
 
 .view-chart-button:hover {
-  opacity: var(--opacity-90);
-  box-shadow: var(--glow-shadow-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .delete-chart-button {
@@ -271,12 +285,14 @@
 .delete-chart-button:hover {
   background: var(--text-color);
   color: var(--background-color);
+  transform: scale(1.1);
 }
 
 .no-charts-message {
   text-align: center;
   color: var(--text-color);
-  opacity: var(--opacity-60);
+  opacity: 0.7;
   font-style: italic;
   padding: 2rem;
+  font-size: 1.1rem;
 }
