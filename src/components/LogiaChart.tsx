@@ -19,7 +19,6 @@ import {
   drawPlanets,
   drawAscendant,
   updateOrderedSigns,
-  ZODIAC_ORDER,
   calculateChartData,
 } from "../utils/chartFilling";
 import { formatCoordinates, formatDate, formatTime } from "../utils/geocoding";
@@ -57,7 +56,7 @@ const useChartDrawing = (
 
       updateOrderedSigns(chartData.ascendantSign, chartData);
 
-      drawZodiacSymbols(g, dimensions.radius, ZODIAC_ORDER);
+      drawZodiacSymbols(g, dimensions.radius);
       drawAspects(g, dimensions.radius, chartData);
       drawPlanets(
         g,

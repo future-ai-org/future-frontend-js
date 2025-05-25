@@ -32,7 +32,6 @@ export default function Logia() {
   const [stylesLoaded, setStylesLoaded] = useState(false);
 
   useEffect(() => {
-    // Check if CSS variables are loaded
     const checkStyles = () => {
       const computedStyle = getComputedStyle(document.documentElement);
       const primaryColor = computedStyle

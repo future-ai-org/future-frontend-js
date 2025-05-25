@@ -113,7 +113,6 @@ export function drawAscendant(
 export function drawZodiacSymbols(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
   radius: number,
-  zodiacSymbols: string[],
 ) {
   const zodiacRadius = radius + 15;
   const tooltip = d3
@@ -129,7 +128,7 @@ export function drawZodiacSymbols(
     const y = zodiacRadius * Math.sin(middleAngle);
 
     const signName = orderedArray[index].toLowerCase() as ZodiacSign;
-    const signSymbol = zodiacSymbols[ZODIAC_SIGNS.indexOf(orderedArray[index])];
+    const signSymbol = ZODIAC_ORDER[ZODIAC_SIGNS.indexOf(orderedArray[index])];
 
     g.append("text")
       .attr("x", x)
