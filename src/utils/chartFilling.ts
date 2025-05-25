@@ -2,7 +2,22 @@ import { ChartData, ZODIAC_SIGNS, HOUSE_ANGLES } from "../config/logiaChart";
 import * as d3 from "d3";
 import chartStrings from "../i18n/logiaChart.json";
 
+
 type ZodiacSign = keyof typeof chartStrings.en.signs;
+let orderedSigns: Map<string, any> = new Map();
+
+
+export function updateOrderedSigns(ascendantSign: string) {
+  const ascendantIndex = ZODIAC_SIGNS.findIndex(
+    (sign) => sign.toLowerCase() === ascendantSign.toLowerCase()
+  );
+  const orderedArray = [
+    ...ZODIAC_SIGNS.slice(ascendantIndex),
+    ...ZODIAC_SIGNS.slice(0, ascendantIndex),
+  ];
+  orderedSigns = new Map(orderedArray.map(sign => [sign, {}]));
+}
+
 
 export function drawAscendant(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
@@ -53,6 +68,7 @@ export function drawAscendant(
     .attr("class", "planet-text");
 }
 
+
 export function drawZodiacSymbols(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
   radius: number,
@@ -65,26 +81,17 @@ export function drawZodiacSymbols(
     .append("div")
     .attr("class", "tooltip tooltip-large");
 
-  // Find the index of the ascendant sign in ZODIAC_SIGNS
-  const ascendantIndex = ZODIAC_SIGNS.findIndex(
-    (sign) => sign.toLowerCase() === chartData.ascendantSign.toLowerCase()
-  );
 
-  // Create an array of signs starting from the ascendant
-  const orderedSigns = [
-    ...ZODIAC_SIGNS.slice(ascendantIndex),
-    ...ZODIAC_SIGNS.slice(0, ascendantIndex),
-  ];
-
+  updateOrderedSigns(chartData.ascendantSign);
+  const orderedArray = Array.from(orderedSigns.keys());
   for (let index = 0; index < 12; index++) {
-    // Add 15 degrees to place the symbol in the middle of each house slice
     const houseAngle = HOUSE_ANGLES[index];
     const middleAngle = (houseAngle + 15) * Math.PI / 180;
     const x = zodiacRadius * Math.cos(middleAngle);
     const y = zodiacRadius * Math.sin(middleAngle);
 
-    const signName = orderedSigns[index].toLowerCase() as ZodiacSign;
-    const signSymbol = zodiacSymbols[ZODIAC_SIGNS.indexOf(orderedSigns[index])];
+    const signName = orderedArray[index].toLowerCase() as ZodiacSign;
+    const signSymbol = zodiacSymbols[ZODIAC_SIGNS.indexOf(orderedArray[index])];
 
     g.append("text")
       .attr("x", x)
@@ -100,7 +107,7 @@ export function drawZodiacSymbols(
           .style("visibility", "visible")
           .style("opacity", "1")
           .html(
-            `<strong>${orderedSigns[index]}</strong><p>${signDescription}</p>`,
+            `<strong>${orderedArray[index]}</strong><p>${signDescription}</p>`,
           )
           .style("left", event.pageX + 10 + "px")
           .style("top", event.pageY - 10 + "px");
@@ -116,6 +123,7 @@ export function drawZodiacSymbols(
   }
 }
 
+
 export function drawPlanets(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
   radius: number,
@@ -127,6 +135,23 @@ export function drawPlanets(
     .select("body")
     .append("div")
     .attr("class", "tooltip tooltip-quick");
+
+  chartData.planets.forEach((planet) => {
+    const sign = planet.sign;
+    if (!orderedSigns.has(sign)) {
+      orderedSigns.set(sign, { planets: [] });
+    }
+    const signData = orderedSigns.get(sign);
+    if (signData) {
+      if (!signData.planets) {
+        signData.planets = [];
+      }
+      signData.planets.push({
+        name: planet.name,
+        position: planet.position
+      });
+    }
+  });
 
   chartData.planets.forEach((planet) => {
     const angle = ((planet.position - 90) * Math.PI) / 180;
@@ -173,6 +198,7 @@ export function drawPlanets(
       .attr("class", "planet-text");
   });
 }
+
 
 export function drawAspects(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,

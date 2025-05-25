@@ -171,9 +171,6 @@ export async function printChartInfo(
       ascendantResponse.json() as Promise<AscendantResponse>,
     ]);
 
-    console.log("Planets Data:", planetsData);
-    console.log("Ascendant Data:", ascendantData);
-
     if (
       !planetsData ||
       typeof planetsData !== "object" ||

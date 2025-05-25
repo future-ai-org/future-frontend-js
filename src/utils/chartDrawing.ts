@@ -17,8 +17,7 @@ function getGlobalTooltip(
       .select("body")
       .append("div")
       .attr("class", `tooltip tooltip-${type}`);
-  } else {
-    // Update the tooltip type
+  } else if (globalTooltip.attr("class") !== `tooltip tooltip-${type}`) {
     globalTooltip.attr("class", `tooltip tooltip-${type}`);
   }
   return globalTooltip;
@@ -88,10 +87,12 @@ export function drawHouseLines(
 ) {
   HOUSE_ANGLES.forEach((angle) => {
     const angleRad = (angle * Math.PI) / 180;
-    const x = radius * Math.cos(angleRad);
-    const y = radius * Math.sin(angleRad);
-    const innerX = radius * 0.1 * Math.cos(angleRad);
-    const innerY = radius * 0.1 * Math.sin(angleRad);
+    const cos = Math.cos(angleRad);
+    const sin = Math.sin(angleRad);
+    const x = radius * cos;
+    const y = radius * sin;
+    const innerX = radius * 0.1 * cos;
+    const innerY = radius * 0.1 * sin;
 
     g.append("line")
       .attr("x1", innerX)
@@ -107,9 +108,16 @@ export function drawHouseNumbers(
   radius: number,
 ) {
   const tooltip = getGlobalTooltip("large");
+  const tooltipContent = new Map<number, string>();
+
+  // Pre-compute tooltip content
+  HOUSE_ANGLES.forEach((_, i) => {
+    const houseNumber = (i + 1).toString() as keyof typeof chartStrings.en.houses;
+    const houseDescription = chartStrings.en.houses[houseNumber];
+    tooltipContent.set(i + 1, `<strong>${chartStrings.en.table.house} ${houseNumber}</strong><p>${houseDescription}</p>`);
+  });
 
   HOUSE_ANGLES.forEach((angle, i) => {
-    // Position the house numbers at the middle of each house (15 degrees offset)
     const labelAngle = ((angle + 15) * Math.PI) / 180;
     const x = radius * 0.15 * Math.cos(labelAngle);
     const y = radius * 0.15 * Math.sin(labelAngle);
@@ -122,17 +130,10 @@ export function drawHouseNumbers(
       .attr("class", "house-number")
       .text((i + 1).toString())
       .on("mouseover", function (event) {
-        const houseNumber = (
-          i + 1
-        ).toString() as keyof typeof chartStrings.en.houses;
-        const houseDescription = chartStrings.en.houses[houseNumber];
-
         tooltip
           .style("visibility", "visible")
           .style("opacity", "1")
-          .html(
-            `<strong>${chartStrings.en.table.house} ${houseNumber}</strong><p>${houseDescription}</p>`,
-          )
+          .html(tooltipContent.get(i + 1) || "")
           .style("left", event.pageX + 10 + "px")
           .style("top", event.pageY - 10 + "px");
       })

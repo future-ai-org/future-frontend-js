@@ -70,7 +70,6 @@ export default function Home() {
   const getDescription = useCallback(
     (cardNumber: CardNumber) => {
       if (!isClient) {
-        // Return a simpler version for server-side rendering
         return cardNumber === strings.en.numbers.one ? (
           <span>{strings.en.features.one.connectWallet}</span>
         ) : cardNumber === strings.en.numbers.two ? (
@@ -122,8 +121,7 @@ export default function Home() {
                 {strings.en.text.startMakingSmarterChoices.prefix}{" "}
                 <Link href={ROUTES.TRADE}>
                   {strings.en.text.startMakingSmarterChoices.link}
-                </Link>{" "}
-                {strings.en.text.startMakingSmarterChoices.suffix}
+                </Link>
               </>
             )}
           </>
