@@ -2,13 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "Astrology";
-  src: url("/fonts/Astrology-Regular.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
 /* Common font optimization properties */
 .font-optimized {
   -webkit-font-feature-settings: "liga" 0;

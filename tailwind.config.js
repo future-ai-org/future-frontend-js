@@ -7,7 +7,7 @@ module.exports = {
     extend: {
       fontFamily: {
         'sans': ['Quicksand', 'system-ui', 'sans-serif'],
-        'astrology': ['Astrology', 'monospace'],
+        'astrology': ['Noto Sans Symbols', 'monospace'],
       },
       colors: {
         primary: {
