@@ -73,8 +73,8 @@
     transform var(--transition-duration) var(--transition-timing),
     box-shadow var(--transition-duration) var(--transition-timing);
   backdrop-filter: blur(8px);
-  opacity: 0;
-  animation: fadeIn 0.3s ease-in-out forwards;
+  opacity: 1;
+  animation: fadeIn 0.5s ease-in-out;
   will-change: transform, box-shadow;
 }
 
@@ -114,8 +114,7 @@
   gap: 0.5rem;
   transition: transform var(--transition-duration) var(--transition-timing);
   width: 100%;
-  opacity: 0;
-  animation: fadeIn 0.3s ease-in-out forwards;
+  opacity: 1;
   will-change: transform;
 }
 
@@ -139,9 +138,7 @@
   text-align: center;
   outline: none;
   box-sizing: border-box;
-  opacity: 0;
-  animation: fadeIn 0.3s ease-in-out forwards;
-  animation-delay: 0.1s;
+  opacity: 1;
 }
 
 .astrology-input,
@@ -232,9 +229,7 @@
   text-align: center;
   position: relative;
   overflow: hidden;
-  opacity: 0;
-  animation: fadeIn 0.3s ease-in-out forwards;
-  animation-delay: 0.2s;
+  opacity: 1;
   will-change: transform, background-color, color, box-shadow;
 }
 
