@@ -5,6 +5,7 @@ import {
   getZodiacSymbol,
   PLANET_SYMBOLS,
   getElementForSign,
+  getElementNameForSign,
 } from "../config/logiaChart";
 import Loading from "../utils/loading";
 import "../styles/logiachart.css";
@@ -181,9 +182,9 @@ async function calculateChartData(
     `<tr>
       <td class="planet-cell" title="${chartT.points.tooltip.replace("{sign}", ascendantData.sign).replace("{position}", ascendantData.degrees.toFixed(2))} - ${chartT.planetDescriptions.ascendant}">AC</td>
       <td class="planet-cell" title="${chartT.signs[ascendantData.sign.toLowerCase() as keyof typeof chartT.signs]}">${getZodiacSymbol(ascendantData.sign)}</td>
-      <td class="planet-cell">${getElementForSign(ascendantData.sign)}</td>
+      <td class="planet-cell" title="${chartT.elements[getElementForSign(ascendantData.sign).toLowerCase() as keyof typeof chartT.elements]}">${getElementForSign(ascendantData.sign)}</td>
       <td class="planet-cell">${ascendantData.degrees.toFixed(2)}°</td>
-      <td class="planet-cell">I</td>
+      <td class="planet-cell" title="${chartT.houses["1"]}">I</td>
       <td class="planet-cell">${chartT.effects.ascendant || "-"}</td>
     </tr>`,
     ...Object.entries(planetsData).map(([planet, info]) => {
@@ -201,14 +202,20 @@ async function calculateChartData(
           planet.toLowerCase() as keyof typeof chartT.planetDescriptions
         ] || "-";
       const tooltipText = `${chartT.points.tooltip.replace("{sign}", info.sign).replace("{position}", info.degrees.toFixed(2))} - ${planetDescription}`;
-      const signDescription = chartT.signs[info.sign.toLowerCase() as keyof typeof chartT.signs];
+      const signDescription =
+        chartT.signs[info.sign.toLowerCase() as keyof typeof chartT.signs];
+      const houseDescription =
+        chartT.houses[houseNumber.toString() as keyof typeof chartT.houses];
+      const element = getElementNameForSign(info.sign).toLowerCase();
+      const elementDescription =
+        chartT.elements[element as keyof typeof chartT.elements];
 
       return `<tr>
         <td class="planet-cell" title="${tooltipText}">${PLANET_SYMBOLS[planet.toLowerCase() as keyof typeof PLANET_SYMBOLS]}</td>
         <td class="planet-cell" title="${signDescription}">${getZodiacSymbol(info.sign)}</td>
-        <td class="planet-cell">${getElementForSign(info.sign)}</td>
+        <td class="planet-cell" title="${elementDescription}">${getElementForSign(info.sign)}</td>
         <td class="planet-cell">${info.degrees.toFixed(2)}°</td>
-        <td class="planet-cell">${toRomanNumeral(houseNumber)}</td>
+        <td class="planet-cell" title="${houseDescription}">${toRomanNumeral(houseNumber)}</td>
         <td class="planet-cell">${planetEffect}</td>
       </tr>`;
     }),

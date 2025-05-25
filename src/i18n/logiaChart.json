@@ -65,10 +65,10 @@
       "pisces": "the 12th sign of the zodiac, ruled by neptune and jupiter, is linked to compassion, imagination, spiritual connection, the dissolution of boundaries, and connection with universal consciousness"
     },
     "elements": {
-      "fire": "linked to energy, passion, creativity, transformation, ambition, action, motivation, and the courage to pursue goals",
-      "earth": "linked to stability, practicality, material matters, patience, reliability, the foundations of life, nature, hard work, and building lasting structures",
-      "air": "linked to intellect, communication, social connections, clarity, curiosity, the exchange of ideas, learning, and the ability to see different perspectives",
-      "water": "linked to emotions, intuition, sensitivity, healing, empathy, the subconscious, dreams, deep feelings, and the flow of inner experience",
+      "fire": "Fire signs (Aries, Leo, Sagittarius) represent energy, passion, creativity, transformation, ambition, action, motivation, and the courage to pursue goals. They bring warmth, enthusiasm, and a pioneering spirit.",
+      "earth": "Earth signs (Taurus, Virgo, Capricorn) represent stability, practicality, material matters, patience, reliability, the foundations of life, nature, hard work, and building lasting structures. They bring grounding, security, and tangible results.",
+      "air": "Air signs (Gemini, Libra, Aquarius) represent intellect, communication, social connections, clarity, curiosity, the exchange of ideas, learning, and the ability to see different perspectives. They bring mental stimulation, social awareness, and intellectual growth.",
+      "water": "Water signs (Cancer, Scorpio, Pisces) represent emotions, intuition, sensitivity, healing, empathy, the subconscious, dreams, deep feelings, and the flow of inner experience. They bring emotional depth, psychic awareness, and spiritual connection.",
       "names": {
         "fire": "fire",
         "earth": "earth",

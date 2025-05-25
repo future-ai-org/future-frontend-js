@@ -64,6 +64,13 @@ export const ELEMENTS = {
   WATER: "🜄",
 } as const;
 
+export const ELEMENT_NAMES = {
+  FIRE: "fire",
+  EARTH: "earth",
+  AIR: "air",
+  WATER: "water",
+} as const;
+
 export function getPlanetSymbol(planetName: string): string {
   return (
     PLANET_SYMBOLS[planetName as keyof typeof PLANET_SYMBOLS] || planetName
@@ -92,6 +99,24 @@ export function getElementForSign(sign: string): string {
     pisces: "WATER",
   };
   return ELEMENTS[elementMap[sign.toLowerCase()]] || sign;
+}
+
+export function getElementNameForSign(sign: string): string {
+  const elementMap: { [key: string]: keyof typeof ELEMENTS } = {
+    aries: "FIRE",
+    taurus: "EARTH",
+    gemini: "AIR",
+    cancer: "WATER",
+    leo: "FIRE",
+    virgo: "EARTH",
+    libra: "AIR",
+    scorpio: "WATER",
+    sagittarius: "FIRE",
+    capricorn: "EARTH",
+    aquarius: "AIR",
+    pisces: "WATER",
+  };
+  return ELEMENT_NAMES[elementMap[sign.toLowerCase()]] || sign;
 }
 
 export const HOUSE_ANGLES = [
