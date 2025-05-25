@@ -22,6 +22,7 @@ import {
   updateOrderedSigns,
   calculateHouses,
   calculateAspects,
+  orderedSigns,
 } from "../utils/chartFilling";
 import {
   formatCoordinates,
@@ -186,12 +187,17 @@ async function calculateChartData(
       <td class="planet-cell">${chartT.effects.ascendant || "-"}</td>
     </tr>`,
     ...Object.entries(planetsData).map(([planet, info]) => {
+      const orderedArray = Array.from(orderedSigns.keys());
+      const houseNumber = orderedArray.findIndex((sign) => 
+        (sign as string).toLowerCase() === info.sign.toLowerCase()
+      ) + 1;
+      
       return `<tr>
         <td class="planet-cell">${PLANET_SYMBOLS[planet.toLowerCase() as keyof typeof PLANET_SYMBOLS]}</td>
         <td class="planet-cell">${getZodiacSymbol(info.sign)}</td>
         <td class="planet-cell">${getElementForSign(info.sign)}</td>
         <td class="planet-cell">${info.degrees.toFixed(2)}°</td>
-        <td class="planet-cell">${Math.floor(((info.degrees - ascendantData.degrees + 360) % 360) / 30) + 1}</td>
+        <td class="planet-cell">${houseNumber}</td>
         <td class="planet-cell">${chartT.effects[planet.toLowerCase() as keyof typeof chartT.effects] || "-"}</td>
       </tr>`;
     }),

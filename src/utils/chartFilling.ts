@@ -28,7 +28,7 @@ type PlanetData = {
   position: number;
 };
 
-let orderedSigns: Map<string, { planets: PlanetData[] }> = new Map();
+export let orderedSigns: Map<string, { planets: PlanetData[] }> = new Map();
 
 export function updateOrderedSigns(
   ascendantSign: string,
