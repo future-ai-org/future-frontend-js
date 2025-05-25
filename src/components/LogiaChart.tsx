@@ -334,6 +334,8 @@ export default function LogiaChart({
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
 
   const handlePlanetSelect = useCallback((planet: string) => {
     setSelectedPlanet(planet);
@@ -421,7 +423,9 @@ export default function LogiaChart({
       });
 
       if (isDuplicate) {
-        alert(chartT.saveChart.duplicate);
+        setNotificationMessage(chartT.saveChart.duplicate);
+        setShowNotification(true);
+        setTimeout(() => setShowNotification(false), 3000);
         setIsSaving(false);
         return;
       }
@@ -438,7 +442,9 @@ export default function LogiaChart({
       savedCharts.push(newChart);
       localStorage.setItem("savedCharts", JSON.stringify(savedCharts));
 
-      alert(chartT.saveChart.success);
+      setNotificationMessage(chartT.saveChart.success);
+      setShowNotification(true);
+      setTimeout(() => setShowNotification(false), 3000);
     } catch {
       setError(chartT.saveChart.error);
     } finally {
@@ -456,6 +462,11 @@ export default function LogiaChart({
 
   return (
     <>
+      {showNotification && (
+        <div className="save-notification">
+          {notificationMessage}
+        </div>
+      )}
       <div className="astrology-header">
         <a href="/logia-advanced" className="advanced-view-button">
           {chartT.advancedView}

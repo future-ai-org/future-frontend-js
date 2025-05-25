@@ -400,3 +400,28 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.save-notification {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-primary);
+  color: var(--color-background);
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  opacity: 0;
+  animation: fadeInOut 3s ease-in-out;
+  z-index: 1000;
+  text-shadow: var(--text-glow);
+  box-shadow: var(--glow-shadow);
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translate(-50%, -1rem); }
+  15% { opacity: 1; transform: translate(-50%, 0); }
+  85% { opacity: 1; transform: translate(-50%, 0); }
+  100% { opacity: 0; transform: translate(-50%, -1rem); }
+}
