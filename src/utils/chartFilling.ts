@@ -168,22 +168,16 @@ export function drawPlanets(
     .attr("class", "tooltip tooltip-quick");
 
   const orderedArray = Array.from(orderedSigns.keys());
-
-  // Loop through each house and draw planets in that sign
   HOUSE_ANGLES.forEach((houseAngle, index) => {
     const sign = orderedArray[index];
     const signData = orderedSigns.get(sign);
     if (!signData) return;
 
-    // Calculate the middle angle of the house
     const middleAngle = ((houseAngle + 15) * Math.PI) / 180;
-    
-    // Draw each planet in this sign
     signData.planets.forEach((planet, planetIndex) => {
-      // Offset planets within the same sign
-      const planetOffset = (planetIndex - (signData.planets.length - 1) / 2) * 10;
+      const planetOffset =
+        (planetIndex - (signData.planets.length - 1) / 2) * 10;
       const angle = middleAngle + (planetOffset * Math.PI) / 180;
-      
       const x = (radius - 35) * Math.cos(angle);
       const y = (radius - 35) * Math.sin(angle);
 

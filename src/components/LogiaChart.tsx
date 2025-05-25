@@ -253,13 +253,7 @@ const useChartDrawing = (
 
       drawZodiacSymbols(g, dimensions.radius);
       drawAspects(g, dimensions.radius, chartData);
-      drawPlanets(
-        g,
-        dimensions.radius,
-        chartData,
-        onPlanetSelect,
-        getPlanetSymbol,
-      );
+      drawPlanets(g, dimensions.radius, onPlanetSelect, getPlanetSymbol);
       drawAscendant(g, dimensions.radius, chartData);
 
       return g;

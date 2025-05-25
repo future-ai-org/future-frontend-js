@@ -44,7 +44,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${quicksand.variable} ${satisfy.variable} ${notoSansSymbols.variable}`}>
+    <html
+      lang="en"
+      className={`${quicksand.variable} ${satisfy.variable} ${notoSansSymbols.variable}`}
+    >
       <body>
         <ThemeProvider>
           <Web3Provider>
