@@ -228,7 +228,8 @@
 }
 
 .view-chart-button,
-.delete-chart-button {
+.delete-chart-button,
+.set-official-button {
   padding: 0.25rem;
   border-radius: 0.25rem;
   font-size: 0.9rem;
@@ -245,18 +246,16 @@
   color: var(--text-color);
 }
 
-.view-chart-button svg {
+.view-chart-button svg,
+.delete-chart-button svg,
+.set-official-button svg {
   width: 1.2rem;
   height: 1.2rem;
 }
 
-.delete-chart-button svg {
-  width: 1rem;
-  height: 1rem;
-}
-
 .view-chart-button:hover,
-.delete-chart-button:hover {
+.delete-chart-button:hover,
+.set-official-button:hover {
   color: var(--color-primary);
   transform: scale(1.2) rotate(5deg);
 }
@@ -286,16 +285,44 @@
 }
 
 .set-official-button {
-  background-color: var(--color-primary);
-  color: white;
-  border: none;
-  padding: 4px 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.8rem;
-  transition: background-color 0.2s ease;
+  position: relative;
 }
 
 .set-official-button:hover {
-  background-color: var(--color-primary-dark);
+  color: var(--color-primary);
+  transform: scale(1.2) rotate(5deg);
+}
+
+.tooltip {
+  position: absolute;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  max-width: 250px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--color-primary);
+  z-index: 1001;
+  font-weight: 700;
+  background-color: var(--color-primary);
+  color: var(--color-background);
+  border-radius: 4px;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.tooltip-quick {
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  max-width: 250px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--color-primary);
+  z-index: 1001;
+  font-weight: 700;
 }

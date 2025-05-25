@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useMemo, useEffect, useState } from "react";
+import React, { useMemo, useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useWeb3 } from "../utils/web3ModalContext";
 import strings from "../i18n/dashboard.json";
 import "../styles/dashboard.css";
 import { formatDate, formatTime } from "../utils/geocoding";
-import { FaTrash, FaEye } from "react-icons/fa";
+import { FaTrash, FaEye, FaStar } from "react-icons/fa";
 import { ChartData } from "../config/logiaChart";
 
 interface SavedChart {
@@ -22,6 +22,7 @@ interface SavedChart {
 const Dashboard: React.FC = () => {
   const router = useRouter();
   const [savedCharts, setSavedCharts] = useState<SavedChart[]>([]);
+  const tooltipRef = useRef<HTMLDivElement | null>(null);
   const {
     account,
     ensName,
@@ -53,6 +54,41 @@ const Dashboard: React.FC = () => {
     return () => window.removeEventListener("storage", loadSavedCharts);
   }, []);
 
+  useEffect(() => {
+    // Create tooltip div
+    const tooltip = document.createElement("div");
+    tooltip.className = "tooltip tooltip-quick";
+    document.body.appendChild(tooltip);
+    tooltipRef.current = tooltip;
+
+    return () => {
+      if (tooltipRef.current) {
+        document.body.removeChild(tooltipRef.current);
+      }
+    };
+  }, []);
+
+  const handleMouseOver = (event: React.MouseEvent, text: string) => {
+    if (!tooltipRef.current) return;
+    tooltipRef.current.style.visibility = "visible";
+    tooltipRef.current.style.opacity = "1";
+    tooltipRef.current.innerHTML = text;
+    tooltipRef.current.style.left = `${event.pageX + 10}px`;
+    tooltipRef.current.style.top = `${event.pageY - 10}px`;
+  };
+
+  const handleMouseMove = (event: React.MouseEvent) => {
+    if (!tooltipRef.current) return;
+    tooltipRef.current.style.left = `${event.pageX + 10}px`;
+    tooltipRef.current.style.top = `${event.pageY - 10}px`;
+  };
+
+  const handleMouseOut = () => {
+    if (!tooltipRef.current) return;
+    tooltipRef.current.style.visibility = "hidden";
+    tooltipRef.current.style.opacity = "0";
+  };
+
   const handleDeleteChart = (chartId: string) => {
     try {
       const updatedCharts = savedCharts.filter((chart) => chart.id !== chartId);
@@ -65,9 +101,9 @@ const Dashboard: React.FC = () => {
 
   const handleSetOfficial = (chartId: string) => {
     try {
-      const updatedCharts = savedCharts.map(chart => ({
+      const updatedCharts = savedCharts.map((chart) => ({
         ...chart,
-        isOfficial: chart.id === chartId
+        isOfficial: chart.id === chartId,
       }));
       localStorage.setItem("savedCharts", JSON.stringify(updatedCharts));
       setSavedCharts(updatedCharts);
@@ -204,9 +240,14 @@ const Dashboard: React.FC = () => {
                         <button
                           onClick={() => handleSetOfficial(chart.id)}
                           className="set-official-button"
-                          aria-label="Set as official"
+                          aria-label="Make this my main chart"
+                          onMouseOver={(e) =>
+                            handleMouseOver(e, "Make this my main chart")
+                          }
+                          onMouseMove={handleMouseMove}
+                          onMouseOut={handleMouseOut}
                         >
-                          Set Official
+                          <FaStar />
                         </button>
                       )}
                       <button
