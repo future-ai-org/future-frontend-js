@@ -182,7 +182,7 @@ async function calculateChartData(
     `<tr>
       <td class="planet-cell" title="${chartT.points.tooltip.replace("{sign}", ascendantData.sign).replace("{position}", ascendantData.degrees.toFixed(2))} - ${chartT.planetDescriptions.ascendant}">AC</td>
       <td class="planet-cell" title="${chartT.signs[ascendantData.sign.toLowerCase() as keyof typeof chartT.signs]}">${getZodiacSymbol(ascendantData.sign)}</td>
-      <td class="planet-cell" title="${chartT.elements[getElementForSign(ascendantData.sign).toLowerCase() as keyof typeof chartT.elements]}">${getElementForSign(ascendantData.sign)}</td>
+      <td class="planet-cell" title="${chartT.elements[getElementNameForSign(ascendantData.sign).toLowerCase() as keyof typeof chartT.elements]}">${getElementForSign(ascendantData.sign)}</td>
       <td class="planet-cell">${ascendantData.degrees.toFixed(2)}°</td>
       <td class="planet-cell" title="${chartT.houses["1"]}">I</td>
       <td class="planet-cell">${chartT.effects.ascendant || "-"}</td>
