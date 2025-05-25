@@ -114,6 +114,11 @@
       "apiUrlNotConfigured": "API URL is not configured",
       "cityNotFound": "city not found"
     },
-    "planetTooltip": "in {sign} at {position}°"
+    "planetTooltip": "in {sign} at {position}°",
+    "decades": {
+      "first": "first decade (0-9°): The beginning of the sign's energy, representing its purest and most direct expression.",
+      "second": "second decade (10-19°): The middle phase, where the sign's energy is most balanced and developed.",
+      "third": "third decade (20-29°): The final phase, where the sign's energy is most refined and complex."
+    }
   }
 }

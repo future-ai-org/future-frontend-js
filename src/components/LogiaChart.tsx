@@ -178,12 +178,26 @@ async function calculateChartData(
     ascendantSign: ascendantData.sign.toLowerCase(),
   };
 
+  function getDecadeDescription(degrees: number): string {
+    const decade = Math.floor(degrees / 10);
+    switch (decade) {
+      case 0:
+        return chartT.decades.first;
+      case 1:
+        return chartT.decades.second;
+      case 2:
+        return chartT.decades.third;
+      default:
+        return "";
+    }
+  }
+
   const tableRows = [
     `<tr>
       <td class="planet-cell" title="${chartT.points.tooltip.replace("{sign}", ascendantData.sign).replace("{position}", ascendantData.degrees.toFixed(2))} - ${chartT.planetDescriptions.ascendant}">AC</td>
       <td class="planet-cell" title="${chartT.signs[ascendantData.sign.toLowerCase() as keyof typeof chartT.signs]}">${getZodiacSymbol(ascendantData.sign)}</td>
       <td class="planet-cell" title="${chartT.elements[getElementNameForSign(ascendantData.sign).toLowerCase() as keyof typeof chartT.elements]}">${getElementForSign(ascendantData.sign)}</td>
-      <td class="planet-cell">${ascendantData.degrees.toFixed(2)}°</td>
+      <td class="planet-cell" title="${getDecadeDescription(ascendantData.degrees)}">${ascendantData.degrees.toFixed(2)}°</td>
       <td class="planet-cell" title="${chartT.houses["1"]}">I</td>
       <td class="planet-cell">${chartT.effects.ascendant || "-"}</td>
     </tr>`,
@@ -214,7 +228,7 @@ async function calculateChartData(
         <td class="planet-cell" title="${tooltipText}">${PLANET_SYMBOLS[planet.toLowerCase() as keyof typeof PLANET_SYMBOLS]}</td>
         <td class="planet-cell" title="${signDescription}">${getZodiacSymbol(info.sign)}</td>
         <td class="planet-cell" title="${elementDescription}">${getElementForSign(info.sign)}</td>
-        <td class="planet-cell">${info.degrees.toFixed(2)}°</td>
+        <td class="planet-cell" title="${getDecadeDescription(info.degrees)}">${info.degrees.toFixed(2)}°</td>
         <td class="planet-cell" title="${houseDescription}">${toRomanNumeral(houseNumber)}</td>
         <td class="planet-cell">${planetEffect}</td>
       </tr>`;
