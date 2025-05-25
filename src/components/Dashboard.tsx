@@ -16,6 +16,7 @@ interface SavedChart {
   city: string;
   chartData: ChartData;
   savedAt: string;
+  isOfficial?: boolean;
 }
 
 const Dashboard: React.FC = () => {
@@ -59,6 +60,19 @@ const Dashboard: React.FC = () => {
       setSavedCharts(updatedCharts);
     } catch (err) {
       console.error("Failed to delete chart:", err);
+    }
+  };
+
+  const handleSetOfficial = (chartId: string) => {
+    try {
+      const updatedCharts = savedCharts.map(chart => ({
+        ...chart,
+        isOfficial: chart.id === chartId
+      }));
+      localStorage.setItem("savedCharts", JSON.stringify(updatedCharts));
+      setSavedCharts(updatedCharts);
+    } catch (err) {
+      console.error("Failed to set official chart:", err);
     }
   };
 
@@ -173,15 +187,28 @@ const Dashboard: React.FC = () => {
                       <p>
                         {formatDate(chart.birthDate)}{" "}
                         {formatTime(chart.birthTime)}
+                        {chart.isOfficial && (
+                          <span className="official-badge">Official</span>
+                        )}
                       </p>
                     </div>
                     <div className="chart-actions">
                       <button
                         onClick={() => router.push(`/logia/saved/${chart.id}`)}
                         className="view-chart-button"
+                        aria-label="View chart"
                       >
                         <FaEye />
                       </button>
+                      {!chart.isOfficial && (
+                        <button
+                          onClick={() => handleSetOfficial(chart.id)}
+                          className="set-official-button"
+                          aria-label="Set as official"
+                        >
+                          Set Official
+                        </button>
+                      )}
                       <button
                         onClick={() => handleDeleteChart(chart.id)}
                         className="delete-chart-button"
