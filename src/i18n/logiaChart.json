@@ -89,6 +89,19 @@
       "pluto": "empowers",
       "ascendant": "indentifies"
     },
+    "effectDescriptions": {
+      "sun": "The Sun's influence emphasizes and strengthens the qualities of the sign it occupies, bringing vitality and focus to these traits.",
+      "moon": "The Moon reflects and amplifies the emotional and intuitive aspects of the sign, making these qualities more sensitive and responsive.",
+      "mercury": "Mercury communicates and processes the mental and communicative qualities of the sign, enhancing intellectual expression.",
+      "venus": "Venus harmonizes and beautifies the sign's qualities, bringing balance and aesthetic appreciation to these traits.",
+      "mars": "Mars challenges and activates the sign's energy, adding drive and assertiveness to its expression.",
+      "jupiter": "Jupiter expands and magnifies the sign's qualities, bringing growth and opportunity to these areas.",
+      "saturn": "Saturn corrects and structures the sign's expression, adding discipline and responsibility to its qualities.",
+      "uranus": "Uranus disrupts and innovates within the sign, bringing sudden changes and unique perspectives.",
+      "neptune": "Neptune diffuses and spiritualizes the sign's energy, adding imagination and transcendence.",
+      "pluto": "Pluto empowers and transforms the sign's qualities, bringing depth and regeneration.",
+      "ascendant": "The Ascendant identifies and manifests the sign's qualities in the outer personality and appearance."
+    },
     "houses": {
       "1": "linked to self, personality, appearance, and how others see you",
       "2": "linked to values, possessions, material resources, and self-worth",

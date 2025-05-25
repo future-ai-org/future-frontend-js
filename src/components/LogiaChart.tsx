@@ -199,7 +199,7 @@ async function calculateChartData(
       <td class="planet-cell" title="${chartT.elements[getElementNameForSign(ascendantData.sign).toLowerCase() as keyof typeof chartT.elements]}">${getElementForSign(ascendantData.sign)}</td>
       <td class="planet-cell" title="${getDecadeDescription(ascendantData.degrees)}">${ascendantData.degrees.toFixed(2)}°</td>
       <td class="planet-cell" title="${chartT.houses["1"]}">I</td>
-      <td class="planet-cell">${chartT.effects.ascendant || "-"}</td>
+      <td class="planet-cell" title="${chartT.effectDescriptions.ascendant}">${chartT.effects.ascendant || "-"}</td>
     </tr>`,
     ...Object.entries(planetsData).map(([planet, info]) => {
       const orderedArray = Array.from(orderedSigns.keys());
@@ -223,6 +223,10 @@ async function calculateChartData(
       const element = getElementNameForSign(info.sign).toLowerCase();
       const elementDescription =
         chartT.elements[element as keyof typeof chartT.elements];
+      const effectDescription =
+        chartT.effectDescriptions[
+          planet.toLowerCase() as keyof typeof chartT.effectDescriptions
+        ];
 
       return `<tr>
         <td class="planet-cell" title="${tooltipText}">${PLANET_SYMBOLS[planet.toLowerCase() as keyof typeof PLANET_SYMBOLS]}</td>
@@ -230,7 +234,7 @@ async function calculateChartData(
         <td class="planet-cell" title="${elementDescription}">${getElementForSign(info.sign)}</td>
         <td class="planet-cell" title="${getDecadeDescription(info.degrees)}">${info.degrees.toFixed(2)}°</td>
         <td class="planet-cell" title="${houseDescription}">${toRomanNumeral(houseNumber)}</td>
-        <td class="planet-cell">${planetEffect}</td>
+        <td class="planet-cell" title="${effectDescription}">${planetEffect}</td>
       </tr>`;
     }),
   ].join("");
