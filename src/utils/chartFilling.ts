@@ -159,7 +159,6 @@ export function drawZodiacSymbols(
 export function drawPlanets(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
   radius: number,
-  chartData: ChartData,
   onPlanetClick: (planetName: string) => void,
   getPlanetSymbol: (name: string) => string,
 ) {
@@ -168,10 +167,23 @@ export function drawPlanets(
     .append("div")
     .attr("class", "tooltip tooltip-quick");
 
-  // Use orderedSigns to draw the planets
-  Array.from(orderedSigns.entries()).forEach(([sign, signData]) => {
-    signData.planets.forEach((planet) => {
-      const angle = ((planet.position - 90) * Math.PI) / 180;
+  const orderedArray = Array.from(orderedSigns.keys());
+
+  // Loop through each house and draw planets in that sign
+  HOUSE_ANGLES.forEach((houseAngle, index) => {
+    const sign = orderedArray[index];
+    const signData = orderedSigns.get(sign);
+    if (!signData) return;
+
+    // Calculate the middle angle of the house
+    const middleAngle = ((houseAngle + 15) * Math.PI) / 180;
+    
+    // Draw each planet in this sign
+    signData.planets.forEach((planet, planetIndex) => {
+      // Offset planets within the same sign
+      const planetOffset = (planetIndex - (signData.planets.length - 1) / 2) * 10;
+      const angle = middleAngle + (planetOffset * Math.PI) / 180;
+      
       const x = (radius - 35) * Math.cos(angle);
       const y = (radius - 35) * Math.sin(angle);
 
@@ -185,7 +197,9 @@ export function drawPlanets(
             .style("visibility", "visible")
             .style("opacity", "1")
             .html(
-              `${planet.name} ${chartStrings.en.planetTooltip.replace("{sign}", sign).replace("{position}", planet.position.toFixed(2))}`,
+              `${planet.name} ${chartStrings.en.planetTooltip
+                .replace("{sign}", sign)
+                .replace("{position}", planet.position.toFixed(2))}`,
             )
             .style("left", event.pageX + 10 + "px")
             .style("top", event.pageY - 10 + "px");
