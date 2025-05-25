@@ -193,7 +193,6 @@ export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
         );
 
         if (isAlreadyFavorite) {
-          console.log(tradingMessages.en.error.alreadyFavorite);
           return;
         }
 
@@ -221,8 +220,6 @@ export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
       window.dispatchEvent(storageEvent);
 
       window.dispatchEvent(new Event("favoritesUpdated"));
-
-      console.log(tradingMessages.en.success.favoriteUpdated);
     } catch (err) {
       console.error(
         tradingMessages.en.error.saveFavoriteFailed,
