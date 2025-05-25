@@ -15,12 +15,18 @@
 .predict-container {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
   background-color: var(--background-color);
   padding: var(--spacing-lg);
   max-width: var(--container-max-width);
   margin: 0 auto;
+}
+
+.predict-header {
+  width: 100%;
+  margin-top: 2rem;
+  margin-bottom: 3rem;
 }
 
 .predict-title {
@@ -42,8 +48,7 @@
   margin: 0 auto;
 }
 
-.predict-description,
-.infoParagraph {
+.predict-description {
   font-size: var(--spacing-md);
   font-weight: 600;
   margin-bottom: var(--spacing-sm);
@@ -55,6 +60,11 @@
 @media (max-width: 768px) {
   .predict-container {
     padding: var(--spacing-sm);
+  }
+
+  .predict-header {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
   }
 
   .predict-title {
