@@ -353,7 +353,6 @@ const Dashboard: React.FC = () => {
                   <div key={asset.id} className="favorite-asset-item">
                     <div className="asset-info">
                       <span className="asset-symbol">{asset.symbol}</span>
-                      <span className="asset-name">{asset.name}</span>
                     </div>
                     <div className="asset-actions">
                       <button
