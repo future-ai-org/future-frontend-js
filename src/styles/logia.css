@@ -44,6 +44,13 @@
   position: relative;
 }
 
+@media (max-width: 1024px) {
+  .astrology-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
 .astrology-form-section {
   flex: 1;
   max-width: 100%;
@@ -62,10 +69,13 @@
   box-shadow: 0 8px 32px var(--color-shadow-black, rgba(0, 0, 0, 0.2));
   position: sticky;
   border: 1px solid var(--color-primary, #575c91);
-  transition: all var(--transition-duration) var(--transition-timing);
+  transition:
+    transform var(--transition-duration) var(--transition-timing),
+    box-shadow var(--transition-duration) var(--transition-timing);
   backdrop-filter: blur(8px);
   opacity: 0;
   animation: fadeIn 0.3s ease-in-out forwards;
+  will-change: transform, box-shadow;
 }
 
 @keyframes fadeIn {
@@ -102,10 +112,11 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  transition: all var(--transition-duration) var(--transition-timing);
+  transition: transform var(--transition-duration) var(--transition-timing);
   width: 100%;
   opacity: 0;
   animation: fadeIn 0.3s ease-in-out forwards;
+  will-change: transform;
 }
 
 .astrology-label:hover {
@@ -149,6 +160,7 @@
   box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb), 0.2);
   transform: translateY(-1px);
   background-color: var(--card-bg);
+  will-change: transform, box-shadow;
 }
 
 .astrology-input:not(:placeholder-shown) {
@@ -205,7 +217,11 @@
   border: 1px solid var(--color-primary, #575c91);
   cursor: pointer;
   font-weight: 600;
-  transition: all var(--transition-duration) var(--transition-timing);
+  transition:
+    transform var(--transition-duration) var(--transition-timing),
+    background-color var(--transition-duration) var(--transition-timing),
+    color var(--transition-duration) var(--transition-timing),
+    box-shadow var(--transition-duration) var(--transition-timing);
   text-shadow: var(--text-glow, 0 0 10px rgba(87, 92, 145, 0.7));
   background: transparent;
   color: var(--color-primary, #575c91);
@@ -219,6 +235,7 @@
   opacity: 0;
   animation: fadeIn 0.3s ease-in-out forwards;
   animation-delay: 0.2s;
+  will-change: transform, background-color, color, box-shadow;
 }
 
 .astrology-button:hover {
@@ -263,12 +280,16 @@
 .astrology-city-suggestion {
   padding: 0.75rem 1rem;
   cursor: pointer;
-  transition: all var(--transition-duration) var(--transition-timing);
+  transition:
+    transform var(--transition-duration) var(--transition-timing),
+    background-color var(--transition-duration) var(--transition-timing),
+    border-color var(--transition-duration) var(--transition-timing);
   color: var(--color-primary);
   font-size: 0.9rem;
   font-weight: 600;
   border-radius: 1.2rem;
   border: 1px solid transparent;
+  will-change: transform, background-color, border-color;
 }
 
 .astrology-city-suggestion:hover {
@@ -365,11 +386,15 @@
     0 8px 32px var(--color-shadow-black),
     0 0 0 1px rgba(var(--color-primary-rgb), 0.1),
     inset 0 0 20px rgba(var(--color-primary-rgb), 0.1);
-  transition: all var(--transition-duration) var(--transition-timing);
+  transition:
+    transform var(--transition-duration) var(--transition-timing),
+    box-shadow var(--transition-duration) var(--transition-timing),
+    background var(--transition-duration) var(--transition-timing);
   backdrop-filter: blur(8px);
   width: 360px;
   position: relative;
   overflow: hidden;
+  will-change: transform, box-shadow, background;
 }
 
 .logia-info-box::before,
@@ -433,7 +458,8 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  transition: all var(--transition-duration) var(--transition-timing);
+  transition: transform var(--transition-duration) var(--transition-timing);
+  will-change: transform;
 }
 
 .logia-info-list li:hover {
@@ -544,7 +570,10 @@
   margin-top: 0.1rem;
   animation: numberBounce 2s ease-in-out infinite;
   box-shadow: 0 0 10px var(--color-glow-shadow);
-  transition: all var(--transition-duration) var(--transition-timing);
+  transition:
+    transform var(--transition-duration) var(--transition-timing),
+    box-shadow var(--transition-duration) var(--transition-timing);
+  will-change: transform, box-shadow;
 }
 
 .logia-feature-number:hover {
@@ -574,8 +603,9 @@
   align-items: center;
   justify-content: center;
   opacity: 0.8;
-  transition: all var(--transition-duration) var(--transition-timing);
+  transition: transform var(--transition-duration) var(--transition-timing);
   z-index: 1;
+  will-change: transform;
 }
 
 .logia-image {
@@ -585,6 +615,7 @@
   filter: drop-shadow(0 0 30px var(--color-glow-shadow));
   animation: float 6s ease-in-out infinite;
   transform: scale(1.2);
+  will-change: transform, filter;
 }
 
 .saturn-group {
@@ -685,7 +716,11 @@
   border-radius: 1.5rem;
   border: 1px solid var(--color-primary);
   background-color: var(--card-bg);
-  transition: all var(--transition-duration) var(--transition-timing);
+  transition:
+    transform var(--transition-duration) var(--transition-timing),
+    box-shadow var(--transition-duration) var(--transition-timing),
+    border-color var(--transition-duration) var(--transition-timing);
+  will-change: transform, box-shadow, border-color;
 }
 
 .astrology-unsure-checkbox:hover {
@@ -739,7 +774,8 @@
   user-select: none;
   font-weight: 600;
   letter-spacing: 0.02em;
-  transition: all var(--transition-duration) var(--transition-timing);
+  transition: transform var(--transition-duration) var(--transition-timing);
+  will-change: transform;
 }
 
 .astrology-unsure-checkbox:hover label {

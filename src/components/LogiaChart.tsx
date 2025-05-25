@@ -17,7 +17,6 @@ import {
 } from "../utils/chartDrawing";
 import {
   drawZodiacSymbols,
-  drawAspects,
   drawPlanets,
   updateOrderedSigns,
   calculateHouses,
@@ -258,7 +257,6 @@ const useChartDrawing = (
       updateOrderedSigns(chartData.ascendantSign, chartData);
 
       drawZodiacSymbols(g, dimensions.radius);
-      drawAspects(g, dimensions.radius, chartData);
       drawPlanets(
         g,
         dimensions.radius,
