@@ -196,21 +196,29 @@
   max-height: 400px;
   overflow-y: auto;
   padding: 0.5rem;
+  width: 100%;
 }
 
 .saved-chart-container {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 0.5rem;
+  width: 100%;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease;
+}
+
+.saved-chart-container:hover {
+  background-color: var(--background-color-light);
 }
 
 .saved-chart-item {
   flex: 1;
   display: flex;
   align-items: center;
-  padding: 0.75rem 1rem;
-  background: transparent;
-  border-radius: 0.5rem;
+  min-width: 0;
 }
 
 .saved-chart-item p {
@@ -219,12 +227,16 @@
   color: var(--text-color);
   opacity: 0.9;
   font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .chart-actions {
   display: flex;
   gap: 0.5rem;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .view-chart-button,
@@ -274,14 +286,7 @@
 }
 
 .official-badge {
-  display: inline-block;
-  background-color: var(--color-primary);
-  color: white;
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  margin-left: 8px;
-  font-weight: 500;
+  display: none;
 }
 
 .set-official-button {
@@ -325,4 +330,15 @@
   border: 1px solid var(--color-primary);
   z-index: 1001;
   font-weight: 700;
+}
+
+.main-label {
+  display: inline-block;
+  background-color: var(--color-primary);
+  color: var(--color-background);
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-right: 8px;
+  font-size: 0.8em;
+  font-weight: 600;
 }

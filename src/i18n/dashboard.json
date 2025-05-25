@@ -28,6 +28,7 @@
         "title": "my logias",
         "noCharts": "no saved charts yet",
         "official": "main",
+        "main": "main",
         "actions": {
           "view": "view chart",
           "makeMain": "make this my main chart",

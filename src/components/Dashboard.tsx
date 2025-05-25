@@ -214,52 +214,65 @@ const Dashboard: React.FC = () => {
           <h3>{strings.en.cards.logia.title}</h3>
           <div className="card-content">
             {savedCharts.length === 0 ? (
-              <p className="no-charts-message">{strings.en.cards.logia.noCharts}</p>
+              <p className="no-charts-message">
+                {strings.en.cards.logia.noCharts}
+              </p>
             ) : (
               <div className="saved-charts-list">
-                {savedCharts.map((chart) => (
-                  <div key={chart.id} className="saved-chart-container">
-                    <div className="saved-chart-item">
-                      <p>
-                        {formatDate(chart.birthDate)}{" "}
-                        {formatTime(chart.birthTime)}
-                        {chart.isOfficial && (
-                          <span className="official-badge">{strings.en.cards.logia.official}</span>
-                        )}
-                      </p>
-                    </div>
-                    <div className="chart-actions">
-                      <button
-                        onClick={() => router.push(`/logia/saved/${chart.id}`)}
-                        className="view-chart-button"
-                        aria-label={strings.en.cards.logia.actions.view}
-                      >
-                        <FaEye />
-                      </button>
-                      {!chart.isOfficial && (
+                {savedCharts
+                  .sort(
+                    (a, b) => (b.isOfficial ? 1 : 0) - (a.isOfficial ? 1 : 0),
+                  )
+                  .map((chart) => (
+                    <div key={chart.id} className="saved-chart-container">
+                      <div className="saved-chart-item">
+                        <p>
+                          {chart.isOfficial && (
+                            <span className="main-label">
+                              {strings.en.cards.logia.main}
+                            </span>
+                          )}
+                          {formatDate(chart.birthDate)}{" "}
+                          {formatTime(chart.birthTime)}
+                        </p>
+                      </div>
+                      <div className="chart-actions">
                         <button
-                          onClick={() => handleSetOfficial(chart.id)}
-                          className="set-official-button"
-                          aria-label={strings.en.cards.logia.actions.makeMain}
-                          onMouseOver={(e) =>
-                            handleMouseOver(e, strings.en.cards.logia.actions.makeMain)
+                          onClick={() =>
+                            router.push(`/logia/saved/${chart.id}`)
                           }
-                          onMouseMove={handleMouseMove}
-                          onMouseOut={handleMouseOut}
+                          className="view-chart-button"
+                          aria-label={strings.en.cards.logia.actions.view}
                         >
-                          <FaStar />
+                          <FaEye />
                         </button>
-                      )}
-                      <button
-                        onClick={() => handleDeleteChart(chart.id)}
-                        className="delete-chart-button"
-                        aria-label={strings.en.cards.logia.actions.delete}
-                      >
-                        <FaTrash />
-                      </button>
+                        {!chart.isOfficial && (
+                          <button
+                            onClick={() => handleSetOfficial(chart.id)}
+                            className="set-official-button"
+                            aria-label={strings.en.cards.logia.actions.makeMain}
+                            onMouseOver={(e) =>
+                              handleMouseOver(
+                                e,
+                                strings.en.cards.logia.actions.makeMain,
+                              )
+                            }
+                            onMouseMove={handleMouseMove}
+                            onMouseOut={handleMouseOut}
+                          >
+                            <FaStar />
+                          </button>
+                        )}
+                        <button
+                          onClick={() => handleDeleteChart(chart.id)}
+                          className="delete-chart-button"
+                          aria-label={strings.en.cards.logia.actions.delete}
+                        >
+                          <FaTrash />
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             )}
           </div>
