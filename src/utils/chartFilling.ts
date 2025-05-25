@@ -117,13 +117,13 @@ export function drawPlanets(
     .attr("class", "tooltip tooltip-quick");
 
   const orderedArray = Array.from(orderedSigns.keys());
-  const planetPositions: { x: number; y: number }[] = [];
   
   HOUSE_ANGLES.forEach((houseAngle, index) => {
     const sign = orderedArray[index];
     const signData = orderedSigns.get(sign);
     if (!signData) return;
 
+    // Calculate the middle angle for this house (15 degrees into the house)
     const middleAngle = ((houseAngle + 15) * Math.PI) / 180;
     
     // Count planets in this sign and sort by angle (largest to smallest)
@@ -139,16 +139,13 @@ export function drawPlanets(
     
     sortedPlanets.forEach((planet, planetIndex) => {
       // Calculate position within the spread
-      const angleStep = angleSpread / (planetsInSign - 1);
+      const angleStep = angleSpread / (planetsInSign - 1 || 1); // Avoid division by zero
       const offset = (planetIndex - (planetsInSign - 1) / 2) * angleStep;
       const angle = middleAngle + (offset * Math.PI) / 180;
       
+      // Calculate position with consistent radius
       const x = (radius - 45) * Math.cos(angle);
       const y = (radius - 45) * Math.sin(angle);
-      
-      if (index === 0) {
-        planetPositions.push({ x, y });
-      }
 
       const planetGroup = g
         .append("g")
