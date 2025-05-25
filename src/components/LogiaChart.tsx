@@ -179,7 +179,7 @@ async function calculateChartData(
 
   const tableRows = [
     `<tr>
-      <td class="planet-cell">AC</td>
+      <td class="planet-cell" title="${chartT.points.tooltip.replace("{sign}", ascendantData.sign).replace("{position}", ascendantData.degrees.toFixed(2))} - ${chartT.planetDescriptions.ascendant}">AC</td>
       <td class="planet-cell">${getZodiacSymbol(ascendantData.sign)}</td>
       <td class="planet-cell">${getElementForSign(ascendantData.sign)}</td>
       <td class="planet-cell">${ascendantData.degrees.toFixed(2)}°</td>
@@ -193,13 +193,22 @@ async function calculateChartData(
           (sign) => (sign as string).toLowerCase() === info.sign.toLowerCase(),
         ) + 1;
 
+      const planetEffect =
+        chartT.effects[planet.toLowerCase() as keyof typeof chartT.effects] ||
+        "-";
+      const planetDescription =
+        chartT.planetDescriptions[
+          planet.toLowerCase() as keyof typeof chartT.planetDescriptions
+        ] || "-";
+      const tooltipText = `${chartT.points.tooltip.replace("{sign}", info.sign).replace("{position}", info.degrees.toFixed(2))} - ${planetDescription}`;
+
       return `<tr>
-        <td class="planet-cell">${PLANET_SYMBOLS[planet.toLowerCase() as keyof typeof PLANET_SYMBOLS]}</td>
+        <td class="planet-cell" title="${tooltipText}">${PLANET_SYMBOLS[planet.toLowerCase() as keyof typeof PLANET_SYMBOLS]}</td>
         <td class="planet-cell">${getZodiacSymbol(info.sign)}</td>
         <td class="planet-cell">${getElementForSign(info.sign)}</td>
         <td class="planet-cell">${info.degrees.toFixed(2)}°</td>
         <td class="planet-cell">${toRomanNumeral(houseNumber)}</td>
-        <td class="planet-cell">${chartT.effects[planet.toLowerCase() as keyof typeof chartT.effects] || "-"}</td>
+        <td class="planet-cell">${planetEffect}</td>
       </tr>`;
     }),
   ].join("");

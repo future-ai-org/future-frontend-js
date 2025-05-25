@@ -37,6 +37,19 @@
       "position": "position",
       "effects": "effect"
     },
+    "planetDescriptions": {
+      "sun": "The Sun represents your core identity, ego, and life force. It shows your basic personality and the way you express yourself.",
+      "moon": "The Moon represents your emotions, instincts, and subconscious mind. It shows how you process feelings and your emotional needs.",
+      "mercury": "Mercury represents communication, thinking, and learning. It shows how you process information and express your thoughts.",
+      "venus": "Venus represents love, beauty, and values. It shows how you approach relationships and what you find attractive.",
+      "mars": "Mars represents energy, action, and desire. It shows how you assert yourself and pursue your goals.",
+      "jupiter": "Jupiter represents growth, expansion, and wisdom. It shows your potential for growth and your philosophical outlook.",
+      "saturn": "Saturn represents structure, discipline, and responsibility. It shows your limitations and how you build lasting foundations.",
+      "uranus": "Uranus represents change, innovation, and individuality. It shows your unique perspective and desire for freedom.",
+      "neptune": "Neptune represents dreams, spirituality, and illusion. It shows your imagination and connection to the divine.",
+      "pluto": "Pluto represents transformation, power, and regeneration. It shows your ability to transform and your relationship with power.",
+      "ascendant": "The Ascendant represents your outer personality and how others see you. It shows your approach to life and first impressions."
+    },
     "signs": {
       "aries": "the 1st sign of the zodiac, ruled by mars, is linked to new beginnings, courage, leadership, a pioneering spirit, and dynamic energy",
       "taurus": "the 2nd sign of the zodiac, ruled by venus, is linked to stability, sensuality, material security, comfort, beauty, and the pleasures of life",

@@ -667,9 +667,7 @@
 }
 
 .planet-cell[title] {
-  cursor:
-    url("/assets/cursors/star-cursor.svg") 12 12,
-    auto;
+  cursor: pointer;
 }
 
 .planet-cell[title]:hover::after {
@@ -678,15 +676,35 @@
   bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
-  padding: 0.5rem;
-  background-color: var(--color-primary);
-  color: white;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  white-space: nowrap;
+  padding: 0.8rem 1rem;
+  background-color: var(--color-background);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  white-space: normal;
+  max-width: 300px;
+  width: max-content;
   z-index: 1000;
   pointer-events: none;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-shadow: var(--text-glow);
+  line-height: 1.4;
+  text-align: center;
+}
+
+.planet-cell[title]:hover::before {
+  content: "";
+  position: absolute;
+  bottom: calc(100% - 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: var(--color-primary) transparent transparent transparent;
+  z-index: 1000;
+  pointer-events: none;
 }
 
 .logia-disclaimer {
