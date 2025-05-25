@@ -365,3 +365,35 @@
   color: var(--background-color);
   box-shadow: var(--glow-shadow-hover);
 }
+
+.save-chart-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1.5rem;
+  height: var(--wallet-height);
+  min-width: 120px;
+  border-radius: 2rem;
+  border: 1px solid var(--text-color);
+  background: transparent;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-shadow: var(--text-glow);
+  transition: var(--wallet-transition);
+  -webkit-transition: var(--wallet-transition);
+  position: absolute;
+  left: -4rem;
+}
+
+.save-chart-button:hover:not(:disabled) {
+  background: var(--text-color);
+  color: var(--background-color);
+  box-shadow: var(--glow-shadow-hover);
+}
+
+.save-chart-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -232,6 +232,15 @@ interface LogiaChartProps {
   isGeneratingChart: boolean;
 }
 
+interface SavedChart {
+  id: string;
+  birthDate: string;
+  birthTime: string;
+  city: string;
+  chartData: ChartData;
+  savedAt: string;
+}
+
 interface PlanetInfoPanelProps {
   selectedPlanet: string;
   chartData: ChartData;
@@ -324,6 +333,7 @@ export default function LogiaChart({
   const [chartData, setChartData] = useState<ChartData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   const handlePlanetSelect = useCallback((planet: string) => {
     setSelectedPlanet(planet);
@@ -391,6 +401,33 @@ export default function LogiaChart({
       );
   }, [chartData]);
 
+  const handleSaveChart = useCallback(async () => {
+    if (!chartData) return;
+    
+    setIsSaving(true);
+    try {
+      const savedCharts = JSON.parse(localStorage.getItem('savedCharts') || '[]');
+      const newChart: SavedChart = {
+        id: crypto.randomUUID(),
+        birthDate,
+        birthTime,
+        city,
+        chartData,
+        savedAt: new Date().toISOString()
+      };
+      
+      savedCharts.push(newChart);
+      localStorage.setItem('savedCharts', JSON.stringify(savedCharts));
+      
+      // Show success message
+      alert('Chart saved successfully!');
+    } catch (err) {
+      setError('Failed to save chart');
+    } finally {
+      setIsSaving(false);
+    }
+  }, [chartData, birthDate, birthTime, city]);
+
   if (error) {
     return <div className="astrology-error-message">{error}</div>;
   }
@@ -406,6 +443,13 @@ export default function LogiaChart({
           {chartT.advancedView}
         </a>
         <h1 className="astrology-title">{chartT.title.toLowerCase()}</h1>
+        <button 
+          onClick={handleSaveChart}
+          disabled={isSaving || !chartData}
+          className="save-chart-button"
+        >
+          {isSaving ? 'Saving...' : 'Save Chart'}
+        </button>
       </div>
       {subtitleContent && (
         <div className="astrology-subtitle">{subtitleContent}</div>

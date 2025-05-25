@@ -1,13 +1,24 @@
 "use client";
 
-import React, { useMemo, useEffect } from "react";
+import React, { useMemo, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useWeb3 } from "../utils/web3ModalContext";
 import strings from "../i18n/dashboard.json";
 import "../styles/dashboard.css";
+import { formatDate, formatTime } from "../utils/geocoding";
+
+interface SavedChart {
+  id: string;
+  birthDate: string;
+  birthTime: string;
+  city: string;
+  chartData: any;
+  savedAt: string;
+}
 
 const Dashboard: React.FC = () => {
   const router = useRouter();
+  const [savedCharts, setSavedCharts] = useState<SavedChart[]>([]);
   const {
     account,
     ensName,
@@ -22,6 +33,32 @@ const Dashboard: React.FC = () => {
       router.push("/");
     }
   }, [isConnected, router]);
+
+  useEffect(() => {
+    const loadSavedCharts = () => {
+      try {
+        const charts = JSON.parse(localStorage.getItem('savedCharts') || '[]');
+        setSavedCharts(charts);
+      } catch (err) {
+        console.error('Failed to load saved charts:', err);
+      }
+    };
+
+    loadSavedCharts();
+    // Listen for storage changes
+    window.addEventListener('storage', loadSavedCharts);
+    return () => window.removeEventListener('storage', loadSavedCharts);
+  }, []);
+
+  const handleDeleteChart = (chartId: string) => {
+    try {
+      const updatedCharts = savedCharts.filter(chart => chart.id !== chartId);
+      localStorage.setItem('savedCharts', JSON.stringify(updatedCharts));
+      setSavedCharts(updatedCharts);
+    } catch (err) {
+      console.error('Failed to delete chart:', err);
+    }
+  };
 
   const formatAddress = (address: string | null) => {
     if (!address) return "";
@@ -123,7 +160,38 @@ const Dashboard: React.FC = () => {
 
         <div className="dashboard-card">
           <h3>{strings.en.cards.logia.title}</h3>
-          <div className="card-content">{/* Logia content will go here */}</div>
+          <div className="card-content">
+            {savedCharts.length === 0 ? (
+              <p className="no-charts-message">No saved charts yet</p>
+            ) : (
+              <div className="saved-charts-list">
+                {savedCharts.map((chart) => (
+                  <div key={chart.id} className="saved-chart-item">
+                    <div className="chart-info">
+                      <h4>{chart.city}</h4>
+                      <p>Birth Date: {formatDate(chart.birthDate)}</p>
+                      <p>Birth Time: {formatTime(chart.birthTime)}</p>
+                      <p>Saved: {new Date(chart.savedAt).toLocaleDateString()}</p>
+                    </div>
+                    <div className="chart-actions">
+                      <button 
+                        onClick={() => router.push(`/logia/saved/${chart.id}`)}
+                        className="view-chart-button"
+                      >
+                        View Chart
+                      </button>
+                      <button 
+                        onClick={() => handleDeleteChart(chart.id)}
+                        className="delete-chart-button"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="dashboard-card">
