@@ -354,8 +354,8 @@ export default function LogiaChart({
       );
       setChartData(chartData);
       setChartInfoHtml(chartInfoHtml);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : chartT.errors.unknownError);
+    } catch {
+      setError(chartT.errors.unknownError);
     } finally {
       setIsLoading(false);
     }
@@ -403,26 +403,27 @@ export default function LogiaChart({
 
   const handleSaveChart = useCallback(async () => {
     if (!chartData) return;
-    
+
     setIsSaving(true);
     try {
-      const savedCharts = JSON.parse(localStorage.getItem('savedCharts') || '[]');
+      const savedCharts = JSON.parse(
+        localStorage.getItem("savedCharts") || "[]",
+      );
       const newChart: SavedChart = {
         id: crypto.randomUUID(),
         birthDate,
         birthTime,
         city,
         chartData,
-        savedAt: new Date().toISOString()
+        savedAt: new Date().toISOString(),
       };
-      
+
       savedCharts.push(newChart);
-      localStorage.setItem('savedCharts', JSON.stringify(savedCharts));
-      
-      // Show success message
-      alert('Chart saved successfully!');
-    } catch (err) {
-      setError('Failed to save chart');
+      localStorage.setItem("savedCharts", JSON.stringify(savedCharts));
+
+      alert(chartT.saveChart.success);
+    } catch {
+      setError(chartT.saveChart.error);
     } finally {
       setIsSaving(false);
     }
@@ -443,12 +444,12 @@ export default function LogiaChart({
           {chartT.advancedView}
         </a>
         <h1 className="astrology-title">{chartT.title.toLowerCase()}</h1>
-        <button 
+        <button
           onClick={handleSaveChart}
           disabled={isSaving || !chartData}
           className="save-chart-button"
         >
-          {isSaving ? 'Saving...' : 'Save Chart'}
+          {isSaving ? chartT.saveChart.saving : chartT.saveChart.button}
         </button>
       </div>
       {subtitleContent && (

@@ -3,6 +3,12 @@
     "title": "this is your blueprint",
     "subtitle": "logia for {birthDate} at {birthTime} in {city} {latitude}",
     "advancedView": "advanced view",
+    "saveChart": {
+      "button": "save chart",
+      "saving": "saving...",
+      "success": "chart saved successfully!",
+      "error": "failed to save chart"
+    },
     "points": {
       "ascendant": "ascendant",
       "ascendantEmoji": "👩‍🚀",

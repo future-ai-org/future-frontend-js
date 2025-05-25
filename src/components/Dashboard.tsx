@@ -6,14 +6,15 @@ import { useWeb3 } from "../utils/web3ModalContext";
 import strings from "../i18n/dashboard.json";
 import "../styles/dashboard.css";
 import { formatDate, formatTime } from "../utils/geocoding";
-import { FaTrash } from 'react-icons/fa';
+import { FaTrash, FaEye } from "react-icons/fa";
+import { ChartData } from "../config/logiaChart";
 
 interface SavedChart {
   id: string;
   birthDate: string;
   birthTime: string;
   city: string;
-  chartData: any;
+  chartData: ChartData;
   savedAt: string;
 }
 
@@ -38,26 +39,26 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const loadSavedCharts = () => {
       try {
-        const charts = JSON.parse(localStorage.getItem('savedCharts') || '[]');
+        const charts = JSON.parse(localStorage.getItem("savedCharts") || "[]");
         setSavedCharts(charts);
       } catch (err) {
-        console.error('Failed to load saved charts:', err);
+        console.error("Failed to load saved charts:", err);
       }
     };
 
     loadSavedCharts();
     // Listen for storage changes
-    window.addEventListener('storage', loadSavedCharts);
-    return () => window.removeEventListener('storage', loadSavedCharts);
+    window.addEventListener("storage", loadSavedCharts);
+    return () => window.removeEventListener("storage", loadSavedCharts);
   }, []);
 
   const handleDeleteChart = (chartId: string) => {
     try {
-      const updatedCharts = savedCharts.filter(chart => chart.id !== chartId);
-      localStorage.setItem('savedCharts', JSON.stringify(updatedCharts));
+      const updatedCharts = savedCharts.filter((chart) => chart.id !== chartId);
+      localStorage.setItem("savedCharts", JSON.stringify(updatedCharts));
       setSavedCharts(updatedCharts);
     } catch (err) {
-      console.error('Failed to delete chart:', err);
+      console.error("Failed to delete chart:", err);
     }
   };
 
@@ -167,21 +168,21 @@ const Dashboard: React.FC = () => {
             ) : (
               <div className="saved-charts-list">
                 {savedCharts.map((chart) => (
-                  <div key={chart.id} className="saved-chart-item">
-                    <div className="chart-info">
-                      <h4>{chart.city}</h4>
-                      <p>Birth Date: {formatDate(chart.birthDate)}</p>
-                      <p>Birth Time: {formatTime(chart.birthTime)}</p>
-                      <p>Saved: {new Date(chart.savedAt).toLocaleDateString()}</p>
+                  <div key={chart.id} className="saved-chart-container">
+                    <div className="saved-chart-item">
+                      <p>
+                        {formatDate(chart.birthDate)}{" "}
+                        {formatTime(chart.birthTime)}
+                      </p>
                     </div>
                     <div className="chart-actions">
-                      <button 
+                      <button
                         onClick={() => router.push(`/logia/saved/${chart.id}`)}
                         className="view-chart-button"
                       >
-                        View
+                        <FaEye />
                       </button>
-                      <button 
+                      <button
                         onClick={() => handleDeleteChart(chart.id)}
                         className="delete-chart-button"
                         aria-label="Delete chart"

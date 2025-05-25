@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import LogiaChart from "../../../../components/LogiaChart";
+import { ChartData } from "../../../../config/logiaChart";
 import Loading from "../../../../utils/loading";
 import "../../../../styles/logia.css";
 
@@ -11,7 +12,7 @@ interface SavedChart {
   birthDate: string;
   birthTime: string;
   city: string;
-  chartData: any;
+  chartData: ChartData;
   savedAt: string;
 }
 
@@ -24,16 +25,18 @@ export default function SavedChartPage() {
   useEffect(() => {
     const loadSavedChart = () => {
       try {
-        const savedCharts = JSON.parse(localStorage.getItem('savedCharts') || '[]');
+        const savedCharts = JSON.parse(
+          localStorage.getItem("savedCharts") || "[]",
+        );
         const chart = savedCharts.find((c: SavedChart) => c.id === params.id);
-        
+
         if (chart) {
           setSavedChart(chart);
         } else {
-          setError('Chart not found');
+          setError("Chart not found");
         }
-      } catch (err) {
-        setError('Failed to load chart');
+      } catch {
+        setError("Failed to load chart");
       } finally {
         setIsLoading(false);
       }
@@ -56,7 +59,9 @@ export default function SavedChartPage() {
     return (
       <div className="astrology-container">
         <div className="astrology-form-section">
-          <div className="astrology-error-message">{error || 'Chart not found'}</div>
+          <div className="astrology-error-message">
+            {error || "Chart not found"}
+          </div>
         </div>
       </div>
     );
@@ -74,4 +79,4 @@ export default function SavedChartPage() {
       </div>
     </div>
   );
-} 
+}
