@@ -30,7 +30,7 @@ const DecorativeStars: React.FC = () => {
   const stars = shuffledPositions.slice(0, 40).map((pos, index) => {
     const twinkleDelay = Math.random() * 2;
     const floatDelay = Math.random() * 7;
-    const size = Math.random() * 15 + 10; // Size range: 10-25px
+    const size = Math.random() * 12 + 8; // Size range: 8-20px
     const opacity = Math.random() * 0.5 + 0.2; // Varying opacity: 0.2-0.7
 
     return (
