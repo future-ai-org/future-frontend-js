@@ -106,11 +106,59 @@ const personalPredictionCards: PredictCard[] = [
   },
 ];
 
+const relationshipCards: PredictCard[] = [
+  {
+    id: "one",
+    title: predictI18n.cards.relationships.one.title,
+    subtitle: predictI18n.cards.relationships.one.subtitle,
+  },
+  {
+    id: "two",
+    title: predictI18n.cards.relationships.two.title,
+    subtitle: predictI18n.cards.relationships.two.subtitle,
+  },
+  {
+    id: "three",
+    title: predictI18n.cards.relationships.three.title,
+    subtitle: predictI18n.cards.relationships.three.subtitle,
+  },
+  {
+    id: "four",
+    title: predictI18n.cards.relationships.four.title,
+    subtitle: predictI18n.cards.relationships.four.subtitle,
+  },
+  {
+    id: "five",
+    title: predictI18n.cards.relationships.five.title,
+    subtitle: predictI18n.cards.relationships.five.subtitle,
+  },
+  {
+    id: "six",
+    title: predictI18n.cards.relationships.six.title,
+    subtitle: predictI18n.cards.relationships.six.subtitle,
+  },
+  {
+    id: "seven",
+    title: predictI18n.cards.relationships.seven.title,
+    subtitle: predictI18n.cards.relationships.seven.subtitle,
+  },
+  {
+    id: "eight",
+    title: predictI18n.cards.relationships.eight.title,
+    subtitle: predictI18n.cards.relationships.eight.subtitle,
+  },
+  {
+    id: "nine",
+    title: predictI18n.cards.relationships.nine.title,
+    subtitle: predictI18n.cards.relationships.nine.subtitle,
+  },
+];
+
 const PredictCards: React.FC = () => {
   const [selectedOptions, setSelectedOptions] = useState<
     Record<string, "yes" | "no" | null>
   >({});
-  const [activeTab, setActiveTab] = useState<"world" | "personal">("personal");
+  const [activeTab, setActiveTab] = useState<"world" | "personal" | "relationships">("personal");
   const [question, setQuestion] = useState("");
 
   const handleOptionClick = (cardId: string, option: "yes" | "no") => {
@@ -169,6 +217,31 @@ const PredictCards: React.FC = () => {
     </div>
   );
 
+  const renderRelationshipCards = () => (
+    <div className="predict-cards-grid">
+      {relationshipCards.map((card) => (
+        <div key={card.id} className="predict-card">
+          <h3 className="card-title">{card.title}</h3>
+          <p className="card-subtitle">{card.subtitle}</p>
+          <div className="card-options">
+            <button
+              className={`option-button ${selectedOptions[card.id] === "yes" ? "selected" : ""}`}
+              onClick={() => handleOptionClick(card.id, "yes")}
+            >
+              {predictI18n.options.yes}
+            </button>
+            <button
+              className={`option-button ${selectedOptions[card.id] === "no" ? "selected" : ""}`}
+              onClick={() => handleOptionClick(card.id, "no")}
+            >
+              {predictI18n.options.no}
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
   return (
     <div className="predict-cards-container">
       <div className="predict-tabs">
@@ -179,6 +252,12 @@ const PredictCards: React.FC = () => {
           {predictI18n.tabs.personalPredictions}
         </button>
         <button
+          className={`tab-button ${activeTab === "relationships" ? "active" : ""}`}
+          onClick={() => setActiveTab("relationships")}
+        >
+          {predictI18n.tabs.relationships}
+        </button>
+        <button
           className={`tab-button ${activeTab === "world" ? "active" : ""}`}
           onClick={() => setActiveTab("world")}
         >
@@ -187,6 +266,8 @@ const PredictCards: React.FC = () => {
       </div>
       {activeTab === "personal"
         ? renderPersonalPredictions()
+        : activeTab === "relationships"
+        ? renderRelationshipCards()
         : renderWorldEventCards()}
     </div>
   );

@@ -4,7 +4,8 @@
   },
   "tabs": {
     "worldEvents": "world events",
-    "personalPredictions": "personal predictions"
+    "personalPredictions": "personal predictions",
+    "relationships": "relationships"
   },
   "cards": {
     "worldEvents": {
@@ -81,6 +82,44 @@
       "nine": {
         "title": "Employee Engagement",
         "subtitle": "Will employee satisfaction scores improve?"
+      }
+    },
+    "relationships": {
+      "one": {
+        "title": "New Connection",
+        "subtitle": "Will I form a meaningful new connection?"
+      },
+      "two": {
+        "title": "Existing Bond",
+        "subtitle": "Will my current relationship strengthen?"
+      },
+      "three": {
+        "title": "Conflict Resolution",
+        "subtitle": "Will we resolve our current disagreement?"
+      },
+      "four": {
+        "title": "Trust Building",
+        "subtitle": "Will trust be restored in this relationship?"
+      },
+      "five": {
+        "title": "Communication",
+        "subtitle": "Will our communication improve?"
+      },
+      "six": {
+        "title": "Commitment",
+        "subtitle": "Will we take our relationship to the next level?"
+      },
+      "seven": {
+        "title": "Growth",
+        "subtitle": "Will we grow together as a couple?"
+      },
+      "eight": {
+        "title": "Balance",
+        "subtitle": "Will we find better work-life balance?"
+      },
+      "nine": {
+        "title": "Future",
+        "subtitle": "Will our relationship have a long-term future?"
       }
     }
   },
