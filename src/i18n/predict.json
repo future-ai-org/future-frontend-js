@@ -1,5 +1,59 @@
 {
   "en": {
     "title": "predict"
+  },
+  "cards": {
+    "marketGrowth": {
+      "title": "Market Growth",
+      "subtitle": "Will the market grow by 10% this year?"
+    },
+    "newProduct": {
+      "title": "New Product",
+      "subtitle": "Will the new product launch be successful?"
+    },
+    "customerRetention": {
+      "title": "Customer Retention",
+      "subtitle": "Will customer retention improve?"
+    },
+    "revenueTarget": {
+      "title": "Revenue Target",
+      "subtitle": "Will we meet our revenue target?"
+    },
+    "teamExpansion": {
+      "title": "Team Expansion",
+      "subtitle": "Will we expand the team this quarter?"
+    },
+    "techInvestment": {
+      "title": "Tech Investment",
+      "subtitle": "Will we invest in new technology?"
+    },
+    "partnership": {
+      "title": "Partnership",
+      "subtitle": "Will we form a new partnership?"
+    },
+    "marketShare": {
+      "title": "Market Share",
+      "subtitle": "Will our market share increase?"
+    },
+    "costReduction": {
+      "title": "Cost Reduction",
+      "subtitle": "Will we reduce operational costs?"
+    },
+    "productQuality": {
+      "title": "Product Quality",
+      "subtitle": "Will product quality improve?"
+    },
+    "customerSatisfaction": {
+      "title": "Customer Satisfaction",
+      "subtitle": "Will customer satisfaction increase?"
+    },
+    "innovation": {
+      "title": "Innovation",
+      "subtitle": "Will we launch an innovative feature?"
+    }
+  },
+  "options": {
+    "yes": "Yes",
+    "no": "No"
   }
 }
