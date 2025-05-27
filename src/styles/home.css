@@ -199,13 +199,13 @@
 
 .wallet-label {
   font-size: clamp(0.8rem, 1.5vw, 0.9rem);
-  font-weight: bold;
+  font-weight: 900;
   color: var(--text-color-secondary);
 }
 
 .wallet-address {
   font-size: clamp(0.8rem, 1.5vw, 0.9rem);
-  font-weight: 600;
+  font-weight: 800;
   color: var(--text-color);
 }
 
