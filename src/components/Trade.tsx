@@ -5,7 +5,7 @@ import "../styles/trade.css";
 import strings from "../i18n/trade.json";
 import { TRADE_CONFIG, CryptoData, TrendingCoin } from "../config/trade";
 import Loading from "../utils/loading";
-import { FaStar } from "react-icons/fa";
+import { FaStar, FaRegStar } from "react-icons/fa";
 
 interface FavoriteAsset {
   id: string;
@@ -276,7 +276,7 @@ export default function Trade() {
                       className={`favorite-button ${isFavorite ? "active" : ""}`}
                       aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
                     >
-                      <FaStar />
+                      {isFavorite ? <FaStar /> : <FaRegStar />}
                     </button>
                   </td>
                   <td className={`table-cell crypto-name-cell ${colorClass}`}>
