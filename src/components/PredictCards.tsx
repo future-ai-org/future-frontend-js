@@ -110,7 +110,7 @@ const PredictCards: React.FC = () => {
   const [selectedOptions, setSelectedOptions] = useState<
     Record<string, "yes" | "no" | null>
   >({});
-  const [activeTab, setActiveTab] = useState<"world" | "personal">("world");
+  const [activeTab, setActiveTab] = useState<"world" | "personal">("personal");
 
   const handleOptionClick = (cardId: string, option: "yes" | "no") => {
     setSelectedOptions((prev) => ({
@@ -148,21 +148,21 @@ const PredictCards: React.FC = () => {
     <div className="predict-cards-container">
       <div className="predict-tabs">
         <button
-          className={`tab-button ${activeTab === "world" ? "active" : ""}`}
-          onClick={() => setActiveTab("world")}
-        >
-          {predictI18n.tabs.worldEvents}
-        </button>
-        <button
           className={`tab-button ${activeTab === "personal" ? "active" : ""}`}
           onClick={() => setActiveTab("personal")}
         >
           {predictI18n.tabs.personalPredictions}
         </button>
+        <button
+          className={`tab-button ${activeTab === "world" ? "active" : ""}`}
+          onClick={() => setActiveTab("world")}
+        >
+          {predictI18n.tabs.worldEvents}
+        </button>
       </div>
-      {activeTab === "world"
-        ? renderCards(worldEventCards)
-        : renderCards(personalPredictionCards)}
+      {activeTab === "personal"
+        ? renderCards(personalPredictionCards)
+        : renderCards(worldEventCards)}
     </div>
   );
 };
