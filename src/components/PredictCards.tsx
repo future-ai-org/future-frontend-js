@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import predictI18n from "../i18n/predict.json";
+import "./PredictCards.css";
 
 interface PredictCard {
   id: string;
@@ -9,18 +10,58 @@ interface PredictCard {
   subtitle: string;
 }
 
-const cards: PredictCard[] = Object.entries(predictI18n.cards).map(
-  ([id, content]) => ({
-    id,
-    title: content.title,
-    subtitle: content.subtitle,
-  }),
-);
+// Separate cards into world events and personal predictions
+const worldEventCards: PredictCard[] = [
+  {
+    id: "marketGrowth",
+    title: "Market Growth",
+    subtitle: "Will the market grow by 10% this year?",
+  },
+  {
+    id: "marketShare",
+    title: "Market Share",
+    subtitle: "Will our market share increase?",
+  },
+  {
+    id: "partnership",
+    title: "Partnership",
+    subtitle: "Will we form a new partnership?",
+  },
+  {
+    id: "techInvestment",
+    title: "Tech Investment",
+    subtitle: "Will we invest in new technology?",
+  },
+];
+
+const personalPredictionCards: PredictCard[] = [
+  {
+    id: "newProduct",
+    title: "New Product",
+    subtitle: "Will the new product launch be successful?",
+  },
+  {
+    id: "customerRetention",
+    title: "Customer Retention",
+    subtitle: "Will customer retention improve?",
+  },
+  {
+    id: "revenueTarget",
+    title: "Revenue Target",
+    subtitle: "Will we meet our revenue target?",
+  },
+  {
+    id: "teamExpansion",
+    title: "Team Expansion",
+    subtitle: "Will we expand the team this quarter?",
+  },
+];
 
 const PredictCards: React.FC = () => {
   const [selectedOptions, setSelectedOptions] = useState<
     Record<string, "yes" | "no" | null>
   >({});
+  const [activeTab, setActiveTab] = useState<"world" | "personal">("world");
 
   const handleOptionClick = (cardId: string, option: "yes" | "no") => {
     setSelectedOptions((prev) => ({
@@ -29,7 +70,7 @@ const PredictCards: React.FC = () => {
     }));
   };
 
-  return (
+  const renderCards = (cards: PredictCard[]) => (
     <div className="predict-cards-grid">
       {cards.map((card) => (
         <div key={card.id} className="predict-card">
@@ -51,6 +92,28 @@ const PredictCards: React.FC = () => {
           </div>
         </div>
       ))}
+    </div>
+  );
+
+  return (
+    <div className="predict-cards-container">
+      <div className="predict-tabs">
+        <button
+          className={`tab-button ${activeTab === "world" ? "active" : ""}`}
+          onClick={() => setActiveTab("world")}
+        >
+          World Events
+        </button>
+        <button
+          className={`tab-button ${activeTab === "personal" ? "active" : ""}`}
+          onClick={() => setActiveTab("personal")}
+        >
+          Personal Predictions
+        </button>
+      </div>
+      {activeTab === "world"
+        ? renderCards(worldEventCards)
+        : renderCards(personalPredictionCards)}
     </div>
   );
 };
