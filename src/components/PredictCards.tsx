@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import predictI18n from "../i18n/predict.json";
-import "./PredictCards.css";
+import "../styles/predictCards.css";
 
 interface PredictCard {
   id: string;
@@ -10,100 +10,99 @@ interface PredictCard {
   subtitle: string;
 }
 
-// Separate cards into world events and personal predictions
 const worldEventCards: PredictCard[] = [
   {
-    id: "marketGrowth",
-    title: "Market Growth",
-    subtitle: "Will the market grow by 10% this year?",
+    id: "one",
+    title: predictI18n.cards.worldEvents.one.title,
+    subtitle: predictI18n.cards.worldEvents.one.subtitle,
   },
   {
-    id: "marketShare",
-    title: "Market Share",
-    subtitle: "Will our market share increase?",
+    id: "two",
+    title: predictI18n.cards.worldEvents.two.title,
+    subtitle: predictI18n.cards.worldEvents.two.subtitle,
   },
   {
-    id: "partnership",
-    title: "Partnership",
-    subtitle: "Will we form a new partnership?",
+    id: "three",
+    title: predictI18n.cards.worldEvents.three.title,
+    subtitle: predictI18n.cards.worldEvents.three.subtitle,
   },
   {
-    id: "techInvestment",
-    title: "Tech Investment",
-    subtitle: "Will we invest in new technology?",
+    id: "four",
+    title: predictI18n.cards.worldEvents.four.title,
+    subtitle: predictI18n.cards.worldEvents.four.subtitle,
   },
   {
-    id: "globalExpansion",
-    title: "Global Expansion",
-    subtitle: "Will we expand to new international markets?",
+    id: "five",
+    title: predictI18n.cards.worldEvents.five.title,
+    subtitle: predictI18n.cards.worldEvents.five.subtitle,
   },
   {
-    id: "industryTrend",
-    title: "Industry Trend",
-    subtitle: "Will our industry see major consolidation?",
+    id: "six",
+    title: predictI18n.cards.worldEvents.six.title,
+    subtitle: predictI18n.cards.worldEvents.six.subtitle,
   },
   {
-    id: "regulatoryChange",
-    title: "Regulatory Change",
-    subtitle: "Will new regulations impact our business?",
+    id: "seven",
+    title: predictI18n.cards.worldEvents.seven.title,
+    subtitle: predictI18n.cards.worldEvents.seven.subtitle,
   },
   {
-    id: "economicOutlook",
-    title: "Economic Outlook",
-    subtitle: "Will the economy enter a recession?",
+    id: "eight",
+    title: predictI18n.cards.worldEvents.eight.title,
+    subtitle: predictI18n.cards.worldEvents.eight.subtitle,
   },
   {
-    id: "competitorMove",
-    title: "Competitor Move",
-    subtitle: "Will a major competitor launch a similar product?",
+    id: "nine",
+    title: predictI18n.cards.worldEvents.nine.title,
+    subtitle: predictI18n.cards.worldEvents.nine.subtitle,
   },
 ];
 
 const personalPredictionCards: PredictCard[] = [
   {
-    id: "newProduct",
-    title: "New Product",
-    subtitle: "Will the new product launch be successful?",
+    id: "one",
+    title: predictI18n.cards.personalPredictions.one.title,
+    subtitle: predictI18n.cards.personalPredictions.one.subtitle,
   },
   {
-    id: "customerRetention",
-    title: "Customer Retention",
-    subtitle: "Will customer retention improve?",
+    id: "two",
+    title: predictI18n.cards.personalPredictions.two.title,
+    subtitle: predictI18n.cards.personalPredictions.two.subtitle,
   },
   {
-    id: "revenueTarget",
-    title: "Revenue Target",
-    subtitle: "Will we meet our revenue target?",
+    id: "three",
+    title: predictI18n.cards.personalPredictions.three.title,
+    subtitle: predictI18n.cards.personalPredictions.three.subtitle,
   },
   {
-    id: "teamExpansion",
-    title: "Team Expansion",
-    subtitle: "Will we expand the team this quarter?",
+    id: "four",
+    title: predictI18n.cards.personalPredictions.four.title,
+    subtitle: predictI18n.cards.personalPredictions.four.subtitle,
   },
   {
-    id: "productQuality",
-    title: "Product Quality",
-    subtitle: "Will our product quality metrics improve?",
+    id: "five",
+    title: predictI18n.cards.personalPredictions.five.title,
+    subtitle: predictI18n.cards.personalPredictions.five.subtitle,
   },
   {
-    id: "customerSatisfaction",
-    title: "Customer Satisfaction",
-    subtitle: "Will our NPS score increase?",
+    id: "six",
+    title: predictI18n.cards.personalPredictions.six.title,
+    subtitle: predictI18n.cards.personalPredictions.six.subtitle,
   },
   {
-    id: "innovation",
-    title: "Innovation",
-    subtitle: "Will we launch an innovative feature?",
+    id: "seven",
+    title: predictI18n.cards.personalPredictions.seven.title,
+    subtitle: predictI18n.cards.personalPredictions.seven.subtitle,
   },
   {
-    id: "costReduction",
-    title: "Cost Reduction",
-    subtitle: "Will we achieve our cost reduction goals?",
+    id: "eight",
+    title: predictI18n.cards.personalPredictions.eight.title,
+    subtitle: predictI18n.cards.personalPredictions.eight.subtitle,
   },
   {
-    id: "employeeEngagement",
-    title: "Employee Engagement",
-    subtitle: "Will employee satisfaction scores improve?",
+    id: "nine",
+    title: predictI18n.cards.personalPredictions.nine.title,
+    subtitle: predictI18n.cards.personalPredictions.nine.subtitle,
   },
 ];
 
@@ -152,13 +151,13 @@ const PredictCards: React.FC = () => {
           className={`tab-button ${activeTab === "world" ? "active" : ""}`}
           onClick={() => setActiveTab("world")}
         >
-          World Events
+          {predictI18n.tabs.worldEvents}
         </button>
         <button
           className={`tab-button ${activeTab === "personal" ? "active" : ""}`}
           onClick={() => setActiveTab("personal")}
         >
-          Personal Predictions
+          {predictI18n.tabs.personalPredictions}
         </button>
       </div>
       {activeTab === "world"

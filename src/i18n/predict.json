@@ -2,54 +2,86 @@
   "en": {
     "title": "predict"
   },
+  "tabs": {
+    "worldEvents": "World Events",
+    "personalPredictions": "Personal Predictions"
+  },
   "cards": {
-    "marketGrowth": {
-      "title": "Market Growth",
-      "subtitle": "Will the market grow by 10% this year?"
+    "worldEvents": {
+      "one": {
+        "title": "Market Growth",
+        "subtitle": "Will the market grow by 10% this year?"
+      },
+      "two": {
+        "title": "Market Share",
+        "subtitle": "Will our market share increase?"
+      },
+      "three": {
+        "title": "Partnership",
+        "subtitle": "Will we form a new partnership?"
+      },
+      "four": {
+        "title": "Tech Investment",
+        "subtitle": "Will we invest in new technology?"
+      },
+      "five": {
+        "title": "Global Expansion",
+        "subtitle": "Will we expand to new international markets?"
+      },
+      "six": {
+        "title": "Industry Trend",
+        "subtitle": "Will our industry see major consolidation?"
+      },
+      "seven": {
+        "title": "Regulatory Change",
+        "subtitle": "Will new regulations impact our business?"
+      },
+      "eight": {
+        "title": "Economic Outlook",
+        "subtitle": "Will the economy enter a recession?"
+      },
+      "nine": {
+        "title": "Competitor Move",
+        "subtitle": "Will a major competitor launch a similar product?"
+      }
     },
-    "newProduct": {
-      "title": "New Product",
-      "subtitle": "Will the new product launch be successful?"
-    },
-    "customerRetention": {
-      "title": "Customer Retention",
-      "subtitle": "Will customer retention improve?"
-    },
-    "revenueTarget": {
-      "title": "Revenue Target",
-      "subtitle": "Will we meet our revenue target?"
-    },
-    "teamExpansion": {
-      "title": "Team Expansion",
-      "subtitle": "Will we expand the team this quarter?"
-    },
-    "techInvestment": {
-      "title": "Tech Investment",
-      "subtitle": "Will we invest in new technology?"
-    },
-    "partnership": {
-      "title": "Partnership",
-      "subtitle": "Will we form a new partnership?"
-    },
-    "marketShare": {
-      "title": "Market Share",
-      "subtitle": "Will our market share increase?"
-    },
-    "costReduction": {
-      "title": "Cost Reduction",
-      "subtitle": "Will we reduce operational costs?"
-    },
-    "productQuality": {
-      "title": "Product Quality",
-      "subtitle": "Will product quality improve?"
-    },
-    "customerSatisfaction": {
-      "title": "Customer Satisfaction",
-      "subtitle": "Will customer satisfaction increase?"
-    },
-    "innovation": {
-      "title": "Innovation",
-      "subtitle": "Will we launch an innovative feature?"
+    "personalPredictions": {
+      "one": {
+        "title": "New Product",
+        "subtitle": "Will the new product launch be successful?"
+      },
+      "two": {
+        "title": "Customer Retention",
+        "subtitle": "Will customer retention improve?"
+      },
+      "three": {
+        "title": "Revenue Target",
+        "subtitle": "Will we meet our revenue target?"
+      },
+      "four": {
+        "title": "Team Expansion",
+        "subtitle": "Will we expand the team this quarter?"
+      },
+      "five": {
+        "title": "Product Quality",
+        "subtitle": "Will our product quality metrics improve?"
+      },
+      "six": {
+        "title": "Customer Satisfaction",
+        "subtitle": "Will our NPS score increase?"
+      },
+      "seven": {
+        "title": "Innovation",
+        "subtitle": "Will we launch an innovative feature?"
+      },
+      "eight": {
+        "title": "Cost Reduction",
+        "subtitle": "Will we achieve our cost reduction goals?"
+      },
+      "nine": {
+        "title": "Employee Engagement",
+        "subtitle": "Will employee satisfaction scores improve?"
+      }
     }
   },
   "options": {

@@ -45,7 +45,7 @@ interface AstroData {
     houses_system_name: string;
     perspective_type: string;
     iso_formatted_local_datetime: string;
-    [key: string]: any;
+    [key: string]: string | number | CelestialBody;
   };
 }
 

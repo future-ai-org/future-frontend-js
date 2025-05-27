@@ -2,7 +2,7 @@ import React from "react";
 
 const DecorativeStars: React.FC = () => {
   // Create a grid of positions
-  const gridSize = 15; // Increased from 10 to 15 for more potential positions
+  const gridSize = 15;
   const positions = [];
 
   // Generate base grid positions
@@ -14,6 +14,15 @@ const DecorativeStars: React.FC = () => {
       // Calculate base position
       const baseTop = (row / gridSize) * 100;
       const baseLeft = (col / gridSize) * 100;
+
+      // Only place stars in the outer areas (around the text box)
+      const isInOuterArea =
+        baseTop < 25 || // Above the box
+        baseTop > 85 || // Below the box
+        baseLeft < 10 || // Left of the box
+        baseLeft > 90; // Right of the box
+
+      if (!isInOuterArea) continue;
 
       // Add more randomness to the position
       const top = baseTop + (Math.random() * 12 - 6); // ±6% variation

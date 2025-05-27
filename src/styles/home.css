@@ -65,6 +65,7 @@
   margin-bottom: clamp(3rem, 8vh, 5rem);
   max-width: min(1200px, 95vw);
   opacity: var(--opacity-light);
+  text-shadow: var(--text-glow);
 }
 
 /* ===== Feature Grid ===== */
@@ -272,5 +273,14 @@
       0 0 50px var(--glow-shadow),
       0 0 60px var(--glow-pink-light),
       0 0 70px var(--glow-pink-dark);
+  }
+}
+
+@keyframes subtle-glow {
+  from {
+    text-shadow: 0 0 5px var(--glow-shadow);
+  }
+  to {
+    text-shadow: 0 0 12px var(--glow-shadow);
   }
 }
