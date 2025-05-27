@@ -578,12 +578,25 @@
 }
 
 @keyframes numberBounce {
-  0%,
-  100% {
-    transform: translateY(0) scale(1);
+  0% {
+    transform: translateY(0) scale(1) rotate(0deg);
+    box-shadow: 0 0 10px var(--color-glow-shadow);
+  }
+  25% {
+    transform: translateY(-3px) scale(1.1) rotate(5deg);
+    box-shadow: 0 0 15px var(--color-glow-shadow-hover);
   }
   50% {
-    transform: translateY(-3px) scale(1.1);
+    transform: translateY(-3px) scale(1.1) rotate(-5deg);
+    box-shadow: 0 0 20px var(--color-glow-shadow);
+  }
+  75% {
+    transform: translateY(-3px) scale(1.1) rotate(5deg);
+    box-shadow: 0 0 15px var(--color-glow-shadow-hover);
+  }
+  100% {
+    transform: translateY(0) scale(1) rotate(0deg);
+    box-shadow: 0 0 10px var(--color-glow-shadow);
   }
 }
 
