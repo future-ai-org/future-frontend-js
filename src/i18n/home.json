@@ -13,7 +13,7 @@
     "features": {
       "one": {
         "title": "sign in",
-        "signedIn": "hello, {ensName}",
+        "signedIn": "gm, {ensName}",
         "connectWallet": "connect",
         "startAvatar": " to your favorite wallet and create your avatar"
       },
@@ -46,7 +46,8 @@
         "prefix": "and start making smarter",
         "link": "decisions"
       },
-      "leverage": "leverage smart"
+      "leverage": "leverage smart",
+      "forYourGoals": "for your goals"
     }
   }
 }

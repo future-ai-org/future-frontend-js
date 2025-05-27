@@ -114,7 +114,8 @@ export default function Home() {
                 {strings.en.text.and}
                 <Link href={ROUTES.DASHBOARD}>
                   {strings.en.links.dashboard.link}
-                </Link>
+                </Link>{" "}
+                {strings.en.text.forYourGoals}
               </>
             ) : (
               <>
