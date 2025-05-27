@@ -371,7 +371,7 @@ export default function LogiaChart({
   const [chartInfoHtml, setChartInfoHtml] = useState<string>("");
   const [chartData, setChartData] = useState<ChartData | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
@@ -491,6 +491,10 @@ export default function LogiaChart({
     }
   }, [chartData, birthDate, birthTime, city]);
 
+  const titleContent = useMemo(() => {
+    return chartT.title.replace("<name>", name);
+  }, [name, chartT.title]);
+
   if (error) {
     return <div className="astrology-error-message">{error}</div>;
   }
@@ -511,7 +515,7 @@ export default function LogiaChart({
         >
           {chartT.advancedView}
         </a>
-        <h1 className="astrology-title">{chartT.title.toLowerCase()}</h1>
+        <h1 className="astrology-title">{titleContent}</h1>
         <button
           onClick={handleSaveChart}
           disabled={isSaving || !chartData}

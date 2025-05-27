@@ -1,6 +1,6 @@
 {
   "en": {
-    "title": "this is your blueprint",
+    "title": "<name>'s blueprint",
     "subtitle": "logia for {birthDate} at {birthTime} in {city} {latitude}",
     "advancedView": "advanced view",
     "saveChart": {
