@@ -20,7 +20,7 @@
 .predict-title {
   font-size: var(--spacing-xl);
   font-weight: bold;
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
   color: var(--primary-color);
   text-align: center;
   text-shadow: var(--text-glow);
