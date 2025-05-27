@@ -122,6 +122,7 @@
   max-width: 120px;
   padding: clamp(0.4rem, 1vw, 0.5rem) clamp(0.8rem, 1.5vw, 1rem);
   font-size: clamp(0.85rem, 1.5vw, 0.9rem);
+  font-weight: 700;
   color: var(--color-primary);
   background: transparent;
   border: 1px solid var(--color-primary);
