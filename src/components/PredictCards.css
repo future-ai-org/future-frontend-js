@@ -7,32 +7,48 @@
 
 .predict-tabs {
   display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #e0e0e0;
-  padding-bottom: 10px;
+  width: 100%;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #e0e0e0;
+  background-color: #f8f8f8;
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
 }
 
 .tab-button {
-  padding: 10px 20px;
+  flex: 1;
+  padding: 16px 24px;
   border: none;
   background: none;
   font-size: 16px;
   font-weight: 500;
   color: #666;
   cursor: pointer;
-  transition: all 0.2s ease;
-  border-radius: 4px;
+  transition: all 0.3s ease;
+  text-align: center;
+  position: relative;
 }
 
 .tab-button:hover {
-  background-color: #f5f5f5;
+  background-color: #8b5cf6;
+  color: white;
 }
 
 .tab-button.active {
   color: #000;
-  background-color: #f0f0f0;
+  background-color: white;
   font-weight: 600;
+  box-shadow: 0 -2px 0 #8b5cf6 inset;
+}
+
+.tab-button.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #8b5cf6;
 }
 
 .predict-cards-grid {

@@ -32,6 +32,31 @@ const worldEventCards: PredictCard[] = [
     title: "Tech Investment",
     subtitle: "Will we invest in new technology?",
   },
+  {
+    id: "globalExpansion",
+    title: "Global Expansion",
+    subtitle: "Will we expand to new international markets?",
+  },
+  {
+    id: "industryTrend",
+    title: "Industry Trend",
+    subtitle: "Will our industry see major consolidation?",
+  },
+  {
+    id: "regulatoryChange",
+    title: "Regulatory Change",
+    subtitle: "Will new regulations impact our business?",
+  },
+  {
+    id: "economicOutlook",
+    title: "Economic Outlook",
+    subtitle: "Will the economy enter a recession?",
+  },
+  {
+    id: "competitorMove",
+    title: "Competitor Move",
+    subtitle: "Will a major competitor launch a similar product?",
+  },
 ];
 
 const personalPredictionCards: PredictCard[] = [
@@ -54,6 +79,31 @@ const personalPredictionCards: PredictCard[] = [
     id: "teamExpansion",
     title: "Team Expansion",
     subtitle: "Will we expand the team this quarter?",
+  },
+  {
+    id: "productQuality",
+    title: "Product Quality",
+    subtitle: "Will our product quality metrics improve?",
+  },
+  {
+    id: "customerSatisfaction",
+    title: "Customer Satisfaction",
+    subtitle: "Will our NPS score increase?",
+  },
+  {
+    id: "innovation",
+    title: "Innovation",
+    subtitle: "Will we launch an innovative feature?",
+  },
+  {
+    id: "costReduction",
+    title: "Cost Reduction",
+    subtitle: "Will we achieve our cost reduction goals?",
+  },
+  {
+    id: "employeeEngagement",
+    title: "Employee Engagement",
+    subtitle: "Will employee satisfaction scores improve?",
   },
 ];
 
