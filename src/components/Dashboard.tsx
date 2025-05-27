@@ -17,6 +17,7 @@ interface SavedChart {
   chartData: ChartData;
   savedAt: string;
   isOfficial?: boolean;
+  name: string;
 }
 
 interface FavoriteAsset {
@@ -294,8 +295,8 @@ const Dashboard: React.FC = () => {
                               {strings.en.cards.logia.main}
                             </span>
                           )}
-                          {formatDate(chart.birthDate)}{" "}
-                          {formatTime(chart.birthTime)}
+                          <span className="chart-name">{chart.name.toUpperCase()}</span>,
+                          <span className="chart-details"> {formatDate(chart.birthDate)}, {formatTime(chart.birthTime)}</span>
                         </p>
                       </div>
                       <div className="chart-actions">

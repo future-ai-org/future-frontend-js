@@ -277,6 +277,8 @@ interface SavedChart {
   city: string;
   chartData: ChartData;
   savedAt: string;
+  name: string;
+  isOfficial?: boolean;
 }
 
 interface PlanetInfoPanelProps {
@@ -476,6 +478,7 @@ export default function LogiaChart({
         city,
         chartData,
         savedAt: new Date().toISOString(),
+        name,
       };
 
       savedCharts.push(newChart);
@@ -489,7 +492,7 @@ export default function LogiaChart({
     } finally {
       setIsSaving(false);
     }
-  }, [chartData, birthDate, birthTime, city]);
+  }, [chartData, birthDate, birthTime, city, ]);
 
   const titleContent = useMemo(() => {
     return chartT.title.replace("<name>", name);
