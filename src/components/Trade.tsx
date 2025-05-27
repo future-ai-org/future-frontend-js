@@ -5,12 +5,21 @@ import "../styles/trade.css";
 import strings from "../i18n/trade.json";
 import { TRADE_CONFIG, CryptoData, TrendingCoin } from "../config/trade";
 import Loading from "../utils/loading";
+import { FaStar } from "react-icons/fa";
+
+interface FavoriteAsset {
+  id: string;
+  symbol: string;
+  name: string;
+  addedAt: string;
+}
 
 export default function Trade() {
   const [cryptoData, setCryptoData] = useState<CryptoData[]>([]);
   const [memecoinData, setMemecoinData] = useState<CryptoData[]>([]);
   const [trendingData, setTrendingData] = useState<CryptoData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [favorites, setFavorites] = useState<FavoriteAsset[]>([]);
 
   const t = strings.en;
 
@@ -169,6 +178,57 @@ export default function Trade() {
     return () => clearInterval(interval);
   }, [loadCachedData, saveCachedData]);
 
+  useEffect(() => {
+    const loadFavorites = () => {
+      try {
+        const storedFavorites = JSON.parse(localStorage.getItem("favoriteAssets") || "[]");
+        setFavorites(storedFavorites);
+      } catch (err) {
+        console.error("Failed to load favorites:", err);
+      }
+    };
+
+    loadFavorites();
+    window.addEventListener("storage", loadFavorites);
+    return () => window.removeEventListener("storage", loadFavorites);
+  }, []);
+
+  const handleToggleFavorite = (crypto: CryptoData) => {
+    try {
+      const isFavorite = favorites.some((fav) => fav.id === crypto.id);
+      let updatedFavorites;
+
+      if (isFavorite) {
+        updatedFavorites = favorites.filter((fav) => fav.id !== crypto.id);
+      } else {
+        updatedFavorites = [
+          ...favorites,
+          {
+            id: crypto.id,
+            symbol: crypto.symbol.toUpperCase(),
+            name: crypto.name,
+            addedAt: new Date().toISOString(),
+          },
+        ];
+      }
+
+      localStorage.setItem("favoriteAssets", JSON.stringify(updatedFavorites));
+      setFavorites(updatedFavorites);
+
+      const storageEvent = new StorageEvent("storage", {
+        key: "favoriteAssets",
+        newValue: JSON.stringify(updatedFavorites),
+        oldValue: JSON.stringify(favorites),
+        storageArea: localStorage,
+        url: window.location.href,
+      });
+      window.dispatchEvent(storageEvent);
+      window.dispatchEvent(new Event("favoritesUpdated"));
+    } catch (err) {
+      console.error("Failed to save favorite:", err);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="dashboard-container">
@@ -193,6 +253,7 @@ export default function Trade() {
         <table className="table">
           <thead>
             <tr>
+              <th className="table-header"></th>
               <th className="table-header">{t.table.headers.asset}</th>
               <th className="table-header">{t.table.headers.price}</th>
               <th className="table-header">{t.table.headers.change}</th>
@@ -205,15 +266,21 @@ export default function Trade() {
             {allCryptoData.map((crypto) => {
               const isPositive = crypto.price_change_percentage_24h >= 0;
               const colorClass = isPositive ? "positive" : "negative";
+              const isFavorite = favorites.some((fav) => fav.id === crypto.id);
 
               return (
                 <tr className="table-row" key={crypto.id}>
+                  <td className="table-cell">
+                    <button
+                      onClick={() => handleToggleFavorite(crypto)}
+                      className={`favorite-button ${isFavorite ? "active" : ""}`}
+                      aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+                    >
+                      <FaStar />
+                    </button>
+                  </td>
                   <td className={`table-cell crypto-name-cell ${colorClass}`}>
                     <div className="crypto-name-content">
-                      <span className={`crypto-icon ${colorClass}`}>
-                        {TRADE_CONFIG.ICONS[crypto.symbol.toUpperCase()] ||
-                          "🪙"}
-                      </span>
                       <span
                         className="crypto-full-name"
                         data-fullname={`${crypto.name} (${crypto.symbol.toUpperCase()})`}

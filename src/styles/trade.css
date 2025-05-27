@@ -94,22 +94,25 @@
 
 /* Table Column Widths */
 .table th:nth-child(1) {
+  width: 5%;
+} /* Favorite */
+.table th:nth-child(2) {
   width: 22%;
 } /* Asset */
-.table th:nth-child(2) {
-  width: 15%;
-} /* Price */
 .table th:nth-child(3) {
   width: 15%;
-} /* Change */
+} /* Price */
 .table th:nth-child(4) {
   width: 15%;
-} /* Market cap */
+} /* Change */
 .table th:nth-child(5) {
   width: 15%;
-} /* ATH */
+} /* Market cap */
 .table th:nth-child(6) {
-  width: 18%;
+  width: 15%;
+} /* ATH */
+.table th:nth-child(7) {
+  width: 13%;
 } /* Chart */
 
 .table-header {
@@ -241,6 +244,31 @@
   width: 100%;
   position: relative;
   flex-wrap: wrap;
+}
+
+/* Favorite button styles */
+.crypto-name-content .favorite-button {
+  @apply p-1.5 rounded-full transition-all duration-200 flex-shrink-0;
+  color: var(--text-color-secondary);
+  background: transparent;
+  border: 1px solid var(--text-color-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9em;
+}
+
+.crypto-name-content .favorite-button:hover {
+  @apply transform scale-110;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.crypto-name-content .favorite-button.active {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  animation: pulse 2s infinite;
 }
 
 .crypto-icon {
