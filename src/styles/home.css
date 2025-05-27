@@ -48,7 +48,7 @@
   font-size: clamp(3rem, 8vw, 7rem);
   line-height: 1.2;
   font-weight: 900;
-  margin: clamp(2rem, 10vh, 6rem) 0 clamp(1rem, 4vh, 2rem);
+  margin: clamp(1rem, 8vh, 4rem) 0 clamp(1rem, 4vh, 2rem);
   word-wrap: break-word;
   overflow-wrap: break-word;
   hyphens: auto;
@@ -96,17 +96,19 @@
     0 0 15px var(--glow-shadow),
     0 0 30px var(--glow-shadow);
   backdrop-filter: blur(8px);
-  transition: all 0.3s ease;
+  transition:
+    all 0.2s ease,
+    transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .landing-feature-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-12px) scale(1.08);
   border-color: var(--color-primary);
   box-shadow:
-    0 12px 40px var(--color-shadow-black),
-    0 0 20px var(--glow-shadow-hover),
-    0 0 40px var(--glow-shadow),
-    0 0 60px var(--glow-pink-light);
+    0 32px 80px var(--color-shadow-black),
+    0 0 45px var(--glow-shadow-hover),
+    0 0 90px var(--glow-shadow),
+    0 0 120px var(--glow-pink-light);
 }
 
 .landing-feature-number {
@@ -128,14 +130,14 @@
 }
 
 .landing-feature-title {
-  font-size: clamp(1.1rem, 2vw, 1.25rem);
+  font-size: clamp(1.3rem, 2.2vw, 1.5rem);
   font-weight: 800;
   margin: clamp(0.5rem, 1vw, 0.75rem) 0;
   color: var(--text-color);
 }
 
 .landing-feature-description {
-  font-size: clamp(0.85rem, 1.5vw, 0.9rem);
+  font-size: clamp(1rem, 1.6vw, 1.1rem);
   line-height: 1.6;
   font-weight: bold;
   color: var(--text-color);
