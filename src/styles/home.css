@@ -159,7 +159,7 @@
   opacity: 0.9;
   text-decoration: none;
   border-bottom: 1px dashed var(--primary-color);
-  transition: all 0.3s ease;
+  transition: all 0.15s ease;
 }
 
 .landing-feature-description a::after {
@@ -171,7 +171,7 @@
   height: 2px;
   background-color: var(--primary-color);
   transform: translateX(-50%);
-  transition: width 0.3s ease-out;
+  transition: width 0.15s ease-out;
 }
 
 .landing-feature-description a:hover {
