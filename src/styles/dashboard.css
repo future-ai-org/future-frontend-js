@@ -30,11 +30,11 @@
 
 /* Header */
 .dashboard-header {
-  @apply mb-4 flex justify-between items-center py-4;
+  @apply mb-2 flex justify-center items-center py-2;
 }
 
 .dashboard-header h2 {
-  @apply m-0 mt-4 py-2 text-left;
+  @apply m-0 mt-2 py-1 text-center;
   font-size: clamp(2rem, 8vw, 4rem);
   font-weight: 800;
   color: var(--text-color);

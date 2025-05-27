@@ -3,8 +3,8 @@
     "title": "predict"
   },
   "tabs": {
-    "worldEvents": "World Events",
-    "personalPredictions": "Personal Predictions"
+    "worldEvents": "world events",
+    "personalPredictions": "personal predictions"
   },
   "cards": {
     "worldEvents": {

@@ -8,13 +8,13 @@
   --spacing-sm: 1rem;
   --spacing-md: 1.5rem;
   --spacing-lg: 2rem;
-  --spacing-xl: 4.5rem;
+  --spacing-xl: 4rem;
 }
 
 .predict-header {
   width: 100%;
   margin-top: 3rem;
-  margin-bottom: 3rem;
+  margin-bottom: 0rem;
 }
 
 .predict-title {
@@ -29,7 +29,7 @@
 @media (max-width: 768px) {
   .predict-header {
     margin-top: 1rem;
-    margin-bottom: 2rem;
+    margin-bottom: 0rem;
   }
 
   .predict-title {
