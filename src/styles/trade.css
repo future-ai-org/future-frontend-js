@@ -97,7 +97,7 @@
   width: 5%;
 } /* Favorite */
 .table th:nth-child(2) {
-  width: 22%;
+  width: 17%;
 } /* Asset */
 .table th:nth-child(3) {
   width: 15%;
@@ -112,11 +112,11 @@
   width: 15%;
 } /* ATH */
 .table th:nth-child(7) {
-  width: 13%;
+  width: 18%;
 } /* Chart */
 
 .table-header {
-  padding: 12px 12px 12px;
+  padding: 10px 10px 10px;
   font-size: 1rem;
   color: var(--color-primary);
   font-weight: 1200;
