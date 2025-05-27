@@ -71,7 +71,7 @@
 /* Signature styles */
 .info-signature {
   position: absolute;
-  bottom: 6.5rem;
+  bottom: 8rem;
   right: 4rem;
   font-family: var(--font-satisfy), cursive;
   color: var(--color-primary);
