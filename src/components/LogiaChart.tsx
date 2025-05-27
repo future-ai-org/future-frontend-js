@@ -507,7 +507,10 @@ export default function LogiaChart({
     <>
       <div className="astrology-header">
         {showNotification && (
-          <div className="save-notification">{notificationMessage}</div>
+          <div className="save-notification">
+            {notificationMessage}{" "}
+            <a href="/dashboard" className="view-dashboard-link">view</a>
+          </div>
         )}
         <a
           href={`/advanced?birthDate=${encodeURIComponent(birthDate)}&birthTime=${encodeURIComponent(birthTime)}&city=${encodeURIComponent(city)}`}

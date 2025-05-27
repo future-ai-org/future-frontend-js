@@ -417,6 +417,20 @@
   z-index: 1000;
   text-shadow: var(--text-glow);
   box-shadow: var(--glow-shadow);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.view-dashboard-link {
+  color: var(--color-background);
+  text-decoration: underline;
+  font-weight: 700;
+  transition: opacity 0.2s ease;
+}
+
+.view-dashboard-link:hover {
+  opacity: 0.8;
 }
 
 @keyframes fadeInOut {
