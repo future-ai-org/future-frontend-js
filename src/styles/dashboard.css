@@ -30,7 +30,7 @@
 
 /* Header */
 .dashboard-header {
-  @apply mb-2 flex justify-center items-center py-2;
+  @apply mb-6 flex justify-center items-center py-2;
 }
 
 .dashboard-header h2 {
