@@ -266,6 +266,7 @@ interface LogiaChartProps {
   birthDate: string;
   birthTime: string;
   city: string;
+  name: string;
   isGeneratingChart: boolean;
 }
 
@@ -363,6 +364,7 @@ export default function LogiaChart({
   birthDate,
   birthTime,
   city,
+  name,
   isGeneratingChart,
 }: LogiaChartProps) {
   const [selectedPlanet, setSelectedPlanet] = useState<string | null>(null);

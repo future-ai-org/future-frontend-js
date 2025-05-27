@@ -14,6 +14,7 @@ interface FormData {
   birthDate: string;
   birthTime: string;
   city: string;
+  name: string;
 }
 
 interface LogiaFormProps {
@@ -27,6 +28,7 @@ export default function Logia() {
     birthDate: "",
     birthTime: "",
     city: "",
+    name: "",
   });
   const [showChart, setShowChart] = useState(false);
   const [stylesLoaded, setStylesLoaded] = useState(false);
@@ -73,6 +75,7 @@ export default function Logia() {
         birthDate={formData.birthDate}
         birthTime={formData.birthTime}
         city={formData.city}
+        name={formData.name}
         isGeneratingChart={false}
       />
     );
@@ -104,6 +107,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
     birthDate: "",
     birthTime: "",
     city: "",
+    name: "",
   });
   const [timePeriod, setTimePeriod] = useState<
     typeof t.labels.am | typeof t.labels.pm
@@ -270,6 +274,18 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
 
   return (
     <form className="astrology-form" onSubmit={handleSubmit}>
+      <div className="astrology-form-group">
+        <label className="astrology-label">{t.labels.name}</label>
+        <input
+          className="astrology-input"
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
+          placeholder={t.labels.namePlaceholder}
+          required
+        />
+      </div>
       <div className="astrology-form-group">
         <label className="astrology-label">{t.labels.birthDate}</label>
         <div className="astrology-input-group">

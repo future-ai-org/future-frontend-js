@@ -15,9 +15,11 @@
       "failedToLoadChart": "failed to load chart"
     },
     "labels": {
-      "birthDate": "your birth date",
-      "birthTime": "your birth time",
-      "birthCity": "your birth city",
+      "birthDate": "birth date",
+      "birthTime": "birth time",
+      "birthCity": "birth city",
+      "name": "name",
+      "namePlaceholder": "e.g., vettius valens",
       "cityPlaceholder": "e.g., los angeles",
       "am": "AM",
       "pm": "PM",
