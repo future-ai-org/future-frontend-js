@@ -168,6 +168,11 @@ const PredictCards: React.FC = () => {
     }));
   };
 
+  const handleCalculateSynastry = () => {
+    // TODO: Implement synastry calculation
+    console.log("Calculating synastry...");
+  };
+
   const handleQuestionSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // TODO: Handle question submission
@@ -229,6 +234,14 @@ const PredictCards: React.FC = () => {
           ))}
         </ul>
         <p>{predictI18n.synastry.conclusion}</p>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
+          <button 
+            className="submit-button"
+            onClick={handleCalculateSynastry}
+          >
+            calculate a synastry
+          </button>
+        </div>
       </div>
     </div>
   );
