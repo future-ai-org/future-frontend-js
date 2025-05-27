@@ -36,10 +36,11 @@ const FeatureCard = React.memo(
 
     useEffect(() => {
       if (isConnected && number === strings.en.numbers.one) {
+        const name = ensName || (address ? formatAddress(address) : "");
         setDisplayTitle(
           strings.en.features.one.signedIn.replace(
             "{ensName}",
-            ensName || (address ? formatAddress(address) : ""),
+            `<span class="ens-name">${name}</span>`,
           ),
         );
       } else {
@@ -50,7 +51,7 @@ const FeatureCard = React.memo(
     return (
       <div className="landing-feature-card">
         <div className="landing-feature-number">{number}</div>
-        <h3 className="landing-feature-title">{displayTitle}</h3>
+        <h3 className="landing-feature-title" dangerouslySetInnerHTML={{ __html: displayTitle }} />
         <p className="landing-feature-description">{description}</p>
       </div>
     );
