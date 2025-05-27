@@ -111,6 +111,7 @@ const PredictCards: React.FC = () => {
     Record<string, "yes" | "no" | null>
   >({});
   const [activeTab, setActiveTab] = useState<"world" | "personal">("personal");
+  const [question, setQuestion] = useState("");
 
   const handleOptionClick = (cardId: string, option: "yes" | "no") => {
     setSelectedOptions((prev) => ({
@@ -119,9 +120,16 @@ const PredictCards: React.FC = () => {
     }));
   };
 
-  const renderCards = (cards: PredictCard[]) => (
+  const handleQuestionSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // TODO: Handle question submission
+    console.log("Question submitted:", question);
+    setQuestion("");
+  };
+
+  const renderWorldEventCards = () => (
     <div className="predict-cards-grid">
-      {cards.map((card) => (
+      {worldEventCards.map((card) => (
         <div key={card.id} className="predict-card">
           <h3 className="card-title">{card.title}</h3>
           <p className="card-subtitle">{card.subtitle}</p>
@@ -144,6 +152,23 @@ const PredictCards: React.FC = () => {
     </div>
   );
 
+  const renderPersonalPredictions = () => (
+    <div className="personal-predictions-container">
+      <form onSubmit={handleQuestionSubmit} className="question-form">
+        <input
+          type="text"
+          value={question}
+          onChange={(e) => setQuestion(e.target.value)}
+          placeholder="Type your question here..."
+          className="question-input"
+        />
+        <button type="submit" className="submit-button">
+          Submit
+        </button>
+      </form>
+    </div>
+  );
+
   return (
     <div className="predict-cards-container">
       <div className="predict-tabs">
@@ -161,8 +186,8 @@ const PredictCards: React.FC = () => {
         </button>
       </div>
       {activeTab === "personal"
-        ? renderCards(personalPredictionCards)
-        : renderCards(worldEventCards)}
+        ? renderPersonalPredictions()
+        : renderWorldEventCards()}
     </div>
   );
 };
