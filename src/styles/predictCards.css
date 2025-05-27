@@ -201,3 +201,90 @@
 .submit-button:active {
   transform: translateY(0);
 }
+
+.synastry-explanation {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.synastry-explanation h2 {
+  color: #333;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+.synastry-explanation p {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 1.2rem;
+  font-size: 1.1rem;
+}
+
+.synastry-explanation ul {
+  list-style-type: none;
+  padding-left: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.synastry-explanation li {
+  color: #666;
+  margin-bottom: 0.8rem;
+  position: relative;
+  padding-left: 1.5rem;
+  line-height: 1.5;
+}
+
+.synastry-explanation li:before {
+  content: "•";
+  color: #888;
+  position: absolute;
+  left: 0;
+  font-size: 1.2rem;
+}
+
+.synastry-card {
+  max-width: 800px;
+  margin: 2rem auto;
+  text-align: left;
+}
+
+.synastry-content {
+  width: 100%;
+}
+
+.synastry-content p {
+  color: var(--text-color);
+  line-height: 1.6;
+  margin-bottom: 1.2rem;
+  font-size: clamp(0.85rem, 1.5vw, 0.9rem);
+  opacity: var(--opacity-light);
+}
+
+.synastry-content ul {
+  list-style-type: none;
+  padding-left: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.synastry-content li {
+  color: var(--text-color);
+  margin-bottom: 0.8rem;
+  position: relative;
+  padding-left: 1.5rem;
+  line-height: 1.5;
+  font-size: clamp(0.85rem, 1.5vw, 0.9rem);
+  opacity: var(--opacity-light);
+}
+
+.synastry-content li:before {
+  content: "•";
+  color: var(--color-primary);
+  position: absolute;
+  left: 0;
+  font-size: 1.2rem;
+}

@@ -10,121 +10,134 @@
   "cards": {
     "worldEvents": {
       "one": {
-        "title": "Market Growth",
-        "subtitle": "Will the market grow by 10% this year?"
+        "title": "market growth",
+        "subtitle": "will the market grow by 10% this year?"
       },
       "two": {
-        "title": "Market Share",
-        "subtitle": "Will our market share increase?"
+        "title": "market share",
+        "subtitle": "will our market share increase?"
       },
       "three": {
-        "title": "Partnership",
-        "subtitle": "Will we form a new partnership?"
+        "title": "partnership",
+        "subtitle": "will we form a new partnership?"
       },
       "four": {
-        "title": "Tech Investment",
-        "subtitle": "Will we invest in new technology?"
+        "title": "tech investment",
+        "subtitle": "will we invest in new technology?"
       },
       "five": {
-        "title": "Global Expansion",
-        "subtitle": "Will we expand to new international markets?"
+        "title": "global expansion",
+        "subtitle": "will we expand to new international markets?"
       },
       "six": {
-        "title": "Industry Trend",
-        "subtitle": "Will our industry see major consolidation?"
+        "title": "industry trend",
+        "subtitle": "will our industry see major consolidation?"
       },
       "seven": {
-        "title": "Regulatory Change",
-        "subtitle": "Will new regulations impact our business?"
+        "title": "regulatory change",
+        "subtitle": "will new regulations impact our business?"
       },
       "eight": {
-        "title": "Economic Outlook",
-        "subtitle": "Will the economy enter a recession?"
+        "title": "economic outlook",
+        "subtitle": "will the economy enter a recession?"
       },
       "nine": {
-        "title": "Competitor Move",
-        "subtitle": "Will a major competitor launch a similar product?"
+        "title": "competitor move",
+        "subtitle": "will a major competitor launch a similar product?"
       }
     },
     "personalPredictions": {
       "one": {
-        "title": "New Product",
-        "subtitle": "Will the new product launch be successful?"
+        "title": "new product",
+        "subtitle": "will the new product launch be successful?"
       },
       "two": {
-        "title": "Customer Retention",
-        "subtitle": "Will customer retention improve?"
+        "title": "customer retention",
+        "subtitle": "will customer retention improve?"
       },
       "three": {
-        "title": "Revenue Target",
-        "subtitle": "Will we meet our revenue target?"
+        "title": "revenue target",
+        "subtitle": "will we meet our revenue target?"
       },
       "four": {
-        "title": "Team Expansion",
-        "subtitle": "Will we expand the team this quarter?"
+        "title": "team expansion",
+        "subtitle": "will we expand the team this quarter?"
       },
       "five": {
-        "title": "Product Quality",
-        "subtitle": "Will our product quality metrics improve?"
+        "title": "product quality",
+        "subtitle": "will our product quality metrics improve?"
       },
       "six": {
-        "title": "Customer Satisfaction",
-        "subtitle": "Will our NPS score increase?"
+        "title": "customer satisfaction",
+        "subtitle": "will our nps score increase?"
       },
       "seven": {
-        "title": "Innovation",
-        "subtitle": "Will we launch an innovative feature?"
+        "title": "innovation",
+        "subtitle": "will we launch an innovative feature?"
       },
       "eight": {
-        "title": "Cost Reduction",
-        "subtitle": "Will we achieve our cost reduction goals?"
+        "title": "cost reduction",
+        "subtitle": "will we achieve our cost reduction goals?"
       },
       "nine": {
-        "title": "Employee Engagement",
-        "subtitle": "Will employee satisfaction scores improve?"
+        "title": "employee engagement",
+        "subtitle": "will employee satisfaction scores improve?"
       }
     },
     "relationships": {
       "one": {
-        "title": "New Connection",
-        "subtitle": "Will I form a meaningful new connection?"
+        "title": "new connection",
+        "subtitle": "will i form a meaningful new connection?"
       },
       "two": {
-        "title": "Existing Bond",
-        "subtitle": "Will my current relationship strengthen?"
+        "title": "existing bond",
+        "subtitle": "will my current relationship strengthen?"
       },
       "three": {
-        "title": "Conflict Resolution",
-        "subtitle": "Will we resolve our current disagreement?"
+        "title": "conflict resolution",
+        "subtitle": "will we resolve our current disagreement?"
       },
       "four": {
-        "title": "Trust Building",
-        "subtitle": "Will trust be restored in this relationship?"
+        "title": "trust building",
+        "subtitle": "will trust be restored in this relationship?"
       },
       "five": {
-        "title": "Communication",
-        "subtitle": "Will our communication improve?"
+        "title": "communication",
+        "subtitle": "will our communication improve?"
       },
       "six": {
-        "title": "Commitment",
-        "subtitle": "Will we take our relationship to the next level?"
+        "title": "commitment",
+        "subtitle": "will we take our relationship to the next level?"
       },
       "seven": {
-        "title": "Growth",
-        "subtitle": "Will we grow together as a couple?"
+        "title": "growth",
+        "subtitle": "will we grow together as a couple?"
       },
       "eight": {
-        "title": "Balance",
-        "subtitle": "Will we find better work-life balance?"
+        "title": "balance",
+        "subtitle": "will we find better work-life balance?"
       },
       "nine": {
-        "title": "Future",
-        "subtitle": "Will our relationship have a long-term future?"
+        "title": "future",
+        "subtitle": "will our relationship have a long-term future?"
       }
     }
   },
   "options": {
-    "yes": "Yes",
-    "no": "No"
+    "yes": "yes",
+    "no": "no"
+  },
+  "synastry": {
+    "title": "understanding synastry",
+    "description": "synastry is the art of comparing two birth charts to understand the dynamics of a relationship. it reveals how two people interact, their compatibility, and potential challenges they might face together.",
+    "analysis": "by analyzing the positions of planets, houses, and aspects between two charts, we can gain insights into:",
+    "insights": [
+      "emotional compatibility and communication styles",
+      "shared values and life goals",
+      "potential areas of growth and challenge",
+      "natural strengths in the relationship",
+      "timing of important relationship milestones"
+    ],
+    "conclusion": "this analysis helps you understand the deeper dynamics of your relationships and provides guidance for building stronger, more harmonious connections."
   }
 }

@@ -218,27 +218,18 @@ const PredictCards: React.FC = () => {
   );
 
   const renderRelationshipCards = () => (
-    <div className="predict-cards-grid">
-      {relationshipCards.map((card) => (
-        <div key={card.id} className="predict-card">
-          <h3 className="card-title">{card.title}</h3>
-          <p className="card-subtitle">{card.subtitle}</p>
-          <div className="card-options">
-            <button
-              className={`option-button ${selectedOptions[card.id] === "yes" ? "selected" : ""}`}
-              onClick={() => handleOptionClick(card.id, "yes")}
-            >
-              {predictI18n.options.yes}
-            </button>
-            <button
-              className={`option-button ${selectedOptions[card.id] === "no" ? "selected" : ""}`}
-              onClick={() => handleOptionClick(card.id, "no")}
-            >
-              {predictI18n.options.no}
-            </button>
-          </div>
-        </div>
-      ))}
+    <div className="predict-card synastry-card">
+      <h3 className="card-title">{predictI18n.synastry.title}</h3>
+      <div className="synastry-content">
+        <p>{predictI18n.synastry.description}</p>
+        <p>{predictI18n.synastry.analysis}</p>
+        <ul>
+          {predictI18n.synastry.insights.map((insight, index) => (
+            <li key={index}>{insight}</li>
+          ))}
+        </ul>
+        <p>{predictI18n.synastry.conclusion}</p>
+      </div>
     </div>
   );
 
