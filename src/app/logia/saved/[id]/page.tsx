@@ -1,86 +1,71 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import LogiaChart from "../../../../components/LogiaChart";
-import { ChartData } from "../../../../config/logiaChart";
 import Loading from "../../../../utils/loading";
-import "../../../../styles/logia.css";
-import { useTranslation } from "react-i18next";
-
-interface SavedChart {
-  id: string;
-  birthDate: string;
-  birthTime: string;
-  city: string;
-  chartData: ChartData;
-  savedAt: string;
-  name: string;
-}
+import { SavedChart } from "../../../../types/logia";
 
 export default function SavedChartPage() {
   const params = useParams();
-  const { t } = useTranslation("logia");
+  const router = useRouter();
   const [savedChart, setSavedChart] = useState<SavedChart | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadSavedChart = () => {
       try {
-        const savedCharts = JSON.parse(
-          localStorage.getItem("savedCharts") || "[]",
-        );
-        const chart = savedCharts.find((c: SavedChart) => c.id === params.id);
-
-        if (chart) {
-          setSavedChart(chart);
-        } else {
-          setError(t("errors.chartNotFound"));
+        const savedCharts = localStorage.getItem("savedCharts");
+        if (!savedCharts) {
+          router.push("/dashboard");
+          return;
         }
-      } catch {
-        setError(t("errors.failedToLoadChart"));
+
+        const charts = JSON.parse(savedCharts);
+        const chart = charts.find((c: SavedChart) => c.id === params.id);
+
+        if (!chart) {
+          router.push("/dashboard");
+          return;
+        }
+
+        setSavedChart(chart);
+      } catch (error) {
+        console.error("Error loading saved chart:", error);
+        router.push("/dashboard");
       } finally {
         setIsLoading(false);
       }
     };
 
     loadSavedChart();
-  }, [params.id, t]);
+  }, [params.id, router]);
 
   if (isLoading) {
     return (
-      <div className="astrology-container">
-        <div className="astrology-form-section">
-          <Loading />
-        </div>
+      <div className="astrology-container saved-view">
+        <Loading />
       </div>
     );
   }
 
-  if (error || !savedChart) {
+  if (!savedChart) {
     return (
-      <div className="astrology-container">
-        <div className="astrology-form-section">
-          <div className="astrology-error-message">
-            {error || t("errors.chartNotFound")}
-          </div>
-        </div>
+      <div className="astrology-container saved-view">
+        <div className="astrology-error">Chart not found</div>
       </div>
     );
   }
 
   return (
-    <div className="astrology-container">
-      <div className="astrology-form-section">
-        <LogiaChart
-          birthDate={savedChart.birthDate}
-          birthTime={savedChart.birthTime}
-          city={savedChart.city}
-          name={savedChart.name}
-          isGeneratingChart={false}
-        />
-      </div>
+    <div className="astrology-container saved-view">
+      <LogiaChart
+        birthDate={savedChart.birthDate}
+        birthTime={savedChart.birthTime}
+        city={savedChart.city}
+        name={savedChart.name}
+        isGeneratingChart={false}
+      />
     </div>
   );
 }

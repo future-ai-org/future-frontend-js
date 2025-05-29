@@ -25,5 +25,14 @@ export const DASHBOARD = {
 } as const;
 
 export const isValidRoute = (path: string): path is Route => {
-  return Object.values(ROUTES).some((route) => route === path);
+  // Check if the path is an exact match
+  if (Object.values(ROUTES).some((route) => route === path)) {
+    return true;
+  }
+  
+  // Check if the path starts with any of the base routes
+  return Object.values(ROUTES).some((route) => {
+    if (route === "/") return false; // Don't match root for nested routes
+    return path.startsWith(route);
+  });
 };

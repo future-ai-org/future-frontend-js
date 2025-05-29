@@ -34,28 +34,25 @@
 
 .astrology-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  min-height: calc(100vh - 4rem);
+  width: 100%;
+  min-height: 100vh;
   padding: 2rem;
-  gap: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  position: relative;
+  box-sizing: border-box;
 }
 
-@media (max-width: 1024px) {
-  .astrology-container {
-    flex-direction: column;
-    align-items: stretch;
-  }
+.astrology-container.saved-view {
+  padding-top: 6rem; /* Add space for fixed header */
 }
 
 .astrology-form-section {
-  flex: 1;
-  max-width: 100%;
-  min-width: 100%;
-  padding: 1rem;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .astrology-form {
@@ -296,28 +293,10 @@
 
 .astrology-error-message,
 .astrology-error {
-  color: var(--bearish-color);
-  font-size: 0.9rem;
-  padding: 0.75rem;
-  border-radius: 1.2rem;
-  background-color: var(--info-bg);
-  border: 1px solid var(--bearish-color);
-  margin: 1rem 0;
-  animation: shake 0.5s ease-in-out;
+  color: var(--color-error);
+  font-size: 1.2rem;
   text-align: center;
-}
-
-@keyframes shake {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(-4px);
-  }
-  75% {
-    transform: translateX(4px);
-  }
+  margin: 2rem 0;
 }
 
 .astrology-loading-message {
@@ -877,4 +856,15 @@
 
 .astrology-unsure-checkbox:hover label {
   transform: translateX(2px);
+}
+
+.logia-layout {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.logia-layout.saved-view {
+  padding-top: 80px; /* Add space for the fixed header */
 }

@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import dynamic from "next/dynamic";
 import { ThemeProvider } from "../utils/themeContext";
 import { Web3Provider } from "../utils/web3ModalContext";
 import strings from "../i18n/header.json";
 import { Quicksand, Satisfy, Noto_Sans_Symbols } from "next/font/google";
+import Header from "../components/Header";
+import { Footer } from "../components/Footer";
 
 const quicksand = Quicksand({
   subsets: ["latin"],
@@ -27,12 +28,6 @@ const notoSansSymbols = Noto_Sans_Symbols({
   variable: "--font-noto-sans-symbols",
 });
 
-const Header = dynamic(() => import("../components/Header"), { ssr: false });
-const Footer = dynamic(
-  () => import("../components/Footer").then((mod) => ({ default: mod.Footer })),
-  { ssr: false },
-);
-
 export const metadata: Metadata = {
   title: strings.en.browserTitle,
   description: strings.en.description,
@@ -51,9 +46,11 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <Web3Provider>
-            <Header />
-            <div className="main-content-wrapper logia-page">{children}</div>
-            <Footer />
+            <div className="app-container">
+              <Header />
+              <main className="main-content-wrapper">{children}</main>
+              <Footer />
+            </div>
           </Web3Provider>
         </ThemeProvider>
       </body>

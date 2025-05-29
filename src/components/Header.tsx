@@ -20,7 +20,8 @@ const Header: React.FC = () => {
     if (path === "/") {
       return pathname === "/";
     }
-    return pathname === path;
+    // For nested routes, check if the current pathname starts with the base route
+    return pathname?.startsWith(path);
   };
 
   return (

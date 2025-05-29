@@ -34,13 +34,6 @@ export default function Logia() {
   });
   const [showChart, setShowChart] = useState(false);
   const [stylesLoaded, setStylesLoaded] = useState(false);
-  const [useMyself, setUseMyself] = useState(false);
-  const { ensName, isConnected, address, connect } = useWeb3();
-
-  const formatAddress = useCallback((addr: string | undefined) => {
-    if (!addr) return "";
-    return `${addr.slice(0, WALLET_CONFIG.ADDRESS.PREFIX_LENGTH)}...${addr.slice(-WALLET_CONFIG.ADDRESS.SUFFIX_LENGTH)}`;
-  }, []);
 
   useEffect(() => {
     const checkStyles = () => {

@@ -3,11 +3,11 @@
   top: 0;
   left: 0;
   right: 0;
-  width: 100vw;
+  width: 100%;
   background-color: var(--background-color);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  z-index: 100;
+  z-index: 1000;
   box-sizing: border-box;
   margin-left: calc(-50vw + 50%);
   margin-right: calc(-50vw + 50%);
