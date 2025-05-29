@@ -268,6 +268,7 @@ interface LogiaChartProps {
   city: string;
   name: string;
   isGeneratingChart: boolean;
+  ens?: string;
 }
 
 interface SavedChart {
@@ -368,6 +369,7 @@ export default function LogiaChart({
   city,
   name,
   isGeneratingChart,
+  ens,
 }: LogiaChartProps) {
   const [selectedPlanet, setSelectedPlanet] = useState<string | null>(null);
   const [chartInfoHtml, setChartInfoHtml] = useState<string>("");
@@ -377,6 +379,7 @@ export default function LogiaChart({
   const [isSaving, setIsSaving] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
+  const [showEns, setShowEns] = useState(false);
 
   const handlePlanetSelect = useCallback((planet: string) => {
     setSelectedPlanet(planet);
@@ -479,7 +482,15 @@ export default function LogiaChart({
         chartData,
         savedAt: new Date().toISOString(),
         name,
+        isOfficial: showEns,
       };
+
+      // If this is marked as official, remove official status from other charts
+      if (showEns) {
+        savedCharts.forEach((chart: SavedChart) => {
+          chart.isOfficial = false;
+        });
+      }
 
       savedCharts.push(newChart);
       localStorage.setItem("savedCharts", JSON.stringify(savedCharts));
@@ -492,11 +503,12 @@ export default function LogiaChart({
     } finally {
       setIsSaving(false);
     }
-  }, [chartData, birthDate, birthTime, city, name]);
+  }, [chartData, birthDate, birthTime, city, name, showEns]);
 
   const titleContent = useMemo(() => {
-    return chartT.title.replace("<name>", name);
-  }, [name]);
+    const displayName = showEns && ens ? ens : name;
+    return chartT.title.replace("<name>", displayName);
+  }, [name, ens, showEns]);
 
   if (error) {
     return <div className="astrology-error-message">{error}</div>;
@@ -517,20 +529,32 @@ export default function LogiaChart({
             </a>
           </div>
         )}
-        <a
-          href={`/advanced?birthDate=${encodeURIComponent(birthDate)}&birthTime=${encodeURIComponent(birthTime)}&city=${encodeURIComponent(city)}`}
-          className="advanced-view-button"
-        >
-          {chartT.advancedView}
-        </a>
-        <h1 className="astrology-title">{titleContent}</h1>
-        <button
-          onClick={handleSaveChart}
-          disabled={isSaving || !chartData}
-          className="save-chart-button"
-        >
-          {isSaving ? chartT.saveChart.saving : chartT.saveChart.button}
-        </button>
+        <div className="astrology-header-top">
+          <a
+            href={`/advanced?birthDate=${encodeURIComponent(birthDate)}&birthTime=${encodeURIComponent(birthTime)}&city=${encodeURIComponent(city)}`}
+            className="advanced-view-button"
+          >
+            {chartT.advancedView}
+          </a>
+          <h1 className="astrology-title">{titleContent}</h1>
+          {ens && (
+            <label className="ens-toggle">
+              <input
+                type="checkbox"
+                checked={showEns}
+                onChange={(e) => setShowEns(e.target.checked)}
+              />
+              myself
+            </label>
+          )}
+          <button
+            onClick={handleSaveChart}
+            disabled={isSaving || !chartData}
+            className="save-chart-button"
+          >
+            {isSaving ? chartT.saveChart.saving : chartT.saveChart.button}
+          </button>
+        </div>
       </div>
       {subtitleContent && (
         <div className="astrology-subtitle">{subtitleContent}</div>
