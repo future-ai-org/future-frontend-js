@@ -15,6 +15,7 @@ interface SavedChart {
   city: string;
   chartData: ChartData;
   savedAt: string;
+  name: string;
 }
 
 export default function SavedChartPage() {
@@ -76,6 +77,7 @@ export default function SavedChartPage() {
           birthDate={savedChart.birthDate}
           birthTime={savedChart.birthTime}
           city={savedChart.city}
+          name={savedChart.name}
           isGeneratingChart={false}
         />
       </div>

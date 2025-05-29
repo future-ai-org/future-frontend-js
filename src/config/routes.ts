@@ -7,6 +7,7 @@ export const ROUTES = {
   TRADE: "/trade",
   PREDICT: "/predict",
   DASHBOARD: "/dashboard",
+  PROFILE: "/profile",
 } as const;
 
 export type Route = (typeof ROUTES)[keyof typeof ROUTES];

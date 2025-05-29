@@ -81,7 +81,10 @@ export default function Home() {
             {strings.en.links.logia.prefix} {strings.en.links.logia.link}
           </span>
         ) : (
-          <span>{strings.en.links.predict}</span>
+          <span>
+            {strings.en.links.predict.prefix} {strings.en.links.predict.link}{" "}
+            {strings.en.links.predict.suffix}
+          </span>
         );
       }
 
@@ -123,10 +126,9 @@ export default function Home() {
               </>
             ) : (
               <>
-                {strings.en.text.startMakingSmarterChoices.prefix}{" "}
-                <Link href={ROUTES.TRADE}>
-                  {strings.en.text.startMakingSmarterChoices.link}
-                </Link>
+                {strings.en.text.and}
+                <Link href={ROUTES.PROFILE}>your profile</Link>
+                {strings.en.text.forYourGoals}
               </>
             )}
           </>
@@ -135,9 +137,12 @@ export default function Home() {
 
       return (
         <>
-          {strings.en.text.leverage}{" "}
-          <Link href={ROUTES.PREDICT}>{strings.en.links.predict}</Link>{" "}
-          {strings.en.text.intelFromOracle}
+          <Link href={ROUTES.TRADE}>{strings.en.links.predict.link}</Link>
+          {strings.en.links.predict.suffix}
+          <Link href={ROUTES.PREDICT}>
+            {strings.en.links.predict.secondLink}
+          </Link>
+          {strings.en.links.predict.finalSuffix}
         </>
       );
     },

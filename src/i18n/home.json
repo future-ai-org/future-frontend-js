@@ -37,15 +37,17 @@
       "dashboard": {
         "link": "your profile"
       },
-      "predict": "predictive intel"
+      "predict": {
+        "prefix": "",
+        "link": "trade",
+        "suffix": " and ",
+        "secondLink": "predict",
+        "finalSuffix": " by leveraging intel from our AI oracle agents"
+      }
     },
     "text": {
       "and": " and personalize ",
       "intelFromOracle": "from our oracle AI agents",
-      "startMakingSmarterChoices": {
-        "prefix": "and start making smarter",
-        "link": "decisions"
-      },
       "leverage": "leverage smart",
       "forYourGoals": "for actionable goals"
     }
