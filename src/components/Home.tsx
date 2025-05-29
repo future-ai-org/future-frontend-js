@@ -116,21 +116,9 @@ export default function Home() {
           <>
             {strings.en.links.logia.prefix}{" "}
             <Link href={ROUTES.LOGIA}>{strings.en.links.logia.link}</Link>
-            {isConnected ? (
-              <>
-                {strings.en.text.and}
-                <Link href={ROUTES.DASHBOARD}>
-                  {strings.en.links.dashboard.link}
-                </Link>{" "}
-                {strings.en.text.forYourGoals}
-              </>
-            ) : (
-              <>
-                {strings.en.text.and}
-                <Link href={ROUTES.PROFILE}>your profile</Link>
-                {strings.en.text.forYourGoals}
-              </>
-            )}
+            {strings.en.text.and}
+            <Link href={ROUTES.PROFILE}>your profile</Link>
+            {strings.en.text.forYourGoals}
           </>
         );
       }
