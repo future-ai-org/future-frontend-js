@@ -7,6 +7,8 @@ import { searchCities, CitySuggestion } from "../utils/geocoding";
 import Loading from "../utils/loading";
 import { SpaceDecoration } from "../utils/spaceDecoration";
 import "../styles/logia.css";
+import { useWeb3 } from "../utils/web3ModalContext";
+import { WALLET_CONFIG } from "../config/wallet";
 
 const t = strings.en;
 
@@ -32,6 +34,13 @@ export default function Logia() {
   });
   const [showChart, setShowChart] = useState(false);
   const [stylesLoaded, setStylesLoaded] = useState(false);
+  const [useMyself, setUseMyself] = useState(false);
+  const { ensName, isConnected, address, connect } = useWeb3();
+
+  const formatAddress = useCallback((addr: string | undefined) => {
+    if (!addr) return "";
+    return `${addr.slice(0, WALLET_CONFIG.ADDRESS.PREFIX_LENGTH)}...${addr.slice(-WALLET_CONFIG.ADDRESS.SUFFIX_LENGTH)}`;
+  }, []);
 
   useEffect(() => {
     const checkStyles = () => {
@@ -109,6 +118,8 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
     city: "",
     name: "",
   });
+  const [useMyself, setUseMyself] = useState(false);
+  const { ensName, isConnected, address, connect } = useWeb3();
   const [timePeriod, setTimePeriod] = useState<
     typeof t.labels.am | typeof t.labels.pm
   >(t.labels.am);
@@ -125,6 +136,11 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
   const minuteInputRef = useRef<HTMLInputElement>(null);
   const cityInputRef = useRef<HTMLInputElement>(null);
   const timePeriodRef = useRef<HTMLInputElement>(null);
+
+  const formatAddress = useCallback((addr: string | undefined) => {
+    if (!addr) return "";
+    return `${addr.slice(0, WALLET_CONFIG.ADDRESS.PREFIX_LENGTH)}...${addr.slice(-WALLET_CONFIG.ADDRESS.SUFFIX_LENGTH)}`;
+  }, []);
 
   const handleYearChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -272,21 +288,71 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
     setShowSuggestions(false);
   }, []);
 
+  const handleMyselfCheckbox = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const shouldCheck = e.target.checked;
+    setUseMyself(shouldCheck);
+
+    if (!shouldCheck) {
+      setFormData((prev) => ({ ...prev, name: "" }));
+      return;
+    }
+
+    if (!isConnected) {
+      try {
+        await connect();
+        // Wait a bit for the wallet connection and ENS resolution to complete
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      } catch (error) {
+        console.error("Failed to connect wallet:", error);
+        setUseMyself(false);
+        return;
+      }
+    }
+    
+    if (shouldCheck) {
+      const displayName = ensName || (address ? formatAddress(address) : "");
+      if (displayName) {
+        setFormData((prev) => ({ ...prev, name: displayName }));
+      }
+    }
+  }, [isConnected, connect, ensName, address, formatAddress]);
+
+  // Add effect to update name when ENS or address changes
+  useEffect(() => {
+    if (useMyself) {
+      const displayName = ensName || (address ? formatAddress(address) : "");
+      if (displayName) {
+        setFormData((prev) => ({ ...prev, name: displayName }));
+      }
+    }
+  }, [useMyself, ensName, address, formatAddress]);
+
   return (
     <form className="astrology-form" onSubmit={handleSubmit}>
       <div className="astrology-form-group">
         <label className="astrology-label">{t.labels.name}</label>
-        <input
-          className="astrology-input"
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={(e) =>
-            setFormData((prev) => ({ ...prev, name: e.target.value }))
-          }
-          placeholder={t.labels.namePlaceholder}
-          required
-        />
+        <div className="astrology-input-group">
+          <input
+            className="astrology-input"
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={(e) =>
+              setFormData((prev) => ({ ...prev, name: e.target.value }))
+            }
+            placeholder={t.labels.namePlaceholder}
+            required
+          />
+          <div className="astrology-unsure-checkbox">
+            <input
+              type="checkbox"
+              id="myself-checkbox"
+              checked={useMyself}
+              onChange={handleMyselfCheckbox}
+            />
+            <label htmlFor="myself-checkbox">myself</label>
+          </div>
+        </div>
       </div>
       <div className="astrology-form-group">
         <label className="astrology-label">{t.labels.birthDate}</label>
