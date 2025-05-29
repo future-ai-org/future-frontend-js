@@ -29,7 +29,7 @@ export const isValidRoute = (path: string): path is Route => {
   if (Object.values(ROUTES).some((route) => route === path)) {
     return true;
   }
-  
+
   // Check if the path starts with any of the base routes
   return Object.values(ROUTES).some((route) => {
     if (route === "/") return false; // Don't match root for nested routes

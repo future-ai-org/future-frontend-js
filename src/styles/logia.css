@@ -25,7 +25,7 @@
   font-size: 4rem;
   font-weight: 800;
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
   margin-top: 0rem;
   color: var(--text-color);
   letter-spacing: 0.05em;
@@ -40,10 +40,22 @@
   min-height: 100vh;
   padding: 2rem;
   box-sizing: border-box;
+  margin-top: 0rem;
 }
 
 .astrology-container.saved-view {
-  padding-top: 6rem; /* Add space for fixed header */
+  padding-top: 0rem;
+  position: relative;
+  z-index: 1;
+}
+
+.astrology-content-wrapper {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding-top: 0rem;
+  position: relative;
+  z-index: 1;
 }
 
 .astrology-form-section {
@@ -356,12 +368,16 @@
   background-color: var(--card-bg);
 }
 
-.astrology-input-group .astrology-unsure-checkbox input[type="checkbox"]:checked {
+.astrology-input-group
+  .astrology-unsure-checkbox
+  input[type="checkbox"]:checked {
   background-color: var(--color-primary);
   border-color: var(--color-primary);
 }
 
-.astrology-input-group .astrology-unsure-checkbox input[type="checkbox"]:checked::after {
+.astrology-input-group
+  .astrology-unsure-checkbox
+  input[type="checkbox"]:checked::after {
   content: "✓";
   position: absolute;
   top: 50%;
@@ -863,8 +879,9 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  padding-top: 120px;
 }
 
 .logia-layout.saved-view {
-  padding-top: 80px; /* Add space for the fixed header */
+  padding-top: 80px;
 }

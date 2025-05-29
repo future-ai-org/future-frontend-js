@@ -254,6 +254,7 @@ button {
   display: flex;
   flex-direction: column;
   position: relative;
+  padding-top: 1rem;
 }
 
 .main-content-wrapper {
@@ -264,4 +265,5 @@ button {
   width: 100%;
   position: relative;
   z-index: 1;
+  margin-top: 2rem;
 }

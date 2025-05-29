@@ -44,7 +44,9 @@ export default function SavedChartPage() {
   if (isLoading) {
     return (
       <div className="astrology-container saved-view">
-        <Loading />
+        <div className="astrology-content-wrapper">
+          <Loading />
+        </div>
       </div>
     );
   }
@@ -52,20 +54,24 @@ export default function SavedChartPage() {
   if (!savedChart) {
     return (
       <div className="astrology-container saved-view">
-        <div className="astrology-error">Chart not found</div>
+        <div className="astrology-content-wrapper">
+          <div className="astrology-error">Chart not found</div>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="astrology-container saved-view">
-      <LogiaChart
-        birthDate={savedChart.birthDate}
-        birthTime={savedChart.birthTime}
-        city={savedChart.city}
-        name={savedChart.name}
-        isGeneratingChart={false}
-      />
+      <div className="astrology-content-wrapper">
+        <LogiaChart
+          birthDate={savedChart.birthDate}
+          birthTime={savedChart.birthTime}
+          city={savedChart.city}
+          name={savedChart.name}
+          isGeneratingChart={false}
+        />
+      </div>
     </div>
   );
 }

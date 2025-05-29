@@ -281,34 +281,37 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
     setShowSuggestions(false);
   }, []);
 
-  const handleMyselfCheckbox = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const shouldCheck = e.target.checked;
-    setUseMyself(shouldCheck);
+  const handleMyselfCheckbox = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const shouldCheck = e.target.checked;
+      setUseMyself(shouldCheck);
 
-    if (!shouldCheck) {
-      setFormData((prev) => ({ ...prev, name: "" }));
-      return;
-    }
-
-    if (!isConnected) {
-      try {
-        await connect();
-        // Wait a bit for the wallet connection and ENS resolution to complete
-        await new Promise(resolve => setTimeout(resolve, 1000));
-      } catch (error) {
-        console.error("Failed to connect wallet:", error);
-        setUseMyself(false);
+      if (!shouldCheck) {
+        setFormData((prev) => ({ ...prev, name: "" }));
         return;
       }
-    }
-    
-    if (shouldCheck) {
-      const displayName = ensName || (address ? formatAddress(address) : "");
-      if (displayName) {
-        setFormData((prev) => ({ ...prev, name: displayName }));
+
+      if (!isConnected) {
+        try {
+          await connect();
+          // Wait a bit for the wallet connection and ENS resolution to complete
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+        } catch (error) {
+          console.error("Failed to connect wallet:", error);
+          setUseMyself(false);
+          return;
+        }
       }
-    }
-  }, [isConnected, connect, ensName, address, formatAddress]);
+
+      if (shouldCheck) {
+        const displayName = ensName || (address ? formatAddress(address) : "");
+        if (displayName) {
+          setFormData((prev) => ({ ...prev, name: displayName }));
+        }
+      }
+    },
+    [isConnected, connect, ensName, address, formatAddress],
+  );
 
   // Add effect to update name when ENS or address changes
   useEffect(() => {

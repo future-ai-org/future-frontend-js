@@ -8,4 +8,4 @@ export interface SavedChart {
   chartData: ChartData;
   savedAt: string;
   name: string;
-} 
+}

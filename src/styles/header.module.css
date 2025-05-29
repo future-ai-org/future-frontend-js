@@ -13,19 +13,23 @@
   margin-right: calc(-50vw + 50%);
   transform: translateZ(0);
   will-change: transform;
+  pointer-events: auto;
+  border-bottom: 1px solid var(--color-primary);
+  padding: 1rem 0;
 }
 
 .headerContent {
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0.5rem 1rem;
+  padding: 0 2rem;
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 2rem;
   position: relative;
-  z-index: 10000;
+  z-index: 1001;
+  pointer-events: auto;
 }
 
 .headerTitleContainer {
@@ -41,7 +45,7 @@
 
 .headerTitle {
   margin: 0;
-  font-size: clamp(1.2rem, 2vw, 2.1rem);
+  font-size: clamp(1rem, 2vw, 2rem);
   font-weight: 900;
   color: var(--primary-color);
   text-shadow: var(--text-glow);
@@ -67,7 +71,7 @@
   display: inline-block;
   padding: clamp(0.2rem, 0.5vw, 0.4rem) clamp(0.4rem, 1vw, 0.8rem);
   color: var(--primary-color);
-  font-size: clamp(0.9rem, 1.2vw, 1.2rem);
+  font-size: clamp(0.9rem, 1.2vw, 1rem);
   font-weight: 700;
   text-decoration: none;
   text-align: center;
@@ -77,9 +81,10 @@
   border-radius: 4px;
   background: transparent;
   cursor: pointer;
-  z-index: 101;
+  z-index: 10001;
   transition: all 0.2s ease;
   position: relative;
+  pointer-events: auto;
 }
 
 .navLink::after {
