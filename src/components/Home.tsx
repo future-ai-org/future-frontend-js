@@ -51,7 +51,10 @@ const FeatureCard = React.memo(
     return (
       <div className="landing-feature-card">
         <div className="landing-feature-number">{number}</div>
-        <h3 className="landing-feature-title" dangerouslySetInnerHTML={{ __html: displayTitle }} />
+        <h3
+          className="landing-feature-title"
+          dangerouslySetInnerHTML={{ __html: displayTitle }}
+        />
         <p className="landing-feature-description">{description}</p>
       </div>
     );

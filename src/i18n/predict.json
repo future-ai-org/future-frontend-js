@@ -10,40 +10,40 @@
   "cards": {
     "worldEvents": {
       "one": {
-        "title": "market growth",
-        "subtitle": "will the market grow by 10% this year?"
+        "title": "bitcoin price",
+        "subtitle": "will bitcoin reach $150,000 by the end of the year?"
       },
       "two": {
-        "title": "market share",
-        "subtitle": "will our market share increase?"
+        "title": "ethereum price",
+        "subtitle": "will ethereum reach $5,000 by the end of the year?"
       },
       "three": {
-        "title": "partnership",
-        "subtitle": "will we form a new partnership?"
+        "title": "solana price",
+        "subtitle": "will solana reach $500 by the end of the year?"
       },
       "four": {
-        "title": "tech investment",
-        "subtitle": "will we invest in new technology?"
+        "title": "cardano price",
+        "subtitle": "will cardano reach $10 by the end of the year?"
       },
       "five": {
-        "title": "global expansion",
-        "subtitle": "will we expand to new international markets?"
+        "title": "tron",
+        "subtitle": "will tron reach $1 by the end of the year?"
       },
       "six": {
-        "title": "industry trend",
-        "subtitle": "will our industry see major consolidation?"
+        "title": "bittensor",
+        "subtitle": "will bittensor reach $100 by the end of the year?"
       },
       "seven": {
-        "title": "regulatory change",
-        "subtitle": "will new regulations impact our business?"
+        "title": "sui price",
+        "subtitle": "will sui reach $100 by the end of the year?"
       },
       "eight": {
-        "title": "economic outlook",
-        "subtitle": "will the economy enter a recession?"
+        "title": "hyperlink price",
+        "subtitle": "will hyperlink reach $100 by the end of the year?"
       },
       "nine": {
-        "title": "competitor move",
-        "subtitle": "will a major competitor launch a similar product?"
+        "title": "dodecoing price",
+        "subtitle": "will dodecoing reach $1 by the end of the year?"
       }
     },
     "personalPredictions": {

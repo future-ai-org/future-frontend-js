@@ -281,7 +281,9 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
           type="text"
           name="name"
           value={formData.name}
-          onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
+          onChange={(e) =>
+            setFormData((prev) => ({ ...prev, name: e.target.value }))
+          }
           placeholder={t.labels.namePlaceholder}
           required
         />

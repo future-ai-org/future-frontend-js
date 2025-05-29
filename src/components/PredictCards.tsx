@@ -58,107 +58,13 @@ const worldEventCards: PredictCard[] = [
   },
 ];
 
-const personalPredictionCards: PredictCard[] = [
-  {
-    id: "one",
-    title: predictI18n.cards.personalPredictions.one.title,
-    subtitle: predictI18n.cards.personalPredictions.one.subtitle,
-  },
-  {
-    id: "two",
-    title: predictI18n.cards.personalPredictions.two.title,
-    subtitle: predictI18n.cards.personalPredictions.two.subtitle,
-  },
-  {
-    id: "three",
-    title: predictI18n.cards.personalPredictions.three.title,
-    subtitle: predictI18n.cards.personalPredictions.three.subtitle,
-  },
-  {
-    id: "four",
-    title: predictI18n.cards.personalPredictions.four.title,
-    subtitle: predictI18n.cards.personalPredictions.four.subtitle,
-  },
-  {
-    id: "five",
-    title: predictI18n.cards.personalPredictions.five.title,
-    subtitle: predictI18n.cards.personalPredictions.five.subtitle,
-  },
-  {
-    id: "six",
-    title: predictI18n.cards.personalPredictions.six.title,
-    subtitle: predictI18n.cards.personalPredictions.six.subtitle,
-  },
-  {
-    id: "seven",
-    title: predictI18n.cards.personalPredictions.seven.title,
-    subtitle: predictI18n.cards.personalPredictions.seven.subtitle,
-  },
-  {
-    id: "eight",
-    title: predictI18n.cards.personalPredictions.eight.title,
-    subtitle: predictI18n.cards.personalPredictions.eight.subtitle,
-  },
-  {
-    id: "nine",
-    title: predictI18n.cards.personalPredictions.nine.title,
-    subtitle: predictI18n.cards.personalPredictions.nine.subtitle,
-  },
-];
-
-const relationshipCards: PredictCard[] = [
-  {
-    id: "one",
-    title: predictI18n.cards.relationships.one.title,
-    subtitle: predictI18n.cards.relationships.one.subtitle,
-  },
-  {
-    id: "two",
-    title: predictI18n.cards.relationships.two.title,
-    subtitle: predictI18n.cards.relationships.two.subtitle,
-  },
-  {
-    id: "three",
-    title: predictI18n.cards.relationships.three.title,
-    subtitle: predictI18n.cards.relationships.three.subtitle,
-  },
-  {
-    id: "four",
-    title: predictI18n.cards.relationships.four.title,
-    subtitle: predictI18n.cards.relationships.four.subtitle,
-  },
-  {
-    id: "five",
-    title: predictI18n.cards.relationships.five.title,
-    subtitle: predictI18n.cards.relationships.five.subtitle,
-  },
-  {
-    id: "six",
-    title: predictI18n.cards.relationships.six.title,
-    subtitle: predictI18n.cards.relationships.six.subtitle,
-  },
-  {
-    id: "seven",
-    title: predictI18n.cards.relationships.seven.title,
-    subtitle: predictI18n.cards.relationships.seven.subtitle,
-  },
-  {
-    id: "eight",
-    title: predictI18n.cards.relationships.eight.title,
-    subtitle: predictI18n.cards.relationships.eight.subtitle,
-  },
-  {
-    id: "nine",
-    title: predictI18n.cards.relationships.nine.title,
-    subtitle: predictI18n.cards.relationships.nine.subtitle,
-  },
-];
-
 const PredictCards: React.FC = () => {
   const [selectedOptions, setSelectedOptions] = useState<
     Record<string, "yes" | "no" | null>
   >({});
-  const [activeTab, setActiveTab] = useState<"world" | "personal" | "relationships">("personal");
+  const [activeTab, setActiveTab] = useState<
+    "world" | "personal" | "relationships"
+  >("personal");
   const [question, setQuestion] = useState("");
 
   const handleOptionClick = (cardId: string, option: "yes" | "no") => {
@@ -234,11 +140,14 @@ const PredictCards: React.FC = () => {
           ))}
         </ul>
         <p>{predictI18n.synastry.conclusion}</p>
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
-          <button 
-            className="submit-button"
-            onClick={handleCalculateSynastry}
-          >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "2rem",
+          }}
+        >
+          <button className="submit-button" onClick={handleCalculateSynastry}>
             calculate a synastry
           </button>
         </div>
@@ -271,8 +180,8 @@ const PredictCards: React.FC = () => {
       {activeTab === "personal"
         ? renderPersonalPredictions()
         : activeTab === "relationships"
-        ? renderRelationshipCards()
-        : renderWorldEventCards()}
+          ? renderRelationshipCards()
+          : renderWorldEventCards()}
     </div>
   );
 };

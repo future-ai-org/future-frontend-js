@@ -181,7 +181,9 @@ export default function Trade() {
   useEffect(() => {
     const loadFavorites = () => {
       try {
-        const storedFavorites = JSON.parse(localStorage.getItem("favoriteAssets") || "[]");
+        const storedFavorites = JSON.parse(
+          localStorage.getItem("favoriteAssets") || "[]",
+        );
         setFavorites(storedFavorites);
       } catch (err) {
         console.error("Failed to load favorites:", err);
@@ -274,7 +276,11 @@ export default function Trade() {
                     <button
                       onClick={() => handleToggleFavorite(crypto)}
                       className={`favorite-button ${isFavorite ? "active" : ""}`}
-                      aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+                      aria-label={
+                        isFavorite
+                          ? "Remove from favorites"
+                          : "Add to favorites"
+                      }
                     >
                       {isFavorite ? <FaStar /> : <FaRegStar />}
                     </button>

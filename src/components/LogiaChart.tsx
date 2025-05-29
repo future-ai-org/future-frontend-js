@@ -492,7 +492,7 @@ export default function LogiaChart({
     } finally {
       setIsSaving(false);
     }
-  }, [chartData, birthDate, birthTime, city, ]);
+  }, [chartData, birthDate, birthTime, city]);
 
   const titleContent = useMemo(() => {
     return chartT.title.replace("<name>", name);
@@ -512,7 +512,9 @@ export default function LogiaChart({
         {showNotification && (
           <div className="save-notification">
             {notificationMessage}{" "}
-            <a href="/dashboard" className="view-dashboard-link">view</a>
+            <a href="/dashboard" className="view-dashboard-link">
+              view
+            </a>
           </div>
         )}
         <a
