@@ -19,6 +19,9 @@ interface FeatureCardProps {
   address?: string;
 }
 
+const formatAddress = (addr: string) =>
+  `${addr.slice(0, 6)}...${addr.slice(-4)}`;
+
 const FeatureCard = React.memo(
   ({
     number,
@@ -28,10 +31,6 @@ const FeatureCard = React.memo(
     ensName,
     address,
   }: FeatureCardProps) => {
-    const formatAddress = useCallback(
-      (addr: string) => `${addr.slice(0, 6)}...${addr.slice(-4)}`,
-      [],
-    );
     const [displayTitle, setDisplayTitle] = useState(title);
 
     useEffect(() => {
@@ -46,7 +45,7 @@ const FeatureCard = React.memo(
       } else {
         setDisplayTitle(title);
       }
-    }, [isConnected, number, ensName, address, title, formatAddress]);
+    }, [isConnected, number, ensName, address, title]);
 
     return (
       <div className="landing-feature-card">
@@ -71,78 +70,39 @@ export default function Home() {
     setIsClient(true);
   }, []);
 
-  const getDescription = useCallback(
-    (cardNumber: CardNumber) => {
-      if (!isClient) {
-        return cardNumber === strings.en.numbers.one ? (
-          <span>{strings.en.features.one.connectWallet}</span>
-        ) : cardNumber === strings.en.numbers.two ? (
-          <span>
-            {strings.en.links.logia.prefix} {strings.en.links.logia.link}
-          </span>
-        ) : (
-          <span>
-            {strings.en.links.predict.prefix} {strings.en.links.predict.link}{" "}
-            {strings.en.links.predict.suffix}
-          </span>
-        );
-      }
+  const getFirstCardDescription = useCallback(() => {
+    if (!isClient) {
+      return <span>{strings.en.features.one.connectWallet}</span>;
+    }
 
-      if (cardNumber === strings.en.numbers.one) {
-        return isConnected ? (
-          <span>
-            {strings.en.hello.connectedAs.prefix}{" "}
-            <Link href={ROUTES.INFO}>{strings.en.hello.connectedAs.link}</Link>{" "}
-            {strings.en.hello.connectedAs.suffix}
-          </span>
-        ) : (
-          <span>
-            <Link
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                connect();
-              }}
-            >
-              {strings.en.features.one.connectWallet}
-            </Link>{" "}
-            {strings.en.features.one.startAvatar}
-          </span>
-        );
-      }
-
-      if (cardNumber === strings.en.numbers.two) {
-        return (
-          <>
-            {strings.en.links.logia.prefix}{" "}
-            <Link href={ROUTES.LOGIA}>{strings.en.links.logia.link}</Link>
-            {strings.en.text.and}
-            <Link href={ROUTES.DASHBOARD}>your profile</Link>
-            {strings.en.text.forYourGoals}
-          </>
-        );
-      }
-
-      return (
-        <>
-          <Link href={ROUTES.TRADE}>{strings.en.links.predict.link}</Link>
-          {strings.en.links.predict.suffix}
-          <Link href={ROUTES.PREDICT}>
-            {strings.en.links.predict.secondLink}
-          </Link>
-          {strings.en.links.predict.finalSuffix}
-        </>
-      );
-    },
-    [isClient, isConnected, connect],
-  );
+    return isConnected ? (
+      <span>
+        {strings.en.hello.connectedAs.prefix}{" "}
+        <Link href={ROUTES.INFO}>{strings.en.hello.connectedAs.link}</Link>{" "}
+        {strings.en.hello.connectedAs.suffix}
+      </span>
+    ) : (
+      <span>
+        <Link
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            connect();
+          }}
+        >
+          {strings.en.features.one.connectWallet}
+        </Link>{" "}
+        {strings.en.features.one.startAvatar}
+      </span>
+    );
+  }, [isClient, isConnected, connect]);
 
   const featureCards = useMemo(
     () => [
       {
         number: strings.en.numbers.one as CardNumber,
         title: strings.en.features.one.title.toLowerCase(),
-        description: getDescription(strings.en.numbers.one as CardNumber),
+        description: getFirstCardDescription(),
         isConnected,
         ensName,
         address,
@@ -150,17 +110,40 @@ export default function Home() {
       {
         number: strings.en.numbers.two as CardNumber,
         title: strings.en.features.two.title.toLowerCase(),
-        description: getDescription(strings.en.numbers.two as CardNumber),
-        isConnected,
+        description: (
+          <>
+            {strings.en.links.logia.prefix}{" "}
+            <Link href={ROUTES.LOGIA}>{strings.en.links.logia.link}</Link>
+            {strings.en.text.and}
+            {isConnected ? (
+              <Link href={ROUTES.DASHBOARD}>
+                {strings.en.links.dashboard.link}
+              </Link>
+            ) : (
+              strings.en.links.dashboard.link
+            )}
+            {strings.en.text.forYourGoals}
+          </>
+        ),
+        isConnected: false,
       },
       {
         number: strings.en.numbers.three as CardNumber,
         title: strings.en.features.three.title.toLowerCase(),
-        description: getDescription(strings.en.numbers.three as CardNumber),
-        isConnected,
+        description: (
+          <>
+            <Link href={ROUTES.TRADE}>{strings.en.links.predict.link}</Link>
+            {strings.en.links.predict.suffix}
+            <Link href={ROUTES.PREDICT}>
+              {strings.en.links.predict.secondLink}
+            </Link>
+            {strings.en.links.predict.finalSuffix}
+          </>
+        ),
+        isConnected: false,
       },
     ],
-    [getDescription, isConnected, ensName, address],
+    [getFirstCardDescription, isConnected, ensName, address],
   );
 
   return (

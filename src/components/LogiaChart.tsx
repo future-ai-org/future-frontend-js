@@ -492,11 +492,11 @@ export default function LogiaChart({
     } finally {
       setIsSaving(false);
     }
-  }, [chartData, birthDate, birthTime, city]);
+  }, [chartData, birthDate, birthTime, city, name]);
 
   const titleContent = useMemo(() => {
     return chartT.title.replace("<name>", name);
-  }, [name, chartT.title]);
+  }, [name]);
 
   if (error) {
     return <div className="astrology-error-message">{error}</div>;
