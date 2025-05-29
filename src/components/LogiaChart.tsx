@@ -271,7 +271,7 @@ interface LogiaChartProps {
   ens?: string;
 }
 
-interface SavedChart {
+export interface SavedChart {
   id: string;
   birthDate: string;
   birthTime: string;

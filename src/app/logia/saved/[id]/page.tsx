@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import LogiaChart from "../../../../components/LogiaChart";
 import Loading from "../../../../utils/loading";
-import { SavedChart } from "../../../../types/logia";
+import { SavedChart } from "../../../../components/LogiaChart";
 
 export default function SavedChartPage() {
   const params = useParams();
