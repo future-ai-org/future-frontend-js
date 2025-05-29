@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import predictI18n from "../i18n/predict.json";
 import "../styles/predictCards.css";
+import { FaChartLine } from "react-icons/fa";
 
 interface PredictCard {
   id: string;
@@ -90,7 +91,12 @@ const PredictCards: React.FC = () => {
     <div className="predict-cards-grid">
       {worldEventCards.map((card) => (
         <div key={card.id} className="predict-card">
-          <h3 className="card-title">{card.title}</h3>
+          <div className="card-header">
+            <h3 className="card-title">{card.title}</h3>
+            <button className="view-chart-button" title="View Chart">
+              <FaChartLine />
+            </button>
+          </div>
           <p className="card-subtitle">{card.subtitle}</p>
           <div className="card-options">
             <button

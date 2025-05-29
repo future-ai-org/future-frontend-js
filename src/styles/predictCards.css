@@ -94,11 +94,20 @@
     0 0 60px var(--glow-pink-light);
 }
 
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
 .card-title {
   font-size: clamp(1.3rem, 2.2vw, 1.5rem);
   font-weight: 800;
-  margin: clamp(0.75rem, 1vw, 1rem) 0;
+  margin: 0;
   color: var(--text-color);
+  flex: 1;
 }
 
 .card-subtitle {
@@ -289,4 +298,28 @@
   position: absolute;
   left: 0;
   font-size: 1.2rem;
+}
+
+.view-chart-button {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  margin-left: 0.5rem;
+}
+
+.view-chart-button:hover {
+  background-color: rgba(var(--color-primary-rgb), 0.1);
+  transform: scale(1.1);
+}
+
+.view-chart-button svg {
+  width: 1.2rem;
+  height: 1.2rem;
 }
