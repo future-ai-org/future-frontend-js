@@ -232,7 +232,7 @@
   text-align: center;
   padding-left: 30px;
   position: relative;
-  min-height: 40px;
+  min-height: 30px;
   display: table-cell;
   vertical-align: middle;
 }
@@ -331,7 +331,7 @@
   display: inline;
   vertical-align: text-bottom;
   line-height: 1;
-  margin-top: 2px;
+  margin-top: 1px;
 }
 
 /* ===== Glowing Emoji Styles ===== */

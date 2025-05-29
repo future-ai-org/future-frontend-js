@@ -14,6 +14,11 @@ import { isValidRoute } from "../config/routes";
 const Header: React.FC = () => {
   const { isConnected } = useWeb3();
   const pathname = usePathname();
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const isActive = (path: string) => {
     if (!isValidRoute(path)) return false;
@@ -50,7 +55,7 @@ const Header: React.FC = () => {
               {label}
             </Link>
           ))}
-          {isConnected && (
+          {mounted && isConnected && (
             <Link
               href={HEADER_CONFIG.dashboard.path}
               className={`${styles.navLink} ${isActive(HEADER_CONFIG.dashboard.path) ? styles.active : ""}`}
