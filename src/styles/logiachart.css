@@ -342,31 +342,34 @@
   padding: 0;
 }
 
-.advanced-view-button {
+.advanced-view-container {
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 1rem 1.5rem;
-  height: var(--wallet-height);
-  min-width: 120px;
+  width: 100%;
+  margin-top: 2rem;
+  padding-bottom: 1rem;
+}
+
+.advanced-view-button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-primary);
+  color: var(--color-background);
+  text-decoration: none;
   border-radius: 2rem;
-  border: 1px solid var(--text-color);
-  background: transparent;
-  color: var(--text-color);
-  font-size: 0.9rem;
   font-weight: 600;
-  cursor: pointer;
-  text-shadow: var(--text-glow);
-  transition: var(--wallet-transition);
-  -webkit-transition: var(--wallet-transition);
-  position: absolute;
-  right: -4rem;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  text-align: center;
+  border: 2px solid var(--color-primary);
+  box-shadow: var(--glow-shadow);
 }
 
 .advanced-view-button:hover {
-  background: var(--text-color);
-  color: var(--background-color);
+  transform: translateY(-2px);
   box-shadow: var(--glow-shadow-hover);
+  background-color: var(--color-background);
+  color: var(--color-primary);
 }
 
 .save-chart-button {
