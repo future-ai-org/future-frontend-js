@@ -259,11 +259,11 @@ button {
 
 .main-content-wrapper {
   flex: 1;
-  padding: 2rem;
+  padding: 1rem;
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
   position: relative;
   z-index: 1;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
