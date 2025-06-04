@@ -44,6 +44,9 @@
       "3M": "3M",
       "1Y": "1Y",
       "ALL": "ALL"
+    },
+    "titles": {
+      "tradingChart": "Trading Chart"
     }
   }
 }
