@@ -1,0 +1,9 @@
+{
+  "en": {
+    "astro": {
+      "error": "Failed to fetch astrological data",
+      "consoleError": "Error fetching astro data:",
+      "httpError": "HTTP error! status: {status}"
+    }
+  }
+}
