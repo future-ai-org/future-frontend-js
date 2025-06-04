@@ -523,7 +523,7 @@ export default function LogiaChart({
       <div className="astrology-header">
         {showNotification && (
           <div className="save-notification">
-            {notificationMessage}{" "}
+            <span>{notificationMessage}</span>{" "}
             <a href="/dashboard" className="view-dashboard-link">
               view
             </a>
