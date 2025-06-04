@@ -75,10 +75,19 @@ const setCachedPrices = (prices: CryptoPrice[]) => {
 };
 
 export const SliderPrice: React.FC = () => {
-  const [prices, setPrices] = useState<CryptoPrice[]>(
-    () => getCachedPrices() || [],
-  );
+  const [prices, setPrices] = useState<CryptoPrice[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+    const cachedPrices = getCachedPrices();
+    if (cachedPrices) {
+      setPrices(cachedPrices);
+      setIsLoading(false);
+    }
+    fetchPrices();
+  }, []);
 
   const fetchPrices = async () => {
     try {
@@ -122,15 +131,16 @@ export const SliderPrice: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchPrices();
-    const interval = setInterval(
-      fetchPrices,
-      PRICE_SLIDER_CONFIG.REFRESH_INTERVAL,
-    );
-    return () => clearInterval(interval);
-  }, []);
+    if (isClient) {
+      const interval = setInterval(
+        fetchPrices,
+        PRICE_SLIDER_CONFIG.REFRESH_INTERVAL,
+      );
+      return () => clearInterval(interval);
+    }
+  }, [isClient]);
 
-  if (isLoading && prices.length === 0) {
+  if (!isClient || (isLoading && prices.length === 0)) {
     return (
       <div className={styles.sliderContainer}>
         <div className={styles.loading}>

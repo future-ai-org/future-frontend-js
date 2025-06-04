@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import {
   ComposedChart,
@@ -105,15 +107,6 @@ const processMonthlyData = (data: CandleData[]): CandleData[] => {
   });
 };
 
-const sampleData = Array.from({ length: 30 }, (_, i) => ({
-  date: new Date(Date.now() - (30 - i) * 24 * 60 * 60 * 1000).toISOString(),
-  open: 100 + Math.random() * 10,
-  high: 110 + Math.random() * 10,
-  low: 90 + Math.random() * 10,
-  close: 105 + Math.random() * 10,
-  volume: 1000,
-}));
-
 export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
   const [chartData, setChartData] = useState<CandleData[]>([]);
   const [timePeriod, setTimePeriod] = useState<TimePeriod>("1D");
@@ -127,6 +120,23 @@ export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
     bullish: "var(--bullish-color)",
     bearish: "var(--bearish-color)",
   });
+  const [sampleData, setSampleData] = useState<CandleData[]>([]);
+
+  useEffect(() => {
+    const generateSampleData = () => {
+      return Array.from({ length: 30 }, (_, i) => ({
+        date: new Date(
+          Date.now() - (30 - i) * 24 * 60 * 60 * 1000,
+        ).toISOString(),
+        open: 100 + Math.random() * 10,
+        high: 110 + Math.random() * 10,
+        low: 90 + Math.random() * 10,
+        close: 105 + Math.random() * 10,
+        volume: 1000,
+      }));
+    };
+    setSampleData(generateSampleData());
+  }, []);
 
   useEffect(() => {
     const loadFavoriteStatus = () => {
@@ -297,7 +307,7 @@ export const TradeAsset: React.FC<TradeAssetProps> = ({ assetId }) => {
         setChartData(sampleData);
       }
     },
-    [assetId],
+    [assetId, sampleData],
   );
 
   useEffect(() => {
