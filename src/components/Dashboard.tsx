@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useEffect, useState, useRef } from "react";
+import React, { useMemo, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useWeb3 } from "../utils/web3ModalContext";
 import strings from "../i18n/dashboard.json";
@@ -31,7 +31,6 @@ const Dashboard: React.FC = () => {
   const router = useRouter();
   const [savedCharts, setSavedCharts] = useState<SavedChart[]>([]);
   const [favoriteAssets, setFavoriteAssets] = useState<FavoriteAsset[]>([]);
-  const tooltipRef = useRef<HTMLDivElement | null>(null);
   const {
     account,
     ensName,
@@ -83,41 +82,6 @@ const Dashboard: React.FC = () => {
       window.removeEventListener("favoritesUpdated", loadFavoriteAssets);
     };
   }, []);
-
-  useEffect(() => {
-    // Create tooltip div
-    const tooltip = document.createElement("div");
-    tooltip.className = "tooltip tooltip-quick";
-    document.body.appendChild(tooltip);
-    tooltipRef.current = tooltip;
-
-    return () => {
-      if (tooltipRef.current) {
-        document.body.removeChild(tooltipRef.current);
-      }
-    };
-  }, []);
-
-  const handleMouseOver = (event: React.MouseEvent, text: string) => {
-    if (!tooltipRef.current) return;
-    tooltipRef.current.style.visibility = "visible";
-    tooltipRef.current.style.opacity = "1";
-    tooltipRef.current.innerHTML = text;
-    tooltipRef.current.style.left = `${event.pageX + 10}px`;
-    tooltipRef.current.style.top = `${event.pageY - 10}px`;
-  };
-
-  const handleMouseMove = (event: React.MouseEvent) => {
-    if (!tooltipRef.current) return;
-    tooltipRef.current.style.left = `${event.pageX + 10}px`;
-    tooltipRef.current.style.top = `${event.pageY - 10}px`;
-  };
-
-  const handleMouseOut = () => {
-    if (!tooltipRef.current) return;
-    tooltipRef.current.style.visibility = "hidden";
-    tooltipRef.current.style.opacity = "0";
-  };
 
   const handleDeleteChart = (chartId: string) => {
     try {
@@ -321,14 +285,7 @@ const Dashboard: React.FC = () => {
                             onClick={() => handleSetOfficial(chart.id)}
                             className="set-official-button"
                             aria-label={strings.en.cards.logia.actions.makeMain}
-                            onMouseOver={(e) =>
-                              handleMouseOver(
-                                e,
-                                strings.en.cards.logia.actions.makeMain,
-                              )
-                            }
-                            onMouseMove={handleMouseMove}
-                            onMouseOut={handleMouseOut}
+                            title={strings.en.cards.logia.actions.makeMain}
                           >
                             <FaStar />
                           </button>
