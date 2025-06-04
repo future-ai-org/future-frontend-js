@@ -12,7 +12,10 @@
     "portfolio": {
       "title": "my portfolio",
       "totalValue": "value",
-      "change24h": "24h"
+      "change24h": "24h",
+      "errors": {
+        "loadFailed": "Failed to load portfolio data"
+      }
     },
     "formatting": {
       "currency": {
@@ -33,6 +36,11 @@
           "view": "view chart",
           "makeMain": "make this my main chart",
           "delete": "delete chart"
+        },
+        "errors": {
+          "loadFailed": "Failed to load saved charts",
+          "deleteFailed": "Failed to delete chart",
+          "setOfficialFailed": "Failed to set official chart"
         }
       },
       "favorites": {
@@ -41,6 +49,9 @@
         "actions": {
           "view": "view asset",
           "remove": "remove from favorites"
+        },
+        "errors": {
+          "loadFailed": "Failed to load favorite assets"
         }
       },
       "predictions": {

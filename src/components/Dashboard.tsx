@@ -53,7 +53,7 @@ const Dashboard: React.FC = () => {
         const charts = JSON.parse(localStorage.getItem("savedCharts") || "[]");
         setSavedCharts(charts);
       } catch (err) {
-        console.error("Failed to load saved charts:", err);
+        console.error(strings.en.cards.logia.errors.loadFailed, err);
       }
     };
 
@@ -71,7 +71,7 @@ const Dashboard: React.FC = () => {
         );
         setFavoriteAssets(assets);
       } catch (err) {
-        console.error("Failed to load favorite assets:", err);
+        console.error(strings.en.cards.favorites.errors.loadFailed, err);
       }
     };
 
@@ -125,7 +125,7 @@ const Dashboard: React.FC = () => {
       localStorage.setItem("savedCharts", JSON.stringify(updatedCharts));
       setSavedCharts(updatedCharts);
     } catch (err) {
-      console.error("Failed to delete chart:", err);
+      console.error(strings.en.cards.logia.errors.deleteFailed, err);
     }
   };
 
@@ -156,7 +156,7 @@ const Dashboard: React.FC = () => {
       localStorage.setItem("savedCharts", JSON.stringify(updatedCharts));
       setSavedCharts(updatedCharts);
     } catch (err) {
-      console.error("Failed to set official chart:", err);
+      console.error(strings.en.cards.logia.errors.setOfficialFailed, err);
     }
   };
 
@@ -227,13 +227,13 @@ const Dashboard: React.FC = () => {
           <div className="card-content">
             <div className="portfolio-summary">
               <p className="total-value">
-                {strings.en.portfolio.totalValue.toLowerCase()}:{" "}
+                {strings.en.portfolio.totalValue}:{" "}
                 {formatCurrency(totalPortfolioValue)}
               </p>
               <p
                 className={`portfolio-change ${portfolioChange24h >= 0 ? "positive-change" : "negative-change"}`}
               >
-                {strings.en.portfolio.change24h.toLowerCase()}:{" "}
+                {strings.en.portfolio.change24h}:{" "}
                 {formatPercentage(portfolioChange24h)}
               </p>
             </div>
