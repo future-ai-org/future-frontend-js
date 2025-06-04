@@ -77,7 +77,7 @@ export const SliderPlanets: React.FC = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          API_KEY: process.env.NEXT_PUBLIC_LILIT_ASTRO_API_KEY!,
+          API_KEY: process.env.NEXT_PUBLIC_ASTRO_API_KEY!,
         },
         body: JSON.stringify(requestBody),
       });

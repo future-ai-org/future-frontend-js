@@ -97,7 +97,7 @@ async function calculateChartData(
   const formattedTime = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
   const formattedDateTime = `${formattedDate}T${formattedTime}`;
 
-  const baseUrl = process.env.NEXT_PUBLIC_LILIT_ASTRO_API_URL;
+  const baseUrl = process.env.NEXT_PUBLIC_ASTRO_API_URL;
   if (!baseUrl) {
     throw new Error(chartT.errors.apiUrlNotConfigured);
   }
@@ -113,7 +113,7 @@ async function calculateChartData(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        API_KEY: process.env.NEXT_PUBLIC_LILIT_ASTRO_API_KEY!,
+        API_KEY: process.env.NEXT_PUBLIC_ASTRO_API_KEY!,
       },
       body: JSON.stringify(requestBody),
     }),
@@ -121,7 +121,7 @@ async function calculateChartData(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        API_KEY: process.env.NEXT_PUBLIC_LILIT_ASTRO_API_KEY!,
+        API_KEY: process.env.NEXT_PUBLIC_ASTRO_API_KEY!,
       },
       body: JSON.stringify(requestBody),
     }),

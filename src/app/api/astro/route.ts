@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export async function GET() {
   try {
     const response = await fetch(
-      "https://service-advanced-astro.vercel.app/api/v1/now",
+      `${process.env.NEXT_PUBLIC_ASTRO_SERVICE_URL}/v1/now`,
       {
         headers: {
           Accept: "application/json",
