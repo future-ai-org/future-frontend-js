@@ -3,7 +3,7 @@
 import React from "react";
 import "../../styles/info.css";
 import strings from "../../i18n/info.json";
-import DecorativeStars from "../../utils/decorativeStars";
+import DecorativeStars from "../../utils/movingStars";
 
 export default function InfoPage() {
   return (
