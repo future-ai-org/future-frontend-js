@@ -61,7 +61,7 @@ export const SliderPlanets: React.FC = () => {
   const fetchPlanets = useCallback(async () => {
     try {
       setIsLoading(true);
-      const baseUrl = process.env.NEXT_PUBLIC_LILIT_ASTRO_API_URL;
+      const baseUrl = process.env.NEXT_PUBLIC_ASTRO_API_URL;
       if (!baseUrl) {
         throw new Error(sliderPlanetsData.en.errors.apiUrlNotConfigured);
       }
