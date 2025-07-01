@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
 import LogiaChart from "../../../../components/LogiaChart";
 import Loading from "../../../../utils/loading";
@@ -15,10 +15,17 @@ export default function SavedChartPage() {
   const [error, setError] = useState<string | null>(null);
 
   const loadSavedChart = useCallback(() => {
+    if (!params.id) {
+      setError(t("errors.chartNotFound"));
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const savedCharts = localStorage.getItem("savedCharts");
       if (!savedCharts) {
         setError(t("errors.noSavedCharts"));
+        setIsLoading(false);
         return;
       }
 
@@ -27,11 +34,12 @@ export default function SavedChartPage() {
 
       if (!chart) {
         setError(t("errors.chartNotFound"));
+        setIsLoading(false);
         return;
       }
 
       setSavedChart(chart);
-    } catch {
+    } catch (error) {
       setError(t("errors.loadingError"));
     } finally {
       setIsLoading(false);
@@ -42,33 +50,39 @@ export default function SavedChartPage() {
     loadSavedChart();
   }, [loadSavedChart]);
 
-  const chartContent = useMemo(() => {
-    if (isLoading) {
-      return <Loading />;
-    }
-
-    if (error || !savedChart) {
-      return (
-        <div className="astrology-error">
-          {error || t("errors.chartNotFound")}
-        </div>
-      );
-    }
-
+  if (isLoading) {
     return (
-      <LogiaChart
-        birthDate={savedChart.birthDate}
-        birthTime={savedChart.birthTime}
-        city={savedChart.city}
-        name={savedChart.name}
-        isGeneratingChart={false}
-      />
+      <div className="astrology-container saved-view">
+        <div className="astrology-content-wrapper">
+          <Loading />
+        </div>
+      </div>
     );
-  }, [isLoading, error, savedChart, t]);
+  }
+
+  if (error || !savedChart) {
+    return (
+      <div className="astrology-container saved-view">
+        <div className="astrology-content-wrapper">
+          <div className="astrology-error">
+            {error || t("errors.chartNotFound")}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="astrology-container saved-view">
-      <div className="astrology-content-wrapper">{chartContent}</div>
+      <div className="astrology-content-wrapper">
+        <LogiaChart
+          birthDate={savedChart.birthDate}
+          birthTime={savedChart.birthTime}
+          city={savedChart.city}
+          name={savedChart.name}
+          isGeneratingChart={false}
+        />
+      </div>
     </div>
   );
 }

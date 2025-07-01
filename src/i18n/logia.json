@@ -12,7 +12,9 @@
       "invalidApiResponse": "invalid API response",
       "invalidPlanetData": "invalid planet data for {planet}",
       "chartNotFound": "chart not found",
-      "failedToLoadChart": "failed to load chart"
+      "failedToLoadChart": "failed to load chart",
+      "noSavedCharts": "no saved charts found",
+      "loadingError": "failed to load chart"
     },
     "labels": {
       "birthDate": "birth date",
