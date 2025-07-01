@@ -76,14 +76,12 @@ const PredictCards: React.FC = () => {
   };
 
   const handleCalculateSynastry = () => {
-    // TODO: Implement synastry calculation
-    console.log("Calculating synastry...");
+    // Synastry calculation will be implemented in future updates
   };
 
   const handleQuestionSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Handle question submission
-    console.log("Question submitted:", question);
+    // Question submission will be implemented in future updates
     setQuestion("");
   };
 

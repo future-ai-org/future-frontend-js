@@ -4,7 +4,7 @@
 
 /* Variables */
 :root {
-  --card-min-height: 200px;
+  --card-min-height: 250px;
   --card-max-height: calc(100vh - 300px);
   --card-border-radius: 20px;
   --card-padding: 24px;
