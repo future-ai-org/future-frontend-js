@@ -1,5 +1,7 @@
 import strings from "../i18n/header.json";
 
+export const ASTRO_NOW_ENDPOINT = "/v1/now";
+
 export const ROUTES = {
   HOME: "/",
   INFO: "/info",

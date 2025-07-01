@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import strings from "../../../i18n/api.json";
-
-const ASTRO_NOW_ENDPOINT = "/v1/now";
+import { ASTRO_NOW_ENDPOINT } from "../../../config/routes";
 
 export async function GET() {
   try {
