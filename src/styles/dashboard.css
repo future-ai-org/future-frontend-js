@@ -95,35 +95,34 @@
 }
 
 .portfolio-asset {
-  @apply flex items-center justify-between p-1 rounded-xl transition-all duration-200;
+  @apply grid grid-cols-3 items-center p-1 rounded-xl transition-all duration-200;
   background: linear-gradient(135deg, rgba(var(--background-color-light-rgb), 0.5), transparent);
   border: 1px solid rgba(var(--color-primary-rgb), 0.05);
+  gap: 8px;
 }
-
-
 
 .asset-details {
   @apply flex items-center gap-1;
 }
 
 .asset-balance {
-  @apply flex items-center gap-1;
+  @apply flex items-center gap-1 justify-start;
 }
 
 .balance-amount {
-  @apply font-mono text-[var(--text-color)] text-base font-bold;
+  @apply font-mono text-[var(--text-color)] text-sm font-bold;
 }
 
 .balance-symbol {
-  @apply text-[var(--text-color-secondary)] text-sm font-semibold;
+  @apply text-[var(--text-color-secondary)] text-xs font-semibold;
 }
 
 .asset-value {
-  @apply text-[var(--text-color)] font-bold text-base;
+  @apply text-[var(--text-color)] font-bold text-sm text-center;
 }
 
 .asset-change {
-  @apply font-bold text-base px-3 py-1 rounded-lg;
+  @apply font-bold text-sm px-2 py-1 rounded-lg text-center;
   background: rgba(var(--text-color-rgb), 0.05);
 }
 

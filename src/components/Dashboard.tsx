@@ -199,18 +199,16 @@ const Dashboard: React.FC = () => {
             <div className="portfolio-assets">
               {portfolio.map((asset) => (
                 <div key={asset.symbol} className="portfolio-asset">
-                  <div className="asset-details">
-                    <div className="asset-balance">
-                      <span className="balance-amount">
-                        {formatBalance(asset.balance)}
-                      </span>
-                      <span className="balance-symbol">
-                        {asset.symbol.toLowerCase()}
-                      </span>
-                    </div>
-                    <div className="asset-value">
-                      {formatCurrency(asset.value)}
-                    </div>
+                  <div className="asset-balance">
+                    <span className="balance-amount">
+                      {formatBalance(asset.balance)}
+                    </span>
+                    <span className="balance-symbol">
+                      {asset.symbol.toLowerCase()}
+                    </span>
+                  </div>
+                  <div className="asset-value">
+                    {formatCurrency(asset.value)}
                   </div>
                   <div
                     className={`asset-change ${asset.change24h >= 0 ? "positive-change" : "negative-change"}`}
