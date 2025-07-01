@@ -2,7 +2,6 @@
 
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
   staticPageGenerationTimeout: 1000,
   compiler: {
     styledComponents: true,
