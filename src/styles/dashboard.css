@@ -60,15 +60,7 @@
 
 
 
-.dashboard-card:hover {
-  transform: translateY(-12px) scale(1.08);
-  border-color: var(--color-primary);
-  box-shadow:
-    0 32px 80px var(--color-shadow-black),
-    0 0 45px var(--glow-shadow-hover),
-    0 0 90px var(--glow-shadow),
-    0 0 120px var(--glow-pink-light);
-}
+/* Removed hover effect from dashboard cards */
 
 .dashboard-card h3 {
   @apply mb-6 font-bold text-xl;
