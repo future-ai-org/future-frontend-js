@@ -34,8 +34,7 @@ export default function Logia() {
   });
   const [showChart, setShowChart] = useState(false);
 
-
-  const handleSubmit = useCallback(async (data: FormData) => {
+  const handleSubmit = useCallback((data: FormData) => {
     setFormData(data);
     setShowChart(true);
   }, []);
@@ -66,8 +65,6 @@ export default function Logia() {
       />
     );
   };
-
-
 
   return (
     <div className="astrology-container">
@@ -106,7 +103,6 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
   const hourInputRef = useRef<HTMLInputElement>(null);
   const minuteInputRef = useRef<HTMLInputElement>(null);
   const cityInputRef = useRef<HTMLInputElement>(null);
-  const timePeriodRef = useRef<HTMLInputElement>(null);
 
   const formatAddress = useCallback((addr: string | undefined) => {
     if (!addr) return "";
@@ -202,7 +198,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
         birthTime: `${hour || ""}:${minute}`,
       }));
       if (minute.length === 2) {
-        timePeriodRef.current?.focus();
+        cityInputRef.current?.focus();
       }
     },
     [formData.birthTime],
@@ -272,7 +268,6 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
       if (!isConnected) {
         try {
           await connect();
-          // Wait a bit for the wallet connection and ENS resolution to complete
           await new Promise((resolve) => setTimeout(resolve, 1000));
         } catch (error) {
           console.error("Failed to connect wallet:", error);
@@ -281,17 +276,14 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
         }
       }
 
-      if (shouldCheck) {
-        const displayName = ensName || (address ? formatAddress(address) : "");
-        if (displayName) {
-          setFormData((prev) => ({ ...prev, name: displayName }));
-        }
+      const displayName = ensName || (address ? formatAddress(address) : "");
+      if (displayName) {
+        setFormData((prev) => ({ ...prev, name: displayName }));
       }
     },
     [isConnected, connect, ensName, address, formatAddress],
   );
 
-  // Add effect to update name when ENS or address changes
   useEffect(() => {
     if (useMyself) {
       const displayName = ensName || (address ? formatAddress(address) : "");
@@ -392,7 +384,6 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             required
           />
           <input
-            ref={timePeriodRef}
             className="astrology-input astrology-time-period-select"
             type="text"
             value={timePeriod}
