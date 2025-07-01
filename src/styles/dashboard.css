@@ -91,11 +91,11 @@
 }
 
 .portfolio-assets {
-  @apply flex flex-col gap-1;
+  @apply flex flex-col gap-0;
 }
 
 .portfolio-asset {
-  @apply flex items-center justify-between p-3 rounded-xl transition-all duration-200;
+  @apply flex items-center justify-between p-1 rounded-xl transition-all duration-200;
   background: linear-gradient(135deg, rgba(var(--background-color-light-rgb), 0.5), transparent);
   border: 1px solid rgba(var(--color-primary-rgb), 0.05);
 }
