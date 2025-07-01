@@ -81,13 +81,18 @@
   backdrop-filter: blur(5px);
 }
 
+.portfolio-summary-row {
+  @apply flex items-center justify-between;
+}
+
 .total-value {
-  @apply text-2xl font-bold text-[var(--text-color)] mb-2;
+  @apply text-2xl font-bold text-[var(--text-color)];
   text-shadow: 0 0 10px rgba(var(--text-color-rgb), 0.3);
 }
 
 .portfolio-change {
-  @apply text-lg font-semibold;
+  @apply text-lg font-bold px-3 py-1 rounded-lg;
+  background: rgba(var(--text-color-rgb), 0.05);
 }
 
 .portfolio-assets {

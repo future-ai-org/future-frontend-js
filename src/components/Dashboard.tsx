@@ -187,14 +187,16 @@ const Dashboard: React.FC = () => {
           </h3>
           <div className="card-content">
             <div className="portfolio-summary">
-              <p className="total-value">
-                {formatCurrency(totalPortfolioValue)}
-              </p>
-              <p
-                className={`portfolio-change ${portfolioChange24h >= 0 ? "positive-change" : "negative-change"}`}
-              >
-                {formatPercentage(portfolioChange24h)}
-              </p>
+              <div className="portfolio-summary-row">
+                <span className="total-value">
+                  {formatCurrency(totalPortfolioValue)}
+                </span>
+                <span
+                  className={`portfolio-change ${portfolioChange24h >= 0 ? "positive-change" : "negative-change"}`}
+                >
+                  {formatPercentage(portfolioChange24h)}
+                </span>
+              </div>
             </div>
             <div className="portfolio-assets">
               {portfolio.map((asset) => (
