@@ -21,7 +21,7 @@ export const ROUTES = {
   LOGIA: "/logia",
   TRADE: "/trade",
   PREDICT: "/predict",
-  DASHBOARD: "/dashboard",
+  DASHBOARD: "/avatar",
   PROFILE: "/profile",
 } as const;
 
