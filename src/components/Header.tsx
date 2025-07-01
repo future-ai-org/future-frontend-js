@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -11,7 +11,7 @@ import { useWeb3 } from "../utils/web3ModalContext";
 import { HEADER_CONFIG } from "../config/header";
 import { isValidRoute } from "../config/routes";
 
-const Header: React.FC = () => {
+function HeaderContent() {
   const { isConnected } = useWeb3();
   const pathname = usePathname();
   const [mounted, setMounted] = React.useState(false);
@@ -70,6 +70,36 @@ const Header: React.FC = () => {
         </div>
       </div>
     </header>
+  );
+}
+
+const Header: React.FC = () => {
+  return (
+    <Suspense fallback={
+      <header className={styles.header}>
+        <div className={styles.headerContent}>
+          <div className={styles.logoLink}>
+            <Image
+              src="/logo.svg"
+              alt={HEADER_CONFIG.logo.alt}
+              width={HEADER_CONFIG.logo.width}
+              height={HEADER_CONFIG.logo.height}
+              priority
+              className={styles.logoImage}
+            />
+            <div className={styles.headerTitleContainer}>
+              <h1 className={styles.headerTitle}>{HEADER_CONFIG.title}</h1>
+            </div>
+          </div>
+          <div className={styles.headerRight}>
+            <Wallet />
+            <ThemeToggler />
+          </div>
+        </div>
+      </header>
+    }>
+      <HeaderContent />
+    </Suspense>
   );
 };
 

@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, Suspense } from "react";
 import { useParams } from "next/navigation";
 import LogiaChart, { SavedChart } from "../../../../components/LogiaChart";
 import Loading from "../../../../utils/loading";
 import { useTranslation } from "react-i18next";
 
-export default function SavedChartPage() {
+function SavedChartContent() {
   const params = useParams();
   const { t } = useTranslation("logia");
   const [savedChart, setSavedChart] = useState<SavedChart | null>(null);
@@ -83,5 +83,13 @@ export default function SavedChartPage() {
         />
       </div>
     </div>
+  );
+}
+
+export default function SavedChartPage() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <SavedChartContent />
+    </Suspense>
   );
 }

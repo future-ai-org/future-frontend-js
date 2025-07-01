@@ -4,373 +4,303 @@
 
 /* Variables */
 :root {
-  --card-min-height: 300px;
-  --card-max-height: calc(100vh - 450px);
+  --card-min-height: 320px;
+  --card-max-height: calc(100vh - 400px);
+  --card-border-radius: 20px;
+  --card-padding: 24px;
+  --card-gap: 24px;
+  --section-gap: 16px;
+  --item-gap: 12px;
 }
 
 /* Layout */
 .dashboard {
-  @apply p-4 md:p-6 w-full mx-auto min-h-[calc(100vh-200px)];
-  background-color: var(--background-color);
+  @apply w-full mx-auto min-h-[calc(100vh-200px)] p-6;
+  background: linear-gradient(135deg, var(--background-color) 0%, var(--background-color-light) 100%);
 }
 
 .dashboard-grid {
-  @apply grid grid-cols-2 gap-4 justify-center items-stretch flex-1 min-h-0 w-full max-w-[1800px] mx-auto;
-}
-
-.dashboard-grid > div:first-child {
-  @apply flex-1 flex flex-row gap-8;
-}
-
-.dashboard-grid > div:first-child > div,
-.dashboard-grid > div:nth-child(2),
-.dashboard-grid > div:nth-child(3) {
-  @apply flex-1;
+  @apply grid gap-6 w-full max-w-[1400px] mx-auto;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-auto-rows: minmax(var(--card-min-height), auto);
 }
 
 /* Header */
 .dashboard-header {
-  @apply mb-6 flex justify-center items-center py-2;
+  @apply mb-8 flex justify-center items-center;
+  text-align: center;
 }
 
 .dashboard-header h2 {
-  @apply m-0 mt-2 py-1 text-center;
-  font-size: clamp(2rem, 8vw, 4rem);
-  font-weight: 800;
+  @apply m-0 text-center font-extrabold;
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
   color: var(--text-color);
-  text-shadow: var(--text-glow);
-}
-
-/* Wallet */
-.wallet-info {
-  @apply flex items-center gap-3 bg-[var(--background-color-light)] px-5 py-3 rounded-xl;
-}
-
-.wallet-label {
-  @apply text-[var(--text-color-secondary)];
-}
-
-.wallet-address {
-  @apply font-mono text-[var(--text-color)];
+  text-shadow: 0 0 20px var(--color-primary);
+  background: linear-gradient(135deg, var(--color-primary), var(--text-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Cards */
 .dashboard-card {
-  @apply bg-[var(--card-bg)] rounded-2xl p-2 flex flex-col w-full;
+  @apply bg-[var(--card-bg)] rounded-[var(--card-border-radius)] p-[var(--card-padding)] flex flex-col;
   min-height: var(--card-min-height);
   max-height: var(--card-max-height);
-  box-shadow: var(--base-shadow);
-  border: 1px solid var(--color-primary);
-  overflow-y: auto;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    0 4px 16px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(var(--color-primary-rgb), 0.2);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-primary), transparent);
+  opacity: 0.6;
 }
 
 .dashboard-card:hover {
-  @apply -translate-y-0;
-  box-shadow: var(--base-shadow);
-  border-color: var(--color-primary);
+  transform: translateY(-4px);
+  box-shadow: 
+    0 16px 48px rgba(0, 0, 0, 0.15),
+    0 8px 24px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  border-color: rgba(var(--color-primary-rgb), 0.4);
 }
 
 .dashboard-card h3 {
-  @apply mb-2 font-extrabold text-[var(--color-primary)] text-xl px-4 pt-4;
-  text-shadow: 0 0 10px var(--color-primary);
+  @apply mb-6 font-bold text-xl;
+  color: var(--color-primary);
+  text-shadow: 0 0 15px var(--color-primary);
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dashboard-card h3::before {
+  content: '';
+  width: 4px;
+  height: 24px;
+  background: var(--color-primary);
+  border-radius: 2px;
+  box-shadow: 0 0 10px var(--color-primary);
 }
 
 .card-content {
-  @apply text-[var(--text-color-secondary)] flex-1 flex flex-col items-center justify-center gap-0 px-0;
+  @apply flex-1 flex flex-col;
+  gap: var(--section-gap);
 }
 
-.card-content p {
-  @apply m-0 leading-relaxed;
-  opacity: var(--opacity-light);
-}
-
-/* Portfolio */
+/* Portfolio Card */
 .portfolio-summary {
-  @apply bg-[var(--background-color-light)] p-2 mb-3 flex items-center justify-center gap-2;
-  background: linear-gradient(
-    to right,
-    var(--background-color-light),
-    var(--card-bg)
-  );
+  @apply bg-gradient-to-r from-[var(--background-color-light)] to-transparent p-4 rounded-xl mb-4;
+  border: 1px solid rgba(var(--color-primary-rgb), 0.1);
+  backdrop-filter: blur(5px);
 }
 
 .total-value {
-  @apply text-lg font-bold text-[var(--text-color)] whitespace-nowrap text-center;
+  @apply text-2xl font-bold text-[var(--text-color)] mb-2;
+  text-shadow: 0 0 10px rgba(var(--text-color-rgb), 0.3);
 }
 
 .portfolio-change {
-  @apply text-lg font-bold whitespace-nowrap text-center;
+  @apply text-lg font-semibold;
 }
 
-/* Assets */
 .portfolio-assets {
-  @apply flex flex-col gap-0 w-full items-start justify-start;
+  @apply flex flex-col gap-3;
 }
 
 .portfolio-asset {
-  @apply py-1 pr-1 flex items-center justify-start gap-1;
-  background: linear-gradient(
-    to right,
-    var(--background-color-light),
-    transparent
-  );
-  width: 100%;
+  @apply flex items-center justify-between p-3 rounded-xl transition-all duration-200;
+  background: linear-gradient(135deg, rgba(var(--background-color-light-rgb), 0.5), transparent);
+  border: 1px solid rgba(var(--color-primary-rgb), 0.05);
 }
 
 .portfolio-asset:hover {
-  @apply bg-[var(--background-color-light)];
-  transform: none;
-}
-
-.asset-info {
-  @apply flex flex-col items-start pl-1;
-}
-
-.asset-symbol {
-  @apply font-bold text-[var(--text-color)] text-base;
+  background: linear-gradient(135deg, rgba(var(--background-color-light-rgb), 0.8), rgba(var(--color-primary-rgb), 0.05));
+  transform: translateX(4px);
+  border-color: rgba(var(--color-primary-rgb), 0.2);
 }
 
 .asset-details {
-  @apply flex items-center justify-start gap-1;
+  @apply flex items-center gap-3;
 }
 
 .asset-balance {
-  @apply flex items-center justify-start gap-0.5;
+  @apply flex items-center gap-1;
 }
 
 .balance-amount {
-  @apply font-mono text-[var(--text-color)] text-sm text-left font-semibold;
+  @apply font-mono text-[var(--text-color)] text-base font-bold;
 }
 
 .balance-symbol {
-  @apply text-[var(--text-color-secondary)] text-xs text-left font-semibold;
+  @apply text-[var(--text-color-secondary)] text-sm font-semibold;
 }
 
 .asset-value {
-  @apply text-[var(--text-color)] font-bold text-sm text-left;
+  @apply text-[var(--text-color)] font-bold text-base;
 }
 
 .asset-change {
-  @apply text-left font-bold text-sm;
+  @apply font-bold text-base px-3 py-1 rounded-lg;
+  background: rgba(var(--text-color-rgb), 0.05);
 }
 
 /* States */
 .positive-change {
-  @apply text-[var(--bullish-color)];
+  color: var(--bullish-color);
+  text-shadow: 0 0 8px rgba(var(--bullish-color-rgb), 0.3);
 }
 
 .negative-change {
-  @apply text-[var(--bearish-color)];
+  color: var(--bearish-color);
+  text-shadow: 0 0 8px rgba(var(--bearish-color-rgb), 0.3);
 }
 
-/* Responsive */
-@media (max-width: 1200px) {
-  .dashboard-grid {
-    @apply grid-cols-1;
-  }
-}
-
-@media (max-width: 768px) {
-  .dashboard {
-    @apply p-4;
-  }
-
-  .dashboard-header {
-    @apply flex-col items-start gap-6 mb-6;
-  }
-
-  .dashboard-grid {
-    @apply gap-4;
-  }
-
-  .dashboard-card {
-    @apply p-4;
-    min-height: 250px;
-  }
-}
-
+/* Saved Charts */
 .saved-charts-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  max-height: 400px;
-  overflow-y: auto;
-  padding: 0.5rem;
-  width: 100%;
+  @apply flex flex-col gap-3 max-h-[400px] overflow-y-auto pr-2;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) transparent;
+}
+
+.saved-charts-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.saved-charts-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.saved-charts-list::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 3px;
 }
 
 .saved-chart-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  width: 100%;
-  padding: 0.25rem;
-  border-radius: 0.5rem;
-  transition: background-color 0.2s ease;
+  @apply flex items-center justify-between p-3 rounded-xl transition-all duration-200;
+  background: linear-gradient(135deg, rgba(var(--background-color-light-rgb), 0.3), transparent);
+  border: 1px solid rgba(var(--color-primary-rgb), 0.05);
 }
 
 .saved-chart-container:hover {
-  background-color: var(--background-color-light);
+  background: linear-gradient(135deg, rgba(var(--background-color-light-rgb), 0.6), rgba(var(--color-primary-rgb), 0.05));
+  transform: translateX(4px);
+  border-color: rgba(var(--color-primary-rgb), 0.2);
 }
 
 .saved-chart-item {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  min-width: 0;
+  @apply flex-1 min-w-0;
 }
 
 .saved-chart-item p {
-  margin: 0;
-  font-size: 0.9rem;
-  color: var(--text-color);
-  opacity: 0.9;
-  font-weight: 700;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  @apply m-0 text-sm font-semibold text-[var(--text-color)];
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.chart-name {
+  @apply font-bold text-[var(--color-primary)];
+  text-shadow: 0 0 8px rgba(var(--color-primary-rgb), 0.3);
+}
+
+.chart-details {
+  @apply text-[var(--text-color-secondary)];
+  font-weight: 500;
 }
 
 .chart-actions {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  flex-shrink: 0;
+  @apply flex items-center gap-2;
 }
 
 .view-chart-button,
 .delete-chart-button,
 .set-official-button {
-  padding: 0.25rem;
-  border-radius: 0.25rem;
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  background: transparent;
-  border: none;
+  @apply p-2 rounded-lg transition-all duration-200 flex items-center justify-center;
+  width: 36px;
+  height: 36px;
+  background: rgba(var(--color-primary-rgb), 0.1);
+  border: 1px solid rgba(var(--color-primary-rgb), 0.2);
   color: var(--text-color);
+}
+
+.view-chart-button:hover {
+  background: var(--color-primary);
+  color: var(--background-color);
+  transform: scale(1.1);
+  box-shadow: 0 0 15px var(--color-primary);
+}
+
+.set-official-button:hover {
+  background: var(--bullish-color);
+  color: var(--background-color);
+  transform: scale(1.1);
+  box-shadow: 0 0 15px var(--bullish-color);
+}
+
+.delete-chart-button:hover {
+  background: var(--bearish-color);
+  color: var(--background-color);
+  transform: scale(1.1);
+  box-shadow: 0 0 15px var(--bearish-color);
 }
 
 .view-chart-button svg,
 .delete-chart-button svg,
 .set-official-button svg {
-  width: 1.2rem;
-  height: 1.2rem;
-}
-
-.view-chart-button:hover,
-.delete-chart-button:hover,
-.set-official-button:hover {
-  color: var(--color-primary);
-  transform: scale(1.2) rotate(5deg);
-}
-
-.delete-chart-button:hover {
-  transform: scale(1.1) rotate(5deg);
-}
-
-.no-charts-message {
-  text-align: center;
-  color: var(--text-color);
-  opacity: 0.7;
-  font-style: italic;
-  padding: 1rem;
-  font-size: 1rem;
-}
-
-.official-badge {
-  display: none;
-}
-
-.set-official-button {
-  position: relative;
-}
-
-.set-official-button:hover {
-  color: var(--color-primary);
-  transform: none;
-}
-
-.tooltip {
-  position: absolute;
-  padding: 8px 12px;
-  font-size: 0.85rem;
-  max-width: 250px;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  border: 1px solid var(--color-primary);
-  z-index: 1001;
-  font-weight: 700;
-  background-color: var(--color-primary);
-  color: var(--color-background);
-  border-radius: 4px;
-  pointer-events: none;
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.tooltip-quick {
-  padding: 8px 12px;
-  font-size: 0.85rem;
-  max-width: 250px;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  border: 1px solid var(--color-primary);
-  z-index: 1001;
-  font-weight: 700;
+  width: 16px;
+  height: 16px;
 }
 
 .main-label {
-  display: inline-block;
-  background-color: var(--color-primary);
-  color: var(--color-background);
-  padding: 2px 8px;
-  border-radius: 4px;
-  margin-right: 8px;
-  font-size: 0.8em;
-  font-weight: 600;
+  @apply inline-flex items-center px-2 py-1 rounded-md text-xs font-bold;
+  background: linear-gradient(135deg, var(--color-primary), var(--bullish-color));
+  color: var(--background-color);
+  box-shadow: 0 0 10px rgba(var(--color-primary-rgb), 0.3);
+}
+
+.no-charts-message {
+  @apply text-center text-[var(--text-color-secondary)] italic py-8;
+  font-size: 1rem;
+  opacity: 0.7;
 }
 
 /* Favorites */
 .favorite-assets-list {
-  @apply flex flex-col gap-2 w-full;
+  @apply flex flex-col gap-3;
 }
 
 .favorite-asset-item {
-  @apply flex items-center justify-between p-2 rounded-lg;
-  background: linear-gradient(
-    to right,
-    var(--background-color-light),
-    transparent
-  );
+  @apply flex items-center justify-between p-3 rounded-xl transition-all duration-200;
+  background: linear-gradient(135deg, rgba(var(--background-color-light-rgb), 0.3), transparent);
+  border: 1px solid rgba(var(--color-primary-rgb), 0.05);
 }
 
 .favorite-asset-item:hover {
-  @apply bg-[var(--background-color-light)];
-}
-
-.asset-info {
-  @apply flex flex-col items-start;
+  background: linear-gradient(135deg, rgba(var(--background-color-light-rgb), 0.6), rgba(var(--color-primary-rgb), 0.05));
+  transform: translateX(4px);
+  border-color: rgba(var(--color-primary-rgb), 0.2);
 }
 
 .asset-symbol {
-  @apply font-bold text-[var(--text-color)] text-base;
-}
-
-.asset-name {
-  @apply text-[var(--text-color-secondary)] text-sm;
+  @apply font-bold text-[var(--text-color)] text-lg;
+  text-shadow: 0 0 8px rgba(var(--text-color-rgb), 0.3);
 }
 
 .asset-actions {
@@ -379,23 +309,108 @@
 
 .view-asset-button,
 .remove-favorite-button {
-  @apply p-2 rounded-lg transition-all duration-200;
-  color: var(--text-color-secondary);
+  @apply p-2 rounded-lg transition-all duration-200 flex items-center justify-center;
+  width: 36px;
+  height: 36px;
+  background: rgba(var(--color-primary-rgb), 0.1);
+  border: 1px solid rgba(var(--color-primary-rgb), 0.2);
+  color: var(--text-color);
 }
 
 .view-asset-button:hover {
-  @apply bg-[var(--color-primary)];
+  background: var(--color-primary);
   color: var(--background-color);
-  transform: none;
+  transform: scale(1.1);
+  box-shadow: 0 0 15px var(--color-primary);
 }
 
 .remove-favorite-button:hover {
-  @apply bg-[var(--bearish-color)];
+  background: var(--bearish-color);
   color: var(--background-color);
-  transform: none;
+  transform: scale(1.1);
+  box-shadow: 0 0 15px var(--bearish-color);
+}
+
+.view-asset-button svg,
+.remove-favorite-button svg {
+  width: 16px;
+  height: 16px;
 }
 
 .no-favorites-message {
-  @apply text-center text-[var(--text-color-secondary)];
-  opacity: var(--opacity-light);
+  @apply text-center text-[var(--text-color-secondary)] italic py-8;
+  font-size: 1rem;
+  opacity: 0.7;
+}
+
+/* Predictions placeholder */
+.predictions-placeholder {
+  @apply flex items-center justify-center h-full;
+  color: var(--text-color-secondary);
+  opacity: 0.6;
+  font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: var(--card-gap);
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    @apply p-4;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .dashboard-card {
+    padding: 20px;
+    min-height: 280px;
+  }
+
+  .dashboard-header h2 {
+    font-size: clamp(2rem, 8vw, 2.5rem);
+  }
+
+  .total-value {
+    @apply text-xl;
+  }
+
+  .portfolio-change {
+    @apply text-base;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard {
+    @apply p-3;
+  }
+
+  .dashboard-card {
+    padding: 16px;
+    min-height: 250px;
+  }
+
+  .asset-details {
+    @apply flex-col items-start gap-1;
+  }
+
+  .chart-actions {
+    @apply gap-1;
+  }
+
+  .view-chart-button,
+  .delete-chart-button,
+  .set-official-button,
+  .view-asset-button,
+  .remove-favorite-button {
+    width: 32px;
+    height: 32px;
+  }
 }

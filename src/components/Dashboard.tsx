@@ -6,7 +6,7 @@ import { useWeb3 } from "../utils/web3ModalContext";
 import strings from "../i18n/dashboard.json";
 import "../styles/dashboard.css";
 import { formatDate, formatTime } from "../utils/geocoding";
-import { FaTrash, FaEye, FaStar } from "react-icons/fa";
+import { FaTrash, FaEye, FaStar, FaChartLine, FaCoins, FaHeart, FaMagic } from "react-icons/fa";
 
 interface SavedChart {
   id: string;
@@ -179,18 +179,20 @@ const Dashboard: React.FC = () => {
       </div>
 
       <div className="dashboard-grid">
+        {/* Portfolio Card */}
         <div className="dashboard-card">
-          <h3>{strings.en.portfolio.title}</h3>
+          <h3>
+            <FaCoins />
+            {strings.en.portfolio.title}
+          </h3>
           <div className="card-content">
             <div className="portfolio-summary">
               <p className="total-value">
-                {strings.en.portfolio.totalValue}:{" "}
                 {formatCurrency(totalPortfolioValue)}
               </p>
               <p
                 className={`portfolio-change ${portfolioChange24h >= 0 ? "positive-change" : "negative-change"}`}
               >
-                {strings.en.portfolio.change24h}:{" "}
                 {formatPercentage(portfolioChange24h)}
               </p>
             </div>
@@ -221,8 +223,12 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
+        {/* Logia Charts Card */}
         <div className="dashboard-card">
-          <h3>{strings.en.cards.logia.title}</h3>
+          <h3>
+            <FaChartLine />
+            {strings.en.cards.logia.title}
+          </h3>
           <div className="card-content">
             {savedCharts.length === 0 ? (
               <p className="no-charts-message">
@@ -253,11 +259,8 @@ const Dashboard: React.FC = () => {
                           <span className="chart-name">
                             {chart.name.toUpperCase()}
                           </span>
-                          ,
                           <span className="chart-details">
-                            {" "}
-                            {formatDate(chart.birthDate)},{" "}
-                            {formatTime(chart.birthTime)}
+                            {formatDate(chart.birthDate)}, {formatTime(chart.birthTime)}
                           </span>
                         </p>
                       </div>
@@ -268,6 +271,7 @@ const Dashboard: React.FC = () => {
                           }
                           className="view-chart-button"
                           aria-label={strings.en.cards.logia.actions.view}
+                          title={strings.en.cards.logia.actions.view}
                         >
                           <FaEye />
                         </button>
@@ -285,6 +289,7 @@ const Dashboard: React.FC = () => {
                           onClick={() => handleDeleteChart(chart.id)}
                           className="delete-chart-button"
                           aria-label={strings.en.cards.logia.actions.delete}
+                          title={strings.en.cards.logia.actions.delete}
                         >
                           <FaTrash />
                         </button>
@@ -296,8 +301,12 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
+        {/* Favorites Card */}
         <div className="dashboard-card">
-          <h3>{strings.en.cards.favorites.title}</h3>
+          <h3>
+            <FaHeart />
+            {strings.en.cards.favorites.title}
+          </h3>
           <div className="card-content">
             {favoriteAssets.length === 0 ? (
               <p className="no-favorites-message">
@@ -315,6 +324,7 @@ const Dashboard: React.FC = () => {
                         onClick={() => router.push(`/trade/${asset.id}`)}
                         className="view-asset-button"
                         aria-label={strings.en.cards.favorites.actions.view}
+                        title={strings.en.cards.favorites.actions.view}
                       >
                         <FaEye />
                       </button>
@@ -322,6 +332,7 @@ const Dashboard: React.FC = () => {
                         onClick={() => handleRemoveFavorite(asset.id)}
                         className="remove-favorite-button"
                         aria-label={strings.en.cards.favorites.actions.remove}
+                        title={strings.en.cards.favorites.actions.remove}
                       >
                         <FaTrash />
                       </button>
@@ -333,10 +344,16 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
+        {/* Predictions Card */}
         <div className="dashboard-card">
-          <h3>{strings.en.cards.predictions.title}</h3>
+          <h3>
+            <FaMagic />
+            {strings.en.cards.predictions.title}
+          </h3>
           <div className="card-content">
-            {/* Predictions content will go here */}
+            <div className="predictions-placeholder">
+              <p>Coming soon...</p>
+            </div>
           </div>
         </div>
       </div>

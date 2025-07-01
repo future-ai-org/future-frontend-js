@@ -1,22 +1,26 @@
 "use client";
 
-import React, { Suspense, useMemo } from "react";
+import React, { Suspense } from "react";
 import LogiaAdvanced from "@/components/LogiaAdvanced";
 import { useSearchParams } from "next/navigation";
 import Loading from "@/utils/loading";
 
-export default function AdvancedPage() {
+function AdvancedContent() {
   const searchParams = useSearchParams();
 
-  const { birthDate, birthTime, city } = useMemo(() => ({
-    birthDate: decodeURIComponent(searchParams.get("birthDate") || ""),
-    birthTime: decodeURIComponent(searchParams.get("birthTime") || ""),
-    city: decodeURIComponent(searchParams.get("city") || ""),
-  }), [searchParams]);
+  const birthDate = decodeURIComponent(searchParams.get("birthDate") || "");
+  const birthTime = decodeURIComponent(searchParams.get("birthTime") || "");
+  const city = decodeURIComponent(searchParams.get("city") || "");
 
   return (
+    <LogiaAdvanced birthDate={birthDate} birthTime={birthTime} city={city} />
+  );
+}
+
+export default function AdvancedPage() {
+  return (
     <Suspense fallback={<Loading />}>
-      <LogiaAdvanced birthDate={birthDate} birthTime={birthTime} city={city} />
+      <AdvancedContent />
     </Suspense>
   );
 }
