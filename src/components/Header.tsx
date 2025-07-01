@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import styles from "src/styles/header.module.css";
+import styles from "../styles/header.module.css";
 import { ThemeToggler } from "../utils/themeContext";
 import Wallet from "./Wallet";
 import { useWeb3 } from "../utils/web3ModalContext";

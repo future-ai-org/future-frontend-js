@@ -54,7 +54,7 @@ const FeatureCard = React.memo(
           className="landing-feature-title"
           dangerouslySetInnerHTML={{ __html: displayTitle }}
         />
-        <p className="landing-feature-description">{description}</p>
+        <div className="landing-feature-description">{description}</div>
       </div>
     );
   },
@@ -115,7 +115,7 @@ export default function Home() {
             {strings.en.links.logia.prefix}{" "}
             <Link href={ROUTES.LOGIA}>{strings.en.links.logia.link}</Link>
             {strings.en.text.and}
-            {isConnected ? (
+            {isClient && isConnected ? (
               <Link href={ROUTES.DASHBOARD}>
                 {strings.en.links.dashboard.link}
               </Link>
@@ -143,7 +143,7 @@ export default function Home() {
         isConnected: false,
       },
     ],
-    [getFirstCardDescription, isConnected, ensName, address],
+    [getFirstCardDescription, isConnected, isClient, ensName, address],
   );
 
   return (

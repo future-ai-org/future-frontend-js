@@ -3,7 +3,7 @@
 import React from "react";
 import { SliderPrice } from "./SliderPrice";
 import { SliderPlanets } from "./SliderPlanets";
-import styles from "src/styles/footer.module.css";
+import styles from "../styles/footer.module.css";
 
 export const Footer: React.FC = () => {
   return (
