@@ -3,7 +3,10 @@
     "astro": {
       "error": "Failed to fetch astrological data",
       "consoleError": "Error fetching astro data:",
-      "httpError": "HTTP error! status: {status}"
+      "httpError": "HTTP error! status: {status}",
+      "missingEnvVar": "NEXT_PUBLIC_ASTRO_SERVICE_URL environment variable is not set",
+      "timeoutError": "Request timeout",
+      "timeoutLog": "Request timeout for astro data:"
     }
   }
 }
