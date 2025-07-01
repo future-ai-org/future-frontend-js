@@ -7,14 +7,12 @@ import strings from "../i18n/dashboard.json";
 import "../styles/dashboard.css";
 import { formatDate, formatTime } from "../utils/geocoding";
 import { FaTrash, FaEye, FaStar } from "react-icons/fa";
-import { ChartData } from "../config/logiaChart";
 
 interface SavedChart {
   id: string;
   birthDate: string;
   birthTime: string;
   city: string;
-  chartData: ChartData;
   savedAt: string;
   isOfficial?: boolean;
   name: string;
@@ -23,8 +21,6 @@ interface SavedChart {
 interface FavoriteAsset {
   id: string;
   symbol: string;
-  name: string;
-  addedAt: string;
 }
 
 const Dashboard: React.FC = () => {
@@ -57,7 +53,6 @@ const Dashboard: React.FC = () => {
     };
 
     loadSavedCharts();
-    // Listen for storage changes
     window.addEventListener("storage", loadSavedCharts);
     return () => window.removeEventListener("storage", loadSavedCharts);
   }, []);
@@ -100,7 +95,6 @@ const Dashboard: React.FC = () => {
       );
       if (!chartToMakeOfficial) return;
 
-      // Check for duplicates
       const duplicateCharts = savedCharts.filter(
         (chart) =>
           chart.id !== chartId &&
@@ -109,7 +103,6 @@ const Dashboard: React.FC = () => {
           chart.city === chartToMakeOfficial.city,
       );
 
-      // Remove duplicates and set the selected chart as official
       const updatedCharts = savedCharts
         .filter((chart) => !duplicateCharts.some((dup) => dup.id === chart.id))
         .map((chart) => ({
@@ -239,12 +232,10 @@ const Dashboard: React.FC = () => {
               <div className="saved-charts-list">
                 {savedCharts
                   .sort((a, b) => {
-                    // First sort by official status
                     const officialSort =
                       (b.isOfficial ? 1 : 0) - (a.isOfficial ? 1 : 0);
                     if (officialSort !== 0) return officialSort;
 
-                    // Then sort by saved date (newest first)
                     return (
                       new Date(b.savedAt).getTime() -
                       new Date(a.savedAt).getTime()

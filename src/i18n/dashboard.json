@@ -30,7 +30,6 @@
       "logia": {
         "title": "my logias",
         "noCharts": "no saved charts yet",
-        "official": "main",
         "main": "main",
         "actions": {
           "view": "view chart",
