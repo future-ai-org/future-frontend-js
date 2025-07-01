@@ -144,7 +144,7 @@
 
 /* Saved Charts */
 .saved-charts-list {
-  @apply flex flex-col gap-3 max-h-[400px] overflow-y-auto pr-2;
+  @apply flex flex-col gap-0 max-h-[400px] overflow-y-auto pr-2;
   scrollbar-width: thin;
   scrollbar-color: var(--color-primary) transparent;
 }
@@ -163,7 +163,7 @@
 }
 
 .saved-chart-container {
-  @apply flex items-center justify-between p-3 rounded-xl transition-all duration-200;
+  @apply flex items-center justify-between p-0 rounded-xl transition-all duration-200;
   background: linear-gradient(135deg, rgba(var(--background-color-light-rgb), 0.3), transparent);
   border: 1px solid rgba(var(--color-primary-rgb), 0.05);
 }
