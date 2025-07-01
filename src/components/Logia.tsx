@@ -33,23 +33,7 @@ export default function Logia() {
     name: "",
   });
   const [showChart, setShowChart] = useState(false);
-  const [stylesLoaded, setStylesLoaded] = useState(false);
 
-  useEffect(() => {
-    const checkStyles = () => {
-      const computedStyle = getComputedStyle(document.documentElement);
-      const primaryColor = computedStyle
-        .getPropertyValue("--color-primary")
-        .trim();
-      if (primaryColor) {
-        setStylesLoaded(true);
-      } else {
-        // If styles aren't loaded yet, check again after a short delay
-        setTimeout(checkStyles, 50);
-      }
-    };
-    checkStyles();
-  }, []);
 
   const handleSubmit = useCallback(async (data: FormData) => {
     setFormData(data);
@@ -83,13 +67,7 @@ export default function Logia() {
     );
   };
 
-  if (!stylesLoaded) {
-    return (
-      <div className="logia-container">
-        <Loading />
-      </div>
-    );
-  }
+
 
   return (
     <div className="astrology-container">

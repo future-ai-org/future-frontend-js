@@ -417,7 +417,7 @@
 .logia-info-wrapper {
   position: absolute;
   right: calc(50% + 350px);
-  top: 55%;
+  top: 50%;
   transform: translateY(-50%);
   display: flex;
   align-items: center;
