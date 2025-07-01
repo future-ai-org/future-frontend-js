@@ -228,7 +228,7 @@
 
 .main-label {
   @apply inline-flex items-center px-2 py-1 rounded-md text-xs font-bold;
-  background: linear-gradient(135deg, var(--color-primary), var(--bullish-color));
+  background: linear-gradient(135deg, var(--color-primary), #d282c3);
   color: var(--background-color);
   box-shadow: 0 0 10px rgba(var(--color-primary-rgb), 0.3);
 }
