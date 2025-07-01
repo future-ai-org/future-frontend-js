@@ -49,19 +49,9 @@
   --dark-glow-pink-dark: rgba(52, 211, 153, 0.4);
   --dark-planet-symbol: #8a6cb3; /* Darker purple color for planet symbols */
 
-  /* Opacity Values */
-  --opacity-100: 1;
-  --opacity-80: 0.8;
-  --opacity-50: 0.5;
-  --opacity-30: 0.3;
-  --opacity-20: 0.2;
-  --opacity-10: 0.1;
-
   /* Common Variables */
   --transition-duration: 0.3s;
   --transition-timing: ease;
-  --hover-background: rgba(255, 255, 255, 0.1);
-  --active-background: rgba(255, 255, 255, 0.15);
 
   /* Default to light theme */
   --color-primary: var(--light-primary);

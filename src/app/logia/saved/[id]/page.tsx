@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
-import LogiaChart from "../../../../components/LogiaChart";
+import LogiaChart, { SavedChart } from "../../../../components/LogiaChart";
 import Loading from "../../../../utils/loading";
-import { SavedChart } from "../../../../components/LogiaChart";
 import { useTranslation } from "react-i18next";
 
 export default function SavedChartPage() {
@@ -39,7 +38,7 @@ export default function SavedChartPage() {
       }
 
       setSavedChart(chart);
-    } catch (error) {
+    } catch {
       setError(t("errors.loadingError"));
     } finally {
       setIsLoading(false);
