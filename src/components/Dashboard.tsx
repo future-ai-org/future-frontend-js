@@ -351,9 +351,9 @@ const Dashboard: React.FC = () => {
             {strings.en.cards.predictions.title}
           </h3>
           <div className="card-content">
-            <div className="predictions-placeholder">
-              <p>Coming soon...</p>
-            </div>
+            <p className="no-favorites-message">
+              {strings.en.cards.predictions.noPredictions}
+            </p>
           </div>
         </div>
       </div>

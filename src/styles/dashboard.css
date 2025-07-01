@@ -285,13 +285,7 @@
   opacity: 0.7;
 }
 
-/* Predictions placeholder */
-.predictions-placeholder {
-  @apply flex items-center justify-center h-full;
-  color: var(--text-color-secondary);
-  opacity: 0.6;
-  font-style: italic;
-}
+
 
 /* Responsive Design */
 @media (max-width: 1200px) {
