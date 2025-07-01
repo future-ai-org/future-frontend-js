@@ -100,11 +100,7 @@
   border: 1px solid rgba(var(--color-primary-rgb), 0.05);
 }
 
-.portfolio-asset:hover {
-  background: linear-gradient(135deg, rgba(var(--background-color-light-rgb), 0.8), rgba(var(--color-primary-rgb), 0.05));
-  transform: translateX(4px);
-  border-color: rgba(var(--color-primary-rgb), 0.2);
-}
+
 
 .asset-details {
   @apply flex items-center gap-1;
@@ -168,11 +164,7 @@
   border: 1px solid rgba(var(--color-primary-rgb), 0.05);
 }
 
-.saved-chart-container:hover {
-  background: linear-gradient(135deg, rgba(var(--background-color-light-rgb), 0.6), rgba(var(--color-primary-rgb), 0.05));
-  transform: translateX(4px);
-  border-color: rgba(var(--color-primary-rgb), 0.2);
-}
+
 
 .saved-chart-item {
   @apply flex-1 min-w-0;
@@ -212,26 +204,16 @@
   color: var(--text-color);
 }
 
-.view-chart-button:hover {
-  background: var(--color-primary);
-  color: var(--background-color);
-  transform: scale(1.1);
-  box-shadow: 0 0 15px var(--color-primary);
-}
-
+.view-chart-button:hover,
+.delete-chart-button:hover,
 .set-official-button:hover {
-  background: var(--bullish-color);
-  color: var(--background-color);
-  transform: scale(1.1);
-  box-shadow: 0 0 15px var(--bullish-color);
+  background: rgba(var(--color-primary-rgb), 0.2);
+  border-color: rgba(var(--color-primary-rgb), 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(var(--color-primary-rgb), 0.3);
 }
 
-.delete-chart-button:hover {
-  background: var(--bearish-color);
-  color: var(--background-color);
-  transform: scale(1.1);
-  box-shadow: 0 0 15px var(--bearish-color);
-}
+
 
 .view-chart-button svg,
 .delete-chart-button svg,
@@ -264,11 +246,7 @@
   border: 1px solid rgba(var(--color-primary-rgb), 0.05);
 }
 
-.favorite-asset-item:hover {
-  background: linear-gradient(135deg, rgba(var(--background-color-light-rgb), 0.6), rgba(var(--color-primary-rgb), 0.05));
-  transform: translateX(4px);
-  border-color: rgba(var(--color-primary-rgb), 0.2);
-}
+
 
 .asset-info {
   @apply flex items-center gap-1;
@@ -293,19 +271,7 @@
   color: var(--text-color);
 }
 
-.view-asset-button:hover {
-  background: var(--color-primary);
-  color: var(--background-color);
-  transform: scale(1.1);
-  box-shadow: 0 0 15px var(--color-primary);
-}
 
-.remove-favorite-button:hover {
-  background: var(--bearish-color);
-  color: var(--background-color);
-  transform: scale(1.1);
-  box-shadow: 0 0 15px var(--bearish-color);
-}
 
 .view-asset-button svg,
 .remove-favorite-button svg {
