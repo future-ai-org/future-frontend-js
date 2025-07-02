@@ -120,9 +120,8 @@
 }
 
 .portfolio-asset {
-  @apply flex items-center justify-between p-3 rounded-xl transition-all duration-200;
+  @apply flex items-center justify-between p-0 rounded-xl transition-all duration-200;
   background: linear-gradient(135deg, rgba(var(--background-color-light-rgb), 0.3), transparent);
-  margin-bottom: 8px;
 }
 
 .asset-details {
