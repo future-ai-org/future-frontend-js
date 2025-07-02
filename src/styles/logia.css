@@ -96,7 +96,10 @@ html.dark {
   background-color: var(--card-bg, rgba(255, 255, 255, 0.1)) !important;
   padding: 1.5rem !important;
   border-radius: 2rem !important;
-  box-shadow: 0 8px 32px var(--color-shadow-black, rgba(0, 0, 0, 0.2)) !important;
+  box-shadow:
+    0 8px 32px var(--color-shadow-black, rgba(0, 0, 0, 0.2)),
+    0 0 15px var(--glow-shadow, rgba(87, 76, 145, 0.3)),
+    0 0 30px var(--glow-shadow, rgba(87, 76, 145, 0.3)) !important;
   position: sticky !important;
   border: 1px solid var(--color-primary, #575c91) !important;
   transition:
