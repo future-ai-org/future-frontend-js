@@ -77,8 +77,13 @@
 
 /* Portfolio Card */
 .portfolio-summary {
-  @apply bg-gradient-to-r from-[var(--background-color-light)] to-transparent p-4 rounded-xl mb-4;
+  @apply p-4 rounded-xl mb-4;
   backdrop-filter: blur(5px);
+  background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(168, 85, 247, 0.15));
+  border: 1px solid rgba(147, 51, 234, 0.3);
+  box-shadow: 
+    0 4px 15px rgba(147, 51, 234, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .portfolio-summary-row {
