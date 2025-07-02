@@ -8,6 +8,7 @@
   /* Fallback values for CSS variables */
   --color-primary-rgb: 87, 76, 145;
   --color-primary: rgb(87, 76, 145);
+  --color-primary-dark: rgb(45, 27, 105);
   --card-bg: rgba(255, 255, 255, 0.1);
   --color-shadow-black: rgba(0, 0, 0, 0.2);
   --text-color: var(--color-primary);
@@ -22,6 +23,7 @@
 html.dark {
   --color-primary-rgb: 96, 165, 250;
   --color-primary: #60a5fa;
+  --color-primary-dark: #1e40af;
   --card-bg: rgba(16, 20, 30, 0.8);
   --color-shadow-black: rgba(0, 0, 0, 0.4);
   --text-color: var(--color-primary);
@@ -420,10 +422,16 @@ html.dark {
   margin: 0;
   position: relative;
   background-color: var(--card-bg);
+  background-image: none;
+  -webkit-background-image: none;
+  -moz-background-image: none;
 }
 
 .astrology-unsure-checkbox input[type="checkbox"]:checked {
-  background-color: var(--color-primary);
+  background-color: transparent;
+  background-image: none;
+  -webkit-background-image: none;
+  -moz-background-image: none;
   border-color: var(--color-primary);
 }
 
@@ -433,7 +441,7 @@ html.dark {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: var(--background-color);
+  color: var(--color-primary-dark);
   font-size: 12px;
   font-weight: bold;
 }
