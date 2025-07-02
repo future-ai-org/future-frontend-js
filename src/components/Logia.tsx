@@ -101,6 +101,12 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
   });
   const [useMyself, setUseMyself] = useState(false);
   const { ensName, isConnected, address, connect } = useWeb3();
+  const [mounted, setMounted] = useState(false);
+
+  // Prevent hydration mismatch by only using isConnected after mount
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   const [timePeriod, setTimePeriod] = useState<
     typeof t.labels.am | typeof t.labels.pm
   >(t.labels.am);
@@ -278,7 +284,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
         return;
       }
 
-      if (!isConnected) {
+      if (mounted && !isConnected) {
         try {
           await connect();
           await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -294,7 +300,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
         setFormData((prev) => ({ ...prev, name: displayName }));
       }
     },
-    [isConnected, connect, ensName, address, formatAddress],
+    [mounted, isConnected, connect, ensName, address, formatAddress],
   );
 
   useEffect(() => {

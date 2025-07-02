@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -13,6 +13,12 @@ import { HEADER_CONFIG } from "../config/header";
 const Header: React.FC = () => {
   const { isConnected } = useWeb3();
   const pathname = usePathname();
+  const [mounted, setMounted] = useState(false);
+
+  // Prevent hydration mismatch by only rendering after mount
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const isActive = useMemo(() => {
     return (path: string) => {
@@ -49,7 +55,7 @@ const Header: React.FC = () => {
               {label}
             </Link>
           ))}
-          {isConnected && (
+          {mounted && isConnected && (
             <Link
               href={HEADER_CONFIG.dashboard.path}
               className={`${styles.navLink} ${isActive(HEADER_CONFIG.dashboard.path) ? styles.active : ""}`}

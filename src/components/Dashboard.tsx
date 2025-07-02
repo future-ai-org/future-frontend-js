@@ -39,6 +39,7 @@ const Dashboard: React.FC = () => {
   const router = useRouter();
   const [savedCharts, setSavedCharts] = useState<SavedChart[]>([]);
   const [favoriteAssets, setFavoriteAssets] = useState<FavoriteAsset[]>([]);
+  const [mounted, setMounted] = useState(false);
   const {
     account,
     ensName,
@@ -48,11 +49,16 @@ const Dashboard: React.FC = () => {
     isConnected,
   } = useWeb3();
 
+  // Prevent hydration mismatch by only checking connection after mount
   useEffect(() => {
-    if (!isConnected) {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (mounted && !isConnected) {
       router.push("/");
     }
-  }, [isConnected, router]);
+  }, [mounted, isConnected, router]);
 
   useEffect(() => {
     const loadSavedCharts = () => {
