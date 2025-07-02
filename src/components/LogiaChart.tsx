@@ -539,7 +539,7 @@ export default function LogiaChart({
       setNotificationMessage(chartT.saveChart.success);
       setShowNotification(true);
       setTimeout(() => setShowNotification(false), 3000);
-    } catch (error) {
+    } catch {
       setError(chartT.saveChart.error);
     } finally {
       setIsSaving(false);
