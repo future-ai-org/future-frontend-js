@@ -96,13 +96,28 @@
 }
 
 .portfolio-assets {
-  @apply flex flex-col gap-2;
+  @apply flex flex-col gap-0 max-h-[400px] overflow-y-auto pr-2;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) transparent;
+}
+
+.portfolio-assets::-webkit-scrollbar {
+  width: 6px;
+}
+
+.portfolio-assets::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.portfolio-assets::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 3px;
 }
 
 .portfolio-asset {
-  @apply grid grid-cols-3 items-center p-1 rounded-xl transition-all duration-200;
-  background: linear-gradient(135deg, rgba(var(--background-color-light-rgb), 0.5), transparent);
-  gap: 8px;
+  @apply flex items-center justify-between p-3 rounded-xl transition-all duration-200;
+  background: linear-gradient(135deg, rgba(var(--background-color-light-rgb), 0.3), transparent);
+  margin-bottom: 8px;
 }
 
 .asset-details {
@@ -127,6 +142,19 @@
 
 .asset-change {
   @apply font-bold text-sm px-2 py-1 rounded-lg text-center;
+  background: rgba(var(--text-color-rgb), 0.05);
+}
+
+.portfolio-asset .asset-actions {
+  @apply flex items-center gap-3;
+}
+
+.portfolio-asset .asset-value {
+  @apply text-[var(--text-color)] font-bold text-sm;
+}
+
+.portfolio-asset .asset-change {
+  @apply font-bold text-sm px-2 py-1 rounded-lg;
   background: rgba(var(--text-color-rgb), 0.05);
 }
 
