@@ -381,12 +381,39 @@ export default function LogiaChart({
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [showEns, setShowEns] = useState(false);
+  const [isChartSaved, setIsChartSaved] = useState(false);
 
   const handlePlanetSelect = useCallback((planet: string) => {
     setSelectedPlanet(planet);
   }, []);
 
   const drawChart = useChartDrawing(chartData, handlePlanetSelect);
+  
+  // Check if current chart is already saved
+  const checkIfChartSaved = useCallback(() => {
+    if (!chartData) return;
+    
+    try {
+      const savedCharts = JSON.parse(
+        localStorage.getItem("savedCharts") || "[]",
+      );
+      
+      const isDuplicate = savedCharts.some((savedChart: SavedChart) => {
+        return (
+          savedChart.birthDate === birthDate &&
+          savedChart.birthTime === birthTime &&
+          savedChart.city === city &&
+          JSON.stringify(savedChart.chartData) === JSON.stringify(chartData)
+        );
+      });
+      
+      setIsChartSaved(isDuplicate);
+    } catch (error) {
+      console.error('Error checking if chart is saved:', error);
+      setIsChartSaved(false);
+    }
+  }, [chartData, birthDate, birthTime, city]);
+
   const fetchChartData = useCallback(async () => {
     if (!birthDate || !birthTime || !city) return;
 
@@ -411,6 +438,11 @@ export default function LogiaChart({
   useEffect(() => {
     fetchChartData();
   }, [fetchChartData]);
+
+  // Check if chart is saved whenever chartData changes
+  useEffect(() => {
+    checkIfChartSaved();
+  }, [checkIfChartSaved]);
 
   useEffect(() => {
     console.log('Notification state changed:', { showNotification, notificationMessage });
@@ -500,6 +532,9 @@ export default function LogiaChart({
       savedCharts.push(newChart);
       localStorage.setItem("savedCharts", JSON.stringify(savedCharts));
 
+      // Set the chart as saved
+      setIsChartSaved(true);
+
       console.log('Setting notification:', chartT.saveChart.success);
       setNotificationMessage(chartT.saveChart.success);
       setShowNotification(true);
@@ -528,10 +563,7 @@ export default function LogiaChart({
     <>
       {showNotification && (
         <div className="save-notification">
-          <span>{notificationMessage}</span>{" "}
-          <a href="/dashboard" className="view-dashboard-link">
-            view
-          </a>
+          <span>{notificationMessage}</span>
         </div>
       )}
 
@@ -544,7 +576,7 @@ export default function LogiaChart({
                 <button
                   onClick={handleSaveChart}
                   disabled={isSaving || !chartData}
-                  className="save-chart-star"
+                  className={`save-chart-star ${isChartSaved ? 'saved' : ''}`}
                   title={isSaving ? chartT.saveChart.saving : chartT.saveChart.button}
                 >
                                 <div className="star-icon"></div>

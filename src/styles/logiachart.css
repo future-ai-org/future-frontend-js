@@ -552,6 +552,10 @@
   color: currentColor;
 }
 
+.save-chart-star.saved .star-icon::before {
+  content: '★';
+}
+
 .save-chart-button {
   display: flex;
   align-items: center;
