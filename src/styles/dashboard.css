@@ -15,7 +15,11 @@
 /* Layout */
 .dashboard {
   @apply w-full mx-auto min-h-[calc(100vh-200px)] p-6 pb-16;
-  background: linear-gradient(135deg, var(--background-color) 0%, var(--background-color-light) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--background-color) 0%,
+    var(--background-color-light) 100%
+  );
   padding-bottom: 8rem;
 }
 
@@ -41,7 +45,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  padding: .5rem 0;
+  padding: 0.5rem 0;
 }
 
 /* Cards */
@@ -55,7 +59,9 @@
     0 0 30px var(--glow-shadow);
   border: 1px solid var(--color-primary);
   backdrop-filter: blur(8px);
-  transition: all 0.2s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition:
+    all 0.2s ease,
+    transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
   overflow: hidden;
 }
@@ -79,9 +85,13 @@
 .portfolio-summary {
   @apply p-4 rounded-xl mb-4;
   backdrop-filter: blur(5px);
-  background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(168, 85, 247, 0.15));
+  background: linear-gradient(
+    135deg,
+    rgba(147, 51, 234, 0.2),
+    rgba(168, 85, 247, 0.15)
+  );
   border: 1px solid rgba(147, 51, 234, 0.3);
-  box-shadow: 
+  box-shadow:
     0 4px 15px rgba(147, 51, 234, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
@@ -121,7 +131,11 @@
 
 .portfolio-asset {
   @apply flex items-center justify-between p-0 rounded-xl transition-all duration-200;
-  background: linear-gradient(135deg, rgba(var(--background-color-light-rgb), 0.3), transparent);
+  background: linear-gradient(
+    135deg,
+    rgba(var(--background-color-light-rgb), 0.3),
+    transparent
+  );
 }
 
 .asset-details {
@@ -195,10 +209,12 @@
 
 .saved-chart-container {
   @apply flex items-center justify-between p-0 rounded-xl transition-all duration-200;
-  background: linear-gradient(135deg, rgba(var(--background-color-light-rgb), 0.3), transparent);
+  background: linear-gradient(
+    135deg,
+    rgba(var(--background-color-light-rgb), 0.3),
+    transparent
+  );
 }
-
-
 
 .saved-chart-item {
   @apply flex-1 min-w-0;
@@ -247,8 +263,6 @@
   box-shadow: 0 4px 12px rgba(var(--color-primary-rgb), 0.3);
 }
 
-
-
 .dashboard-card .view-chart-button svg,
 .dashboard-card .delete-chart-button svg,
 .dashboard-card .set-official-button svg {
@@ -291,7 +305,11 @@
 
 .favorite-asset-item {
   @apply flex items-center justify-between p-0 rounded-xl transition-all duration-200;
-  background: linear-gradient(135deg, rgba(var(--background-color-light-rgb), 0.3), transparent);
+  background: linear-gradient(
+    135deg,
+    rgba(var(--background-color-light-rgb), 0.3),
+    transparent
+  );
 }
 
 .asset-info {
@@ -345,8 +363,6 @@
   font-size: 1rem;
   opacity: 0.7;
 }
-
-
 
 /* Responsive Design */
 @media (max-width: 1200px) {

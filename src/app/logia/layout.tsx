@@ -3,11 +3,7 @@
 import React, { Suspense } from "react";
 import { usePathname } from "next/navigation";
 
-function LogiaLayoutContent({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function LogiaLayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isSavedView = pathname?.includes("/saved/");
 

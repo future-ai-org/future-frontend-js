@@ -358,8 +358,6 @@ html.dark {
   margin: 2rem 0;
 }
 
-
-
 .astrology-input-group {
   display: flex;
   align-items: center;
@@ -541,8 +539,6 @@ html.dark {
     rgba(var(--color-primary-rgb), 0.08)
   );
 }
-
-
 
 .logia-about-title {
   font-size: 1.5rem;

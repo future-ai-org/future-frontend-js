@@ -6,7 +6,15 @@ import { useWeb3 } from "../utils/web3ModalContext";
 import strings from "../i18n/dashboard.json";
 import "../styles/dashboard.css";
 import { formatDate, formatTime } from "../utils/geocoding";
-import { FaTrash, FaEye, FaStar, FaChartLine, FaCoins, FaHeart, FaMagic } from "react-icons/fa";
+import {
+  FaTrash,
+  FaEye,
+  FaStar,
+  FaChartLine,
+  FaCoins,
+  FaHeart,
+  FaMagic,
+} from "react-icons/fa";
 
 interface SavedChart {
   id: string;
@@ -66,18 +74,20 @@ const Dashboard: React.FC = () => {
         const assets = JSON.parse(
           localStorage.getItem("favoriteAssets") || "[]",
         );
-        
+
         // Fetch price data for favorite assets
         if (assets.length > 0) {
-          const assetIds = assets.map((asset: FavoriteAsset) => asset.id).join(",");
-          
+          const assetIds = assets
+            .map((asset: FavoriteAsset) => asset.id)
+            .join(",");
+
           const response = await fetch(
-            `https://api.coingecko.com/api/v3/simple/price?ids=${assetIds}&vs_currencies=usd&include_24hr_change=true`
+            `https://api.coingecko.com/api/v3/simple/price?ids=${assetIds}&vs_currencies=usd&include_24hr_change=true`,
           );
-          
+
           if (response.ok) {
             const priceData = await response.json();
-            
+
             const assetsWithPrices = assets.map((asset: FavoriteAsset) => {
               const price = priceData[asset.id]?.usd || 0;
               const change24h = priceData[asset.id]?.usd_24h_change || 0;
@@ -111,10 +121,10 @@ const Dashboard: React.FC = () => {
     loadFavoriteAssets();
     window.addEventListener("storage", loadFavoriteAssets);
     window.addEventListener("favoritesUpdated", loadFavoriteAssets);
-    
+
     // Set up refresh interval for price data (every 30 seconds)
     const interval = setInterval(loadFavoriteAssets, 30000);
-    
+
     return () => {
       window.removeEventListener("storage", loadFavoriteAssets);
       window.removeEventListener("favoritesUpdated", loadFavoriteAssets);
@@ -249,7 +259,8 @@ const Dashboard: React.FC = () => {
                     <p>
                       <span className="asset-symbol">{asset.name}</span>
                       <span className="chart-details">
-                        {formatBalance(asset.balance)} {asset.symbol.toLowerCase()}
+                        {formatBalance(asset.balance)}{" "}
+                        {asset.symbol.toLowerCase()}
                       </span>
                     </p>
                   </div>
@@ -306,7 +317,8 @@ const Dashboard: React.FC = () => {
                             {chart.name.toUpperCase()}
                           </span>
                           <span className="chart-details">
-                            {formatDate(chart.birthDate)}, {formatTime(chart.birthTime)}
+                            {formatDate(chart.birthDate)},{" "}
+                            {formatTime(chart.birthTime)}
                           </span>
                         </p>
                       </div>
@@ -361,40 +373,42 @@ const Dashboard: React.FC = () => {
             ) : (
               <div className="favorite-assets-list">
                 {favoriteAssets.map((asset) => (
-                    <div key={asset.id} className="favorite-asset-item">
-                      <div className="asset-info">
-                        <p>
-                          <span className="asset-symbol">{asset.name}</span>
-                        </p>
-                      </div>
-                      <div className="asset-actions">
-                        <div className="asset-value">
-                          {asset.price ? formatCurrency(asset.price) : "—"}
-                        </div>
-                        <div
-                          className={`asset-change ${asset.change24h && asset.change24h >= 0 ? "positive-change" : "negative-change"}`}
-                        >
-                          {asset.change24h ? formatPercentage(asset.change24h) : "—"}
-                        </div>
-                        <button
-                          onClick={() => router.push(`/trade/${asset.id}`)}
-                          className="view-asset-button"
-                          aria-label={strings.en.cards.favorites.actions.view}
-                          title={strings.en.cards.favorites.actions.view}
-                        >
-                          <FaEye />
-                        </button>
-                        <button
-                          onClick={() => handleRemoveFavorite(asset.id)}
-                          className="remove-favorite-button"
-                          aria-label={strings.en.cards.favorites.actions.remove}
-                          title={strings.en.cards.favorites.actions.remove}
-                        >
-                          <FaTrash />
-                        </button>
-                      </div>
+                  <div key={asset.id} className="favorite-asset-item">
+                    <div className="asset-info">
+                      <p>
+                        <span className="asset-symbol">{asset.name}</span>
+                      </p>
                     </div>
-                  ))}
+                    <div className="asset-actions">
+                      <div className="asset-value">
+                        {asset.price ? formatCurrency(asset.price) : "—"}
+                      </div>
+                      <div
+                        className={`asset-change ${asset.change24h && asset.change24h >= 0 ? "positive-change" : "negative-change"}`}
+                      >
+                        {asset.change24h
+                          ? formatPercentage(asset.change24h)
+                          : "—"}
+                      </div>
+                      <button
+                        onClick={() => router.push(`/trade/${asset.id}`)}
+                        className="view-asset-button"
+                        aria-label={strings.en.cards.favorites.actions.view}
+                        title={strings.en.cards.favorites.actions.view}
+                      >
+                        <FaEye />
+                      </button>
+                      <button
+                        onClick={() => handleRemoveFavorite(asset.id)}
+                        className="remove-favorite-button"
+                        aria-label={strings.en.cards.favorites.actions.remove}
+                        title={strings.en.cards.favorites.actions.remove}
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
           </div>

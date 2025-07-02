@@ -1,5 +1,3 @@
-
-
 const createStar = (cx: number, cy: number, r: number) => {
   const points = [];
   const innerRadius = r * 0.4;

@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
 import strings from "../../../i18n/api.json";
-import { ASTRO_NOW_ENDPOINT, REQUEST_TIMEOUT, CACHE_DURATION, SECURITY_HEADERS, USER_AGENT } from "../../../config/routes";
+import {
+  ASTRO_NOW_ENDPOINT,
+  REQUEST_TIMEOUT,
+  CACHE_DURATION,
+  SECURITY_HEADERS,
+  USER_AGENT,
+} from "../../../config/routes";
 
 export async function GET() {
   if (!process.env.NEXT_PUBLIC_ASTRO_SERVICE_URL) {
@@ -12,7 +18,7 @@ export async function GET() {
   }
 
   const url = `${process.env.NEXT_PUBLIC_ASTRO_SERVICE_URL}${ASTRO_NOW_ENDPOINT}`;
-  
+
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
@@ -40,7 +46,7 @@ export async function GET() {
     }
 
     const data = await response.json();
-    
+
     return NextResponse.json(data, {
       headers: {
         "Cache-Control": `public, max-age=${CACHE_DURATION}`,
@@ -56,7 +62,7 @@ export async function GET() {
           { status: 408 },
         );
       }
-      
+
       console.error(strings.en.astro.consoleError, {
         error: error.message,
         url,
@@ -65,7 +71,7 @@ export async function GET() {
     } else {
       console.error(strings.en.astro.consoleError, { error, url });
     }
-    
+
     return NextResponse.json(
       { error: strings.en.astro.error },
       { status: 500 },

@@ -25,10 +25,7 @@ export default function InfoPage() {
             <p>{strings.en.description.third_paragraph}</p>
           </div>
           <div className="info-cta">
-            <button 
-              onClick={handleCalculateLogia}
-              className="astrology-button"
-            >
+            <button onClick={handleCalculateLogia} className="astrology-button">
               {strings.en.cta.button}
             </button>
           </div>

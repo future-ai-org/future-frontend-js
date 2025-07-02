@@ -10,11 +10,11 @@ export const useCssLoader = () => {
     const ensureCssVariables = () => {
       const root = document.documentElement;
       const computedStyle = getComputedStyle(root);
-      
+
       // Check if CSS variables are loaded
-      const primaryColor = computedStyle.getPropertyValue('--color-primary');
-      const cardBg = computedStyle.getPropertyValue('--card-bg');
-      
+      const primaryColor = computedStyle.getPropertyValue("--color-primary");
+      const cardBg = computedStyle.getPropertyValue("--card-bg");
+
       if (primaryColor && cardBg) {
         setIsLoaded(true);
       } else {
@@ -27,4 +27,4 @@ export const useCssLoader = () => {
   }, []);
 
   return isLoaded;
-}; 
+};
