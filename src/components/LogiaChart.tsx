@@ -413,6 +413,10 @@ export default function LogiaChart({
   }, [fetchChartData]);
 
   useEffect(() => {
+    console.log('Notification state changed:', { showNotification, notificationMessage });
+  }, [showNotification, notificationMessage]);
+
+  useEffect(() => {
     const container = document.getElementById("chart");
     if (!container) return;
 
@@ -496,10 +500,11 @@ export default function LogiaChart({
       savedCharts.push(newChart);
       localStorage.setItem("savedCharts", JSON.stringify(savedCharts));
 
+      console.log('Setting notification:', chartT.saveChart.success);
       setNotificationMessage(chartT.saveChart.success);
       setShowNotification(true);
       setTimeout(() => setShowNotification(false), 3000);
-    } catch {
+    } catch (error) {
       setError(chartT.saveChart.error);
     } finally {
       setIsSaving(false);
@@ -521,15 +526,16 @@ export default function LogiaChart({
 
   return (
     <>
+      {showNotification && (
+        <div className="save-notification">
+          <span>{notificationMessage}</span>{" "}
+          <a href="/dashboard" className="view-dashboard-link">
+            view
+          </a>
+        </div>
+      )}
+
       <div className={`astrology-header ${hideSaveButton ? 'saved-view' : ''}`}>
-        {showNotification && (
-          <div className="save-notification">
-            <span>{notificationMessage}</span>{" "}
-            <a href="/dashboard" className="view-dashboard-link">
-              view
-            </a>
-          </div>
-        )}
         <div className="astrology-header-top">
           <div className="astrology-header-center">
             <div className="title-star-container">

@@ -6,7 +6,7 @@
     "saveChart": {
       "button": "save chart",
       "saving": "saving...",
-      "success": "chart saved successfully!",
+      "success": "chart saved",
       "error": "failed to save chart",
       "duplicate": "this chart has already been saved"
     },
