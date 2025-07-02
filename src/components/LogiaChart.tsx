@@ -250,7 +250,7 @@ async function calculateChartData(
           <th class="astrology-table-header">${chartT.table.element}</th>
           <th class="astrology-table-header">${chartT.table.position}</th>
           <th class="astrology-table-header">${chartT.table.house}</th>
-          <th class="astrology-table-header">${chartT.table.effects}</th>
+          <th class="astrology-table-header">${chartT.table.effect}</th>
         </tr>
       </thead>
       <tbody>
