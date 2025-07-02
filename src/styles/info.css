@@ -73,7 +73,18 @@
   margin-bottom: 0;
 }
 
+/* CTA Section */
+.info-cta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
 
+.info-cta .astrology-button {
+  font-size: 1rem;
+}
 
 /* Decorative Elements */
 .decorative-star {
@@ -150,7 +161,14 @@
     min-height: auto;
   }
 
+  .info-cta {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+  }
 
+  .info-cta .astrology-button {
+    font-size: 0.9rem;
+  }
 }
 
 @media (max-width: 480px) {
