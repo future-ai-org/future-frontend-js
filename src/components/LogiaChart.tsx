@@ -33,6 +33,7 @@ import {
   geocodeCity,
 } from "../utils/geocoding";
 import chartStrings from "../i18n/logiaChart.json";
+import { wouldCreateDuplicate } from "../utils/chartUtils";
 
 interface ChartCalculationResult {
   chartData: ChartData;
@@ -398,13 +399,11 @@ export default function LogiaChart({
         localStorage.getItem("savedCharts") || "[]",
       );
 
-      const isDuplicate = savedCharts.some((savedChart: SavedChart) => {
-        return (
-          savedChart.birthDate === birthDate &&
-          savedChart.birthTime === birthTime &&
-          savedChart.city === city &&
-          JSON.stringify(savedChart.chartData) === JSON.stringify(chartData)
-        );
+      const isDuplicate = wouldCreateDuplicate(savedCharts, {
+        birthDate,
+        birthTime,
+        city,
+        name,
       });
 
       setIsChartSaved(isDuplicate);
@@ -412,7 +411,7 @@ export default function LogiaChart({
       console.error("Error checking if chart is saved:", error);
       setIsChartSaved(false);
     }
-  }, [chartData, birthDate, birthTime, city]);
+  }, [chartData, birthDate, birthTime, city, name]);
 
   const fetchChartData = useCallback(async () => {
     if (!birthDate || !birthTime || !city) return;
@@ -497,13 +496,11 @@ export default function LogiaChart({
       );
 
       // Check if a chart with the same data already exists
-      const isDuplicate = savedCharts.some((savedChart: SavedChart) => {
-        return (
-          savedChart.birthDate === birthDate &&
-          savedChart.birthTime === birthTime &&
-          savedChart.city === city &&
-          JSON.stringify(savedChart.chartData) === JSON.stringify(chartData)
-        );
+      const isDuplicate = wouldCreateDuplicate(savedCharts, {
+        birthDate,
+        birthTime,
+        city,
+        name,
       });
 
       if (isDuplicate) {

@@ -6,6 +6,7 @@ import { useWeb3 } from "../utils/web3ModalContext";
 import strings from "../i18n/dashboard.json";
 import "../styles/dashboard.css";
 import { formatDate, formatTime } from "../utils/geocoding";
+import { getDuplicateCharts } from "../utils/chartUtils";
 import {
   FaTrash,
   FaEye,
@@ -149,13 +150,12 @@ const Dashboard: React.FC = () => {
       );
       if (!chartToMakeOfficial) return;
 
-      const duplicateCharts = savedCharts.filter(
-        (chart) =>
-          chart.id !== chartId &&
-          chart.birthDate === chartToMakeOfficial.birthDate &&
-          chart.birthTime === chartToMakeOfficial.birthTime &&
-          chart.city === chartToMakeOfficial.city,
-      );
+      const duplicateCharts = getDuplicateCharts(savedCharts, {
+        birthDate: chartToMakeOfficial.birthDate,
+        birthTime: chartToMakeOfficial.birthTime,
+        city: chartToMakeOfficial.city,
+        name: chartToMakeOfficial.name,
+      }).filter((chart) => chart.id !== chartId);
 
       const updatedCharts = savedCharts
         .filter((chart) => !duplicateCharts.some((dup) => dup.id === chart.id))
