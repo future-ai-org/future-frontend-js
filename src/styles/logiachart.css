@@ -15,27 +15,42 @@
 
 /* Typography */
 .astrology-title {
-  font-size: 4rem;
+  font-size: 2.5rem;
   font-weight: 800;
-  margin-bottom: 0;
+  margin: 0;
   color: var(--color-primary);
   letter-spacing: 0.05em;
   text-shadow: var(--text-glow);
   text-align: center;
-  flex: 1;
-  padding: 0 2rem;
+  line-height: 1.2;
+  width: 100%;
 }
 
 .astrology-subtitle {
   text-align: center;
   color: var(--color-primary);
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   opacity: var(--opacity-80);
-  font-weight: 900;
+  font-weight: 600;
   letter-spacing: 0.02em;
-  margin-bottom: 3rem;
+  margin: 0.5rem 0 2rem 0;
   width: 100%;
   padding: 0;
+  line-height: 1.4;
+  text-shadow: var(--text-glow);
+  max-width: 600px;
+}
+
+.astrology-subtitle.saved-view {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0.9;
+  text-align: center !important;
+  width: 100% !important;
+  max-width: 600px !important;
 }
 
 /* Tooltip styles */
@@ -186,6 +201,10 @@
   font-family: "Astrology", monospace;
 }
 
+.ascendant-background {
+  fill: var(--ascendant-color);
+}
+
 /* Zodiac styles */
 .zodiac-symbol {
   font-family: "Astrology", monospace;
@@ -255,7 +274,7 @@
 
 .astrology-info-text th,
 .astrology-info-text td {
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: none;
   display: table-cell;
 }
 
@@ -333,6 +352,49 @@
   }
 }
 
+@media (max-width: 768px) {
+  .astrology-header-top {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .astrology-header-center {
+    align-items: center;
+    text-align: center;
+  }
+
+  .title-star-container {
+    gap: 0.5rem;
+  }
+
+  .astrology-title {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-right: 3rem;
+  }
+
+  .save-chart-star {
+    width: 60px;
+    height: 60px;
+    right: -3rem;
+  }
+
+  .save-chart-star .star-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .save-chart-star .star-icon::before {
+    font-size: 30px;
+  }
+
+  .astrology-subtitle {
+    text-align: center;
+    font-size: 1rem;
+  }
+}
+
 .astrology-header {
   display: flex;
   justify-content: space-between;
@@ -340,36 +402,168 @@
   width: 100%;
   margin: 0;
   padding: 0;
+  position: relative;
+}
+
+.astrology-header.saved-view {
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.astrology-header.saved-view .astrology-header-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.astrology-header.saved-view .astrology-title {
+  margin-bottom: 0 !important;
+  margin-right: 0 !important;
+  text-align: center !important;
+  width: 100% !important;
+  font-size: 3rem !important;
+}
+
+.astrology-header.saved-view .astrology-subtitle {
+  text-align: center !important;
+  width: 100% !important;
+  margin: 0.5rem 0 2rem 0 !important;
+}
+
+.astrology-header-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: relative;
+}
+
+.astrology-header-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  text-align: center;
+}
+
+.title-star-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.astrology-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin: 1rem 0 0 0;
+  color: var(--color-primary);
+  letter-spacing: 0.05em;
+  text-shadow: var(--text-glow);
+  text-align: center;
+  line-height: 1.2;
+  width: 100%;
+  margin-right: 4rem;
 }
 
 .advanced-view-container {
   display: flex;
   justify-content: center;
   width: 100%;
-  margin-top: 2rem;
-  padding-bottom: 1rem;
+  margin-top: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-top: 1px solid rgba(var(--color-primary-rgb), 0.2);
+  padding-top: 1rem;
 }
 
 .advanced-view-button {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  background-color: var(--color-primary);
-  color: var(--color-background);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  color: var(--color-primary);
   text-decoration: none;
-  border-radius: 2rem;
-  font-weight: 600;
-  font-size: 0.9rem;
-  transition: all 0.2s ease;
-  text-align: center;
-  border: 2px solid var(--color-primary);
-  box-shadow: var(--glow-shadow);
+  font-weight: 800;
+  font-size: 0.8rem;
+  transition: all 0.3s ease;
+  position: relative;
+  border-bottom: 2px solid transparent;
+  text-shadow: var(--text-glow);
+}
+
+.advanced-view-button::before {
+  content: "→";
+  font-size: 1.1rem;
+  font-weight: 800;
+  transition: transform 0.3s ease;
+  display: inline-block;
 }
 
 .advanced-view-button:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--glow-shadow-hover);
-  background-color: var(--color-background);
   color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+  transform: translateX(4px);
+}
+
+.advanced-view-button:hover::before {
+  transform: translateX(4px);
+}
+
+.save-chart-star {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: transparent;
+  color: var(--text-color);
+  cursor: pointer;
+  position: absolute;
+  right: -3rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.save-chart-star:hover:not(:disabled) {
+  opacity: 0.7;
+}
+
+.save-chart-star:hover .star-icon::before {
+  content: "★";
+}
+
+.save-chart-star:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.save-chart-star .star-icon {
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+
+.save-chart-star .star-icon::before {
+  content: "☆";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 40px;
+  line-height: 1;
+  transform: translate(-50%, -50%);
+  color: currentColor;
+}
+
+.save-chart-star.saved .star-icon::before {
+  content: "★";
 }
 
 .save-chart-button {
@@ -406,34 +600,51 @@
 
 .save-notification {
   position: fixed;
-  top: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: var(--color-primary);
+  top: 120px;
+  right: 2rem;
+  background: linear-gradient(
+    135deg,
+    var(--color-primary),
+    rgba(var(--color-primary-rgb), 0.8)
+  );
   color: var(--color-background);
   padding: 0.5rem 1rem;
-  border-radius: 1rem;
-  font-size: 0.9rem;
+  border-radius: 1.5rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  opacity: 0;
+  opacity: 1;
   animation: fadeInOut 3s ease-in-out;
   z-index: 1000;
-  text-shadow: var(--text-glow);
-  box-shadow: var(--glow-shadow);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow:
+    0 4px 12px rgba(var(--color-primary-rgb), 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(var(--color-primary-rgb), 0.2);
+  min-width: 160px;
+  max-width: 200px;
+  justify-content: center;
 }
 
 .view-dashboard-link {
   color: var(--color-background);
-  text-decoration: underline;
-  font-weight: 700;
-  transition: opacity 0.2s ease;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.4rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 0.7rem;
 }
 
 .view-dashboard-link:hover {
-  opacity: 0.8;
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
 }
 
 @keyframes fadeInOut {

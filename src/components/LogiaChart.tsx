@@ -24,7 +24,6 @@ import {
   drawPlanets,
   updateOrderedSigns,
   calculateHouses,
-  calculateAspects,
   orderedSigns,
 } from "../utils/chartFilling";
 import {
@@ -171,7 +170,7 @@ async function calculateChartData(
   const chartData: ChartData = {
     planets,
     houses,
-    aspects: calculateAspects(planets),
+    aspects: [],
     birthDate,
     birthTime,
     latitude: coordinates.lat,
@@ -196,7 +195,7 @@ async function calculateChartData(
 
   const tableRows = [
     `<tr>
-      <td class="planet-cell" title="${chartT.points.tooltip.replace("{sign}", ascendantData.sign).replace("{position}", ascendantData.degrees.toFixed(2))} - ${chartT.planetDescriptions.ascendant}">AC</td>
+      <td class="planet-cell" title="${chartT.planetDescriptions.ascendant}">AC</td>
       <td class="planet-cell" title="${chartT.signs[ascendantData.sign.toLowerCase() as keyof typeof chartT.signs]}">${getZodiacSymbol(ascendantData.sign)}</td>
       <td class="planet-cell" title="${chartT.elements[getElementNameForSign(ascendantData.sign).toLowerCase() as keyof typeof chartT.elements]}">${getElementForSign(ascendantData.sign)}</td>
       <td class="planet-cell" title="${getDecadeDescription(ascendantData.degrees)}">${ascendantData.degrees.toFixed(2)}°</td>
@@ -217,7 +216,7 @@ async function calculateChartData(
         chartT.planetDescriptions[
           planet.toLowerCase() as keyof typeof chartT.planetDescriptions
         ] || "-";
-      const tooltipText = `${chartT.points.tooltip.replace("{sign}", info.sign).replace("{position}", info.degrees.toFixed(2))} - ${planetDescription}`;
+      const tooltipText = planetDescription;
       const signDescription =
         chartT.signs[info.sign.toLowerCase() as keyof typeof chartT.signs];
       const houseDescription =
@@ -250,7 +249,7 @@ async function calculateChartData(
           <th class="astrology-table-header">${chartT.table.element}</th>
           <th class="astrology-table-header">${chartT.table.position}</th>
           <th class="astrology-table-header">${chartT.table.house}</th>
-          <th class="astrology-table-header">${chartT.table.effects}</th>
+          <th class="astrology-table-header">${chartT.table.effect}</th>
         </tr>
       </thead>
       <tbody>
@@ -269,6 +268,7 @@ interface LogiaChartProps {
   name: string;
   isGeneratingChart: boolean;
   ens?: string;
+  hideSaveButton?: boolean;
 }
 
 export interface SavedChart {
@@ -370,6 +370,7 @@ export default function LogiaChart({
   name,
   isGeneratingChart,
   ens,
+  hideSaveButton = false,
 }: LogiaChartProps) {
   const [selectedPlanet, setSelectedPlanet] = useState<string | null>(null);
   const [chartInfoHtml, setChartInfoHtml] = useState<string>("");
@@ -380,12 +381,39 @@ export default function LogiaChart({
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [showEns, setShowEns] = useState(false);
+  const [isChartSaved, setIsChartSaved] = useState(false);
 
   const handlePlanetSelect = useCallback((planet: string) => {
     setSelectedPlanet(planet);
   }, []);
 
   const drawChart = useChartDrawing(chartData, handlePlanetSelect);
+
+  // Check if current chart is already saved
+  const checkIfChartSaved = useCallback(() => {
+    if (!chartData) return;
+
+    try {
+      const savedCharts = JSON.parse(
+        localStorage.getItem("savedCharts") || "[]",
+      );
+
+      const isDuplicate = savedCharts.some((savedChart: SavedChart) => {
+        return (
+          savedChart.birthDate === birthDate &&
+          savedChart.birthTime === birthTime &&
+          savedChart.city === city &&
+          JSON.stringify(savedChart.chartData) === JSON.stringify(chartData)
+        );
+      });
+
+      setIsChartSaved(isDuplicate);
+    } catch (error) {
+      console.error("Error checking if chart is saved:", error);
+      setIsChartSaved(false);
+    }
+  }, [chartData, birthDate, birthTime, city]);
+
   const fetchChartData = useCallback(async () => {
     if (!birthDate || !birthTime || !city) return;
 
@@ -410,6 +438,18 @@ export default function LogiaChart({
   useEffect(() => {
     fetchChartData();
   }, [fetchChartData]);
+
+  // Check if chart is saved whenever chartData changes
+  useEffect(() => {
+    checkIfChartSaved();
+  }, [checkIfChartSaved]);
+
+  useEffect(() => {
+    console.log("Notification state changed:", {
+      showNotification,
+      notificationMessage,
+    });
+  }, [showNotification, notificationMessage]);
 
   useEffect(() => {
     const container = document.getElementById("chart");
@@ -495,6 +535,10 @@ export default function LogiaChart({
       savedCharts.push(newChart);
       localStorage.setItem("savedCharts", JSON.stringify(savedCharts));
 
+      // Set the chart as saved
+      setIsChartSaved(true);
+
+      console.log("Setting notification:", chartT.saveChart.success);
       setNotificationMessage(chartT.saveChart.success);
       setShowNotification(true);
       setTimeout(() => setShowNotification(false), 3000);
@@ -520,38 +564,49 @@ export default function LogiaChart({
 
   return (
     <>
-      <div className="astrology-header">
-        {showNotification && (
-          <div className="save-notification">
-            <span>{notificationMessage}</span>{" "}
-            <a href="/dashboard" className="view-dashboard-link">
-              view
-            </a>
-          </div>
-        )}
+      {showNotification && (
+        <div className="save-notification">
+          <span>{notificationMessage}</span>
+        </div>
+      )}
+
+      <div className={`astrology-header ${hideSaveButton ? "saved-view" : ""}`}>
         <div className="astrology-header-top">
-          <h1 className="astrology-title">{titleContent}</h1>
-          {ens && (
-            <label className="ens-toggle">
-              <input
-                type="checkbox"
-                checked={showEns}
-                onChange={(e) => setShowEns(e.target.checked)}
-              />
-              myself
-            </label>
-          )}
-          <button
-            onClick={handleSaveChart}
-            disabled={isSaving || !chartData}
-            className="save-chart-button"
-          >
-            {isSaving ? chartT.saveChart.saving : chartT.saveChart.button}
-          </button>
+          <div className="astrology-header-center">
+            <div className="title-star-container">
+              <h1 className="astrology-title">{titleContent}</h1>
+              {!hideSaveButton && (
+                <button
+                  onClick={handleSaveChart}
+                  disabled={isSaving || !chartData}
+                  className={`save-chart-star ${isChartSaved ? "saved" : ""}`}
+                  title={
+                    isSaving ? chartT.saveChart.saving : chartT.saveChart.button
+                  }
+                >
+                  <div className="star-icon"></div>
+                </button>
+              )}
+            </div>
+            {ens && (
+              <label className="ens-toggle">
+                <input
+                  type="checkbox"
+                  checked={showEns}
+                  onChange={(e) => setShowEns(e.target.checked)}
+                />
+                myself
+              </label>
+            )}
+          </div>
         </div>
       </div>
       {subtitleContent && (
-        <div className="astrology-subtitle">{subtitleContent}</div>
+        <div
+          className={`astrology-subtitle ${hideSaveButton ? "saved-view" : ""}`}
+        >
+          {subtitleContent}
+        </div>
       )}
       <div className="astrology-chart-section">
         <div className="astrology-chart-container" id="chart">

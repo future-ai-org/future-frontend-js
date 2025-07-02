@@ -80,12 +80,41 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 1rem;
-  padding-top: 1rem;
+  margin-top: 2rem;
+  padding-top: 2rem;
 }
 
-.info-cta .astrology-button {
-  font-size: 1rem;
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 1.6rem;
+  transition: all 0.3s ease;
+  position: relative;
+  border-bottom: 2px solid transparent;
+  text-shadow: var(--text-glow);
+}
+
+.cta-button::before {
+  content: "→";
+  font-size: 1.5rem;
+  font-weight: 800;
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+.cta-button:hover {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+  transform: translateX(4px);
+}
+
+.cta-button:hover::before {
+  transform: translateX(4px);
 }
 
 /* Decorative Elements */
@@ -167,11 +196,4 @@
     margin-top: 0.5rem;
     padding-top: 0.5rem;
   }
-
-  .info-cta .astrology-button {
-    font-size: 0.9rem;
-  }
-}
-
-@media (max-width: 480px) {
 }

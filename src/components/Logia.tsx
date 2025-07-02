@@ -43,7 +43,7 @@ export default function Logia() {
   const renderContent = () => {
     if (!showChart) {
       return (
-        <>
+        <div className="logia-centered-content">
           <h1 className="logia-title">{t.title.toLowerCase()}</h1>
           <div className="logia-container">
             <LogiaForm
@@ -52,7 +52,7 @@ export default function Logia() {
               error={null}
             />
           </div>
-        </>
+        </div>
       );
     }
 

@@ -80,6 +80,7 @@ function SavedChartContent() {
           city={savedChart.city}
           name={savedChart.name}
           isGeneratingChart={false}
+          hideSaveButton={true}
         />
       </div>
     </div>

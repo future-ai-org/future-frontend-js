@@ -157,7 +157,7 @@ export function drawPlanets(
             .style("visibility", "visible")
             .style("opacity", "1")
             .html(
-              `${planet.name} ${chartStrings.en.planetTooltip
+              `${planet.name} ${chartStrings.en.points.tooltip
                 .replace("{sign}", sign)
                 .replace("{position}", planet.position.toFixed(2))}`,
             )
@@ -218,7 +218,10 @@ export function drawPlanets(
       tooltip.style("visibility", "hidden").style("opacity", "0");
     });
 
-  ascGroup.append("circle").attr("r", 12).attr("class", "planet-background");
+  ascGroup
+    .append("circle")
+    .attr("r", 12)
+    .attr("class", "planet-background ascendant-background");
 
   ascGroup
     .append("text")
@@ -228,7 +231,7 @@ export function drawPlanets(
     .attr("dominant-baseline", "middle")
     .style("font-size", "14px")
     .text(chartStrings.en.points.ascendantEmoji)
-    .attr("class", "planet-text");
+    .attr("class", "planet-text ascendant-text");
 }
 
 export function calculateAspects(
