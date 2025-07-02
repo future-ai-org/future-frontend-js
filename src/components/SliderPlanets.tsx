@@ -7,6 +7,7 @@ import {
   LOS_ANGELES_LATITUDE,
   LOS_ANGELES_LONGITUDE,
   REFRESH_INTERVAL,
+  PLANETS_ENDPOINT,
 } from "../config/sliderPlanets";
 import sliderPlanetsData from "../i18n/sliderPlanets.json";
 
@@ -73,7 +74,7 @@ export const SliderPlanets: React.FC = () => {
         longitude: LOS_ANGELES_LONGITUDE,
       };
 
-      const response = await fetch(`${baseUrl}/planets`, {
+      const response = await fetch(`${baseUrl}${PLANETS_ENDPOINT}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -83,7 +84,10 @@ export const SliderPlanets: React.FC = () => {
       });
 
       if (!response.ok) {
-        throw new Error(`API request failed with status ${response.status}`);
+        throw new Error(sliderPlanetsData.en.errors.apiRequestFailed.replace(
+          "{status}",
+          response.status.toString(),
+        ));
       }
 
       const data = (await response.json()) as ApiResponse;
