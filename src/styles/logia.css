@@ -46,15 +46,38 @@ html.dark {
   min-height: 200px;
 }
 
+.logia-centered-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+  text-align: center;
+  gap: 1rem;
+}
+
 .logia-title {
   font-size: 4rem;
   font-weight: 800;
   text-align: center;
-  margin-bottom: 3rem;
-  margin-top: 0;
+  margin: 0;
   color: var(--text-color);
   letter-spacing: 0.05em;
   text-shadow: var(--text-glow);
+  line-height: 1.1;
+}
+
+.logia-subtitle {
+  font-size: 1.2rem;
+  font-weight: 400;
+  text-align: center;
+  margin: 0;
+  color: var(--text-color);
+  opacity: 0.8;
+  letter-spacing: 0.02em;
+  max-width: 600px;
+  line-height: 1.5;
 }
 
 .astrology-container {
@@ -824,5 +847,19 @@ html.dark {
 @media (max-width: 768px) {
   .logia-container {
     padding: 0.5rem;
+  }
+
+  .logia-centered-content {
+    min-height: 80vh;
+    padding: 1rem;
+  }
+
+  .logia-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .logia-subtitle {
+    font-size: 1rem;
   }
 }
