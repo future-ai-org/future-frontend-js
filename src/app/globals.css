@@ -5,6 +5,7 @@
 :root {
   /* Theme Colors - Light */
   --light-primary: rgb(87, 76, 145);
+  --light-primary-rgb: 87, 76, 145;
   --light-background: rgb(224, 222, 226);
   --light-text: rgb(65, 62, 62);
   --light-bearish: rgb(212, 116, 180);
@@ -28,6 +29,7 @@
 
   /* Theme Colors - Dark */
   --dark-primary: #60a5fa;
+  --dark-primary-rgb: 96, 165, 250;
   --dark-background: rgb(8, 12, 18);
   --dark-text: rgb(220, 220, 255);
   --dark-bearish: #f87171;
@@ -55,6 +57,7 @@
 
   /* Default to light theme */
   --color-primary: var(--light-primary);
+  --color-primary-rgb: var(--light-primary-rgb);
   --color-background: var(--light-background);
   --color-text: var(--light-text);
   --color-bearish: var(--light-bearish);
@@ -74,6 +77,9 @@
   --glow-pink-light: var(--light-glow-pink-light);
   --glow-pink-dark: var(--light-glow-pink-dark);
   --planet-symbol-color: var(--light-planet-symbol);
+  --opacity-medium: 0.6;
+  --background-color: var(--color-background);
+  --glow-shadow-hover: var(--color-glow-shadow-hover);
 
   /* Common variables */
   --primary-color: var(--color-primary);
@@ -97,6 +103,7 @@
 /* Dark theme */
 html.dark {
   --color-primary: var(--dark-primary);
+  --color-primary-rgb: var(--dark-primary-rgb);
   --color-background: var(--dark-background);
   --color-text: var(--dark-text);
   --color-bearish: var(--dark-bearish);
@@ -116,6 +123,9 @@ html.dark {
   --glow-pink-light: var(--dark-glow-pink-light);
   --glow-pink-dark: var(--dark-glow-pink-dark);
   --planet-symbol-color: var(--dark-planet-symbol);
+  --opacity-medium: 0.6;
+  --background-color: var(--color-background);
+  --glow-shadow-hover: var(--color-glow-shadow-hover);
 }
 
 /* Base Styles */

@@ -6,9 +6,9 @@ import LogiaChart from "./LogiaChart";
 import { searchCities, CitySuggestion } from "../utils/geocoding";
 import Loading from "../utils/loading";
 import { SpaceDecoration } from "../utils/spaceDecoration";
-import "../styles/logia.css";
 import { useWeb3 } from "../utils/web3ModalContext";
 import { WALLET_CONFIG } from "../config/wallet";
+import { useCssLoader } from "../utils/useCssLoader";
 
 const t = strings.en;
 
@@ -33,6 +33,7 @@ export default function Logia() {
     name: "",
   });
   const [showChart, setShowChart] = useState(false);
+  const isCssLoaded = useCssLoader();
 
   const handleSubmit = useCallback((data: FormData) => {
     setFormData(data);
@@ -65,6 +66,14 @@ export default function Logia() {
       />
     );
   };
+
+  if (!isCssLoaded) {
+    return (
+      <div className="astrology-container">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className="astrology-container">
