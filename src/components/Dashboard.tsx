@@ -22,6 +22,8 @@ interface FavoriteAsset {
   id: string;
   symbol: string;
   name: string;
+  price?: number;
+  change24h?: number;
 }
 
 const Dashboard: React.FC = () => {
@@ -59,23 +61,69 @@ const Dashboard: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const loadFavoriteAssets = () => {
+    const loadFavoriteAssets = async () => {
       try {
         const assets = JSON.parse(
           localStorage.getItem("favoriteAssets") || "[]",
         );
-        setFavoriteAssets(assets);
+        
+        // Fetch price data for favorite assets
+        if (assets.length > 0) {
+          const assetIds = assets.map((asset: FavoriteAsset) => asset.id).join(",");
+          console.log("Fetching prices for assets:", assetIds);
+          
+          const response = await fetch(
+            `https://api.coingecko.com/api/v3/simple/price?ids=${assetIds}&vs_currencies=usd&include_24hr_change=true`
+          );
+          
+          if (response.ok) {
+            const priceData = await response.json();
+            console.log("Price data received:", priceData);
+            
+            const assetsWithPrices = assets.map((asset: FavoriteAsset) => {
+              const price = priceData[asset.id]?.usd || 0;
+              const change24h = priceData[asset.id]?.usd_24h_change || 0;
+              console.log(`Asset ${asset.id}: price=${price}, change=${change24h}`);
+              return {
+                ...asset,
+                price,
+                change24h,
+              };
+            });
+            console.log("Assets with prices:", assetsWithPrices);
+            setFavoriteAssets(assetsWithPrices);
+          } else {
+            console.log("API response not ok:", response.status, response.statusText);
+            setFavoriteAssets(assets);
+          }
+        } else {
+          setFavoriteAssets(assets);
+        }
       } catch (err) {
         console.error(strings.en.cards.favorites.errors.loadFailed, err);
+        // Fallback to loading without price data
+        try {
+          const assets = JSON.parse(
+            localStorage.getItem("favoriteAssets") || "[]",
+          );
+          setFavoriteAssets(assets);
+        } catch (fallbackErr) {
+          console.error("Fallback loading failed:", fallbackErr);
+        }
       }
     };
 
     loadFavoriteAssets();
     window.addEventListener("storage", loadFavoriteAssets);
     window.addEventListener("favoritesUpdated", loadFavoriteAssets);
+    
+    // Set up refresh interval for price data (every 30 seconds)
+    const interval = setInterval(loadFavoriteAssets, 30000);
+    
     return () => {
       window.removeEventListener("storage", loadFavoriteAssets);
       window.removeEventListener("favoritesUpdated", loadFavoriteAssets);
+      clearInterval(interval);
     };
   }, []);
 
@@ -317,33 +365,44 @@ const Dashboard: React.FC = () => {
               </p>
             ) : (
               <div className="favorite-assets-list">
-                {favoriteAssets.map((asset) => (
-                  <div key={asset.id} className="favorite-asset-item">
-                    <div className="asset-info">
-                      <p>
-                        <span className="asset-symbol">{asset.name}</span>
-                      </p>
+                {favoriteAssets.map((asset) => {
+                  console.log("Rendering asset:", asset);
+                  return (
+                    <div key={asset.id} className="favorite-asset-item">
+                      <div className="asset-info">
+                        <p>
+                          <span className="asset-symbol">{asset.name}</span>
+                        </p>
+                      </div>
+                      <div className="asset-actions">
+                        <div className="asset-value">
+                          {asset.price ? formatCurrency(asset.price) : "—"}
+                        </div>
+                        <div
+                          className={`asset-change ${asset.change24h && asset.change24h >= 0 ? "positive-change" : "negative-change"}`}
+                        >
+                          {asset.change24h ? formatPercentage(asset.change24h) : "—"}
+                        </div>
+                        <button
+                          onClick={() => router.push(`/trade/${asset.id}`)}
+                          className="view-asset-button"
+                          aria-label={strings.en.cards.favorites.actions.view}
+                          title={strings.en.cards.favorites.actions.view}
+                        >
+                          <FaEye />
+                        </button>
+                        <button
+                          onClick={() => handleRemoveFavorite(asset.id)}
+                          className="remove-favorite-button"
+                          aria-label={strings.en.cards.favorites.actions.remove}
+                          title={strings.en.cards.favorites.actions.remove}
+                        >
+                          <FaTrash />
+                        </button>
+                      </div>
                     </div>
-                    <div className="asset-actions">
-                      <button
-                        onClick={() => router.push(`/trade/${asset.id}`)}
-                        className="view-asset-button"
-                        aria-label={strings.en.cards.favorites.actions.view}
-                        title={strings.en.cards.favorites.actions.view}
-                      >
-                        <FaEye />
-                      </button>
-                      <button
-                        onClick={() => handleRemoveFavorite(asset.id)}
-                        className="remove-favorite-button"
-                        aria-label={strings.en.cards.favorites.actions.remove}
-                        title={strings.en.cards.favorites.actions.remove}
-                      >
-                        <FaTrash />
-                      </button>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
