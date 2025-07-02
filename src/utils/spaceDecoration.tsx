@@ -1,4 +1,4 @@
-import React from "react";
+
 
 const createStar = (cx: number, cy: number, r: number) => {
   const points = [];

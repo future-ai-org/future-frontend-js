@@ -70,7 +70,6 @@ const Dashboard: React.FC = () => {
         // Fetch price data for favorite assets
         if (assets.length > 0) {
           const assetIds = assets.map((asset: FavoriteAsset) => asset.id).join(",");
-          console.log("Fetching prices for assets:", assetIds);
           
           const response = await fetch(
             `https://api.coingecko.com/api/v3/simple/price?ids=${assetIds}&vs_currencies=usd&include_24hr_change=true`
@@ -78,22 +77,18 @@ const Dashboard: React.FC = () => {
           
           if (response.ok) {
             const priceData = await response.json();
-            console.log("Price data received:", priceData);
             
             const assetsWithPrices = assets.map((asset: FavoriteAsset) => {
               const price = priceData[asset.id]?.usd || 0;
               const change24h = priceData[asset.id]?.usd_24h_change || 0;
-              console.log(`Asset ${asset.id}: price=${price}, change=${change24h}`);
               return {
                 ...asset,
                 price,
                 change24h,
               };
             });
-            console.log("Assets with prices:", assetsWithPrices);
             setFavoriteAssets(assetsWithPrices);
           } else {
-            console.log("API response not ok:", response.status, response.statusText);
             setFavoriteAssets(assets);
           }
         } else {
@@ -365,9 +360,7 @@ const Dashboard: React.FC = () => {
               </p>
             ) : (
               <div className="favorite-assets-list">
-                {favoriteAssets.map((asset) => {
-                  console.log("Rendering asset:", asset);
-                  return (
+                {favoriteAssets.map((asset) => (
                     <div key={asset.id} className="favorite-asset-item">
                       <div className="asset-info">
                         <p>
@@ -401,8 +394,7 @@ const Dashboard: React.FC = () => {
                         </button>
                       </div>
                     </div>
-                  );
-                })}
+                  ))}
               </div>
             )}
           </div>
