@@ -1,6 +1,6 @@
 import Dashboard from "../../components/Dashboard";
 
-export default function AvatarPage() {
+export default function DashboardPage() {
   return (
     <main className="min-h-screen">
       <Dashboard />
@@ -8,4 +8,4 @@ export default function AvatarPage() {
   );
 }
 
-export const dynamic = "force-dynamic"; 
+export const dynamic = "force-dynamic";

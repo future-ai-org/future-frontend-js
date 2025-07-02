@@ -15,7 +15,7 @@
         "title": "sign in",
         "signedIn": "gm, {ensName}",
         "connectWallet": "connect",
-        "startAvatar": " to your favorite wallet and create your avatar"
+        "startDashboard": " to your favorite wallet and create your dashboard"
       },
       "two": {
         "title": "customize"
