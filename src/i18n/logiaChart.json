@@ -35,20 +35,20 @@
       "element": "element",
       "house": "house",
       "position": "position",
-      "effects": "effect"
+      "effect": "effect"
     },
     "planetDescriptions": {
-      "sun": "The Sun represents your core identity, ego, and life force. It shows your basic personality and the way you express yourself.",
-      "moon": "The Moon represents your emotions, instincts, and subconscious mind. It shows how you process feelings and your emotional needs.",
-      "mercury": "Mercury represents communication, thinking, and learning. It shows how you process information and express your thoughts.",
-      "venus": "Venus represents love, beauty, and values. It shows how you approach relationships and what you find attractive.",
-      "mars": "Mars represents energy, action, and desire. It shows how you assert yourself and pursue your goals.",
-      "jupiter": "Jupiter represents growth, expansion, and wisdom. It shows your potential for growth and your philosophical outlook.",
-      "saturn": "Saturn represents structure, discipline, and responsibility. It shows your limitations and how you build lasting foundations.",
-      "uranus": "Uranus represents change, innovation, and individuality. It shows your unique perspective and desire for freedom.",
-      "neptune": "Neptune represents dreams, spirituality, and illusion. It shows your imagination and connection to the divine.",
-      "pluto": "Pluto represents transformation, power, and regeneration. It shows your ability to transform and your relationship with power.",
-      "ascendant": "The Ascendant represents your outer personality and how others see you. It shows your approach to life and first impressions."
+      "sun": "the sun represents your core identity, ego, and life force. it shows your basic personality and the way you express yourself.",
+      "moon": "the moon represents your emotions, instincts, and subconscious mind. it shows how you process feelings and your emotional needs.",
+      "mercury": "mercury represents communication, thinking, and learning. it shows how you process information and express your thoughts.",
+      "venus": "venus represents love, beauty, and values. it shows how you approach relationships and what you find attractive.",
+      "mars": "mars represents energy, action, and desire. it shows how you assert yourself and pursue your goals.",
+      "jupiter": "jupiter represents growth, expansion, and wisdom. it shows your potential for growth and your philosophical outlook.",
+      "saturn": "saturn represents structure, discipline, and responsibility. it shows your limitations and how you build lasting foundations.",
+      "uranus": "uranus represents change, innovation, and individuality. it shows your unique perspective and desire for freedom.",
+      "neptune": "neptune represents dreams, spirituality, and illusion. it shows your imagination and connection to the divine.",
+      "pluto": "pluto represents transformation, power, and regeneration. it shows your ability to transform and your relationship with power.",
+      "ascendant": "the ascendant represents your outer personality and how others see you. it shows your approach to life and first impressions."
     },
     "signs": {
       "aries": "the 1st sign of the zodiac, ruled by mars, is linked to new beginnings, courage, leadership, a pioneering spirit, and dynamic energy",
@@ -65,16 +65,10 @@
       "pisces": "the 12th sign of the zodiac, ruled by neptune and jupiter, is linked to compassion, imagination, spiritual connection, the dissolution of boundaries, and connection with universal consciousness"
     },
     "elements": {
-      "fire": "Fire signs (Aries, Leo, Sagittarius) represent energy, passion, creativity, transformation, ambition, action, motivation, and the courage to pursue goals. They bring warmth, enthusiasm, and a pioneering spirit.",
-      "earth": "Earth signs (Taurus, Virgo, Capricorn) represent stability, practicality, material matters, patience, reliability, the foundations of life, nature, hard work, and building lasting structures. They bring grounding, security, and tangible results.",
-      "air": "Air signs (Gemini, Libra, Aquarius) represent intellect, communication, social connections, clarity, curiosity, the exchange of ideas, learning, and the ability to see different perspectives. They bring mental stimulation, social awareness, and intellectual growth.",
-      "water": "Water signs (Cancer, Scorpio, Pisces) represent emotions, intuition, sensitivity, healing, empathy, the subconscious, dreams, deep feelings, and the flow of inner experience. They bring emotional depth, psychic awareness, and spiritual connection.",
-      "names": {
-        "fire": "fire",
-        "earth": "earth",
-        "air": "air",
-        "water": "water"
-      }
+      "fire": "fire signs (aries, leo, sagittarius) represent energy, passion, creativity, transformation, ambition, action, motivation, and the courage to pursue goals. they bring warmth, enthusiasm, and a pioneering spirit.",
+      "earth": "earth signs (taurus, virgo, capricorn) represent stability, practicality, material matters, patience, reliability, the foundations of life, nature, hard work, and building lasting structures. they bring grounding, security, and tangible results.",
+      "air": "air signs (gemini, libra, aquarius) represent intellect, communication, social connections, clarity, curiosity, the exchange of ideas, learning, and the ability to see different perspectives. they bring mental stimulation, social awareness, and intellectual growth.",
+      "water": "water signs (cancer, scorpio, pisces) represent emotions, intuition, sensitivity, healing, empathy, the subconscious, dreams, deep feelings, and the flow of inner experience. they bring emotional depth, psychic awareness, and spiritual connection."
     },
     "effects": {
       "sun": "emphasizes",
@@ -87,20 +81,20 @@
       "uranus": "disrupts",
       "neptune": "diffuses",
       "pluto": "empowers",
-      "ascendant": "indentifies"
+      "ascendant": "identifies"
     },
     "effectDescriptions": {
-      "sun": "The Sun's influence emphasizes and strengthens the qualities of the sign it occupies, bringing vitality and focus to these traits.",
-      "moon": "The Moon reflects and amplifies the emotional and intuitive aspects of the sign, making these qualities more sensitive and responsive.",
-      "mercury": "Mercury communicates and processes the mental and communicative qualities of the sign, enhancing intellectual expression.",
-      "venus": "Venus harmonizes and beautifies the sign's qualities, bringing balance and aesthetic appreciation to these traits.",
-      "mars": "Mars challenges and activates the sign's energy, adding drive and assertiveness to its expression.",
-      "jupiter": "Jupiter expands and magnifies the sign's qualities, bringing growth and opportunity to these areas.",
-      "saturn": "Saturn corrects and structures the sign's expression, adding discipline and responsibility to its qualities.",
-      "uranus": "Uranus disrupts and innovates within the sign, bringing sudden changes and unique perspectives.",
-      "neptune": "Neptune diffuses and spiritualizes the sign's energy, adding imagination and transcendence.",
-      "pluto": "Pluto empowers and transforms the sign's qualities, bringing depth and regeneration.",
-      "ascendant": "The Ascendant identifies and manifests the sign's qualities in the outer personality and appearance."
+      "sun": "the sun's influence emphasizes and strengthens the qualities of the sign it occupies, bringing vitality and focus to these traits.",
+      "moon": "the moon reflects and amplifies the emotional and intuitive aspects of the sign, making these qualities more sensitive and responsive.",
+      "mercury": "mercury communicates and processes the mental and communicative qualities of the sign, enhancing intellectual expression.",
+      "venus": "venus harmonizes and beautifies the sign's qualities, bringing balance and aesthetic appreciation to these traits.",
+      "mars": "mars challenges and activates the sign's energy, adding drive and assertiveness to its expression.",
+      "jupiter": "jupiter expands and magnifies the sign's qualities, bringing growth and opportunity to these areas.",
+      "saturn": "saturn corrects and structures the sign's expression, adding discipline and responsibility to its qualities.",
+      "uranus": "uranus disrupts and innovates within the sign, bringing sudden changes and unique perspectives.",
+      "neptune": "neptune diffuses and spiritualizes the sign's energy, adding imagination and transcendence.",
+      "pluto": "pluto empowers and transforms the sign's qualities, bringing depth and regeneration.",
+      "ascendant": "the ascendant identifies and manifests the sign's qualities in the outer personality and appearance."
     },
     "houses": {
       "1": "linked to self, personality, appearance, and how others see you",
@@ -124,14 +118,13 @@
       "invalidApiResponse": "invalid api response format",
       "invalidPlanetData": "invalid planet data for {planet}",
       "unknownError": "an unknown error occurred",
-      "apiUrlNotConfigured": "API URL is not configured",
+      "apiUrlNotConfigured": "api url is not configured",
       "cityNotFound": "city not found"
     },
-    "planetTooltip": "in {sign} at {position}°",
     "decades": {
-      "first": "first decade (0-9°): The beginning of the sign's energy, representing its purest and most direct expression.",
-      "second": "second decade (10-19°): The middle phase, where the sign's energy is most balanced and developed.",
-      "third": "third decade (20-29°): The final phase, where the sign's energy is most refined and complex."
+      "first": "first decade (0-9°): the beginning of the sign's energy, representing its purest and most direct expression.",
+      "second": "second decade (10-19°): the middle phase, where the sign's energy is most balanced and developed.",
+      "third": "third decade (20-29°): the final phase, where the sign's energy is most refined and complex."
     }
   }
 }
