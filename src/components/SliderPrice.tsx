@@ -11,27 +11,24 @@ interface CryptoPrice {
   change: number;
 }
 
-interface CoinGeckoPriceData {
+interface PriceData {
   usd: number;
   usd_24h_change: number;
 }
 
 const formatPrice = (price: number): string => {
-  // For prices less than 1, show up to 6 decimal places
   if (price < 1) {
     return `$${price.toLocaleString(undefined, {
       minimumFractionDigits: 2,
       maximumFractionDigits: 6,
     })}`;
   }
-  // For prices between 1 and 100, show 2 decimal places
   if (price < 100) {
     return `$${price.toLocaleString(undefined, {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     })}`;
   }
-  // For prices 100 and above, show 0 decimal places
   return `$${price.toLocaleString(undefined, {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
@@ -92,29 +89,20 @@ export const SliderPrice: React.FC = () => {
   const fetchPrices = async () => {
     try {
       setIsLoading(true);
-      const queryParams = new URLSearchParams({
-        ids: PRICE_SLIDER_CONFIG.API.PARAMS.ids,
-        vs_currencies: PRICE_SLIDER_CONFIG.API.PARAMS.vs_currencies,
-        include_24hr_change:
-          PRICE_SLIDER_CONFIG.API.PARAMS.include_24hr_change.toString(),
+      const response = await fetch(PRICE_SLIDER_CONFIG.API.URL, {
+        headers: {
+          Accept: "application/json",
+        },
       });
 
-      const response = await fetch(
-        `${PRICE_SLIDER_CONFIG.API.URL}?${queryParams}`,
-        {
-          headers: {
-            Accept: "application/json",
-          },
-        },
-      );
-
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        console.error(sliderPriceI18n.en.errors.fetchFailed, `HTTP ${response.status}`);
+        return;
       }
 
       const data = await response.json();
       const formattedPrices = Object.entries(
-        data as Record<string, CoinGeckoPriceData>,
+        data as Record<string, PriceData>,
       ).map(([id, price]) => ({
         symbol: id.toUpperCase(),
         price: price.usd,
