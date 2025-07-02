@@ -21,6 +21,7 @@ interface SavedChart {
 interface FavoriteAsset {
   id: string;
   symbol: string;
+  name: string;
 }
 
 const Dashboard: React.FC = () => {
@@ -318,7 +319,7 @@ const Dashboard: React.FC = () => {
                   <div key={asset.id} className="favorite-asset-item">
                     <div className="asset-info">
                       <p>
-                        <span className="asset-symbol">{asset.symbol}</span>
+                        <span className="asset-symbol">{asset.name}</span>
                       </p>
                     </div>
                     <div className="asset-actions">
