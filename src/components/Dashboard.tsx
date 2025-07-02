@@ -7,6 +7,7 @@ import strings from "../i18n/dashboard.json";
 import "../styles/dashboard.css";
 import { formatDate, formatTime } from "../utils/geocoding";
 import { getDuplicateCharts } from "../utils/chartUtils";
+import { getCoinGeckoPriceUrl, dashboardConfig } from "../config/dashboard";
 import {
   FaTrash,
   FaEye,
@@ -49,7 +50,7 @@ const Dashboard: React.FC = () => {
     isConnected,
   } = useWeb3();
 
-  // Prevent hydration mismatch by only checking connection after mount
+  // prevent hydration mismatch by only checking connection after mount
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -82,14 +83,14 @@ const Dashboard: React.FC = () => {
           localStorage.getItem("favoriteAssets") || "[]",
         );
 
-        // Fetch price data for favorite assets
+        // fetch price data for favorite assets
         if (assets.length > 0) {
           const assetIds = assets
             .map((asset: FavoriteAsset) => asset.id)
             .join(",");
 
           const response = await fetch(
-            `https://api.coingecko.com/api/v3/simple/price?ids=${assetIds}&vs_currencies=usd&include_24hr_change=true`,
+            getCoinGeckoPriceUrl(assetIds),
           );
 
           if (response.ok) {
@@ -113,7 +114,7 @@ const Dashboard: React.FC = () => {
         }
       } catch (err) {
         console.error(strings.en.cards.favorites.errors.loadFailed, err);
-        // Fallback to loading without price data
+        // fallback to loading without price data
         try {
           const assets = JSON.parse(
             localStorage.getItem("favoriteAssets") || "[]",
@@ -129,8 +130,8 @@ const Dashboard: React.FC = () => {
     window.addEventListener("storage", loadFavoriteAssets);
     window.addEventListener("favoritesUpdated", loadFavoriteAssets);
 
-    // Set up refresh interval for price data (every 30 seconds)
-    const interval = setInterval(loadFavoriteAssets, 30000);
+    // set up refresh interval for price data
+    const interval = setInterval(loadFavoriteAssets, dashboardConfig.refresh.priceDataInterval);
 
     return () => {
       window.removeEventListener("storage", loadFavoriteAssets);
