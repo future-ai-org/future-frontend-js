@@ -522,7 +522,7 @@ export default function LogiaChart({
 
   return (
     <>
-      <div className="astrology-header">
+      <div className={`astrology-header ${hideSaveButton ? 'saved-view' : ''}`}>
         {showNotification && (
           <div className="save-notification">
             <span>{notificationMessage}</span>{" "}
@@ -555,7 +555,7 @@ export default function LogiaChart({
         </div>
       </div>
       {subtitleContent && (
-        <div className="astrology-subtitle">{subtitleContent}</div>
+        <div className={`astrology-subtitle ${hideSaveButton ? 'saved-view' : ''}`}>{subtitleContent}</div>
       )}
       <div className="astrology-chart-section">
         <div className="astrology-chart-container" id="chart">
