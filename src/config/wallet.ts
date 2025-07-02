@@ -1,4 +1,5 @@
 import { injected } from "wagmi/connectors";
+import { COINGECKO_CONFIG } from "./crypto";
 
 export const WALLET_CONFIG = {
   METAMASK: {
@@ -37,7 +38,7 @@ export const WALLET_CONFIG = {
     NO_PROVIDER: "No Ethereum provider found",
   },
   COINGECKO: {
-    API_URL: "https://api.coingecko.com/api/v3/simple/price",
+    API_URL: COINGECKO_CONFIG.SIMPLE_PRICE_URL("ethereum"),
   },
   PORTFOLIO: {
     REFRESH_INTERVAL_MS: 30000,

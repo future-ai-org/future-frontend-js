@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -15,19 +15,16 @@ const Header: React.FC = () => {
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
 
-  // Prevent hydration mismatch by only rendering after mount
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const isActive = useMemo(() => {
-    return (path: string) => {
-      if (path === "/") {
-        return pathname === "/";
-      }
-      return pathname?.startsWith(path);
-    };
-  }, [pathname]);
+  const isActive = (path: string) => {
+    if (path === "/") {
+      return pathname === "/";
+    }
+    return pathname?.startsWith(path);
+  };
 
   return (
     <header className={styles.header}>

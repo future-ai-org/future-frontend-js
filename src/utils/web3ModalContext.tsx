@@ -16,6 +16,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { ethers } from "ethers";
 import { WALLET_CONFIG } from "../config/wallet";
+import { COINGECKO_CONFIG } from "../config/crypto";
 import strings from "../i18n/home.json";
 import walletStrings from "../i18n/wallet.json";
 
@@ -162,7 +163,7 @@ const Web3ProviderInner: React.FC<{ children: ReactNode }> = ({ children }) => {
       // Get ETH balance
       const balance = await provider.getBalance(address);
       const ethPrice = await fetch(
-        `${WALLET_CONFIG.COINGECKO.API_URL}?ids=ethereum&vs_currencies=usd&include_24hr_change=true`,
+        COINGECKO_CONFIG.SIMPLE_PRICE_URL("ethereum"),
       )
         .then((res) => res.json())
         .then((data) => ({
@@ -189,7 +190,7 @@ const Web3ProviderInner: React.FC<{ children: ReactNode }> = ({ children }) => {
             const balance = await contract.balanceOf(address);
             const decimals = await contract.decimals();
             const tokenPrice = await fetch(
-              `${WALLET_CONFIG.COINGECKO.API_URL}?ids=${token.symbol.toLowerCase()}&vs_currencies=usd&include_24hr_change=true`,
+              COINGECKO_CONFIG.SIMPLE_PRICE_URL(token.symbol.toLowerCase()),
             )
               .then((res) => res.json())
               .then((data) => ({

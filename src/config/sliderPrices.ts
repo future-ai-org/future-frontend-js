@@ -1,3 +1,5 @@
+import { COINGECKO_CONFIG } from "./crypto";
+
 const SLIDER_CRYPTO_IDS = [
   "bitcoin",
   "ethereum",
@@ -19,11 +21,6 @@ export const PRICE_SLIDER_CONFIG = {
   },
   REFRESH_INTERVAL: 60 * 1000, // 1 minute
   API: {
-    URL: "https://api.coingecko.com/api/v3/simple/price",
-    PARAMS: {
-      ids: SLIDER_CRYPTO_IDS,
-      vs_currencies: "usd",
-      include_24hr_change: true,
-    },
+    URL: COINGECKO_CONFIG.SIMPLE_PRICE_URL(SLIDER_CRYPTO_IDS),
   },
 } as const;
