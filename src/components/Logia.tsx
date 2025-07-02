@@ -43,7 +43,7 @@ export default function Logia() {
   const renderContent = () => {
     if (!showChart) {
       return (
-        <>
+        <div className="logia-centered-content">
           <h1 className="logia-title">{t.title.toLowerCase()}</h1>
           <div className="logia-container">
             <LogiaForm
@@ -52,18 +52,22 @@ export default function Logia() {
               error={null}
             />
           </div>
-        </>
+        </div>
       );
     }
 
     return (
-      <LogiaChart
-        birthDate={formData.birthDate}
-        birthTime={formData.birthTime}
-        city={formData.city}
-        name={formData.name}
-        isGeneratingChart={false}
-      />
+      <div className="astrology-container saved-view">
+        <div className="astrology-content-wrapper">
+          <LogiaChart
+            birthDate={formData.birthDate}
+            birthTime={formData.birthTime}
+            city={formData.city}
+            name={formData.name}
+            isGeneratingChart={false}
+          />
+        </div>
+      </div>
     );
   };
 
