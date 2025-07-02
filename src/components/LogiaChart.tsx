@@ -24,7 +24,6 @@ import {
   drawPlanets,
   updateOrderedSigns,
   calculateHouses,
-  calculateAspects,
   orderedSigns,
 } from "../utils/chartFilling";
 import {
@@ -171,7 +170,7 @@ async function calculateChartData(
   const chartData: ChartData = {
     planets,
     houses,
-    aspects: calculateAspects(planets),
+    aspects: [],
     birthDate,
     birthTime,
     latitude: coordinates.lat,
@@ -196,7 +195,7 @@ async function calculateChartData(
 
   const tableRows = [
     `<tr>
-      <td class="planet-cell" title="${chartT.points.tooltip.replace("{sign}", ascendantData.sign).replace("{position}", ascendantData.degrees.toFixed(2))} - ${chartT.planetDescriptions.ascendant}">AC</td>
+      <td class="planet-cell" title="${chartT.planetDescriptions.ascendant}">AC</td>
       <td class="planet-cell" title="${chartT.signs[ascendantData.sign.toLowerCase() as keyof typeof chartT.signs]}">${getZodiacSymbol(ascendantData.sign)}</td>
       <td class="planet-cell" title="${chartT.elements[getElementNameForSign(ascendantData.sign).toLowerCase() as keyof typeof chartT.elements]}">${getElementForSign(ascendantData.sign)}</td>
       <td class="planet-cell" title="${getDecadeDescription(ascendantData.degrees)}">${ascendantData.degrees.toFixed(2)}°</td>
@@ -217,7 +216,7 @@ async function calculateChartData(
         chartT.planetDescriptions[
           planet.toLowerCase() as keyof typeof chartT.planetDescriptions
         ] || "-";
-      const tooltipText = `${chartT.points.tooltip.replace("{sign}", info.sign).replace("{position}", info.degrees.toFixed(2))} - ${planetDescription}`;
+      const tooltipText = planetDescription;
       const signDescription =
         chartT.signs[info.sign.toLowerCase() as keyof typeof chartT.signs];
       const houseDescription =
