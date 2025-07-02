@@ -6,9 +6,9 @@ import LogiaChart from "./LogiaChart";
 import { searchCities, CitySuggestion } from "../utils/geocoding";
 import Loading from "../utils/loading";
 import { SpaceDecoration } from "../utils/spaceDecoration";
-import "../styles/logia.css";
 import { useWeb3 } from "../utils/web3ModalContext";
 import { WALLET_CONFIG } from "../config/wallet";
+import { useCssLoader } from "../utils/useCssLoader";
 
 const t = strings.en;
 
@@ -33,25 +33,9 @@ export default function Logia() {
     name: "",
   });
   const [showChart, setShowChart] = useState(false);
-  const [stylesLoaded, setStylesLoaded] = useState(false);
+  const isCssLoaded = useCssLoader();
 
-  useEffect(() => {
-    const checkStyles = () => {
-      const computedStyle = getComputedStyle(document.documentElement);
-      const primaryColor = computedStyle
-        .getPropertyValue("--color-primary")
-        .trim();
-      if (primaryColor) {
-        setStylesLoaded(true);
-      } else {
-        // If styles aren't loaded yet, check again after a short delay
-        setTimeout(checkStyles, 50);
-      }
-    };
-    checkStyles();
-  }, []);
-
-  const handleSubmit = useCallback(async (data: FormData) => {
+  const handleSubmit = useCallback((data: FormData) => {
     setFormData(data);
     setShowChart(true);
   }, []);
@@ -83,9 +67,9 @@ export default function Logia() {
     );
   };
 
-  if (!stylesLoaded) {
+  if (!isCssLoaded) {
     return (
-      <div className="logia-container">
+      <div className="astrology-container">
         <Loading />
       </div>
     );
@@ -128,7 +112,6 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
   const hourInputRef = useRef<HTMLInputElement>(null);
   const minuteInputRef = useRef<HTMLInputElement>(null);
   const cityInputRef = useRef<HTMLInputElement>(null);
-  const timePeriodRef = useRef<HTMLInputElement>(null);
 
   const formatAddress = useCallback((addr: string | undefined) => {
     if (!addr) return "";
@@ -224,7 +207,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
         birthTime: `${hour || ""}:${minute}`,
       }));
       if (minute.length === 2) {
-        timePeriodRef.current?.focus();
+        cityInputRef.current?.focus();
       }
     },
     [formData.birthTime],
@@ -294,7 +277,6 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
       if (!isConnected) {
         try {
           await connect();
-          // Wait a bit for the wallet connection and ENS resolution to complete
           await new Promise((resolve) => setTimeout(resolve, 1000));
         } catch (error) {
           console.error("Failed to connect wallet:", error);
@@ -303,17 +285,14 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
         }
       }
 
-      if (shouldCheck) {
-        const displayName = ensName || (address ? formatAddress(address) : "");
-        if (displayName) {
-          setFormData((prev) => ({ ...prev, name: displayName }));
-        }
+      const displayName = ensName || (address ? formatAddress(address) : "");
+      if (displayName) {
+        setFormData((prev) => ({ ...prev, name: displayName }));
       }
     },
     [isConnected, connect, ensName, address, formatAddress],
   );
 
-  // Add effect to update name when ENS or address changes
   useEffect(() => {
     if (useMyself) {
       const displayName = ensName || (address ? formatAddress(address) : "");
@@ -329,7 +308,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
         <label className="astrology-label">{t.labels.name}</label>
         <div className="astrology-input-group">
           <input
-            className="astrology-input"
+            className={`astrology-input ${useMyself ? "disabled-by-checkbox" : ""}`}
             type="text"
             name="name"
             value={formData.name}
@@ -393,7 +372,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
         <div className="astrology-input-group">
           <input
             ref={hourInputRef}
-            className="astrology-input astrology-input-short"
+            className={`astrology-input astrology-input-short ${isUnsure ? "disabled-by-checkbox" : ""}`}
             type="text"
             name="birthHour"
             value={formData.birthTime.split(":")[0] || ""}
@@ -404,7 +383,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
           />
           <input
             ref={minuteInputRef}
-            className="astrology-input astrology-input-short"
+            className={`astrology-input astrology-input-short ${isUnsure ? "disabled-by-checkbox" : ""}`}
             type="text"
             name="birthMinute"
             value={formData.birthTime.split(":")[1] || ""}
@@ -414,8 +393,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             required
           />
           <input
-            ref={timePeriodRef}
-            className="astrology-input astrology-time-period-select"
+            className={`astrology-input astrology-time-period-select ${isUnsure ? "disabled-by-checkbox" : ""}`}
             type="text"
             value={timePeriod}
             onChange={(e) => {

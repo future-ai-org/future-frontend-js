@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "../styles/logia.css";
 import { ThemeProvider } from "../utils/themeContext";
 import { Web3Provider } from "../utils/web3ModalContext";
 import strings from "../i18n/header.json";

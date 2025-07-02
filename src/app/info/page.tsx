@@ -1,11 +1,18 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import "../../styles/info.css";
 import strings from "../../i18n/info.json";
 import DecorativeStars from "../../utils/movingStars";
 
 export default function InfoPage() {
+  const router = useRouter();
+
+  const handleCalculateLogia = () => {
+    router.push("/logia");
+  };
+
   return (
     <main>
       <div className="info-container">
@@ -17,9 +24,10 @@ export default function InfoPage() {
             <p>{strings.en.description.second_paragraph}</p>
             <p>{strings.en.description.third_paragraph}</p>
           </div>
-          <div className="info-signature">
-            <div className="signature-love">{strings.en.signature.love}</div>
-            <div className="signature-name">{strings.en.signature.name}</div>
+          <div className="info-cta">
+            <button onClick={handleCalculateLogia} className="astrology-button">
+              {strings.en.cta.button}
+            </button>
           </div>
         </div>
       </div>

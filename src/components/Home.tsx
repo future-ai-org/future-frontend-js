@@ -92,7 +92,7 @@ export default function Home() {
         >
           {strings.en.features.one.connectWallet}
         </Link>{" "}
-        {strings.en.features.one.startAvatar}
+        {strings.en.features.one.startDashboard}
       </span>
     );
   }, [isClient, isConnected, connect]);

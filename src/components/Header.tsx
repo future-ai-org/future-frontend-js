@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -9,25 +9,19 @@ import { ThemeToggler } from "../utils/themeContext";
 import Wallet from "./Wallet";
 import { useWeb3 } from "../utils/web3ModalContext";
 import { HEADER_CONFIG } from "../config/header";
-import { isValidRoute } from "../config/routes";
 
 const Header: React.FC = () => {
   const { isConnected } = useWeb3();
   const pathname = usePathname();
-  const [mounted, setMounted] = React.useState(false);
 
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const isActive = (path: string) => {
-    if (!isValidRoute(path)) return false;
-    if (path === "/") {
-      return pathname === "/";
-    }
-    // For nested routes, check if the current pathname starts with the base route
-    return pathname?.startsWith(path);
-  };
+  const isActive = useMemo(() => {
+    return (path: string) => {
+      if (path === "/") {
+        return pathname === "/";
+      }
+      return pathname?.startsWith(path);
+    };
+  }, [pathname]);
 
   return (
     <header className={styles.header}>
@@ -55,7 +49,7 @@ const Header: React.FC = () => {
               {label}
             </Link>
           ))}
-          {mounted && isConnected && (
+          {isConnected && (
             <Link
               href={HEADER_CONFIG.dashboard.path}
               className={`${styles.navLink} ${isActive(HEADER_CONFIG.dashboard.path) ? styles.active : ""}`}

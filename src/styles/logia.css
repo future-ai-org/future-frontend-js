@@ -5,6 +5,37 @@
 :root {
   --transition-duration: 0.3s;
   --transition-timing: ease-in-out;
+  /* Fallback values for CSS variables */
+  --color-primary-rgb: 87, 76, 145;
+  --color-primary: rgb(87, 76, 145);
+  --color-primary-dark: rgb(45, 27, 105);
+  --card-bg: rgba(255, 255, 255, 0.1);
+  --color-shadow-black: rgba(0, 0, 0, 0.2);
+  --text-color: var(--color-primary);
+  --text-glow: 0 0 10px rgba(87, 76, 145, 0.7);
+  --glow-shadow: rgba(87, 76, 145, 0.3);
+  --glow-shadow-hover: rgba(87, 76, 145, 0.5);
+  --background-color: rgb(224, 222, 226);
+  --opacity-medium: 0.6;
+  --color-background: var(--background-color);
+  --color-glow-shadow: var(--glow-shadow);
+}
+
+/* Dark theme overrides */
+html.dark {
+  --color-primary-rgb: 96, 165, 250;
+  --color-primary: #60a5fa;
+  --color-primary-dark: #1e40af;
+  --card-bg: rgba(16, 20, 30, 0.8);
+  --color-shadow-black: rgba(0, 0, 0, 0.4);
+  --text-color: var(--color-primary);
+  --text-glow: 0 0 10px rgba(0, 170, 255, 0.7);
+  --glow-shadow: rgba(0, 170, 255, 0.3);
+  --glow-shadow-hover: rgba(0, 170, 255, 0.5);
+  --background-color: rgb(8, 12, 18);
+  --opacity-medium: 0.6;
+  --color-background: var(--background-color);
+  --color-glow-shadow: var(--glow-shadow);
 }
 
 .logia-container {
@@ -62,23 +93,26 @@
 }
 
 .astrology-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
-  background-color: var(--card-bg, rgba(255, 255, 255, 0.1));
-  padding: 1.5rem;
-  border-radius: 2rem;
-  box-shadow: 0 8px 32px var(--color-shadow-black, rgba(0, 0, 0, 0.2));
-  position: sticky;
-  border: 1px solid var(--color-primary, #575c91);
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.75rem !important;
+  margin-bottom: 1.5rem !important;
+  background-color: var(--card-bg, rgba(255, 255, 255, 0.1)) !important;
+  padding: 1.5rem !important;
+  border-radius: 2rem !important;
+  box-shadow:
+    0 8px 32px var(--color-shadow-black, rgba(0, 0, 0, 0.2)),
+    0 0 15px var(--glow-shadow, rgba(87, 76, 145, 0.3)),
+    0 0 30px var(--glow-shadow, rgba(87, 76, 145, 0.3)) !important;
+  position: sticky !important;
+  border: 1px solid var(--color-primary, #575c91) !important;
   transition:
     transform var(--transition-duration) var(--transition-timing),
-    box-shadow var(--transition-duration) var(--transition-timing);
-  backdrop-filter: blur(8px);
-  opacity: 1;
-  animation: fadeIn 0.5s ease-in-out;
-  will-change: transform, box-shadow;
+    box-shadow var(--transition-duration) var(--transition-timing) !important;
+  backdrop-filter: blur(8px) !important;
+  opacity: 1 !important;
+  animation: fadeIn 0.5s ease-in-out !important;
+  will-change: transform, box-shadow !important;
 }
 
 @keyframes fadeIn {
@@ -128,20 +162,37 @@
 .astrology-input,
 .astrology-time-period-select,
 .astrology-unsure-checkbox input[type="checkbox"] {
-  padding: 0.75rem;
-  border: 1px solid var(--color-primary, #575c91);
-  border-radius: 1.5rem;
-  background-color: var(--card-bg, rgba(255, 255, 255, 0.1));
-  color: var(--color-primary, #575c91);
-  transition: all var(--transition-duration) var(--transition-timing);
-  font-size: 1rem;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  text-align: center;
-  outline: none;
-  box-sizing: border-box;
-  opacity: 1;
+  padding: 0.75rem !important;
+  border: 1px solid var(--color-primary, #575c91) !important;
+  border-radius: 1.5rem !important;
+  background-color: var(--card-bg, rgba(255, 255, 255, 0.1)) !important;
+  color: var(--color-primary, #575c91) !important;
+  transition: all var(--transition-duration) var(--transition-timing) !important;
+  font-size: 1rem !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  text-align: center !important;
+  outline: none !important;
+  box-sizing: border-box !important;
+  opacity: 1 !important;
+}
+
+/* Ensure all form elements have purple borders on hover/focus */
+.astrology-input:hover,
+.astrology-time-period-select:hover,
+.astrology-unsure-checkbox input[type="checkbox"]:hover {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 2px rgba(var(--color-primary-rgb), 0.3) !important;
+}
+
+/* Enhanced focus states with more prominent purple borders */
+.astrology-input:focus,
+.astrology-time-period-select:focus,
+.astrology-unsure-checkbox input[type="checkbox"]:focus {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.4) !important;
+  transform: translateY(-1px) !important;
 }
 
 .astrology-input,
@@ -155,12 +206,14 @@
 }
 
 .astrology-input:focus,
-.astrology-time-period-select:focus {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb), 0.2);
-  transform: translateY(-1px);
-  background-color: var(--card-bg);
-  will-change: transform, box-shadow;
+.astrology-time-period-select:focus,
+.astrology-input:hover,
+.astrology-time-period-select:hover {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb), 0.2) !important;
+  transform: translateY(-1px) !important;
+  background-color: var(--card-bg) !important;
+  will-change: transform, box-shadow !important;
 }
 
 .astrology-input:not(:placeholder-shown) {
@@ -291,40 +344,18 @@
 }
 
 .astrology-city-suggestion:hover {
-  background-color: var(--color-glow-shadow);
-  color: var(--color-primary);
-  transform: translateX(4px);
-  border-color: var(--color-primary);
+  background-color: var(--color-glow-shadow) !important;
+  color: var(--color-primary) !important;
+  transform: translateX(4px) !important;
+  border-color: var(--color-primary) !important;
 }
 
 .astrology-error-message,
 .astrology-error {
-  color: var(--color-error);
+  color: var(--bearish-color);
   font-size: 1.2rem;
   text-align: center;
   margin: 2rem 0;
-}
-
-.astrology-loading-message {
-  color: var(--bullish-color);
-  font-size: 0.9rem;
-  margin-top: 0.5rem;
-  padding: 0.5rem;
-  border-radius: 1.2rem;
-  background-color: var(--info-bg);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0% {
-    opacity: var(--opacity-medium);
-  }
-  50% {
-    opacity: var(--opacity-high);
-  }
-  100% {
-    opacity: var(--opacity-medium);
-  }
 }
 
 .astrology-input-group {
@@ -356,9 +387,9 @@
 }
 
 .astrology-unsure-checkbox:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb), 0.2);
-  border-color: var(--color-primary);
+  transform: translateY(-1px) !important;
+  box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb), 0.2) !important;
+  border-color: var(--color-primary) !important;
 }
 
 .astrology-unsure-checkbox input[type="checkbox"] {
@@ -376,10 +407,16 @@
   margin: 0;
   position: relative;
   background-color: var(--card-bg);
+  background-image: none;
+  -webkit-background-image: none;
+  -moz-background-image: none;
 }
 
 .astrology-unsure-checkbox input[type="checkbox"]:checked {
-  background-color: var(--color-primary);
+  background-color: transparent;
+  background-image: none;
+  -webkit-background-image: none;
+  -moz-background-image: none;
   border-color: var(--color-primary);
 }
 
@@ -389,14 +426,16 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: var(--background-color);
+  color: var(--color-primary-dark);
   font-size: 12px;
   font-weight: bold;
 }
 
-.astrology-unsure-checkbox input[type="checkbox"]:focus {
-  outline: none;
-  box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb), 0.2);
+.astrology-unsure-checkbox input[type="checkbox"]:focus,
+.astrology-unsure-checkbox input[type="checkbox"]:hover {
+  outline: none !important;
+  box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb), 0.2) !important;
+  border-color: var(--color-primary) !important;
 }
 
 .astrology-unsure-checkbox label {
@@ -414,10 +453,28 @@
   transform: translateX(2px);
 }
 
+/* Style form fields when "myself" checkbox is checked */
+.astrology-input-group:has(#myself-checkbox:checked) .astrology-input {
+  background-color: rgba(128, 128, 128, 0.3);
+  opacity: 0.7;
+}
+
+/* Style form fields when "not sure" checkbox is checked */
+.astrology-input-group:has(#unsure-checkbox:checked) .astrology-input {
+  background-color: rgba(128, 128, 128, 0.3);
+  opacity: 0.7;
+}
+
+/* Fallback for browsers that don't support :has() */
+.astrology-input.disabled-by-checkbox {
+  background-color: rgba(128, 128, 128, 0.3) !important;
+  opacity: 0.7 !important;
+}
+
 .logia-info-wrapper {
   position: absolute;
   right: calc(50% + 350px);
-  top: 55%;
+  top: 50%;
   transform: translateY(-50%);
   display: flex;
   align-items: center;
@@ -481,48 +538,6 @@
     rgba(var(--color-primary-rgb), 0.15),
     rgba(var(--color-primary-rgb), 0.08)
   );
-}
-
-.logia-info-title {
-  color: var(--color-primary);
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-  font-weight: 700;
-  text-align: center;
-}
-
-.logia-info-content {
-  color: var(--color-primary);
-  font-size: 0.9rem;
-  line-height: 1.4;
-}
-
-.logia-info-list {
-  list-style: none;
-  padding: 0;
-  margin: 0.75rem 0;
-}
-
-.logia-info-list li {
-  margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: transform var(--transition-duration) var(--transition-timing);
-  will-change: transform;
-}
-
-.logia-info-list li:hover {
-  transform: translateX(4px);
-}
-
-.logia-info-tip {
-  font-style: italic;
-  margin-top: 1rem;
-  padding: 1rem;
-  background-color: var(--color-glow-shadow);
-  border-radius: 1.2rem;
-  border: 1px solid var(--color-primary);
 }
 
 .logia-about-title {
