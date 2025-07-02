@@ -227,9 +227,9 @@
   @apply flex items-center gap-2;
 }
 
-.view-chart-button,
-.delete-chart-button,
-.set-official-button {
+.dashboard-card .view-chart-button,
+.dashboard-card .delete-chart-button,
+.dashboard-card .set-official-button {
   @apply p-2 rounded-lg transition-all duration-200 flex items-center justify-center;
   width: 36px;
   height: 36px;
@@ -238,9 +238,9 @@
   color: var(--text-color);
 }
 
-.view-chart-button:hover,
-.delete-chart-button:hover,
-.set-official-button:hover {
+.dashboard-card .view-chart-button:hover,
+.dashboard-card .delete-chart-button:hover,
+.dashboard-card .set-official-button:hover {
   background: rgba(var(--color-primary-rgb), 0.2);
   border-color: rgba(var(--color-primary-rgb), 0.4);
   transform: translateY(-2px);
@@ -249,9 +249,9 @@
 
 
 
-.view-chart-button svg,
-.delete-chart-button svg,
-.set-official-button svg {
+.dashboard-card .view-chart-button svg,
+.dashboard-card .delete-chart-button svg,
+.dashboard-card .set-official-button svg {
   width: 16px;
   height: 16px;
 }
@@ -402,9 +402,9 @@
     @apply gap-1;
   }
 
-  .view-chart-button,
-  .delete-chart-button,
-  .set-official-button,
+  .dashboard-card .view-chart-button,
+  .dashboard-card .delete-chart-button,
+  .dashboard-card .set-official-button,
   .view-asset-button,
   .remove-favorite-button {
     width: 32px;
