@@ -26,6 +26,7 @@
   --light-glow-pink-light: rgba(255, 192, 203, 0.7);
   --light-glow-pink-dark: rgba(190, 133, 195, 0.5);
   --light-planet-symbol: #8a6cb3; /* Darker purple color for planet symbols */
+  --light-ascendant: #cc6096; /* Pink color for ascendant */
 
   /* Theme Colors - Dark */
   --dark-primary: #60a5fa;
@@ -50,6 +51,7 @@
   --dark-glow-pink-light: rgba(255, 64, 129, 0.5);
   --dark-glow-pink-dark: rgba(52, 211, 153, 0.4);
   --dark-planet-symbol: #8a6cb3; /* Darker purple color for planet symbols */
+  --dark-ascendant: #cc6096; /* Pink color for ascendant */
 
   /* Common Variables */
   --transition-duration: 0.3s;
@@ -77,6 +79,7 @@
   --glow-pink-light: var(--light-glow-pink-light);
   --glow-pink-dark: var(--light-glow-pink-dark);
   --planet-symbol-color: var(--light-planet-symbol);
+  --ascendant-color: var(--light-ascendant);
   --opacity-medium: 0.6;
   --background-color: var(--color-background);
   --glow-shadow-hover: var(--color-glow-shadow-hover);
@@ -123,6 +126,7 @@ html.dark {
   --glow-pink-light: var(--dark-glow-pink-light);
   --glow-pink-dark: var(--dark-glow-pink-dark);
   --planet-symbol-color: var(--dark-planet-symbol);
+  --ascendant-color: var(--dark-ascendant);
   --opacity-medium: 0.6;
   --background-color: var(--color-background);
   --glow-shadow-hover: var(--color-glow-shadow-hover);
