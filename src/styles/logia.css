@@ -468,6 +468,24 @@ html.dark {
   transform: translateX(2px);
 }
 
+/* Style form fields when "myself" checkbox is checked */
+.astrology-input-group:has(#myself-checkbox:checked) .astrology-input {
+  background-color: rgba(128, 128, 128, 0.3);
+  opacity: 0.7;
+}
+
+/* Style form fields when "not sure" checkbox is checked */
+.astrology-input-group:has(#unsure-checkbox:checked) .astrology-input {
+  background-color: rgba(128, 128, 128, 0.3);
+  opacity: 0.7;
+}
+
+/* Fallback for browsers that don't support :has() */
+.astrology-input.disabled-by-checkbox {
+  background-color: rgba(128, 128, 128, 0.3) !important;
+  opacity: 0.7 !important;
+}
+
 .logia-info-wrapper {
   position: absolute;
   right: calc(50% + 350px);

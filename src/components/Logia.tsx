@@ -308,7 +308,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
         <label className="astrology-label">{t.labels.name}</label>
         <div className="astrology-input-group">
           <input
-            className="astrology-input"
+            className={`astrology-input ${useMyself ? 'disabled-by-checkbox' : ''}`}
             type="text"
             name="name"
             value={formData.name}
@@ -372,7 +372,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
         <div className="astrology-input-group">
           <input
             ref={hourInputRef}
-            className="astrology-input astrology-input-short"
+            className={`astrology-input astrology-input-short ${isUnsure ? 'disabled-by-checkbox' : ''}`}
             type="text"
             name="birthHour"
             value={formData.birthTime.split(":")[0] || ""}
@@ -383,7 +383,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
           />
           <input
             ref={minuteInputRef}
-            className="astrology-input astrology-input-short"
+            className={`astrology-input astrology-input-short ${isUnsure ? 'disabled-by-checkbox' : ''}`}
             type="text"
             name="birthMinute"
             value={formData.birthTime.split(":")[1] || ""}
@@ -393,7 +393,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             required
           />
           <input
-            className="astrology-input astrology-time-period-select"
+            className={`astrology-input astrology-time-period-select ${isUnsure ? 'disabled-by-checkbox' : ''}`}
             type="text"
             value={timePeriod}
             onChange={(e) => {
