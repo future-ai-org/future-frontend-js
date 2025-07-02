@@ -264,7 +264,7 @@
 
 .astrology-info-text th,
 .astrology-info-text td {
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: none;
   display: table-cell;
 }
 
