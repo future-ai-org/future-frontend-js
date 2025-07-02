@@ -33,7 +33,7 @@ import {
   geocodeCity,
 } from "../utils/geocoding";
 import chartStrings from "../i18n/logiaChart.json";
-import { wouldCreateDuplicate } from "../utils/chartUtils";
+import { wouldCreateDuplicate, generateChartHash, storeChartHashMapping } from "../utils/chartUtils";
 
 interface ChartCalculationResult {
   chartData: ChartData;
@@ -390,7 +390,6 @@ export default function LogiaChart({
 
   const drawChart = useChartDrawing(chartData, handlePlanetSelect);
 
-  // Check if current chart is already saved
   const checkIfChartSaved = useCallback(() => {
     if (!chartData) return;
 
@@ -408,7 +407,7 @@ export default function LogiaChart({
 
       setIsChartSaved(isDuplicate);
     } catch (error) {
-      console.error("Error checking if chart is saved:", error);
+      console.error(chartT.errors.checkSavedError + ":", error);
       setIsChartSaved(false);
     }
   }, [chartData, birthDate, birthTime, city, name]);
@@ -427,6 +426,9 @@ export default function LogiaChart({
       );
       setChartData(chartData);
       setChartInfoHtml(chartInfoHtml);
+      
+      // Store hash mapping for the advanced view URL
+      storeChartHashMapping(birthDate, birthTime, city);
     } catch {
       setError(chartT.errors.unknownError);
     } finally {
@@ -438,17 +440,10 @@ export default function LogiaChart({
     fetchChartData();
   }, [fetchChartData]);
 
-  // Check if chart is saved whenever chartData changes
   useEffect(() => {
     checkIfChartSaved();
   }, [checkIfChartSaved]);
 
-  useEffect(() => {
-    console.log("Notification state changed:", {
-      showNotification,
-      notificationMessage,
-    });
-  }, [showNotification, notificationMessage]);
 
   useEffect(() => {
     const container = document.getElementById("chart");
@@ -495,7 +490,6 @@ export default function LogiaChart({
         localStorage.getItem("savedCharts") || "[]",
       );
 
-      // Check if a chart with the same data already exists
       const isDuplicate = wouldCreateDuplicate(savedCharts, {
         birthDate,
         birthTime,
@@ -522,7 +516,6 @@ export default function LogiaChart({
         isOfficial: showEns,
       };
 
-      // If this is marked as official, remove official status from other charts
       if (showEns) {
         savedCharts.forEach((chart: SavedChart) => {
           chart.isOfficial = false;
@@ -532,10 +525,7 @@ export default function LogiaChart({
       savedCharts.push(newChart);
       localStorage.setItem("savedCharts", JSON.stringify(savedCharts));
 
-      // Set the chart as saved
       setIsChartSaved(true);
-
-      console.log("Setting notification:", chartT.saveChart.success);
       setNotificationMessage(chartT.saveChart.success);
       setShowNotification(true);
       setTimeout(() => setShowNotification(false), 3000);
@@ -617,7 +607,7 @@ export default function LogiaChart({
           {memoizedPlanetInfo}
           <div className="advanced-view-container">
             <a
-              href={`/advanced?birthDate=${encodeURIComponent(birthDate)}&birthTime=${encodeURIComponent(birthTime)}&city=${encodeURIComponent(city)}`}
+              href={`/advanced/${generateChartHash(birthDate, birthTime, city)}`}
               className="advanced-view-button"
             >
               {chartT.advancedView}

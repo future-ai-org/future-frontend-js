@@ -1,5 +1,6 @@
 export const LOGIA_ADVANCED_CONFIG = {
   API_ENDPOINT: "/api/astro",
+  URL_HASH_LENGTH: 10,
   COLORS: {
     PRIMARY: "var(--logia-primary)",
     PRIMARY_PURPLE: "var(--logia-primary-purple)",

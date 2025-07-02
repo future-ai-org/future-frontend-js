@@ -50,7 +50,6 @@ const Dashboard: React.FC = () => {
     isConnected,
   } = useWeb3();
 
-  // prevent hydration mismatch by only checking connection after mount
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -83,7 +82,6 @@ const Dashboard: React.FC = () => {
           localStorage.getItem("favoriteAssets") || "[]",
         );
 
-        // fetch price data for favorite assets
         if (assets.length > 0) {
           const assetIds = assets
             .map((asset: FavoriteAsset) => asset.id)
@@ -114,7 +112,6 @@ const Dashboard: React.FC = () => {
         }
       } catch (err) {
         console.error(strings.en.cards.favorites.errors.loadFailed, err);
-        // fallback to loading without price data
         try {
           const assets = JSON.parse(
             localStorage.getItem("favoriteAssets") || "[]",
@@ -130,7 +127,6 @@ const Dashboard: React.FC = () => {
     window.addEventListener("storage", loadFavoriteAssets);
     window.addEventListener("favoritesUpdated", loadFavoriteAssets);
 
-    // set up refresh interval for price data
     const interval = setInterval(loadFavoriteAssets, dashboardConfig.refresh.priceDataInterval);
 
     return () => {
@@ -240,7 +236,7 @@ const Dashboard: React.FC = () => {
       </div>
 
       <div className="dashboard-grid">
-        {/* Portfolio Card */}
+        {/* portfolio card */}
         <div className="dashboard-card">
           <h3>
             <FaCoins />
@@ -287,7 +283,7 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Logia Charts Card */}
+        {/* logia charts card */}
         <div className="dashboard-card">
           <h3>
             <FaChartLine />
@@ -366,7 +362,7 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Favorites Card */}
+        {/* favorites card */}
         <div className="dashboard-card">
           <h3>
             <FaHeart />
@@ -421,7 +417,7 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Predictions Card */}
+        {/* predictions card */}
         <div className="dashboard-card">
           <h3>
             <FaMagic />

@@ -119,7 +119,8 @@
       "invalidPlanetData": "invalid planet data for {planet}",
       "unknownError": "an unknown error occurred",
       "apiUrlNotConfigured": "api url is not configured",
-      "cityNotFound": "city not found"
+      "cityNotFound": "city not found",
+      "checkSavedError": "error checking if chart is saved"
     },
     "decades": {
       "first": "first decade (0-9°): the beginning of the sign's energy, representing its purest and most direct expression.",
