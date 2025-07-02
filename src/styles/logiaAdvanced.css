@@ -2,6 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
+/* CSS Custom Properties for Logia Advanced Colors */
+:root {
+  /* Primary colors */
+  --logia-primary: var(--color-primary);
+  --logia-primary-purple: #a855f7;
+  --logia-primary-pink: #ec4899;
+  
+  /* Text colors */
+  --logia-text: var(--color-text);
+  
+  /* Error colors */
+  --logia-error: #ef4444;
+  --logia-error-dark: #dc2626;
+  
+  /* Background colors */
+  --logia-white-transparent: rgba(255, 255, 255, 0.1);
+  --logia-white-transparent-light: rgba(255, 255, 255, 0.05);
+  --logia-white-transparent-medium: rgba(255, 255, 255, 0.2);
+  --logia-white-transparent-heavy: rgba(255, 255, 255, 0.8);
+  
+  /* Shadow colors */
+  --logia-shadow-black: rgba(0, 0, 0, 0.1);
+  --logia-shadow-black-dark: rgba(0, 0, 0, 0.15);
+  --logia-shadow-purple: rgba(168, 85, 247, 0.3);
+  --logia-shadow-purple-light: rgba(168, 85, 247, 0.5);
+  
+  /* Nebula colors */
+  --logia-nebula-purple: rgba(120, 119, 198, 0.3);
+  --logia-nebula-pink: rgba(255, 119, 198, 0.3);
+  --logia-nebula-blue: rgba(120, 219, 255, 0.2);
+  
+  /* Error background colors */
+  --logia-error-bg: rgba(239, 68, 68, 0.1);
+  --logia-error-bg-light: rgba(239, 68, 68, 0.05);
+  --logia-error-border: rgba(239, 68, 68, 0.3);
+  
+  /* Element colors */
+  --logia-element-fire: var(--color-bullish);
+  --logia-element-earth: #8B4513;
+  --logia-element-air: #87CEEB;
+  --logia-element-water: #4682B4;
+  
+  /* Quality colors */
+  --logia-quality-cardinal: #FF6B6B;
+  --logia-quality-fixed: #4ECDC4;
+  --logia-quality-mutable: #45B7D1;
+}
+
 /* Cosmic Background */
 .cosmic-background {
   position: fixed;

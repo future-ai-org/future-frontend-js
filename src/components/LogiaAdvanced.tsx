@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import strings from "../i18n/logiaAdvanced.json";
 import { formatDate, formatTime } from "../utils/geocoding";
+import { LOGIA_ADVANCED_CONFIG } from "../config/logiaAdvanced";
 import "../styles/logiaAdvanced.css";
 
 const t = strings.en;
@@ -63,10 +64,10 @@ export default function LogiaAdvanced({
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch("/api/astro");
+        const response = await fetch(LOGIA_ADVANCED_CONFIG.API_ENDPOINT);
 
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          throw new Error(t.errors.httpError.replace("{status}", response.status.toString()));
         }
 
         const data = await response.json();
@@ -76,17 +77,17 @@ export default function LogiaAdvanced({
         }
 
         if (data.status !== "OK") {
-          throw new Error("Invalid response from server");
+          throw new Error(t.errors.serverError);
         }
 
         setAstroData(data);
         setError(null);
       } catch (error) {
-        console.error("Error fetching astro data:", error);
+        console.error(t.errors.fetchError, error);
         setError(
           error instanceof Error
             ? error.message
-            : "Failed to load astrological data. Please try again later.",
+            : t.errors.genericError,
         );
       } finally {
         setLoading(false);
@@ -96,7 +97,6 @@ export default function LogiaAdvanced({
     fetchData();
   }, []);
 
-  // Ensure we have valid values before formatting
   const formattedDate = birthDate ? formatDate(birthDate) : "";
   const formattedTime = birthTime ? formatTime(birthTime) : "";
   const formattedCity = city ? city.toLowerCase() : "";
@@ -106,10 +106,8 @@ export default function LogiaAdvanced({
     .replace("{birthTime}", formattedTime)
     .replace("{city}", formattedCity);
 
-  // Function to format position to 2 decimal places
   const formatPosition = (pos: number) => pos.toFixed(2);
 
-  // Get celestial bodies from data
   const getCelestialBodies = () => {
     if (!astroData?.data) return [];
 
@@ -125,37 +123,32 @@ export default function LogiaAdvanced({
   };
 
   const celestialBodies = getCelestialBodies();
-
-  // Get element color
   const getElementColor = (element: string) => {
-    const colors = {
-      Fire: "var(--color-bullish)",
-      Earth: "#8B4513",
-      Air: "#87CEEB",
-      Water: "#4682B4",
+    const elementColors: Record<string, string> = {
+      Fire: LOGIA_ADVANCED_CONFIG.COLORS.ELEMENT_FIRE,
+      Earth: LOGIA_ADVANCED_CONFIG.COLORS.ELEMENT_EARTH,
+      Air: LOGIA_ADVANCED_CONFIG.COLORS.ELEMENT_AIR,
+      Water: LOGIA_ADVANCED_CONFIG.COLORS.ELEMENT_WATER,
     };
-    return colors[element as keyof typeof colors] || "var(--color-primary)";
+    return elementColors[element] || LOGIA_ADVANCED_CONFIG.COLORS.PRIMARY;
   };
 
-  // Get quality color
   const getQualityColor = (quality: string) => {
-    const colors = {
-      Cardinal: "#FF6B6B",
-      Fixed: "#4ECDC4",
-      Mutable: "#45B7D1",
+    const qualityColors: Record<string, string> = {
+      Cardinal: LOGIA_ADVANCED_CONFIG.COLORS.QUALITY_CARDINAL,
+      Fixed: LOGIA_ADVANCED_CONFIG.COLORS.QUALITY_FIXED,
+      Mutable: LOGIA_ADVANCED_CONFIG.COLORS.QUALITY_MUTABLE,
     };
-    return colors[quality as keyof typeof colors] || "var(--color-primary)";
+    return qualityColors[quality] || LOGIA_ADVANCED_CONFIG.COLORS.PRIMARY;
   };
 
   return (
     <div className="advanced-astrology-container">
-      {/* Background decoration */}
       <div className="cosmic-background">
         <div className="stars"></div>
         <div className="nebula"></div>
       </div>
 
-      {/* Header Section */}
       <div className="advanced-header">
         <div className="header-content">
           <h1 className="advanced-title">
@@ -168,7 +161,6 @@ export default function LogiaAdvanced({
         </div>
       </div>
 
-      {/* Loading State */}
       {loading && (
         <div className="loading-container">
           <div className="loading-spinner">
@@ -176,11 +168,10 @@ export default function LogiaAdvanced({
             <div className="spinner-ring"></div>
             <div className="spinner-ring"></div>
           </div>
-          <p className="loading-text">Reading the stars...</p>
+          <p className="loading-text">{t.loading.text}</p>
         </div>
       )}
 
-      {/* Error State */}
       {error && (
         <div className="error-container">
           <div className="error-icon">⚠️</div>
@@ -188,15 +179,13 @@ export default function LogiaAdvanced({
         </div>
       )}
 
-      {/* Astrological Data */}
       {!loading && !error && astroData?.data && (
         <div className="astrology-content">
-          {/* Summary Cards */}
           <div className="summary-section">
             <div className="summary-card">
               <div className="summary-icon">🌍</div>
               <div className="summary-content">
-                <h3>Location</h3>
+                <h3>{t.summary.location}</h3>
                 <p>
                   {astroData.data.city}, {astroData.data.nation}
                 </p>
@@ -205,23 +194,23 @@ export default function LogiaAdvanced({
             <div className="summary-card">
               <div className="summary-icon">📅</div>
               <div className="summary-content">
-                <h3>Date & Time</h3>
+                <h3>{t.summary.dateTime}</h3>
                 <p>{astroData.data.iso_formatted_local_datetime}</p>
               </div>
             </div>
             <div className="summary-card">
               <div className="summary-icon">🧭</div>
               <div className="summary-content">
-                <h3>Coordinates</h3>
+                <h3>{t.summary.coordinates}</h3>
                 <p>
-                  {astroData.data.lat.toFixed(2)}°N,{" "}
-                  {astroData.data.lng.toFixed(2)}°E
+                  {t.summary.coordinateFormat
+                    .replace("{lat}", astroData.data.lat.toFixed(2))
+                    .replace("{lng}", astroData.data.lng.toFixed(2))}
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Celestial Bodies Grid */}
           <div className="celestial-grid">
             {celestialBodies.map(({ key, body }) => (
               <div
@@ -238,28 +227,28 @@ export default function LogiaAdvanced({
                     <div className="body-sign">
                       <span className="sign-emoji">{body.emoji}</span>
                       <span className="sign-name">{body.sign}</span>
-                      {body.retrograde && <span className="retrograde">R</span>}
+                      {body.retrograde && <span className="retrograde">{t.details.retrograde}</span>}
                     </div>
                   </div>
                 </div>
 
                 <div className="card-details">
                   <div className="detail-row">
-                    <span className="detail-label">Position:</span>
+                    <span className="detail-label">{t.details.position}</span>
                     <span className="detail-value">
                       {formatPosition(body.position)}°
                     </span>
                   </div>
                   {body.house && (
                     <div className="detail-row">
-                      <span className="detail-label">House:</span>
+                      <span className="detail-label">{t.details.house}</span>
                       <span className="detail-value">
                         {body.house.replace("_", " ")}
                       </span>
                     </div>
                   )}
                   <div className="detail-row">
-                    <span className="detail-label">Quality:</span>
+                    <span className="detail-label">{t.details.quality}</span>
                     <span
                       className="detail-value quality-badge"
                       style={{ color: getQualityColor(body.quality) }}
@@ -268,7 +257,7 @@ export default function LogiaAdvanced({
                     </span>
                   </div>
                   <div className="detail-row">
-                    <span className="detail-label">Element:</span>
+                    <span className="detail-label">{t.details.element}</span>
                     <span
                       className="detail-value element-badge"
                       style={{ color: getElementColor(body.element) }}
@@ -278,23 +267,22 @@ export default function LogiaAdvanced({
                   </div>
                 </div>
 
-                {/* Expanded Details */}
                 {selectedBody === key && (
                   <div className="expanded-details">
                     <div className="detail-section">
-                      <h4>Astrological Significance</h4>
+                      <h4>{t.expanded.astrologicalSignificance}</h4>
                       <p>
-                        This celestial body represents {body.name.toLowerCase()}{" "}
-                        in {body.sign.toLowerCase()} at{" "}
-                        {formatPosition(body.position)}°.
+                        {t.expanded.significanceText
+                          .replace("{bodyName}", body.name.toLowerCase())
+                          .replace("{sign}", body.sign.toLowerCase())
+                          .replace("{position}", formatPosition(body.position))}
                       </p>
                     </div>
                     <div className="detail-section">
-                      <h4>Elemental Influence</h4>
+                      <h4>{t.expanded.elementalInfluence}</h4>
                       <p>
-                        The {body.element.toLowerCase()} element brings{" "}
-                        {body.element.toLowerCase()} qualities to this
-                        placement.
+                        {t.expanded.elementalText
+                          .replace(/{element}/g, body.element.toLowerCase())}
                       </p>
                     </div>
                   </div>

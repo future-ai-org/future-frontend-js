@@ -1,6 +1,34 @@
 {
   "en": {
     "title": "advanced logia",
-    "subtitle": "born on {birthDate} at {birthTime} in {city}"
+    "subtitle": "born on {birthDate} at {birthTime} in {city}",
+    "errors": {
+      "httpError": "http error! status: {status}",
+      "serverError": "invalid response from server",
+      "genericError": "failed to load astrological data. please try again later.",
+      "fetchError": "error fetching astro data:"
+    },
+    "loading": {
+      "text": "reading the stars..."
+    },
+    "summary": {
+      "location": "location",
+      "dateTime": "date & time",
+      "coordinates": "coordinates",
+      "coordinateFormat": "{lat}°N, {lng}°E"
+    },
+    "details": {
+      "position": "position:",
+      "house": "house:",
+      "quality": "quality:",
+      "element": "element:",
+      "retrograde": "ret"
+    },
+    "expanded": {
+      "astrologicalSignificance": "astrological significance",
+      "elementalInfluence": "elemental influence",
+      "significanceText": "this celestial body represents {bodyName} in {sign} at {position}°.",
+      "elementalText": "the {element} element brings {element} qualities to this placement."
+    }
   }
 }
