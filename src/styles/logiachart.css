@@ -45,7 +45,12 @@
   font-size: 1.2rem;
   font-weight: 700;
   margin-bottom: 2rem;
+  margin-left: auto;
+  margin-right: auto;
   opacity: 0.9;
+  text-align: center !important;
+  width: 100% !important;
+  max-width: 600px !important;
 }
 
 /* Tooltip styles */
@@ -417,10 +422,17 @@
 }
 
 .astrology-header.saved-view .astrology-title {
-  margin-bottom: 0;
-  text-align: center;
-  width: 100%;
-  font-size: 3rem;
+  margin-bottom: 0 !important;
+  margin-right: 0 !important;
+  text-align: center !important;
+  width: 100% !important;
+  font-size: 3rem !important;
+}
+
+.astrology-header.saved-view .astrology-subtitle {
+  text-align: center !important;
+  width: 100% !important;
+  margin: 0.5rem 0 2rem 0 !important;
 }
 
 .astrology-header-top {
