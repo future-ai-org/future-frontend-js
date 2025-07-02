@@ -388,16 +388,16 @@ export default function LogiaChart({
   }, []);
 
   const drawChart = useChartDrawing(chartData, handlePlanetSelect);
-  
+
   // Check if current chart is already saved
   const checkIfChartSaved = useCallback(() => {
     if (!chartData) return;
-    
+
     try {
       const savedCharts = JSON.parse(
         localStorage.getItem("savedCharts") || "[]",
       );
-      
+
       const isDuplicate = savedCharts.some((savedChart: SavedChart) => {
         return (
           savedChart.birthDate === birthDate &&
@@ -406,10 +406,10 @@ export default function LogiaChart({
           JSON.stringify(savedChart.chartData) === JSON.stringify(chartData)
         );
       });
-      
+
       setIsChartSaved(isDuplicate);
     } catch (error) {
-      console.error('Error checking if chart is saved:', error);
+      console.error("Error checking if chart is saved:", error);
       setIsChartSaved(false);
     }
   }, [chartData, birthDate, birthTime, city]);
@@ -445,7 +445,10 @@ export default function LogiaChart({
   }, [checkIfChartSaved]);
 
   useEffect(() => {
-    console.log('Notification state changed:', { showNotification, notificationMessage });
+    console.log("Notification state changed:", {
+      showNotification,
+      notificationMessage,
+    });
   }, [showNotification, notificationMessage]);
 
   useEffect(() => {
@@ -535,7 +538,7 @@ export default function LogiaChart({
       // Set the chart as saved
       setIsChartSaved(true);
 
-      console.log('Setting notification:', chartT.saveChart.success);
+      console.log("Setting notification:", chartT.saveChart.success);
       setNotificationMessage(chartT.saveChart.success);
       setShowNotification(true);
       setTimeout(() => setShowNotification(false), 3000);
@@ -567,7 +570,7 @@ export default function LogiaChart({
         </div>
       )}
 
-      <div className={`astrology-header ${hideSaveButton ? 'saved-view' : ''}`}>
+      <div className={`astrology-header ${hideSaveButton ? "saved-view" : ""}`}>
         <div className="astrology-header-top">
           <div className="astrology-header-center">
             <div className="title-star-container">
@@ -576,10 +579,12 @@ export default function LogiaChart({
                 <button
                   onClick={handleSaveChart}
                   disabled={isSaving || !chartData}
-                  className={`save-chart-star ${isChartSaved ? 'saved' : ''}`}
-                  title={isSaving ? chartT.saveChart.saving : chartT.saveChart.button}
+                  className={`save-chart-star ${isChartSaved ? "saved" : ""}`}
+                  title={
+                    isSaving ? chartT.saveChart.saving : chartT.saveChart.button
+                  }
                 >
-                                <div className="star-icon"></div>
+                  <div className="star-icon"></div>
                 </button>
               )}
             </div>
@@ -597,7 +602,11 @@ export default function LogiaChart({
         </div>
       </div>
       {subtitleContent && (
-        <div className={`astrology-subtitle ${hideSaveButton ? 'saved-view' : ''}`}>{subtitleContent}</div>
+        <div
+          className={`astrology-subtitle ${hideSaveButton ? "saved-view" : ""}`}
+        >
+          {subtitleContent}
+        </div>
       )}
       <div className="astrology-chart-section">
         <div className="astrology-chart-container" id="chart">

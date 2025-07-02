@@ -57,6 +57,7 @@ export default function LogiaAdvanced({
   const [astroData, setAstroData] = useState<AstroData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedBody, setSelectedBody] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -108,56 +109,199 @@ export default function LogiaAdvanced({
   // Function to format position to 2 decimal places
   const formatPosition = (pos: number) => pos.toFixed(2);
 
+  // Get celestial bodies from data
+  const getCelestialBodies = () => {
+    if (!astroData?.data) return [];
+
+    return Object.entries(astroData.data)
+      .filter(
+        ([, value]) =>
+          typeof value === "object" && value !== null && "name" in value,
+      )
+      .map(([key, value]) => ({
+        key,
+        body: value as CelestialBody,
+      }));
+  };
+
+  const celestialBodies = getCelestialBodies();
+
+  // Get element color
+  const getElementColor = (element: string) => {
+    const colors = {
+      Fire: "var(--color-bullish)",
+      Earth: "#8B4513",
+      Air: "#87CEEB",
+      Water: "#4682B4",
+    };
+    return colors[element as keyof typeof colors] || "var(--color-primary)";
+  };
+
+  // Get quality color
+  const getQualityColor = (quality: string) => {
+    const colors = {
+      Cardinal: "#FF6B6B",
+      Fixed: "#4ECDC4",
+      Mutable: "#45B7D1",
+    };
+    return colors[quality as keyof typeof colors] || "var(--color-primary)";
+  };
+
   return (
-    <div className="astrology-container">
-      <div className="astrology-header">
-        <h1 className="astrology-title">{t.title}</h1>
+    <div className="advanced-astrology-container">
+      {/* Background decoration */}
+      <div className="cosmic-background">
+        <div className="stars"></div>
+        <div className="nebula"></div>
       </div>
-      <div className="astrology-subtitle">{subtitleContent}</div>
 
-      {loading && <div className="loading">Loading astrological data...</div>}
-      {error && <div className="error">{error}</div>}
+      {/* Header Section */}
+      <div className="advanced-header">
+        <div className="header-content">
+          <h1 className="advanced-title">
+            <span className="title-glow">{t.title}</span>
+          </h1>
+          <div className="advanced-subtitle">
+            <div className="subtitle-icon">✨</div>
+            <span>{subtitleContent}</span>
+          </div>
+        </div>
+      </div>
 
+      {/* Loading State */}
+      {loading && (
+        <div className="loading-container">
+          <div className="loading-spinner">
+            <div className="spinner-ring"></div>
+            <div className="spinner-ring"></div>
+            <div className="spinner-ring"></div>
+          </div>
+          <p className="loading-text">Reading the stars...</p>
+        </div>
+      )}
+
+      {/* Error State */}
+      {error && (
+        <div className="error-container">
+          <div className="error-icon">⚠️</div>
+          <p className="error-text">{error}</p>
+        </div>
+      )}
+
+      {/* Astrological Data */}
       {!loading && !error && astroData?.data && (
-        <div className="astrology-table-container">
-          <table className="astrology-table">
-            <thead>
-              <tr>
-                <th>Body</th>
-                <th>Sign</th>
-                <th>Position</th>
-                <th>House</th>
-                <th>Quality</th>
-                <th>Element</th>
-                <th>Retrograde</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Object.entries(astroData.data).map(([key, value]) => {
-                if (
-                  typeof value === "object" &&
-                  value !== null &&
-                  "name" in value
-                ) {
-                  const body = value as CelestialBody;
-                  return (
-                    <tr key={key}>
-                      <td>{body.name}</td>
-                      <td>
-                        {body.emoji} {body.sign}
-                      </td>
-                      <td>{formatPosition(body.position)}°</td>
-                      <td>{body.house?.replace("_", " ")}</td>
-                      <td>{body.quality}</td>
-                      <td>{body.element}</td>
-                      <td>{body.retrograde ? "R" : ""}</td>
-                    </tr>
-                  );
+        <div className="astrology-content">
+          {/* Summary Cards */}
+          <div className="summary-section">
+            <div className="summary-card">
+              <div className="summary-icon">🌍</div>
+              <div className="summary-content">
+                <h3>Location</h3>
+                <p>
+                  {astroData.data.city}, {astroData.data.nation}
+                </p>
+              </div>
+            </div>
+            <div className="summary-card">
+              <div className="summary-icon">📅</div>
+              <div className="summary-content">
+                <h3>Date & Time</h3>
+                <p>{astroData.data.iso_formatted_local_datetime}</p>
+              </div>
+            </div>
+            <div className="summary-card">
+              <div className="summary-icon">🧭</div>
+              <div className="summary-content">
+                <h3>Coordinates</h3>
+                <p>
+                  {astroData.data.lat.toFixed(2)}°N,{" "}
+                  {astroData.data.lng.toFixed(2)}°E
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Celestial Bodies Grid */}
+          <div className="celestial-grid">
+            {celestialBodies.map(({ key, body }) => (
+              <div
+                key={key}
+                className={`celestial-card ${selectedBody === key ? "selected" : ""}`}
+                onClick={() =>
+                  setSelectedBody(selectedBody === key ? null : key)
                 }
-                return null;
-              })}
-            </tbody>
-          </table>
+              >
+                <div className="card-header">
+                  <div className="body-emoji">{body.emoji}</div>
+                  <div className="body-info">
+                    <h3 className="body-name">{body.name}</h3>
+                    <div className="body-sign">
+                      <span className="sign-emoji">{body.emoji}</span>
+                      <span className="sign-name">{body.sign}</span>
+                      {body.retrograde && <span className="retrograde">R</span>}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="card-details">
+                  <div className="detail-row">
+                    <span className="detail-label">Position:</span>
+                    <span className="detail-value">
+                      {formatPosition(body.position)}°
+                    </span>
+                  </div>
+                  {body.house && (
+                    <div className="detail-row">
+                      <span className="detail-label">House:</span>
+                      <span className="detail-value">
+                        {body.house.replace("_", " ")}
+                      </span>
+                    </div>
+                  )}
+                  <div className="detail-row">
+                    <span className="detail-label">Quality:</span>
+                    <span
+                      className="detail-value quality-badge"
+                      style={{ color: getQualityColor(body.quality) }}
+                    >
+                      {body.quality}
+                    </span>
+                  </div>
+                  <div className="detail-row">
+                    <span className="detail-label">Element:</span>
+                    <span
+                      className="detail-value element-badge"
+                      style={{ color: getElementColor(body.element) }}
+                    >
+                      {body.element}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Expanded Details */}
+                {selectedBody === key && (
+                  <div className="expanded-details">
+                    <div className="detail-section">
+                      <h4>Astrological Significance</h4>
+                      <p>
+                        This celestial body represents {body.name.toLowerCase()}{" "}
+                        in {body.sign.toLowerCase()} at{" "}
+                        {formatPosition(body.position)}°.
+                      </p>
+                    </div>
+                    <div className="detail-section">
+                      <h4>Elemental Influence</h4>
+                      <p>
+                        The {body.element.toLowerCase()} element brings{" "}
+                        {body.element.toLowerCase()} qualities to this
+                        placement.
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>

@@ -218,7 +218,10 @@ export function drawPlanets(
       tooltip.style("visibility", "hidden").style("opacity", "0");
     });
 
-  ascGroup.append("circle").attr("r", 12).attr("class", "planet-background ascendant-background");
+  ascGroup
+    .append("circle")
+    .attr("r", 12)
+    .attr("class", "planet-background ascendant-background");
 
   ascGroup
     .append("text")

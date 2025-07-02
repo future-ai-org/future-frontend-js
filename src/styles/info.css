@@ -84,7 +84,7 @@
   padding-top: 2rem;
 }
 
-.advanced-view-button {
+.cta-button {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -99,21 +99,21 @@
   text-shadow: var(--text-glow);
 }
 
-.advanced-view-button::before {
+.cta-button::before {
   content: "→";
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   font-weight: 800;
   transition: transform 0.3s ease;
   display: inline-block;
 }
 
-.advanced-view-button:hover {
+.cta-button:hover {
   color: var(--color-primary);
   border-bottom-color: var(--color-primary);
   transform: translateX(4px);
 }
 
-.advanced-view-button:hover::before {
+.cta-button:hover::before {
   transform: translateX(4px);
 }
 
@@ -196,5 +196,4 @@
     margin-top: 0.5rem;
     padding-top: 0.5rem;
   }
-
 }

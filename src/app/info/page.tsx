@@ -18,7 +18,7 @@ export default function InfoPage() {
             <p>{strings.en.description.third_paragraph}</p>
           </div>
           <div className="info-cta">
-            <a href="/logia" className="advanced-view-button">
+            <a href="/logia" className="cta-button">
               {strings.en.cta.button}
             </a>
           </div>
