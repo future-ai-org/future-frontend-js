@@ -78,7 +78,6 @@
 /* Portfolio Card */
 .portfolio-summary {
   @apply bg-gradient-to-r from-[var(--background-color-light)] to-transparent p-4 rounded-xl mb-4;
-  border: 1px solid rgba(var(--color-primary-rgb), 0.1);
   backdrop-filter: blur(5px);
 }
 
@@ -103,7 +102,6 @@
 .portfolio-asset {
   @apply grid grid-cols-3 items-center p-1 rounded-xl transition-all duration-200;
   background: linear-gradient(135deg, rgba(var(--background-color-light-rgb), 0.5), transparent);
-  border: 1px solid rgba(var(--color-primary-rgb), 0.05);
   gap: 8px;
 }
 
@@ -166,7 +164,6 @@
 .saved-chart-container {
   @apply flex items-center justify-between p-0 rounded-xl transition-all duration-200;
   background: linear-gradient(135deg, rgba(var(--background-color-light-rgb), 0.3), transparent);
-  border: 1px solid rgba(var(--color-primary-rgb), 0.05);
 }
 
 
@@ -263,7 +260,6 @@
 .favorite-asset-item {
   @apply flex items-center justify-between p-0 rounded-xl transition-all duration-200;
   background: linear-gradient(135deg, rgba(var(--background-color-light-rgb), 0.3), transparent);
-  border: 1px solid rgba(var(--color-primary-rgb), 0.05);
 }
 
 .asset-info {
