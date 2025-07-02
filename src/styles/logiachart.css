@@ -29,9 +29,9 @@
 .astrology-subtitle {
   text-align: center;
   color: var(--color-primary);
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   opacity: var(--opacity-80);
-  font-weight: 600;
+  font-weight: 800;
   letter-spacing: 0.02em;
   margin: 0.5rem 0 2rem 0;
   width: 100%;
