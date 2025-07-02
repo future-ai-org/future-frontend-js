@@ -21,8 +21,6 @@ interface FormData {
 
 interface LogiaFormProps {
   onSubmit: (data: FormData) => void;
-  isGeneratingChart: boolean;
-  error: string | null;
 }
 
 export default function Logia() {
@@ -48,8 +46,6 @@ export default function Logia() {
           <div className="logia-container">
             <LogiaForm
               onSubmit={handleSubmit}
-              isGeneratingChart={false}
-              error={null}
             />
           </div>
         </div>
@@ -92,7 +88,7 @@ export default function Logia() {
   );
 }
 
-function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
+function LogiaForm({ onSubmit }: LogiaFormProps) {
   const [formData, setFormData] = useState<FormData>({
     birthDate: "",
     birthTime: "",
@@ -103,7 +99,6 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
   const { ensName, isConnected, address, connect } = useWeb3();
   const [mounted, setMounted] = useState(false);
 
-  // Prevent hydration mismatch by only using isConnected after mount
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -289,7 +284,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
           await connect();
           await new Promise((resolve) => setTimeout(resolve, 1000));
         } catch (error) {
-          console.error("Failed to connect wallet:", error);
+          console.error(t.errors.walletConnectionFailed, error);
           setUseMyself(false);
           return;
         }
@@ -311,6 +306,14 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
       }
     }
   }, [useMyself, ensName, address, formatAddress]);
+
+  useEffect(() => {
+    return () => {
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <form className="astrology-form" onSubmit={handleSubmit}>
@@ -335,7 +338,7 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
               checked={useMyself}
               onChange={handleMyselfCheckbox}
             />
-            <label htmlFor="myself-checkbox">myself</label>
+            <label htmlFor="myself-checkbox">{t.labels.myself}</label>
           </div>
         </div>
       </div>
@@ -490,14 +493,12 @@ function LogiaForm({ onSubmit, isGeneratingChart, error }: LogiaFormProps) {
             </ul>
           )}
         </div>
-        {error && <div className="astrology-error-message">{error}</div>}
       </div>
       <button
         className="astrology-button"
         type="submit"
-        disabled={isGeneratingChart}
       >
-        {isGeneratingChart ? <Loading /> : t.buttons.generateChart}
+        {t.buttons.generateChart}
       </button>
       <p className="logia-disclaimer">{t.disclaimer}</p>
     </form>

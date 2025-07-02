@@ -14,7 +14,8 @@
       "chartNotFound": "chart not found",
       "failedToLoadChart": "failed to load chart",
       "noSavedCharts": "no saved charts found",
-      "loadingError": "failed to load chart"
+      "loadingError": "failed to load chart",
+      "walletConnectionFailed": "failed to connect wallet"
     },
     "labels": {
       "birthDate": "birth date",
@@ -30,7 +31,8 @@
       "dayPlaceholder": "DD",
       "hourPlaceholder": "HH",
       "minutePlaceholder": "MM",
-      "unsureTime": "i'm not sure"
+      "unsureTime": "i'm not sure",
+      "myself": "myself"
     },
     "buttons": {
       "generateChart": "show me!"
