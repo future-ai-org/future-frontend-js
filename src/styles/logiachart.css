@@ -377,30 +377,43 @@
   display: flex;
   justify-content: center;
   width: 100%;
-  margin-top: 2rem;
-  padding-bottom: 1rem;
+  margin-top: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-top: 1px solid rgba(var(--color-primary-rgb), 0.2);
+  padding-top: 1rem;
 }
 
 .advanced-view-button {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  background-color: var(--color-primary);
-  color: var(--color-background);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  color: var(--color-primary);
   text-decoration: none;
-  border-radius: 2rem;
-  font-weight: 600;
-  font-size: 0.9rem;
-  transition: all 0.2s ease;
-  text-align: center;
-  border: 2px solid var(--color-primary);
-  box-shadow: var(--glow-shadow);
+  font-weight: 800;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  position: relative;
+  border-bottom: 2px solid transparent;
+  text-shadow: var(--text-glow);
+}
+
+.advanced-view-button::before {
+  content: "→";
+  font-size: 1.1rem;
+  font-weight: 800;
+  transition: transform 0.3s ease;
+  display: inline-block;
 }
 
 .advanced-view-button:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--glow-shadow-hover);
-  background-color: var(--color-background);
   color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+  transform: translateX(4px);
+}
+
+.advanced-view-button:hover::before {
+  transform: translateX(4px);
 }
 
 .save-chart-button {

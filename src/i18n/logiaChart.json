@@ -1,7 +1,7 @@
 {
   "en": {
-    "title": "<name>'s blueprint",
-    "subtitle": "logia for {birthDate} at {birthTime} in {city} {latitude}",
+    "title": "<name>'s logia",
+    "subtitle": "{birthDate} at {birthTime} in {city} {latitude}",
     "advancedView": "advanced view",
     "saveChart": {
       "button": "save chart",
