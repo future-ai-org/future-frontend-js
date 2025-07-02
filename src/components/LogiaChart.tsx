@@ -269,6 +269,7 @@ interface LogiaChartProps {
   name: string;
   isGeneratingChart: boolean;
   ens?: string;
+  hideSaveButton?: boolean;
 }
 
 export interface SavedChart {
@@ -370,6 +371,7 @@ export default function LogiaChart({
   name,
   isGeneratingChart,
   ens,
+  hideSaveButton = false,
 }: LogiaChartProps) {
   const [selectedPlanet, setSelectedPlanet] = useState<string | null>(null);
   const [chartInfoHtml, setChartInfoHtml] = useState<string>("");
@@ -541,13 +543,15 @@ export default function LogiaChart({
               myself
             </label>
           )}
-          <button
-            onClick={handleSaveChart}
-            disabled={isSaving || !chartData}
-            className="save-chart-button"
-          >
-            {isSaving ? chartT.saveChart.saving : chartT.saveChart.button}
-          </button>
+          {!hideSaveButton && (
+            <button
+              onClick={handleSaveChart}
+              disabled={isSaving || !chartData}
+              className="save-chart-button"
+            >
+              {isSaving ? chartT.saveChart.saving : chartT.saveChart.button}
+            </button>
+          )}
         </div>
       </div>
       {subtitleContent && (
