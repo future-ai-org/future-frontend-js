@@ -17,6 +17,8 @@
   --glow-shadow-hover: rgba(87, 76, 145, 0.5);
   --background-color: rgb(224, 222, 226);
   --opacity-medium: 0.6;
+  --color-background: var(--background-color);
+  --color-glow-shadow: var(--glow-shadow);
 }
 
 /* Dark theme overrides */
@@ -32,6 +34,8 @@ html.dark {
   --glow-shadow-hover: rgba(0, 170, 255, 0.5);
   --background-color: rgb(8, 12, 18);
   --opacity-medium: 0.6;
+  --color-background: var(--background-color);
+  --color-glow-shadow: var(--glow-shadow);
 }
 
 .logia-container {
@@ -348,33 +352,13 @@ html.dark {
 
 .astrology-error-message,
 .astrology-error {
-  color: var(--color-error);
+  color: var(--bearish-color);
   font-size: 1.2rem;
   text-align: center;
   margin: 2rem 0;
 }
 
-.astrology-loading-message {
-  color: var(--bullish-color);
-  font-size: 0.9rem;
-  margin-top: 0.5rem;
-  padding: 0.5rem;
-  border-radius: 1.2rem;
-  background-color: var(--info-bg);
-  animation: pulse 2s infinite;
-}
 
-@keyframes pulse {
-  0% {
-    opacity: var(--opacity-medium);
-  }
-  50% {
-    opacity: var(--opacity-high);
-  }
-  100% {
-    opacity: var(--opacity-medium);
-  }
-}
 
 .astrology-input-group {
   display: flex;
@@ -558,47 +542,7 @@ html.dark {
   );
 }
 
-.logia-info-title {
-  color: var(--color-primary);
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-  font-weight: 700;
-  text-align: center;
-}
 
-.logia-info-content {
-  color: var(--color-primary);
-  font-size: 0.9rem;
-  line-height: 1.4;
-}
-
-.logia-info-list {
-  list-style: none;
-  padding: 0;
-  margin: 0.75rem 0;
-}
-
-.logia-info-list li {
-  margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: transform var(--transition-duration) var(--transition-timing);
-  will-change: transform;
-}
-
-.logia-info-list li:hover {
-  transform: translateX(4px);
-}
-
-.logia-info-tip {
-  font-style: italic;
-  margin-top: 1rem;
-  padding: 1rem;
-  background-color: var(--color-glow-shadow);
-  border-radius: 1.2rem;
-  border: 1px solid var(--color-primary);
-}
 
 .logia-about-title {
   font-size: 1.5rem;
