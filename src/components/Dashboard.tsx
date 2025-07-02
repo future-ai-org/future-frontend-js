@@ -265,16 +265,6 @@ const Dashboard: React.FC = () => {
                         </p>
                       </div>
                       <div className="chart-actions">
-                        <button
-                          onClick={() =>
-                            router.push(`/logia/saved/${chart.id}`)
-                          }
-                          className="view-chart-button"
-                          aria-label={strings.en.cards.logia.actions.view}
-                          title={strings.en.cards.logia.actions.view}
-                        >
-                          <FaEye />
-                        </button>
                         {!chart.isOfficial && (
                           <button
                             onClick={() => handleSetOfficial(chart.id)}
@@ -285,6 +275,16 @@ const Dashboard: React.FC = () => {
                             <FaStar />
                           </button>
                         )}
+                        <button
+                          onClick={() =>
+                            router.push(`/logia/saved/${chart.id}`)
+                          }
+                          className="view-chart-button"
+                          aria-label={strings.en.cards.logia.actions.view}
+                          title={strings.en.cards.logia.actions.view}
+                        >
+                          <FaEye />
+                        </button>
                         <button
                           onClick={() => handleDeleteChart(chart.id)}
                           className="delete-chart-button"
