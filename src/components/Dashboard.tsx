@@ -317,7 +317,9 @@ const Dashboard: React.FC = () => {
                 {favoriteAssets.map((asset) => (
                   <div key={asset.id} className="favorite-asset-item">
                     <div className="asset-info">
-                      <span className="asset-symbol">{asset.symbol}</span>
+                      <p>
+                        <span className="asset-symbol">{asset.symbol}</span>
+                      </p>
                     </div>
                     <div className="asset-actions">
                       <button

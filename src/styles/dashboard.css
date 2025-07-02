@@ -241,24 +241,46 @@
 
 /* Favorites */
 .favorite-assets-list {
-  @apply flex flex-col gap-3;
+  @apply flex flex-col gap-0 max-h-[400px] overflow-y-auto pr-2;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) transparent;
+}
+
+.favorite-assets-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.favorite-assets-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.favorite-assets-list::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 3px;
 }
 
 .favorite-asset-item {
-  @apply flex items-center justify-between p-3 rounded-xl transition-all duration-200;
+  @apply flex items-center justify-between p-0 rounded-xl transition-all duration-200;
   background: linear-gradient(135deg, rgba(var(--background-color-light-rgb), 0.3), transparent);
   border: 1px solid rgba(var(--color-primary-rgb), 0.05);
 }
 
-
-
 .asset-info {
-  @apply flex items-center gap-1;
+  @apply flex-1 min-w-0;
+}
+
+.asset-info p {
+  @apply m-0 text-sm font-semibold text-[var(--text-color)];
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .asset-symbol {
-  @apply font-bold text-[var(--text-color)] text-lg;
-  text-shadow: 0 0 8px rgba(var(--text-color-rgb), 0.3);
+  @apply font-bold text-[var(--color-primary)];
+  text-shadow: 0 0 8px rgba(var(--color-primary-rgb), 0.3);
 }
 
 .asset-actions {
