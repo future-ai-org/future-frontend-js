@@ -366,28 +366,27 @@
   .astrology-title {
     font-size: 2.5rem;
     text-align: center;
-    margin-right: 2.5rem;
+    margin-right: 3rem;
   }
 
   .save-chart-star {
-    width: 40px;
-    height: 40px;
-    right: -2.5rem;
+    width: 60px;
+    height: 60px;
+    right: -3rem;
+  }
+
+  .save-chart-star .star-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .save-chart-star .star-icon::before {
+    font-size: 30px;
   }
 
   .astrology-subtitle {
     text-align: center;
     font-size: 1rem;
-  }
-
-  .save-chart-star {
-    width: 40px;
-    height: 40px;
-  }
-
-  .save-chart-star .star-icon {
-    width: 20px;
-    height: 20px;
   }
 }
 
@@ -460,7 +459,7 @@
   text-align: center;
   line-height: 1.2;
   width: 100%;
-  margin-right: 3rem;
+  margin-right: 4rem;
 }
 
 .advanced-view-container {
@@ -510,59 +509,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  border: 2px solid var(--text-color);
+  width: 80px;
+  height: 80px;
   background: transparent;
   color: var(--text-color);
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 20px rgba(var(--color-primary-rgb), 0.3);
   position: absolute;
-  right: -2rem;
-  top: 100%;
+  right: -3rem;
+  top: 50%;
   transform: translateY(-50%);
-  animation: starAppear 0.6s ease-out;
 }
 
-@keyframes starAppear {
-  0% {
-    opacity: 0;
-    transform: translateY(-50%) scale(0.5);
-  }
-  50% {
-    opacity: 0.8;
-    transform: translateY(-50%) scale(1.1);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(-50%) scale(1);
-  }
-}
 
-.save-chart-star:not(:hover):not(:disabled) {
-  animation: starAppear 0.6s ease-out, starPulse 3s ease-in-out infinite;
-}
-
-@keyframes starPulse {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(var(--color-primary-rgb), 0.3);
-  }
-  50% {
-    box-shadow: 0 0 30px rgba(var(--color-primary-rgb), 0.5);
-  }
-}
 
 .save-chart-star:hover:not(:disabled) {
-  background: var(--text-color);
-  color: var(--background-color);
-  box-shadow: 
-    0 0 30px rgba(var(--color-primary-rgb), 0.6),
-    0 0 60px rgba(var(--color-primary-rgb), 0.4),
-    0 0 90px rgba(var(--color-primary-rgb), 0.2);
-  transform: translateY(-50%) scale(1.2);
-  border-color: var(--background-color);
+  opacity: 0.7;
+}
+
+.save-chart-star:hover .star-icon::before {
+  content: '★';
 }
 
 .save-chart-star:disabled {
@@ -571,14 +536,20 @@
 }
 
 .save-chart-star .star-icon {
-  width: 24px;
-  height: 24px;
-  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  width: 40px;
+  height: 40px;
+  position: relative;
 }
 
-.save-chart-star:hover .star-icon {
-  transform: rotate(360deg) scale(1.1);
-  filter: drop-shadow(0 0 8px rgba(var(--color-primary-rgb), 0.8));
+.save-chart-star .star-icon::before {
+  content: '☆';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 40px;
+  line-height: 1;
+  transform: translate(-50%, -50%);
+  color: currentColor;
 }
 
 .save-chart-button {
