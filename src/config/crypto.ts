@@ -30,9 +30,7 @@ export const CRYPTO_CONFIG = {
     "tron",
     "sui",
     "monero",
-    "dogecoin",
     "pepe",
-    "bonk",
     "xrp",
     "trump",
     "uniswap",
@@ -50,11 +48,9 @@ export const CRYPTO_ICONS: { [key: string]: string } = {
   BNB: "B",
   SOL: "◎",
   ADA: "₳",
-  DOGE: "Ð",
   SHIB: "🐕",
   PEPE: "🐸",
   FLOKI: "🐺",
-  BONK: "🦴",
   USDT: "₮",
 
   // Common trending cryptocurrencies
