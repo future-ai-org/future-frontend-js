@@ -1,8 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* Theme Toggler Component */
 .theme-toggler {
   position: relative;
   width: 60px;
@@ -11,7 +6,6 @@
   cursor: pointer;
 }
 
-/* Track (background) */
 .theme-toggler-track {
   position: absolute;
   inset: 0; /* Shorthand for top/right/bottom/left: 0 */
@@ -23,7 +17,6 @@
     box-shadow var(--transition-duration) var(--transition-timing);
 }
 
-/* Thumb (slider) */
 .theme-toggler-thumb {
   position: absolute;
   inset: 2px auto auto 2px; /* Shorthand for top/right/bottom/left */
@@ -41,12 +34,10 @@
     box-shadow var(--transition-duration) var(--transition-timing);
 }
 
-/* Dark mode state */
 .theme-toggler.dark .theme-toggler-thumb {
   transform: translateX(30px);
 }
 
-/* Hover states */
 .theme-toggler:hover .theme-toggler-track {
   border-color: var(--primary-color);
   box-shadow: var(--glow-shadow);

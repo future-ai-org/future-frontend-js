@@ -6,35 +6,13 @@
   --logia-primary: var(--color-primary);
   --logia-primary-purple: #a855f7;
   --logia-primary-pink: #ec4899;
-
   --logia-text: var(--color-text);
-
   --logia-error: #ef4444;
   --logia-error-dark: #dc2626;
-
-  --logia-white-transparent: rgba(255, 255, 255, 0.1);
-  --logia-white-transparent-light: rgba(255, 255, 255, 0.05);
-  --logia-white-transparent-medium: rgba(255, 255, 255, 0.2);
-  --logia-white-transparent-heavy: rgba(255, 255, 255, 0.8);
-
-  --logia-shadow-black: rgba(0, 0, 0, 0.1);
-  --logia-shadow-black-dark: rgba(0, 0, 0, 0.15);
-  --logia-shadow-purple: rgba(168, 85, 247, 0.3);
-  --logia-shadow-purple-light: rgba(168, 85, 247, 0.5);
-
-  --logia-nebula-purple: rgba(120, 119, 198, 0.3);
-  --logia-nebula-pink: rgba(255, 119, 198, 0.3);
-  --logia-nebula-blue: rgba(120, 219, 255, 0.2);
-
-  --logia-error-bg: rgba(239, 68, 68, 0.1);
-  --logia-error-bg-light: rgba(239, 68, 68, 0.05);
-  --logia-error-border: rgba(239, 68, 68, 0.3);
-
   --logia-element-fire: var(--color-bullish);
   --logia-element-earth: #8b4513;
   --logia-element-air: #87ceeb;
   --logia-element-water: #4682b4;
-
   --logia-quality-cardinal: #ff6b6b;
   --logia-quality-fixed: #4ecdc4;
   --logia-quality-mutable: #45b7d1;
@@ -109,26 +87,14 @@
 }
 
 @keyframes twinkle {
-  0%,
-  100% {
-    opacity: 0.8;
-  }
-  50% {
-    opacity: 1;
-  }
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
 }
 
 @keyframes nebula-drift {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-  33% {
-    transform: translate(-20px, -10px) scale(1.1);
-  }
-  66% {
-    transform: translate(10px, -20px) scale(0.9);
-  }
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-20px, -10px) scale(1.1); }
+  66% { transform: translate(10px, -20px) scale(0.9); }
 }
 
 .advanced-astrology-container {
@@ -212,13 +178,8 @@
 }
 
 @keyframes sparkle {
-  0%,
-  100% {
-    transform: scale(1) rotate(0deg);
-  }
-  50% {
-    transform: scale(1.2) rotate(180deg);
-  }
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.2) rotate(180deg); }
 }
 
 .loading-container {
@@ -265,12 +226,8 @@
 }
 
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .loading-text {
@@ -281,13 +238,8 @@
 }
 
 @keyframes pulse {
-  0%,
-  100% {
-    opacity: 0.7;
-  }
-  50% {
-    opacity: 1;
-  }
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
 }
 
 .error-container {
@@ -315,21 +267,14 @@
 }
 
 @keyframes shake {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(-5px);
-  }
-  75% {
-    transform: translateX(5px);
-  }
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
 }
 
 .error-text {
   font-size: 1.1rem;
-  color: #ef4444;
+  color: var(--logia-error);
   text-align: center;
   font-weight: 500;
 }
@@ -505,7 +450,7 @@
 }
 
 .retrograde {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
+  background: linear-gradient(135deg, var(--logia-error), var(--logia-error-dark));
   color: white;
   padding: 0.2rem 0.5rem;
   border-radius: 6px;
@@ -557,7 +502,6 @@
   backdrop-filter: blur(10px);
 }
 
-/* Expanded Details */
 .expanded-details {
   margin-top: 1.5rem;
   padding-top: 1.5rem;
