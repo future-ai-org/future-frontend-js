@@ -5,16 +5,6 @@
       "cityNotFound": "city not found",
       "fetchCoordinatesFailed": "failed to fetch city coordinates",
       "unknownError": "an error occurred",
-      "invalidDateFormat": "invalid date format",
-      "invalidTimeFormat": "invalid time format",
-      "apiRequestFailed": "API request failed with status {status}: {error}",
-      "invalidResponseType": "invalid response type: {type}",
-      "invalidApiResponse": "invalid API response",
-      "invalidPlanetData": "invalid planet data for {planet}",
-      "chartNotFound": "chart not found",
-      "failedToLoadChart": "failed to load chart",
-      "noSavedCharts": "no saved charts found",
-      "loadingError": "failed to load chart",
       "walletConnectionFailed": "failed to connect wallet"
     },
     "labels": {

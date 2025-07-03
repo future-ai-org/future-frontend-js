@@ -1,4 +1,4 @@
-.PHONY: clean install build server lint
+.PHONY: clean install build server prod lint
 
 clean:
 	rm -rf dist/

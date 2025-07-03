@@ -67,7 +67,9 @@ export default function LogiaAdvanced({
         const response = await fetch(LOGIA_ADVANCED_CONFIG.API_ENDPOINT);
 
         if (!response.ok) {
-          throw new Error(t.errors.httpError.replace("{status}", response.status.toString()));
+          throw new Error(
+            t.errors.httpError.replace("{status}", response.status.toString()),
+          );
         }
 
         const data = await response.json();
@@ -85,9 +87,7 @@ export default function LogiaAdvanced({
       } catch (error) {
         console.error(t.errors.fetchError, error);
         setError(
-          error instanceof Error
-            ? error.message
-            : t.errors.genericError,
+          error instanceof Error ? error.message : t.errors.genericError,
         );
       } finally {
         setLoading(false);
@@ -227,7 +227,11 @@ export default function LogiaAdvanced({
                     <div className="body-sign">
                       <span className="sign-emoji">{body.emoji}</span>
                       <span className="sign-name">{body.sign}</span>
-                      {body.retrograde && <span className="retrograde">{t.details.retrograde}</span>}
+                      {body.retrograde && (
+                        <span className="retrograde">
+                          {t.details.retrograde}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -281,8 +285,10 @@ export default function LogiaAdvanced({
                     <div className="detail-section">
                       <h4>{t.expanded.elementalInfluence}</h4>
                       <p>
-                        {t.expanded.elementalText
-                          .replace(/{element}/g, body.element.toLowerCase())}
+                        {t.expanded.elementalText.replace(
+                          /{element}/g,
+                          body.element.toLowerCase(),
+                        )}
                       </p>
                     </div>
                   </div>

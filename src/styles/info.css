@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Base container styles */
 .info-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -14,7 +13,6 @@
   position: relative;
 }
 
-/* Title styles */
 .info-title {
   font-size: clamp(2rem, 7vw, 4rem);
   font-weight: 800;
@@ -26,7 +24,6 @@
   text-shadow: var(--text-glow);
 }
 
-/* Main content box */
 .info-box {
   background-color: var(--card-bg);
   padding: 3rem;
@@ -46,7 +43,6 @@
     transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Content styles */
 .info-content {
   color: var(--text-color);
   font-size: 1.2rem;
@@ -75,7 +71,6 @@
   margin-bottom: 0;
 }
 
-/* CTA Section */
 .info-cta {
   display: flex;
   justify-content: center;
@@ -117,7 +112,6 @@
   transform: translateX(4px);
 }
 
-/* Decorative Elements */
 .decorative-star {
   position: fixed;
   width: clamp(15px, 2vw, 20px);
@@ -143,12 +137,10 @@
   pointer-events: none;
 }
 
-/* Make stars invisible inside the info box */
 .info-box .decorative-star {
   opacity: 0;
 }
 
-/* Animations */
 @keyframes twinkle {
   0%,
   100% {
@@ -177,7 +169,6 @@
   }
 }
 
-/* Media Queries */
 @media (max-width: 768px) {
   .info-container {
     padding: 1rem;

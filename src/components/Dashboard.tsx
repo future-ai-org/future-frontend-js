@@ -87,9 +87,7 @@ const Dashboard: React.FC = () => {
             .map((asset: FavoriteAsset) => asset.id)
             .join(",");
 
-          const response = await fetch(
-            getCoinGeckoPriceUrl(assetIds),
-          );
+          const response = await fetch(getCoinGeckoPriceUrl(assetIds));
 
           if (response.ok) {
             const priceData = await response.json();
@@ -127,7 +125,10 @@ const Dashboard: React.FC = () => {
     window.addEventListener("storage", loadFavoriteAssets);
     window.addEventListener("favoritesUpdated", loadFavoriteAssets);
 
-    const interval = setInterval(loadFavoriteAssets, dashboardConfig.refresh.priceDataInterval);
+    const interval = setInterval(
+      loadFavoriteAssets,
+      dashboardConfig.refresh.priceDataInterval,
+    );
 
     return () => {
       window.removeEventListener("storage", loadFavoriteAssets);

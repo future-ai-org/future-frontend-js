@@ -96,7 +96,10 @@ export const SliderPrice: React.FC = () => {
       });
 
       if (!response.ok) {
-        console.error(sliderPriceI18n.en.errors.fetchFailed, `HTTP ${response.status}`);
+        console.error(
+          sliderPriceI18n.en.errors.fetchFailed,
+          `HTTP ${response.status}`,
+        );
         return;
       }
 

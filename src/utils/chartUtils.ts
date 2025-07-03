@@ -29,27 +29,27 @@ export const generateChartHash = (
   city: string,
 ): string => {
   const data = `${birthDate}-${birthTime}-${city.toLowerCase().trim()}`;
-  
+
   let hash = 0;
   for (let i = 0; i < data.length; i++) {
     const char = data.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
+    hash = (hash << 5) - hash + char;
     hash = hash & hash;
   }
-  
+
   let hashString = Math.abs(hash).toString(36);
-  
+
   while (hashString.length < LOGIA_ADVANCED_CONFIG.URL_HASH_LENGTH) {
     const additionalData = `${data}-${hashString}`;
     let additionalHash = 0;
     for (let i = 0; i < additionalData.length; i++) {
       const char = additionalData.charCodeAt(i);
-      additionalHash = ((additionalHash << 5) - additionalHash) + char;
+      additionalHash = (additionalHash << 5) - additionalHash + char;
       additionalHash = additionalHash & additionalHash;
     }
     hashString += Math.abs(additionalHash).toString(36);
   }
-  
+
   return hashString.substring(0, LOGIA_ADVANCED_CONFIG.URL_HASH_LENGTH);
 };
 
@@ -59,10 +59,14 @@ export const storeChartHashMapping = (
   city: string,
 ): string => {
   const hash = generateChartHash(birthDate, birthTime, city);
-  
-  if (typeof window !== 'undefined') {
-        const mappings = JSON.parse(localStorage.getItem("chartHashMappings") || "[]");
-    const existingMapping = mappings.find((m: ChartHashMapping) => m.hash === hash);
+
+  if (typeof window !== "undefined") {
+    const mappings = JSON.parse(
+      localStorage.getItem("chartHashMappings") || "[]",
+    );
+    const existingMapping = mappings.find(
+      (m: ChartHashMapping) => m.hash === hash,
+    );
     if (!existingMapping) {
       const newMapping: ChartHashMapping = {
         hash,
@@ -71,23 +75,27 @@ export const storeChartHashMapping = (
         city,
         createdAt: new Date().toISOString(),
       };
-      
+
       mappings.push(newMapping);
       localStorage.setItem("chartHashMappings", JSON.stringify(mappings));
     }
   }
-  
+
   return hash;
 };
 
-export const getBirthDataFromHash = (hash: string): { birthDate: string; birthTime: string; city: string } | null => {
-  if (typeof window === 'undefined') {
+export const getBirthDataFromHash = (
+  hash: string,
+): { birthDate: string; birthTime: string; city: string } | null => {
+  if (typeof window === "undefined") {
     return null;
   }
 
-  const mappings = JSON.parse(localStorage.getItem("chartHashMappings") || "[]");
+  const mappings = JSON.parse(
+    localStorage.getItem("chartHashMappings") || "[]",
+  );
   const mapping = mappings.find((m: ChartHashMapping) => m.hash === hash);
-  
+
   if (mapping) {
     return {
       birthDate: mapping.birthDate,
@@ -95,10 +103,14 @@ export const getBirthDataFromHash = (hash: string): { birthDate: string; birthTi
       city: mapping.city,
     };
   }
-  
+
   const savedCharts = JSON.parse(localStorage.getItem("savedCharts") || "[]");
   const matchingChart = savedCharts.find((chart: BaseSavedChart) => {
-    const chartHash = generateChartHash(chart.birthDate, chart.birthTime, chart.city);
+    const chartHash = generateChartHash(
+      chart.birthDate,
+      chart.birthTime,
+      chart.city,
+    );
     return chartHash === hash;
   });
 
@@ -117,7 +129,13 @@ export const getDuplicateCharts = <T extends BaseSavedChart>(
   savedCharts: T[],
   chartInfo: ChartIdentifier,
 ): T[] => {
-  if (!Array.isArray(savedCharts) || !chartInfo.birthDate?.trim() || !chartInfo.birthTime?.trim() || !chartInfo.city?.trim() || !chartInfo.name?.trim()) {
+  if (
+    !Array.isArray(savedCharts) ||
+    !chartInfo.birthDate?.trim() ||
+    !chartInfo.birthTime?.trim() ||
+    !chartInfo.city?.trim() ||
+    !chartInfo.name?.trim()
+  ) {
     return [];
   }
 
@@ -135,7 +153,7 @@ export const getDuplicateCharts = <T extends BaseSavedChart>(
       city: savedChart.city.trim().toLowerCase(),
       name: savedChart.name.trim().toLowerCase(),
     };
-    
+
     return (
       normalizedNew.birthDate === normalizedSaved.birthDate &&
       normalizedNew.birthTime === normalizedSaved.birthTime &&

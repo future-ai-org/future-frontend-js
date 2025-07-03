@@ -8,4 +8,4 @@ export const dashboardConfig = {
 
 export const getCoinGeckoPriceUrl = (assetIds: string) => {
   return COINGECKO_CONFIG.SIMPLE_PRICE_URL(assetIds);
-}; 
+};

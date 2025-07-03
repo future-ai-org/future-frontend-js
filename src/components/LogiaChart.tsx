@@ -33,7 +33,11 @@ import {
   geocodeCity,
 } from "../utils/geocoding";
 import chartStrings from "../i18n/logiaChart.json";
-import { wouldCreateDuplicate, generateChartHash, storeChartHashMapping } from "../utils/chartUtils";
+import {
+  wouldCreateDuplicate,
+  generateChartHash,
+  storeChartHashMapping,
+} from "../utils/chartUtils";
 
 interface ChartCalculationResult {
   chartData: ChartData;
@@ -426,7 +430,7 @@ export default function LogiaChart({
       );
       setChartData(chartData);
       setChartInfoHtml(chartInfoHtml);
-      
+
       // Store hash mapping for the advanced view URL
       storeChartHashMapping(birthDate, birthTime, city);
     } catch {
@@ -443,7 +447,6 @@ export default function LogiaChart({
   useEffect(() => {
     checkIfChartSaved();
   }, [checkIfChartSaved]);
-
 
   useEffect(() => {
     const container = document.getElementById("chart");

@@ -21,10 +21,10 @@ function AdvancedContent() {
   }
 
   return (
-    <LogiaAdvanced 
-      birthDate={birthData.birthDate} 
-      birthTime={birthData.birthTime} 
-      city={birthData.city} 
+    <LogiaAdvanced
+      birthDate={birthData.birthDate}
+      birthTime={birthData.birthTime}
+      city={birthData.city}
     />
   );
 }

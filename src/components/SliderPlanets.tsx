@@ -84,10 +84,12 @@ export const SliderPlanets: React.FC = () => {
       });
 
       if (!response.ok) {
-        throw new Error(sliderPlanetsData.en.errors.apiRequestFailed.replace(
-          "{status}",
-          response.status.toString(),
-        ));
+        throw new Error(
+          sliderPlanetsData.en.errors.apiRequestFailed.replace(
+            "{status}",
+            response.status.toString(),
+          ),
+        );
       }
 
       const data = (await response.json()) as ApiResponse;

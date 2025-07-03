@@ -44,9 +44,7 @@ export default function Logia() {
         <div className="logia-centered-content">
           <h1 className="logia-title">{t.title.toLowerCase()}</h1>
           <div className="logia-container">
-            <LogiaForm
-              onSubmit={handleSubmit}
-            />
+            <LogiaForm onSubmit={handleSubmit} />
           </div>
         </div>
       );
@@ -494,10 +492,7 @@ function LogiaForm({ onSubmit }: LogiaFormProps) {
           )}
         </div>
       </div>
-      <button
-        className="astrology-button"
-        type="submit"
-      >
+      <button className="astrology-button" type="submit">
         {t.buttons.generateChart}
       </button>
       <p className="logia-disclaimer">{t.disclaimer}</p>
