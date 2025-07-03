@@ -1,4 +1,3 @@
-/* Main footer container - fixed at bottom */
 .footerContainer {
   position: fixed;
   bottom: 0;
@@ -8,45 +7,4 @@
   border-top: 1px solid var(--border-color);
   z-index: 1000;
   padding: 0.1rem;
-}
-
-/* Footer content wrapper */
-.footer {
-  width: 100%;
-  padding: 2rem 1rem;
-  background-color: var(--background-color);
-  border-top: 1px solid var(--border-color);
-  margin-top: auto;
-}
-
-/* Inner content container */
-.footerContent {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* Copyright text */
-.copyright {
-  color: var(--text-color);
-  font-size: 0.875rem;
-}
-
-/* Social links container */
-.socialLinks {
-  display: flex;
-  gap: 1rem;
-}
-
-/* Individual social link */
-.socialLink {
-  color: var(--text-color);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.socialLink:hover {
-  color: var(--primary-color);
 }
