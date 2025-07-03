@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Variables */
 :root {
   --card-min-height: 250px;
   --card-max-height: calc(100vh - 300px);
@@ -12,7 +11,6 @@
   --section-gap: 16px;
 }
 
-/* Layout */
 .dashboard {
   @apply w-full mx-auto min-h-[calc(100vh-200px)] p-6 pb-16;
   background: linear-gradient(
@@ -29,7 +27,6 @@
   grid-auto-rows: minmax(var(--card-min-height), auto);
 }
 
-/* Header */
 .dashboard-header {
   @apply mb-8 flex justify-center items-center;
   text-align: center;
@@ -48,7 +45,6 @@
   padding: 0.5rem 0;
 }
 
-/* Cards */
 .dashboard-card {
   @apply bg-[var(--card-bg)] rounded-[var(--card-border-radius)] p-[var(--card-padding)] flex flex-col;
   min-height: var(--card-min-height);
@@ -81,7 +77,6 @@
   gap: var(--section-gap);
 }
 
-/* Portfolio Card */
 .portfolio-summary {
   @apply p-4 rounded-xl mb-4;
   backdrop-filter: blur(5px);
@@ -160,7 +155,6 @@
   background: rgba(var(--text-color-rgb), 0.05);
 }
 
-/* States */
 .positive-change {
   color: var(--bullish-color);
   text-shadow: 0 0 8px rgba(var(--bullish-color-rgb), 0.3);
@@ -171,7 +165,6 @@
   text-shadow: 0 0 8px rgba(var(--bearish-color-rgb), 0.3);
 }
 
-/* Saved Charts */
 .saved-charts-list {
   @apply flex flex-col gap-0 max-h-[400px] overflow-y-auto pr-2;
   scrollbar-width: thin;
@@ -267,7 +260,6 @@
   opacity: 0.7;
 }
 
-/* Favorites */
 .favorite-assets-list {
   @apply flex flex-col gap-0 max-h-[400px] overflow-y-auto pr-2;
   scrollbar-width: thin;
@@ -348,7 +340,6 @@
   opacity: 0.7;
 }
 
-/* Responsive Design */
 @media (max-width: 1200px) {
   .dashboard-grid {
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
