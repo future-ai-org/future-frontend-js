@@ -15,8 +15,8 @@
   @apply w-full mx-auto min-h-[calc(100vh-200px)] p-6 pb-16;
   background: linear-gradient(
     135deg,
-    var(--background-color) 0%,
-    var(--background-color-light) 100%
+    var(--color-background) 0%,
+    var(--color-background) 100%
   );
   padding-bottom: 8rem;
 }
@@ -36,9 +36,9 @@
 .dashboard-header h2 {
   @apply m-0 text-center font-extrabold;
   font-size: clamp(2.5rem, 6vw, 3.5rem);
-  color: var(--text-color);
+  color: var(--color-text);
   text-shadow: 0 0 20px var(--color-primary);
-  background: linear-gradient(135deg, var(--color-primary), var(--text-color));
+  background: linear-gradient(135deg, var(--color-primary), var(--color-text));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -82,13 +82,13 @@
   backdrop-filter: blur(5px);
   background: linear-gradient(
     135deg,
-    rgba(147, 51, 234, 0.2),
-    rgba(168, 85, 247, 0.15)
+    rgba(var(--color-primary-rgb), 0.2),
+    rgba(var(--gradient-purple), 0.15)
   );
-  border: 1px solid rgba(147, 51, 234, 0.3);
+  border: 1px solid rgba(var(--color-primary-rgb), 0.3);
   box-shadow:
-    0 4px 15px rgba(147, 51, 234, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    0 4px 15px rgba(var(--color-primary-rgb), 0.2),
+    inset 0 1px 0 var(--white-10);
 }
 
 .portfolio-summary-row {
@@ -96,13 +96,14 @@
 }
 
 .total-value {
-  @apply text-2xl font-bold text-[var(--text-color)];
-  text-shadow: 0 0 10px rgba(var(--text-color-rgb), 0.3);
+  @apply text-2xl font-bold text-[var(--color-primary)];
+  text-shadow: 0 0 10px rgba(var(--color-primary-rgb), 0.3);
+  color: var(--color-primary) !important;
 }
 
 .portfolio-change {
   @apply text-lg font-bold px-3 py-1 rounded-lg;
-  background: rgba(var(--text-color-rgb), 0.05);
+  background: rgba(var(--color-primary-rgb), 0.05);
 }
 
 .portfolio-assets {
@@ -134,35 +135,27 @@
 }
 
 .asset-value {
-  @apply text-[var(--text-color)] font-bold text-sm text-center;
+  @apply text-[var(--color-primary)] font-bold text-sm text-center;
+  color: var(--color-primary) !important;
 }
 
 .asset-change {
   @apply font-bold text-sm px-2 py-1 rounded-lg text-center;
-  background: rgba(var(--text-color-rgb), 0.05);
+  background: rgba(var(--color-primary-rgb), 0.05);
 }
 
 .portfolio-asset .asset-actions {
   @apply flex items-center gap-3;
 }
 
-.portfolio-asset .asset-value {
-  @apply text-[var(--text-color)] font-bold text-sm;
-}
-
-.portfolio-asset .asset-change {
-  @apply font-bold text-sm px-2 py-1 rounded-lg;
-  background: rgba(var(--text-color-rgb), 0.05);
-}
-
 .positive-change {
-  color: var(--bullish-color);
-  text-shadow: 0 0 8px rgba(var(--bullish-color-rgb), 0.3);
+  color: var(--color-bullish);
+  text-shadow: 0 0 8px rgba(var(--color-bullish-rgb), 0.3);
 }
 
 .negative-change {
-  color: var(--bearish-color);
-  text-shadow: 0 0 8px rgba(var(--bearish-color-rgb), 0.3);
+  color: var(--color-bearish);
+  text-shadow: 0 0 8px rgba(var(--color-bearish-rgb), 0.3);
 }
 
 .saved-charts-list {
@@ -198,7 +191,7 @@
 }
 
 .saved-chart-item p {
-  @apply m-0 text-sm font-semibold text-[var(--text-color)];
+  @apply m-0 text-sm font-semibold text-[var(--color-text)];
   line-height: 1.4;
   display: flex;
   align-items: center;
@@ -212,8 +205,9 @@
 }
 
 .chart-details {
-  @apply text-[var(--text-color-secondary)];
+  @apply text-[var(--color-text)];
   font-weight: 500;
+  opacity: 0.7;
 }
 
 .chart-actions {
@@ -228,7 +222,7 @@
   height: 36px;
   background: rgba(var(--color-primary-rgb), 0.1);
   border: 1px solid rgba(var(--color-primary-rgb), 0.2);
-  color: var(--text-color);
+  color: var(--color-text);
 }
 
 .dashboard-card .view-chart-button:hover,
@@ -249,7 +243,7 @@
 
 .main-label {
   @apply inline-flex items-center px-2 py-1 rounded-md text-xs font-bold;
-  background: linear-gradient(135deg, var(--color-primary), #d282c3);
+  background: linear-gradient(135deg, var(--color-primary), var(--gradient-pink));
   color: var(--background-color);
   box-shadow: 0 0 10px rgba(var(--color-primary-rgb), 0.3);
 }
@@ -293,7 +287,7 @@
 }
 
 .asset-info p {
-  @apply m-0 text-sm font-semibold text-[var(--text-color)];
+  @apply m-0 text-sm font-semibold text-[var(--color-text)];
   line-height: 1.4;
   display: flex;
   align-items: center;
@@ -317,7 +311,7 @@
   height: 36px;
   background: rgba(var(--color-primary-rgb), 0.1);
   border: 1px solid rgba(var(--color-primary-rgb), 0.2);
-  color: var(--text-color);
+  color: var(--color-primary) !important;
 }
 
 .view-asset-button:hover,
@@ -338,6 +332,19 @@
   @apply text-center text-[var(--text-color-secondary)] italic py-8;
   font-size: 1rem;
   opacity: 0.7;
+}
+
+.favorite-asset-item .asset-value {
+  color: var(--color-primary) !important;
+}
+
+.dashboard-card h3 svg {
+  color: var(--color-primary) !important;
+}
+
+.saved-chart-item svg,
+.chart-actions svg {
+  color: var(--color-primary) !important;
 }
 
 @media (max-width: 1200px) {
@@ -384,8 +391,6 @@
     padding: 16px;
     min-height: 250px;
   }
-
-
 
   .chart-actions {
     @apply gap-1;
