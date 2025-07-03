@@ -148,3 +148,17 @@ export const ROMAN_NUMERALS = [
   { value: 2, symbol: "II" },
   { value: 1, symbol: "I" },
 ] as const;
+
+export const LOGIA_CHART_CONFIG = {
+  API: {
+    BASE_URL: process.env.NEXT_PUBLIC_ASTRO_API_URL,
+    ENDPOINTS: {
+      PLANETS: "/planets",
+      ASCENDANT: "/ascendant",
+    },
+    HEADERS: {
+      "Content-Type": "application/json",
+      API_KEY: process.env.NEXT_PUBLIC_ASTRO_API_KEY!,
+    },
+  },
+} as const;

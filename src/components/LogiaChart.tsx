@@ -9,6 +9,7 @@ import {
   PLANET_SYMBOLS,
   getElementForSign,
   getElementNameForSign,
+  LOGIA_CHART_CONFIG,
 } from "../config/logiaChart";
 import Loading from "../utils/loading";
 import "../styles/logiaChart.css";
@@ -59,6 +60,34 @@ interface AscendantResponse {
   degrees: number;
 }
 
+
+interface LogiaChartProps {
+  birthDate: string;
+  birthTime: string;
+  city: string;
+  name: string;
+  isGeneratingChart: boolean;
+  ens?: string;
+  hideSaveButton?: boolean;
+}
+
+export interface SavedChart {
+  id: string;
+  birthDate: string;
+  birthTime: string;
+  city: string;
+  chartData: ChartData;
+  savedAt: string;
+  name: string;
+  isOfficial?: boolean;
+}
+
+interface PlanetInfoPanelProps {
+  selectedPlanet: string;
+  chartData: ChartData;
+  translations: typeof chartT;
+}
+
 async function calculateChartData(
   birthDate: string,
   birthTime: string,
@@ -102,7 +131,7 @@ async function calculateChartData(
   const formattedTime = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
   const formattedDateTime = `${formattedDate}T${formattedTime}`;
 
-  const baseUrl = process.env.NEXT_PUBLIC_ASTRO_API_URL;
+  const baseUrl = LOGIA_CHART_CONFIG.API.BASE_URL;
   if (!baseUrl) {
     throw new Error(chartT.errors.apiUrlNotConfigured);
   }
@@ -114,20 +143,14 @@ async function calculateChartData(
   };
 
   const [planetsResponse, ascendantResponse] = await Promise.all([
-    fetch(`${baseUrl}/planets`, {
+    fetch(`${baseUrl}${LOGIA_CHART_CONFIG.API.ENDPOINTS.PLANETS}`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        API_KEY: process.env.NEXT_PUBLIC_ASTRO_API_KEY!,
-      },
+      headers: LOGIA_CHART_CONFIG.API.HEADERS,
       body: JSON.stringify(requestBody),
     }),
-    fetch(`${baseUrl}/ascendant`, {
+    fetch(`${baseUrl}${LOGIA_CHART_CONFIG.API.ENDPOINTS.ASCENDANT}`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        API_KEY: process.env.NEXT_PUBLIC_ASTRO_API_KEY!,
-      },
+      headers: LOGIA_CHART_CONFIG.API.HEADERS,
       body: JSON.stringify(requestBody),
     }),
   ]);
@@ -201,7 +224,7 @@ async function calculateChartData(
 
   const tableRows = [
     `<tr>
-      <td class="planet-cell" title="${chartT.planetDescriptions.ascendant || "-"}">AC</td>
+      <td class="planet-cell" title="${chartT.planetDescriptions.ascendant || "-"}">${chartT.points.ascendantEmoji}</td>
       <td class="planet-cell" title="${chartT.signs[ascendantData.sign.toLowerCase() as keyof typeof chartT.signs] || "-"}">${getZodiacSymbol(ascendantData.sign)}</td>
       <td class="planet-cell" title="${chartT.elements[getElementNameForSign(ascendantData.sign).toLowerCase() as keyof typeof chartT.elements] || "-"}">${getElementForSign(ascendantData.sign)}</td>
       <td class="planet-cell" title="${getDecadeDescription(ascendantData.degrees)}">${ascendantData.degrees.toFixed(2)}°</td>
@@ -247,33 +270,6 @@ async function calculateChartData(
   return { chartData, chartInfoHtml };
 }
 
-interface LogiaChartProps {
-  birthDate: string;
-  birthTime: string;
-  city: string;
-  name: string;
-  isGeneratingChart: boolean;
-  ens?: string;
-  hideSaveButton?: boolean;
-}
-
-export interface SavedChart {
-  id: string;
-  birthDate: string;
-  birthTime: string;
-  city: string;
-  chartData: ChartData;
-  savedAt: string;
-  name: string;
-  isOfficial?: boolean;
-}
-
-interface PlanetInfoPanelProps {
-  selectedPlanet: string;
-  chartData: ChartData;
-  translations: typeof chartT;
-}
-
 const chartT = chartStrings.en;
 
 const useChartDrawing = (
@@ -290,9 +286,7 @@ const useChartDrawing = (
       drawChartCircles(g, dimensions.radius);
       drawHouseLines(g, dimensions.radius);
       drawHouseNumbers(g, dimensions.radius);
-
       updateOrderedSigns(chartData.ascendantSign, chartData);
-
       drawZodiacSymbols(g, dimensions.radius);
       drawPlanets(
         g,
@@ -441,7 +435,6 @@ export default function LogiaChart({
     };
   }, [drawChart]);
 
-  // Add D3 tooltips to table cells
   useEffect(() => {
     if (!chartInfoHtml) return;
 
