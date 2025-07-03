@@ -14,7 +14,7 @@
       "totalValue": "value",
       "change24h": "24h",
       "errors": {
-        "loadFailed": "Failed to load portfolio data"
+        "loadFailed": "failed to load portfolio data"
       }
     },
     "formatting": {
@@ -37,9 +37,9 @@
           "delete": "delete chart"
         },
         "errors": {
-          "loadFailed": "Failed to load saved charts",
-          "deleteFailed": "Failed to delete chart",
-          "setOfficialFailed": "Failed to set official chart"
+          "loadFailed": "failed to load saved charts",
+          "deleteFailed": "failed to delete chart",
+          "setOfficialFailed": "failed to set official chart"
         }
       },
       "favorites": {
@@ -50,7 +50,7 @@
           "remove": "remove from favorites"
         },
         "errors": {
-          "loadFailed": "Failed to load favorite assets"
+          "loadFailed": "failed to load favorite assets"
         }
       },
       "predictions": {

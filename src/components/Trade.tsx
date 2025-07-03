@@ -16,7 +16,6 @@ interface FavoriteAsset {
 
 export default function Trade() {
   const [cryptoData, setCryptoData] = useState<CryptoData[]>([]);
-  const [memecoinData, setMemecoinData] = useState<CryptoData[]>([]);
   const [trendingData, setTrendingData] = useState<CryptoData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [favorites, setFavorites] = useState<FavoriteAsset[]>([]);
@@ -28,9 +27,6 @@ export default function Trade() {
       const cachedCrypto = localStorage.getItem(
         TRADE_CONFIG.CACHE.KEYS.CRYPTO_DATA,
       );
-      const cachedMemecoin = localStorage.getItem(
-        TRADE_CONFIG.CACHE.KEYS.MEMECOIN_DATA,
-      );
       const cachedTrending = localStorage.getItem(
         TRADE_CONFIG.CACHE.KEYS.TRENDING_DATA,
       );
@@ -38,18 +34,12 @@ export default function Trade() {
         TRADE_CONFIG.CACHE.KEYS.TIMESTAMP,
       );
 
-      if (cachedCrypto && cachedMemecoin && cachedTrending && cachedTimestamp) {
+      if (cachedCrypto && cachedTrending && cachedTimestamp) {
         const parsedCrypto = JSON.parse(cachedCrypto);
-        const parsedMemecoin = JSON.parse(cachedMemecoin);
         const parsedTrending = JSON.parse(cachedTrending);
 
-        if (
-          Array.isArray(parsedCrypto) &&
-          Array.isArray(parsedMemecoin) &&
-          Array.isArray(parsedTrending)
-        ) {
+        if (Array.isArray(parsedCrypto) && Array.isArray(parsedTrending)) {
           setCryptoData(parsedCrypto);
-          setMemecoinData(parsedMemecoin);
           setTrendingData(parsedTrending);
           setIsLoading(false);
           return true;
@@ -59,24 +49,14 @@ export default function Trade() {
       console.error(t.error.cacheError, err);
     }
     return false;
-  }, [
-    t.error.cacheError,
-    setCryptoData,
-    setMemecoinData,
-    setTrendingData,
-    setIsLoading,
-  ]);
+  }, [t.error.cacheError, setCryptoData, setTrendingData, setIsLoading]);
 
   const saveCachedData = useCallback(
-    (crypto: CryptoData[], memecoin: CryptoData[], trending: CryptoData[]) => {
+    (crypto: CryptoData[], trending: CryptoData[]) => {
       try {
         localStorage.setItem(
           TRADE_CONFIG.CACHE.KEYS.CRYPTO_DATA,
           JSON.stringify(crypto),
-        );
-        localStorage.setItem(
-          TRADE_CONFIG.CACHE.KEYS.MEMECOIN_DATA,
-          JSON.stringify(memecoin),
         );
         localStorage.setItem(
           TRADE_CONFIG.CACHE.KEYS.TRENDING_DATA,
@@ -99,32 +79,21 @@ export default function Trade() {
     const fetchCryptoData = async () => {
       try {
         setIsLoading(true);
-        const [cryptoResponse, memecoinResponse, trendingResponse] =
-          await Promise.all([
-            fetch(TRADE_CONFIG.API.CRYPTO_ENDPOINT),
-            fetch(TRADE_CONFIG.API.MEMECOIN_ENDPOINT),
-            fetch(TRADE_CONFIG.API.TRENDING_ENDPOINT),
-          ]);
+        const [cryptoResponse, trendingResponse] = await Promise.all([
+          fetch(TRADE_CONFIG.API.CRYPTO_ENDPOINT),
+          fetch(TRADE_CONFIG.API.TRENDING_ENDPOINT),
+        ]);
 
-        if (
-          !cryptoResponse.ok ||
-          !memecoinResponse.ok ||
-          !trendingResponse.ok
-        ) {
+        if (!cryptoResponse.ok || !trendingResponse.ok) {
           throw new Error("API error");
         }
 
-        const [cryptoData, memecoinData, trendingData] = await Promise.all([
+        const [cryptoData, trendingData] = await Promise.all([
           cryptoResponse.json(),
-          memecoinResponse.json(),
           trendingResponse.json(),
         ]);
 
-        if (
-          !Array.isArray(cryptoData) ||
-          !Array.isArray(memecoinData) ||
-          !trendingData.coins
-        ) {
+        if (!Array.isArray(cryptoData) || !trendingData.coins) {
           throw new Error("Invalid data");
         }
 
@@ -146,9 +115,8 @@ export default function Trade() {
         const trendingDetails = await trendingDetailsResponse.json();
 
         setCryptoData(filteredData);
-        setMemecoinData(memecoinData);
         setTrendingData(trendingDetails);
-        saveCachedData(filteredData, memecoinData, trendingDetails);
+        saveCachedData(filteredData, trendingDetails);
       } catch (err) {
         console.error("Failed to fetch fresh data:", err);
         if (!hasCachedData) {
@@ -239,11 +207,7 @@ export default function Trade() {
     );
   }
 
-  const allCryptoData = [
-    ...cryptoData,
-    ...memecoinData,
-    ...trendingData,
-  ].filter(
+  const allCryptoData = [...cryptoData, ...trendingData].filter(
     (crypto, index, self) =>
       index === self.findIndex((c) => c.id === crypto.id),
   );

@@ -1,37 +1,10 @@
 {
   "en": {
     "error": {
-      "httpError": "http error: {{status}}",
-      "fetchFailed": "failed to fetch trading data. please try again later.",
-      "retry": "retry",
-      "cacheError": "error loading cached data:",
-      "saveCacheError": "error saving cached data:",
-      "apiError": "API Error: {{status}} {{statusText}}",
-      "invalidData": "invalid data format received from API",
-      "connectionError": "connection error. please check your internet connection.",
-      "tradingComponentMounted": "trading component mounted with assetId:",
-      "fetchingData": "fetching data with config:",
-      "apiResponseStatus": "API Response status:",
-      "apiResponseData": "API Response data:",
-      "processedDataPoints": "Processed data points:",
-      "fetchError": "error fetching historical data",
+      "apiError": "API error: {{status}} {{statusText}}",
+      "invalidData": "invalid data format received from api",
       "historicalDataError": "failed to fetch historical data: {{error}}",
-      "useEffectTriggered": "useEffect triggered with timePeriod:",
-      "alreadyFavorite": "asset is already in favorites",
       "saveFavoriteFailed": "failed to save favorite status"
-    },
-    "success": {
-      "favoriteUpdated": "successfully updated favorites"
-    },
-    "labels": {
-      "currentPrice": "current price",
-      "priceChange24h": "24h price change",
-      "marketCap": "market cap",
-      "volume24h": "24h volume",
-      "high24h": "24h high",
-      "low24h": "24h low",
-      "allTimeHigh": "all time high",
-      "allTimeLow": "all time low"
     },
     "aria": {
       "addToFavorites": "add to favorites",
@@ -46,7 +19,7 @@
       "ALL": "ALL"
     },
     "titles": {
-      "tradingChart": "Trading Chart"
+      "tradingChart": "trading chart"
     }
   }
 }

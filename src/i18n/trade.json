@@ -28,7 +28,7 @@
       "currency": "$"
     },
     "chart": {
-      "noData": "No data"
+      "noData": "no data"
     }
   }
 }

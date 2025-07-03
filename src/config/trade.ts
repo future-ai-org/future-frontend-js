@@ -1,4 +1,4 @@
-import { COINGECKO_CONFIG, CRYPTO_CONFIG, CRYPTO_ICONS } from "@/config/crypto";
+import { COINGECKO_CONFIG, CRYPTO_CONFIG } from "@/config/crypto";
 import { CACHE_CONFIG } from "@/config/cache";
 
 export interface CryptoData {
@@ -24,7 +24,6 @@ export interface TrendingCoin {
 export const TRADE_CONFIG = {
   API: {
     CRYPTO_ENDPOINT: `${COINGECKO_CONFIG.BASE_URL}${COINGECKO_CONFIG.ENDPOINTS.MARKETS}?vs_currency=${CRYPTO_CONFIG.CURRENCY}&order=${CRYPTO_CONFIG.ORDER_BY}&per_page=${CRYPTO_CONFIG.TOP_CRYPTO_COUNT}&page=1&sparkline=true`,
-    MEMECOIN_ENDPOINT: `${COINGECKO_CONFIG.BASE_URL}${COINGECKO_CONFIG.ENDPOINTS.MARKETS}?vs_currency=${CRYPTO_CONFIG.CURRENCY}&ids=${CRYPTO_CONFIG.MEMECOIN_IDS.join(",")}&sparkline=true`,
     TRENDING_ENDPOINT: `${COINGECKO_CONFIG.BASE_URL}${COINGECKO_CONFIG.ENDPOINTS.SEARCH}`,
   },
   CACHE: {
@@ -35,17 +34,15 @@ export const TRADE_CONFIG = {
     CURRENCY: CRYPTO_CONFIG.CURRENCY,
     ORDER_BY: CRYPTO_CONFIG.ORDER_BY,
     TOP_CRYPTO_COUNT: CRYPTO_CONFIG.TOP_CRYPTO_COUNT,
-    MEMECOIN_IDS: CRYPTO_CONFIG.MEMECOIN_IDS,
   },
-  ICONS: CRYPTO_ICONS,
   TABLE: {
     HEADERS: {
-      ASSET: "Asset",
-      PRICE: "Price",
-      CHANGE: "Change",
-      MARKET_CAP: "Market Cap",
+      ASSET: "asset",
+      PRICE: "price",
+      CHANGE: "change",
+      MARKET_CAP: "market cap",
       ATH: "ATH",
-      CHART: "Chart",
+      CHART: "chart",
     },
   },
   FORMATTING: {
@@ -55,6 +52,6 @@ export const TRADE_CONFIG = {
     BILLION: "B",
   },
   CHART: {
-    NO_DATA: "No Data",
+    NO_DATA: "no data",
   },
 } as const;
