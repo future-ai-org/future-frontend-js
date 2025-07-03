@@ -18,7 +18,6 @@ export const ROUTES = {
   TRADE: "/trade",
   PREDICT: "/predict",
   DASHBOARD: "/dashboard",
-  PROFILE: "/profile",
 } as const;
 
 export type Route = (typeof ROUTES)[keyof typeof ROUTES];
@@ -33,4 +32,9 @@ export const NAV_ITEMS = [
 export const DASHBOARD = {
   path: ROUTES.DASHBOARD,
   label: strings.en.nav.dashboard,
+} as const;
+
+export const API_ERRORS = {
+  INTERNAL_SERVER_ERROR: "internal server error",
+  MISSING_REQUIRED_FIELDS: "missing required fields",
 } as const;
