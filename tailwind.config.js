@@ -50,10 +50,8 @@ module.exports = {
     require('@tailwindcss/typography'),
     require('@tailwindcss/aspect-ratio'),
   ],
-  // Ensure Tailwind works in production builds
   future: {
     hoverOnlyWhenSupported: true,
   },
-  // Enable dark mode if needed
   darkMode: 'class',
 } 

@@ -138,22 +138,6 @@
   );
 }
 
-.asset-details {
-  @apply flex items-center gap-1;
-}
-
-.asset-balance {
-  @apply flex items-center gap-1 justify-start;
-}
-
-.balance-amount {
-  @apply font-mono text-[var(--text-color)] text-sm font-bold;
-}
-
-.balance-symbol {
-  @apply text-[var(--text-color-secondary)] text-xs font-semibold;
-}
-
 .asset-value {
   @apply text-[var(--text-color)] font-bold text-sm text-center;
 }

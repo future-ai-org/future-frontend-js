@@ -20,10 +20,7 @@ import { COINGECKO_CONFIG } from "../config/crypto";
 import strings from "../i18n/home.json";
 import walletStrings from "../i18n/wallet.json";
 
-// Create query client
 const queryClient = new QueryClient();
-
-// Create wagmi config
 const config = createConfig({
   chains: [mainnet],
   connectors: [injected()],

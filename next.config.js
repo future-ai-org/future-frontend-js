@@ -12,15 +12,12 @@ const nextConfig = {
       '@': require('path').resolve(__dirname, 'src'),
     };
 
-    // Exclude problematic extension-related packages
     config.resolve.fallback = {
       ...config.resolve.fallback,
-      // Exclude webextension-polyfill and extension-port-stream
       'webextension-polyfill': false,
       'extension-port-stream': false,
     };
 
-    // Ignore these modules completely
     config.externals = config.externals || [];
     if (!isServer) {
       config.externals.push({

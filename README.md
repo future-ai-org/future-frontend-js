@@ -26,7 +26,7 @@ vim .env.local
 build and start local server:
 
 ```bash
-make dev
+make server
 ```
 
 <br>
