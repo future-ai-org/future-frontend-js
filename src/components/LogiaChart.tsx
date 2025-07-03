@@ -10,7 +10,7 @@ import {
   getElementNameForSign,
 } from "../config/logiaChart";
 import Loading from "../utils/loading";
-import "../styles/logiachart.css";
+import "../styles/logiaChart.css";
 import {
   calculateChartDimensions,
   createBaseChart,
