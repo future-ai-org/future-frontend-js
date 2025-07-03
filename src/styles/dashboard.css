@@ -385,9 +385,7 @@
     min-height: 250px;
   }
 
-  .asset-details {
-    @apply flex-col items-start gap-1;
-  }
+
 
   .chart-actions {
     @apply gap-1;

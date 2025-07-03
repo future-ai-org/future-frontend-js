@@ -36,14 +36,15 @@ const PredictCards: React.FC = () => {
     }));
   };
 
-  const handleCalculateSynastry = () => {
-    // Synastry calculation will be implemented in future updates
-  };
-
   const handleQuestionSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Question submission will be implemented in future updates
-    setQuestion("");
+    if (question.trim()) {
+      setQuestion("");
+    }
+  };
+
+  const handleCalculateSynastry = () => {
+    // TODO: Implement synastry calculation logic
   };
 
   const renderWorldEventCards = () => (
