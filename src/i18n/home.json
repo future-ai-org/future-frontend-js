@@ -15,7 +15,7 @@
         "title": "sign in",
         "signedIn": "gm, {ensName}",
         "connectWallet": "connect",
-        "startDashboard": " to your favorite wallet and create your dashboard"
+        "startDashboard": " to your favorite wallet and customize your experience"
       },
       "two": {
         "title": "customize"
@@ -47,9 +47,7 @@
     },
     "text": {
       "and": " and personalize ",
-      "intelFromOracle": "from our oracle AI agents",
-      "leverage": "leverage smart",
-      "forYourGoals": "for actionable goals"
+      "forYourGoals": " for actionable goals"
     }
   }
 }
