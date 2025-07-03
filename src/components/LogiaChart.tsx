@@ -60,7 +60,6 @@ interface AscendantResponse {
   degrees: number;
 }
 
-
 interface LogiaChartProps {
   birthDate: string;
   birthTime: string;
@@ -445,14 +444,16 @@ export default function LogiaChart({
       .style("visibility", "hidden")
       .style("opacity", "0");
 
-    const tableCells = document.querySelectorAll(".astrology-table td.planet-cell");
-    
+    const tableCells = document.querySelectorAll(
+      ".astrology-table td.planet-cell",
+    );
+
     tableCells.forEach((cell) => {
       const title = cell.getAttribute("title");
       if (!title || title === "-") return;
 
       d3.select(cell)
-        .on("mouseover", function(event) {
+        .on("mouseover", function (event) {
           tooltip
             .style("visibility", "visible")
             .style("opacity", "1")
@@ -460,12 +461,12 @@ export default function LogiaChart({
             .style("left", event.pageX + 10 + "px")
             .style("top", event.pageY - 10 + "px");
         })
-        .on("mousemove", function(event) {
+        .on("mousemove", function (event) {
           tooltip
             .style("left", event.pageX + 10 + "px")
             .style("top", event.pageY - 10 + "px");
         })
-        .on("mouseout", function() {
+        .on("mouseout", function () {
           tooltip.style("visibility", "hidden").style("opacity", "0");
         });
     });

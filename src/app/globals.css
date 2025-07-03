@@ -150,7 +150,7 @@
   --nebula-pink: var(--light-nebula-pink);
   --nebula-blue: var(--light-nebula-blue);
   --opacity-medium: 0.6;
-  
+
   /* Logia-specific colors */
   --logia-error: #ef4444;
   --logia-error-dark: #dc2626;
@@ -253,7 +253,7 @@ html.dark {
   --nebula-pink: var(--dark-nebula-pink);
   --nebula-blue: var(--dark-nebula-blue);
   --opacity-medium: 0.6;
-  
+
   /* Logia-specific colors */
   --logia-error: #ef4444;
   --logia-error-dark: #dc2626;

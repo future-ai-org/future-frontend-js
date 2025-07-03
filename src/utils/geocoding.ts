@@ -1,10 +1,10 @@
-import { OPENSTREETMAP_API_URL } from "../config/geocoding";
+import {
+  OPENSTREETMAP_API_URL,
+  MAX_CACHE_SIZE,
+  MONTH_NAMES,
+  ORDINAL_SUFFIXES,
+} from "../config/geocoding";
 import strings from "../i18n/logia.json";
-
-export interface Coordinates {
-  lat: number;
-  lon: number;
-}
 
 export interface CitySuggestion {
   display_name: string;
@@ -19,29 +19,56 @@ interface OpenStreetMapResponse {
   lon: string;
 }
 
+const formatCache = new Map<string, string>();
+const coordinateCache = new Map<string, string>();
+
+const pendingRequests = new Map<string, Promise<OpenStreetMapResponse[]>>();
+
 const fetchOpenStreetMapData = async (
   query: string,
   limit?: number,
 ): Promise<OpenStreetMapResponse[]> => {
-  const url = `${OPENSTREETMAP_API_URL}${encodeURIComponent(query)}${limit ? `&limit=${limit}` : ""}`;
-  const response = await fetch(url);
+  const cacheKey = `${query}:${limit || "default"}`;
 
-  if (!response.ok) {
-    throw new Error(strings.en.errors.fetchCoordinatesFailed);
+  if (pendingRequests.has(cacheKey)) {
+    return pendingRequests.get(cacheKey)!;
   }
 
-  return response.json();
+  const requestPromise = (async () => {
+    try {
+      const url = `${OPENSTREETMAP_API_URL}${encodeURIComponent(query)}${limit ? `&limit=${limit}` : ""}`;
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error(strings.en.errors.fetchCoordinatesFailed);
+      }
+
+      return response.json();
+    } finally {
+      pendingRequests.delete(cacheKey);
+    }
+  })();
+
+  pendingRequests.set(cacheKey, requestPromise);
+  return requestPromise;
 };
 
 const processCityName = (item: OpenStreetMapResponse): string => {
-  const cityName = item.name || item.display_name.split(",")[0].trim();
-  const country = item.display_name.split(",").pop()?.trim() || "";
+  if (item.name) {
+    const parts = item.display_name.split(",");
+    const country = parts[parts.length - 1]?.trim() || "";
+    return `${item.name.toLowerCase()}, ${country.toLowerCase()}`;
+  }
+
+  const parts = item.display_name.split(",");
+  const cityName = parts[0]?.trim() || "";
+  const country = parts[parts.length - 1]?.trim() || "";
   return `${cityName.toLowerCase()}, ${country.toLowerCase()}`;
 };
 
 export const geocodeCity = async (
   cityName: string,
-): Promise<Coordinates | null> => {
+): Promise<{ lat: number; lon: number } | null> => {
   try {
     const data = await fetchOpenStreetMapData(cityName);
 
@@ -87,6 +114,11 @@ export const searchCities = async (
 };
 
 export function formatCoordinates(lat: number, lon: number): string {
+  const cacheKey = `${lat},${lon}`;
+  if (coordinateCache.has(cacheKey)) {
+    return coordinateCache.get(cacheKey)!;
+  }
+
   const formatCoordinate = (coord: number, isLatitude: boolean): string => {
     const absolute = Math.abs(coord);
     const degrees = Math.floor(absolute);
@@ -101,41 +133,58 @@ export function formatCoordinates(lat: number, lon: number): string {
     return `${degrees}°${minutes}'${direction}`;
   };
 
-  return `(${formatCoordinate(lat, true)}, ${formatCoordinate(lon, false)})`;
+  const result = `(${formatCoordinate(lat, true)}, ${formatCoordinate(lon, false)})`;
+  coordinateCache.set(cacheKey, result);
+  limitCacheSize(coordinateCache);
+  return result;
 }
 
 export function formatDate(dateStr: string): string {
+  if (formatCache.has(`date:${dateStr}`)) {
+    return formatCache.get(`date:${dateStr}`)!;
+  }
+
   const [year, month, day] = dateStr.split("-").map((num) => parseInt(num, 10));
-  const monthNames = [
-    "january",
-    "february",
-    "march",
-    "april",
-    "may",
-    "june",
-    "july",
-    "august",
-    "september",
-    "october",
-    "november",
-    "december",
-  ];
 
   const getOrdinalSuffix = (n: number): string => {
     const j = n % 10;
     const k = n % 100;
-    if (j === 1 && k !== 11) return "st";
-    if (j === 2 && k !== 12) return "nd";
-    if (j === 3 && k !== 13) return "rd";
-    return "th";
+    if (j === 1 && k !== 11) return ORDINAL_SUFFIXES[1];
+    if (j === 2 && k !== 12) return ORDINAL_SUFFIXES[2];
+    if (j === 3 && k !== 13) return ORDINAL_SUFFIXES[3];
+    return ORDINAL_SUFFIXES[0];
   };
 
-  return `${monthNames[month - 1]}, ${day}${getOrdinalSuffix(day)}, ${year}`;
+  const result = `${MONTH_NAMES[month - 1]}, ${day}${getOrdinalSuffix(day)}, ${year}`;
+  formatCache.set(`date:${dateStr}`, result);
+  limitCacheSize(formatCache);
+  return result;
 }
 
 export function formatTime(timeStr: string): string {
+  if (formatCache.has(`time:${timeStr}`)) {
+    return formatCache.get(`time:${timeStr}`)!;
+  }
+
   const [hours, minutes] = timeStr.split(":").map((num) => parseInt(num, 10));
   const period = hours >= 12 ? "pm" : "am";
-  const displayHours = hours % 12 || 12; // Convert 0 to 12 for 12 AM
-  return `${displayHours}:${minutes.toString().padStart(2, "0")} ${period}`;
+  const displayHours = hours % 12 || 12;
+  const result = `${displayHours}:${minutes.toString().padStart(2, "0")} ${period}`;
+  formatCache.set(`time:${timeStr}`, result);
+  limitCacheSize(formatCache);
+  return result;
+}
+
+function limitCacheSize(cache: Map<string, string>): void {
+  if (cache.size > MAX_CACHE_SIZE) {
+    const entries = Array.from(cache.entries());
+    const toDelete = entries.slice(0, Math.floor(MAX_CACHE_SIZE / 2));
+    toDelete.forEach(([key]) => cache.delete(key));
+  }
+}
+
+export function clearFormatCache(): void {
+  formatCache.clear();
+  coordinateCache.clear();
+  pendingRequests.clear();
 }

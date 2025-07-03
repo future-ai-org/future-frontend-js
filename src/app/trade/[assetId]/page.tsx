@@ -47,7 +47,9 @@ function TradeContent() {
         const favorites = JSON.parse(
           localStorage.getItem("favoriteAssets") || "[]",
         );
-        setIsFavorite(favorites.some((fav: { id: string }) => fav.id === params.assetId));
+        setIsFavorite(
+          favorites.some((fav: { id: string }) => fav.id === params.assetId),
+        );
       } catch (err) {
         console.error("Failed to load favorite status:", err);
       }
@@ -68,8 +70,10 @@ function TradeContent() {
           (fav: { id: string }) => fav.id !== params.assetId,
         );
       } else {
-        const symbol = assetInfo?.symbol || params.assetId?.toString().toUpperCase();
-        const name = assetInfo?.name || params.assetId?.toString().toUpperCase();
+        const symbol =
+          assetInfo?.symbol || params.assetId?.toString().toUpperCase();
+        const name =
+          assetInfo?.name || params.assetId?.toString().toUpperCase();
 
         const isAlreadyFavorite = favorites.some(
           (fav: { id: string }) => fav.id === params.assetId,
@@ -115,11 +119,13 @@ function TradeContent() {
           <div className="stars"></div>
           <div className="nebula"></div>
         </div>
-        
+
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
             <Loading />
-            <p className="text-gray-400 mt-4">Loading {params.assetId?.toString().toUpperCase()}...</p>
+            <p className="text-gray-400 mt-4">
+              Loading {params.assetId?.toString().toUpperCase()}...
+            </p>
           </div>
         </div>
       </div>
@@ -127,7 +133,8 @@ function TradeContent() {
   }
 
   const assetName = assetInfo?.name || params.assetId?.toString().toUpperCase();
-  const assetSymbol = assetInfo?.symbol || params.assetId?.toString().toUpperCase();
+  const assetSymbol =
+    assetInfo?.symbol || params.assetId?.toString().toUpperCase();
 
   return (
     <div className="advanced-astrology-container">
@@ -146,10 +153,14 @@ function TradeContent() {
             <span>{assetSymbol} • Trading Dashboard</span>
             <button
               onClick={handleToggleFavorite}
-              className={`favorite-toggle ${isFavorite ? 'active' : ''}`}
-              aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+              className={`favorite-toggle ${isFavorite ? "active" : ""}`}
+              aria-label={
+                isFavorite ? "Remove from favorites" : "Add to favorites"
+              }
             >
-              <FaStar className={isFavorite ? 'text-yellow-400' : 'text-gray-400'} />
+              <FaStar
+                className={isFavorite ? "text-yellow-400" : "text-gray-400"}
+              />
             </button>
           </div>
         </div>
@@ -166,21 +177,23 @@ function TradeContent() {
 
 export default function TradePage() {
   return (
-    <Suspense fallback={
-      <div className="advanced-astrology-container">
-        <div className="cosmic-background">
-          <div className="stars"></div>
-          <div className="nebula"></div>
-        </div>
-        
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="text-center">
-            <Loading />
-            <p className="text-gray-400 mt-4">Loading...</p>
+    <Suspense
+      fallback={
+        <div className="advanced-astrology-container">
+          <div className="cosmic-background">
+            <div className="stars"></div>
+            <div className="nebula"></div>
+          </div>
+
+          <div className="min-h-screen flex items-center justify-center">
+            <div className="text-center">
+              <Loading />
+              <p className="text-gray-400 mt-4">Loading...</p>
+            </div>
           </div>
         </div>
-      </div>
-    }>
+      }
+    >
       <TradeContent />
     </Suspense>
   );

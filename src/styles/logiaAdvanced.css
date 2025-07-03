@@ -24,31 +24,11 @@
   width: 100%;
   height: 100%;
   background-image:
-    radial-gradient(
-      2px 2px at 20px 30px,
-      var(--white-80),
-      transparent
-    ),
-    radial-gradient(
-      2px 2px at 40px 70px,
-      var(--white-60),
-      transparent
-    ),
-    radial-gradient(
-      1px 1px at 90px 40px,
-      var(--white-90),
-      transparent
-    ),
-    radial-gradient(
-      1px 1px at 130px 80px,
-      var(--white-70),
-      transparent
-    ),
-    radial-gradient(
-      2px 2px at 160px 30px,
-      var(--white-80),
-      transparent
-    );
+    radial-gradient(2px 2px at 20px 30px, var(--white-80), transparent),
+    radial-gradient(2px 2px at 40px 70px, var(--white-60), transparent),
+    radial-gradient(1px 1px at 90px 40px, var(--white-90), transparent),
+    radial-gradient(1px 1px at 130px 80px, var(--white-70), transparent),
+    radial-gradient(2px 2px at 160px 30px, var(--white-80), transparent);
   background-repeat: repeat;
   background-size: 200px 100px;
   animation: twinkle 20s linear infinite;
@@ -64,28 +44,32 @@
       var(--nebula-purple) 0%,
       transparent 50%
     ),
-    radial-gradient(
-      ellipse at 80% 20%,
-      var(--nebula-pink) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      ellipse at 40% 40%,
-      var(--nebula-blue) 0%,
-      transparent 50%
-    );
+    radial-gradient(ellipse at 80% 20%, var(--nebula-pink) 0%, transparent 50%),
+    radial-gradient(ellipse at 40% 40%, var(--nebula-blue) 0%, transparent 50%);
   animation: nebula-drift 30s ease-in-out infinite;
 }
 
 @keyframes twinkle {
-  0%, 100% { opacity: 0.8; }
-  50% { opacity: 1; }
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 @keyframes nebula-drift {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(-20px, -10px) scale(1.1); }
-  66% { transform: translate(10px, -20px) scale(0.9); }
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(-20px, -10px) scale(1.1);
+  }
+  66% {
+    transform: translate(10px, -20px) scale(0.9);
+  }
 }
 
 .advanced-astrology-container {
@@ -106,11 +90,7 @@
 }
 
 .header-content {
-  background: linear-gradient(
-    135deg,
-    var(--white-10) 0%,
-    var(--white-05) 100%
-  );
+  background: linear-gradient(135deg, var(--white-10) 0%, var(--white-05) 100%);
   backdrop-filter: blur(20px);
   border: 1px solid var(--white-20);
   border-radius: 24px;
@@ -169,8 +149,13 @@
 }
 
 @keyframes sparkle {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  50% { transform: scale(1.2) rotate(180deg); }
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.2) rotate(180deg);
+  }
 }
 
 .loading-container {
@@ -217,8 +202,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .loading-text {
@@ -229,8 +218,13 @@
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 0.7; }
-  50% { opacity: 1; }
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 .error-container {
@@ -258,9 +252,16 @@
 }
 
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
 }
 
 .error-text {
@@ -286,11 +287,7 @@
 }
 
 .summary-card {
-  background: linear-gradient(
-    135deg,
-    var(--white-10) 0%,
-    var(--white-05) 100%
-  );
+  background: linear-gradient(135deg, var(--white-10) 0%, var(--white-05) 100%);
   backdrop-filter: blur(20px);
   border: 1px solid var(--white-20);
   border-radius: 16px;
@@ -315,7 +312,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--gradient-purple) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--gradient-purple) 100%
+  );
   border-radius: 12px;
   box-shadow: 0 4px 15px var(--glow-purple);
 }
@@ -341,11 +342,7 @@
 }
 
 .celestial-card {
-  background: linear-gradient(
-    135deg,
-    var(--white-10) 0%,
-    var(--white-05) 100%
-  );
+  background: linear-gradient(135deg, var(--white-10) 0%, var(--white-05) 100%);
   backdrop-filter: blur(20px);
   border: 1px solid var(--white-20);
   border-radius: 20px;
@@ -403,11 +400,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(
-    135deg,
-    var(--white-20) 0%,
-    var(--white-10) 100%
-  );
+  background: linear-gradient(135deg, var(--white-20) 0%, var(--white-10) 100%);
   border-radius: 12px;
   box-shadow: 0 4px 15px var(--black-10);
 }
@@ -441,7 +434,11 @@
 }
 
 .retrograde {
-  background: linear-gradient(135deg, var(--logia-error), var(--logia-error-dark));
+  background: linear-gradient(
+    135deg,
+    var(--logia-error),
+    var(--logia-error-dark)
+  );
   color: var(--white);
   padding: 0.2rem 0.5rem;
   border-radius: 6px;

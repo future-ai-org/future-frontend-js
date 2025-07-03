@@ -66,8 +66,6 @@ html.dark {
   text-shadow: var(--text-glow);
 }
 
-
-
 .astrology-container {
   display: flex;
   flex-direction: column;
@@ -726,8 +724,6 @@ html.dark {
 .logia-decorative-image:hover .saturn-group {
   animation-duration: 10s;
 }
-
-
 
 .logia-disclaimer {
   margin-top: 0.75rem;
