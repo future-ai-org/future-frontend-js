@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Common variables and utilities */
 :root {
   --tooltip-font-size: 0.8rem;
   --tooltip-border-radius: 16px;
@@ -11,19 +10,6 @@
   --tooltip-blur: blur(8px);
   --tooltip-large-bg: var(--color-primary);
   --tooltip-quick-bg: var(--color-primary);
-}
-
-/* Typography */
-.astrology-title {
-  font-size: 2.5rem;
-  font-weight: 800;
-  margin: 0;
-  color: var(--color-primary);
-  letter-spacing: 0.05em;
-  text-shadow: var(--text-glow);
-  text-align: center;
-  line-height: 1.2;
-  width: 100%;
 }
 
 .astrology-subtitle {
@@ -53,7 +39,6 @@
   max-width: 600px !important;
 }
 
-/* Tooltip styles */
 .tooltip {
   position: absolute;
   padding: 14px 18px;
@@ -65,8 +50,6 @@
   transition: var(--tooltip-transition);
   z-index: 1000;
   pointer-events: none;
-  min-width: var(--tooltip-min-width);
-  max-width: var(--tooltip-max-width);
   text-align: left;
   line-height: 1.4;
   box-shadow: var(--tooltip-shadow);
@@ -205,7 +188,6 @@
   fill: var(--ascendant-color);
 }
 
-/* Zodiac styles */
 .zodiac-symbol {
   font-family: "Astrology", monospace;
   font-size: 1.3em;
@@ -230,7 +212,6 @@
   font-size: 1.7em;
 }
 
-/* House styles */
 .house-number {
   font-size: 8px;
   font-weight: bold;
@@ -252,18 +233,11 @@
   opacity: var(--opacity-90);
 }
 
-.ascendant-circle {
-  fill: var(--color-primary);
-  stroke: var(--color-background);
-  stroke-width: 2;
-}
-
 .ascendant-text {
   font-size: 16px;
   fill: var(--color-primary);
 }
 
-/* Table styles */
 .astrology-info-text table {
   width: 100%;
   border-collapse: collapse;
@@ -366,12 +340,6 @@
 
   .title-star-container {
     gap: 0.5rem;
-  }
-
-  .astrology-title {
-    font-size: 2.5rem;
-    text-align: center;
-    margin-right: 3rem;
   }
 
   .save-chart-star {
@@ -567,38 +535,6 @@
   content: "★";
 }
 
-.save-chart-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem 1.5rem;
-  height: var(--wallet-height);
-  min-width: 120px;
-  border-radius: 2rem;
-  border: 1px solid var(--text-color);
-  background: transparent;
-  color: var(--text-color);
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  text-shadow: var(--text-glow);
-  transition: var(--wallet-transition);
-  -webkit-transition: var(--wallet-transition);
-  position: absolute;
-  left: -4rem;
-}
-
-.save-chart-button:hover:not(:disabled) {
-  background: var(--text-color);
-  color: var(--background-color);
-  box-shadow: var(--glow-shadow-hover);
-}
-
-.save-chart-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
 .save-notification {
   position: fixed;
   top: 120px;
@@ -628,41 +564,4 @@
   min-width: 160px;
   max-width: 200px;
   justify-content: center;
-}
-
-.view-dashboard-link {
-  color: var(--color-background);
-  text-decoration: none;
-  font-weight: 600;
-  transition: all 0.2s ease;
-  padding: 0.2rem 0.4rem;
-  border-radius: 0.4rem;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  font-size: 0.7rem;
-}
-
-.view-dashboard-link:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-1px);
-}
-
-@keyframes fadeInOut {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -1rem);
-  }
-  15% {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-  85% {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -1rem);
-  }
 }
