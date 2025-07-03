@@ -1,0 +1,19 @@
+{
+  "en": {
+    "errors": {
+      "useThemeContext": "usetheme must be used within a themeprovider"
+    },
+    "aria": {
+      "switchToLight": "switch to light mode",
+      "switchToDark": "switch to dark mode"
+    },
+    "themes": {
+      "light": "light",
+      "dark": "dark"
+    },
+    "icons": {
+      "moon": "🌙",
+      "sun": "☀️"
+    }
+  }
+}
