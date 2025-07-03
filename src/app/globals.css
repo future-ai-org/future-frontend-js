@@ -129,6 +129,20 @@
   --nebula-pink: var(--light-nebula-pink);
   --nebula-blue: var(--light-nebula-blue);
   --opacity-medium: 0.6;
+  
+  /* Logia-specific colors */
+  --logia-error: #ef4444;
+  --logia-error-dark: #dc2626;
+  --logia-element-fire: var(--color-bullish);
+  --logia-element-earth: #8b4513;
+  --logia-element-air: #87ceeb;
+  --logia-element-water: #4682b4;
+  --logia-quality-cardinal: #ff6b6b;
+  --logia-quality-fixed: #4ecdc4;
+  --logia-quality-mutable: #45b7d1;
+  --logia-error-light: rgba(239, 68, 68, 0.1);
+  --logia-error-lighter: rgba(239, 68, 68, 0.05);
+  --white: #ffffff;
   --background-color: var(--color-background);
   --glow-shadow-hover: var(--color-glow-shadow-hover);
 
@@ -211,6 +225,20 @@ html.dark {
   --nebula-pink: var(--dark-nebula-pink);
   --nebula-blue: var(--dark-nebula-blue);
   --opacity-medium: 0.6;
+  
+  /* Logia-specific colors */
+  --logia-error: #ef4444;
+  --logia-error-dark: #dc2626;
+  --logia-element-fire: var(--color-bullish);
+  --logia-element-earth: #8b4513;
+  --logia-element-air: #87ceeb;
+  --logia-element-water: #4682b4;
+  --logia-quality-cardinal: #ff6b6b;
+  --logia-quality-fixed: #4ecdc4;
+  --logia-quality-mutable: #45b7d1;
+  --logia-error-light: rgba(239, 68, 68, 0.1);
+  --logia-error-lighter: rgba(239, 68, 68, 0.05);
+  --white: #ffffff;
   --background-color: var(--color-background);
   --glow-shadow-hover: var(--color-glow-shadow-hover);
 
