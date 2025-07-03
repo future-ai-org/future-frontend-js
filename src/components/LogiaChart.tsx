@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useCallback, useState } from "react";
+import * as d3 from "d3";
 import {
   ChartData,
   getPlanetSymbol,
@@ -200,12 +201,12 @@ async function calculateChartData(
 
   const tableRows = [
     `<tr>
-      <td class="planet-cell" title="${chartT.planetDescriptions.ascendant}">AC</td>
-      <td class="planet-cell" title="${chartT.signs[ascendantData.sign.toLowerCase() as keyof typeof chartT.signs]}">${getZodiacSymbol(ascendantData.sign)}</td>
-      <td class="planet-cell" title="${chartT.elements[getElementNameForSign(ascendantData.sign).toLowerCase() as keyof typeof chartT.elements]}">${getElementForSign(ascendantData.sign)}</td>
+      <td class="planet-cell" title="${chartT.planetDescriptions.ascendant || "-"}">AC</td>
+      <td class="planet-cell" title="${chartT.signs[ascendantData.sign.toLowerCase() as keyof typeof chartT.signs] || "-"}">${getZodiacSymbol(ascendantData.sign)}</td>
+      <td class="planet-cell" title="${chartT.elements[getElementNameForSign(ascendantData.sign).toLowerCase() as keyof typeof chartT.elements] || "-"}">${getElementForSign(ascendantData.sign)}</td>
       <td class="planet-cell" title="${getDecadeDescription(ascendantData.degrees)}">${ascendantData.degrees.toFixed(2)}°</td>
-      <td class="planet-cell" title="${chartT.houses["1"]}">I</td>
-      <td class="planet-cell" title="${chartT.effectDescriptions.ascendant}">${chartT.effects.ascendant || "-"}</td>
+      <td class="planet-cell" title="${chartT.houses["1"] || "-"}">I</td>
+      <td class="planet-cell" title="${chartT.effectDescriptions.ascendant || "-"}">${chartT.effects.ascendant || "-"}</td>
     </tr>`,
     ...Object.entries(planetsData).map(([planet, info]) => {
       const orderedArray = Array.from(orderedSigns.keys());
@@ -214,33 +215,13 @@ async function calculateChartData(
           (sign) => (sign as string).toLowerCase() === info.sign.toLowerCase(),
         ) + 1;
 
-      const planetEffect =
-        chartT.effects[planet.toLowerCase() as keyof typeof chartT.effects] ||
-        "-";
-      const planetDescription =
-        chartT.planetDescriptions[
-          planet.toLowerCase() as keyof typeof chartT.planetDescriptions
-        ] || "-";
-      const tooltipText = planetDescription;
-      const signDescription =
-        chartT.signs[info.sign.toLowerCase() as keyof typeof chartT.signs];
-      const houseDescription =
-        chartT.houses[houseNumber.toString() as keyof typeof chartT.houses];
-      const element = getElementNameForSign(info.sign).toLowerCase();
-      const elementDescription =
-        chartT.elements[element as keyof typeof chartT.elements];
-      const effectDescription =
-        chartT.effectDescriptions[
-          planet.toLowerCase() as keyof typeof chartT.effectDescriptions
-        ];
-
       return `<tr>
-        <td class="planet-cell" title="${tooltipText}">${PLANET_SYMBOLS[planet.toLowerCase() as keyof typeof PLANET_SYMBOLS]}</td>
-        <td class="planet-cell" title="${signDescription}">${getZodiacSymbol(info.sign)}</td>
-        <td class="planet-cell" title="${elementDescription}">${getElementForSign(info.sign)}</td>
+        <td class="planet-cell" title="${chartT.planetDescriptions[planet.toLowerCase() as keyof typeof chartT.planetDescriptions] || "-"}">${PLANET_SYMBOLS[planet.toLowerCase() as keyof typeof PLANET_SYMBOLS]}</td>
+        <td class="planet-cell" title="${chartT.signs[info.sign.toLowerCase() as keyof typeof chartT.signs] || "-"}">${getZodiacSymbol(info.sign)}</td>
+        <td class="planet-cell" title="${chartT.elements[getElementNameForSign(info.sign).toLowerCase() as keyof typeof chartT.elements] || "-"}">${getElementForSign(info.sign)}</td>
         <td class="planet-cell" title="${getDecadeDescription(info.degrees)}">${info.degrees.toFixed(2)}°</td>
-        <td class="planet-cell" title="${houseDescription}">${toRomanNumeral(houseNumber)}</td>
-        <td class="planet-cell" title="${effectDescription}">${planetEffect}</td>
+        <td class="planet-cell" title="${chartT.houses[houseNumber.toString() as keyof typeof chartT.houses] || "-"}">${toRomanNumeral(houseNumber)}</td>
+        <td class="planet-cell" title="${chartT.effectDescriptions[planet.toLowerCase() as keyof typeof chartT.effectDescriptions] || "-"}">${chartT.effects[planet.toLowerCase() as keyof typeof chartT.effects] || "-"}</td>
       </tr>`;
     }),
   ].join("");
@@ -431,7 +412,6 @@ export default function LogiaChart({
       setChartData(chartData);
       setChartInfoHtml(chartInfoHtml);
 
-      // Store hash mapping for the advanced view URL
       storeChartHashMapping(birthDate, birthTime, city);
     } catch {
       setError(chartT.errors.unknownError);
@@ -460,6 +440,47 @@ export default function LogiaChart({
       }
     };
   }, [drawChart]);
+
+  // Add D3 tooltips to table cells
+  useEffect(() => {
+    if (!chartInfoHtml) return;
+
+    const tooltip = d3
+      .select("body")
+      .append("div")
+      .attr("class", "tooltip tooltip-large")
+      .style("visibility", "hidden")
+      .style("opacity", "0");
+
+    const tableCells = document.querySelectorAll(".astrology-table td.planet-cell");
+    
+    tableCells.forEach((cell) => {
+      const title = cell.getAttribute("title");
+      if (!title || title === "-") return;
+
+      d3.select(cell)
+        .on("mouseover", function(event) {
+          tooltip
+            .style("visibility", "visible")
+            .style("opacity", "1")
+            .html(title)
+            .style("left", event.pageX + 10 + "px")
+            .style("top", event.pageY - 10 + "px");
+        })
+        .on("mousemove", function(event) {
+          tooltip
+            .style("left", event.pageX + 10 + "px")
+            .style("top", event.pageY - 10 + "px");
+        })
+        .on("mouseout", function() {
+          tooltip.style("visibility", "hidden").style("opacity", "0");
+        });
+    });
+
+    return () => {
+      tooltip.remove();
+    };
+  }, [chartInfoHtml]);
 
   const memoizedPlanetInfo = useMemo(() => {
     if (!selectedPlanet || !chartData) return null;
