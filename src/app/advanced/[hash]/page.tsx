@@ -13,11 +13,7 @@ function AdvancedContent() {
   const birthData = getBirthDataFromHash(hash);
 
   if (!birthData) {
-    return (
-      <div className="astrology-error-message">
-        Chart not found. Please generate a chart first.
-      </div>
-    );
+    return null;
   }
 
   return (

@@ -27,6 +27,22 @@
   --light-glow-pink-dark: rgba(190, 133, 195, 0.5);
   --light-planet-symbol: #8a6cb3; /* Darker purple color for planet symbols */
   --light-ascendant: #cc6096; /* Pink color for ascendant */
+  --light-gradient-purple: #a855f7; /* Purple for gradients */
+  --light-gradient-pink: #ec4899; /* Pink for gradients */
+  --light-glow-purple: rgba(168, 85, 247, 0.5); /* Purple glow effect */
+  --light-white-80: rgba(255, 255, 255, 0.8); /* White 80% opacity */
+  --light-white-60: rgba(255, 255, 255, 0.6); /* White 60% opacity */
+  --light-white-90: rgba(255, 255, 255, 0.9); /* White 90% opacity */
+  --light-white-70: rgba(255, 255, 255, 0.7); /* White 70% opacity */
+  --light-white-10: rgba(255, 255, 255, 0.1); /* White 10% opacity */
+  --light-white-05: rgba(255, 255, 255, 0.05); /* White 5% opacity */
+  --light-white-20: rgba(255, 255, 255, 0.2); /* White 20% opacity */
+  --light-white-30: rgba(255, 255, 255, 0.3); /* White 30% opacity */
+  --light-black-10: rgba(0, 0, 0, 0.1); /* Black 10% opacity */
+  --light-black-15: rgba(0, 0, 0, 0.15); /* Black 15% opacity */
+  --light-nebula-purple: rgba(120, 119, 198, 0.3); /* Nebula purple */
+  --light-nebula-pink: rgba(255, 119, 198, 0.3); /* Nebula pink */
+  --light-nebula-blue: rgba(120, 219, 255, 0.2); /* Nebula blue */
 
   /* Theme Colors - Dark */
   --dark-primary: #60a5fa;
@@ -52,6 +68,22 @@
   --dark-glow-pink-dark: rgba(52, 211, 153, 0.4);
   --dark-planet-symbol: #8a6cb3; /* Darker purple color for planet symbols */
   --dark-ascendant: #cc6096; /* Pink color for ascendant */
+  --dark-gradient-purple: #a855f7; /* Purple for gradients */
+  --dark-gradient-pink: #ec4899; /* Pink for gradients */
+  --dark-glow-purple: rgba(168, 85, 247, 0.5); /* Purple glow effect */
+  --dark-white-80: rgba(255, 255, 255, 0.8); /* White 80% opacity */
+  --dark-white-60: rgba(255, 255, 255, 0.6); /* White 60% opacity */
+  --dark-white-90: rgba(255, 255, 255, 0.9); /* White 90% opacity */
+  --dark-white-70: rgba(255, 255, 255, 0.7); /* White 70% opacity */
+  --dark-white-10: rgba(255, 255, 255, 0.1); /* White 10% opacity */
+  --dark-white-05: rgba(255, 255, 255, 0.05); /* White 5% opacity */
+  --dark-white-20: rgba(255, 255, 255, 0.2); /* White 20% opacity */
+  --dark-white-30: rgba(255, 255, 255, 0.3); /* White 30% opacity */
+  --dark-black-10: rgba(0, 0, 0, 0.1); /* Black 10% opacity */
+  --dark-black-15: rgba(0, 0, 0, 0.15); /* Black 15% opacity */
+  --dark-nebula-purple: rgba(120, 119, 198, 0.3); /* Nebula purple */
+  --dark-nebula-pink: rgba(255, 119, 198, 0.3); /* Nebula pink */
+  --dark-nebula-blue: rgba(120, 219, 255, 0.2); /* Nebula blue */
 
   /* Common Variables */
   --transition-duration: 0.3s;
@@ -80,6 +112,22 @@
   --glow-pink-dark: var(--light-glow-pink-dark);
   --planet-symbol-color: var(--light-planet-symbol);
   --ascendant-color: var(--light-ascendant);
+  --gradient-purple: var(--light-gradient-purple);
+  --gradient-pink: var(--light-gradient-pink);
+  --glow-purple: var(--light-glow-purple);
+  --white-80: var(--light-white-80);
+  --white-60: var(--light-white-60);
+  --white-90: var(--light-white-90);
+  --white-70: var(--light-white-70);
+  --white-10: var(--light-white-10);
+  --white-05: var(--light-white-05);
+  --white-20: var(--light-white-20);
+  --white-30: var(--light-white-30);
+  --black-10: var(--light-black-10);
+  --black-15: var(--light-black-15);
+  --nebula-purple: var(--light-nebula-purple);
+  --nebula-pink: var(--light-nebula-pink);
+  --nebula-blue: var(--light-nebula-blue);
   --opacity-medium: 0.6;
   --background-color: var(--color-background);
   --glow-shadow-hover: var(--color-glow-shadow-hover);
@@ -127,6 +175,22 @@ html.dark {
   --glow-pink-dark: var(--dark-glow-pink-dark);
   --planet-symbol-color: var(--dark-planet-symbol);
   --ascendant-color: var(--dark-ascendant);
+  --gradient-purple: var(--dark-gradient-purple);
+  --gradient-pink: var(--dark-gradient-pink);
+  --glow-purple: var(--dark-glow-purple);
+  --white-80: var(--dark-white-80);
+  --white-60: var(--dark-white-60);
+  --white-90: var(--dark-white-90);
+  --white-70: var(--dark-white-70);
+  --white-10: var(--dark-white-10);
+  --white-05: var(--dark-white-05);
+  --white-20: var(--dark-white-20);
+  --white-30: var(--dark-white-30);
+  --black-10: var(--dark-black-10);
+  --black-15: var(--dark-black-15);
+  --nebula-purple: var(--dark-nebula-purple);
+  --nebula-pink: var(--dark-nebula-pink);
+  --nebula-blue: var(--dark-nebula-blue);
   --opacity-medium: 0.6;
   --background-color: var(--color-background);
   --glow-shadow-hover: var(--color-glow-shadow-hover);
