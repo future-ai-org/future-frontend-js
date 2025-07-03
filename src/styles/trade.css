@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ===== Animations ===== */
 @keyframes pulse {
   0%,
   100% {
@@ -23,7 +22,6 @@
   }
 }
 
-/* ===== Layout & Container Styles ===== */
 .dashboard-container {
   padding: 20px;
   background-color: var(--background-color);
@@ -46,7 +44,6 @@
   text-shadow: var(--text-glow);
 }
 
-/* ===== Table Styles ===== */
 .table {
   width: 100%;
   max-width: 1400px;
@@ -60,7 +57,6 @@
   flex: 1;
 }
 
-/* Table Column Widths */
 .table th:nth-child(1) {
   width: 5%;
 } /* Favorite */
@@ -114,7 +110,6 @@
   background-color: transparent;
 }
 
-/* ===== Chart Styles ===== */
 .chart-link {
   display: block;
   text-decoration: none;
@@ -162,7 +157,6 @@
   transform: scale(1.7);
 }
 
-.chart-container svg .chart-line,
 .chart-container svg polyline {
   stroke-width: 1.2;
   stroke-opacity: 0.9;
@@ -176,24 +170,11 @@
   stroke: var(--bearish-color);
 }
 
-.chart-container:hover svg polyline.positive,
-.chart-container:hover svg polyline.negative {
-  stroke: var(--color-primary);
-}
-
 .chart-container svg text {
   font-size: 10px;
   text-anchor: middle;
 }
 
-.chart-container svg text.positive {
-  fill: var(--bullish-color);
-}
-.chart-container svg text.negative {
-  fill: var(--bearish-color);
-}
-
-/* ===== Crypto Name Cell Styles ===== */
 .crypto-name-cell {
   white-space: normal;
   overflow: visible;
@@ -214,7 +195,6 @@
   flex-wrap: wrap;
 }
 
-/* Favorite button styles */
 .crypto-name-content .favorite-button {
   @apply p-1.5 rounded-full transition-all duration-200 flex-shrink-0;
   color: var(--text-color-secondary);
@@ -271,7 +251,6 @@
   margin-top: 1px;
 }
 
-/* ===== Glowing Emoji Styles ===== */
 .glowing-emoji {
   display: inline-flex;
   align-items: center;
@@ -301,7 +280,6 @@
   color: var(--bearish-color);
 }
 
-/* ===== Price & Change Cell Styles ===== */
 .crypto-price-cell,
 .crypto-change-cell,
 .crypto-market-cap-cell {
@@ -337,7 +315,6 @@
   line-height: 1;
 }
 
-/* Color states */
 .crypto-price-cell.positive,
 .crypto-change-cell.positive,
 .crypto-market-cap-cell.positive {
@@ -350,7 +327,6 @@
   color: var(--bearish-color);
 }
 
-/* ===== ATH Cell Styles ===== */
 .crypto-ath-cell {
   text-align: center;
   padding: 0.5rem;
@@ -369,7 +345,6 @@
   color: var(--color-text);
 }
 
-/* ===== Scrollbar Styles ===== */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
