@@ -23,18 +23,6 @@
   }
 }
 
-@keyframes trendingPulse {
-  0%,
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 20px var(--trending-shadow-light);
-  }
-  50% {
-    transform: scale(1.1);
-    box-shadow: 0 0 30px var(--trending-shadow-light);
-  }
-}
-
 /* ===== Layout & Container Styles ===== */
 .dashboard-container {
   padding: 20px;
@@ -251,37 +239,6 @@
   animation: pulse 2s infinite;
 }
 
-.crypto-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2em;
-  font-weight: bold;
-  min-width: 24px;
-  height: 24px;
-  text-shadow: var(--text-glow);
-  transition: all var(--transition-duration) var(--transition-timing);
-  margin-right: 4px;
-}
-
-.crypto-icon.positive {
-  color: var(--bullish-color);
-}
-.crypto-icon.negative {
-  color: var(--bearish-color);
-}
-
-.crypto-name-cell:hover .crypto-icon {
-  text-shadow: var(--text-glow-hover);
-}
-
-.crypto-name-cell.positive .crypto-icon {
-  color: var(--bullish-color);
-}
-.crypto-name-cell.negative .crypto-icon {
-  color: var(--bearish-color) !important;
-}
-
 .crypto-full-name {
   flex: 1;
   overflow: hidden;
@@ -336,17 +293,11 @@
   margin-right: 4px;
 }
 
-.glowing-emoji.trending {
-  animation: trendingPulse 2s infinite;
+.glowing-emoji.positive {
   color: var(--bullish-color);
 }
 
-.crypto-name-cell.positive .glowing-emoji,
-.crypto-name-cell.negative .glowing-emoji {
-  color: var(--bullish-color);
-}
-
-.crypto-name-cell.negative .glowing-emoji {
+.glowing-emoji.negative {
   color: var(--bearish-color);
 }
 
