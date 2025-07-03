@@ -10,12 +10,7 @@
       }
     },
     "portfolio": {
-      "title": "my portfolio",
-      "totalValue": "value",
-      "change24h": "24h",
-      "errors": {
-        "loadFailed": "failed to load portfolio data"
-      }
+      "title": "my portfolio"
     },
     "formatting": {
       "currency": {

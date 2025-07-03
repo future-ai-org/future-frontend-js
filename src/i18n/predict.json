@@ -26,24 +26,36 @@
         "subtitle": "will cardano reach $10 by the end of the year?"
       },
       "five": {
-        "title": "tron",
-        "subtitle": "will tron reach $1 by the end of the year?"
+        "title": "pepe price",
+        "subtitle": "will pepe reach $0.01 by the end of the year?"
       },
       "six": {
-        "title": "bittensor",
-        "subtitle": "will bittensor reach $100 by the end of the year?"
+        "title": "tron price",
+        "subtitle": "will tron reach $1 by the end of the year?"
       },
       "seven": {
-        "title": "sui price",
-        "subtitle": "will sui reach $100 by the end of the year?"
+        "title": "monero price",
+        "subtitle": "will monero reach $500 by the end of the year?"
       },
       "eight": {
-        "title": "hyperlink price",
-        "subtitle": "will hyperlink reach $100 by the end of the year?"
+        "title": "hyperliquid price",
+        "subtitle": "will hyperliquid reach $100 by the end of the year?"
       },
       "nine": {
-        "title": "dodecoing price",
-        "subtitle": "will dodecoing reach $1 by the end of the year?"
+        "title": "story price",
+        "subtitle": "will story reach $10 by the end of the year?"
+      },
+      "ten": {
+        "title": "worldcoin price",
+        "subtitle": "will worldcoin reach $50 by the end of the year?"
+      },
+      "eleven": {
+        "title": "trump price",
+        "subtitle": "will trump reach $100 by the end of the year?"
+      },
+      "twelve": {
+        "title": "bittensor price",
+        "subtitle": "will bittensor reach $100 by the end of the year?"
       }
     },
     "personalPredictions": {

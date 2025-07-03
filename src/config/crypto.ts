@@ -21,3 +21,33 @@ export const CRYPTO_CONFIG = {
   CURRENCY: COINGECKO_CONFIG.PARAMS.VS_CURRENCY,
   ORDER_BY: COINGECKO_CONFIG.PARAMS.ORDER,
 } as const;
+
+export const SLIDER_CRYPTO_IDS = [
+  "bitcoin",
+  "ethereum",
+  "solana",
+  "cardano",
+  "pepe",
+  "tron",
+  "monero",
+  "hyperliquid",
+  "story",
+  "worldcoin",
+  "trump",
+  "bittensor",
+].join(",");
+
+export const PREDICTION_TARGETS = {
+  bitcoin: { title: "bitcoin price", target: "$150,000" },
+  ethereum: { title: "ethereum price", target: "$5,000" },
+  solana: { title: "solana price", target: "$500" },
+  cardano: { title: "cardano price", target: "$10" },
+  pepe: { title: "pepe price", target: "$0.01" },
+  tron: { title: "tron price", target: "$1" },
+  monero: { title: "monero price", target: "$500" },
+  hyperliquid: { title: "hyperliquid price", target: "$100" },
+  story: { title: "story price", target: "$10" },
+  worldcoin: { title: "worldcoin price", target: "$50" },
+  trump: { title: "trump price", target: "$50" },
+  bittensor: { title: "bittensor price", target: "$400" },
+} as const;

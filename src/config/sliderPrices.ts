@@ -1,18 +1,4 @@
-import { COINGECKO_CONFIG } from "./crypto";
-
-const SLIDER_CRYPTO_IDS = [
-  "bitcoin",
-  "ethereum",
-  "solana",
-  "cardano",
-  "pepe",
-  "tron",
-  "monero",
-  "hyperliquid",
-  "story",
-  "worldcoin",
-  "trump",
-].join(",");
+import { COINGECKO_CONFIG, SLIDER_CRYPTO_IDS } from "./crypto";
 
 export const PRICE_SLIDER_CONFIG = {
   CACHE: {

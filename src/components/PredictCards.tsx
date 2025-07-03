@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import predictI18n from "../i18n/predict.json";
+import { PREDICTION_TARGETS } from "../config/crypto";
 import "../styles/predictCards.css";
 import { FaChartLine } from "react-icons/fa";
 
@@ -11,53 +12,13 @@ interface PredictCard {
   subtitle: string;
 }
 
-const worldEventCards: PredictCard[] = [
-  {
-    id: "one",
-    title: predictI18n.cards.worldEvents.one.title,
-    subtitle: predictI18n.cards.worldEvents.one.subtitle,
-  },
-  {
-    id: "two",
-    title: predictI18n.cards.worldEvents.two.title,
-    subtitle: predictI18n.cards.worldEvents.two.subtitle,
-  },
-  {
-    id: "three",
-    title: predictI18n.cards.worldEvents.three.title,
-    subtitle: predictI18n.cards.worldEvents.three.subtitle,
-  },
-  {
-    id: "four",
-    title: predictI18n.cards.worldEvents.four.title,
-    subtitle: predictI18n.cards.worldEvents.four.subtitle,
-  },
-  {
-    id: "five",
-    title: predictI18n.cards.worldEvents.five.title,
-    subtitle: predictI18n.cards.worldEvents.five.subtitle,
-  },
-  {
-    id: "six",
-    title: predictI18n.cards.worldEvents.six.title,
-    subtitle: predictI18n.cards.worldEvents.six.subtitle,
-  },
-  {
-    id: "seven",
-    title: predictI18n.cards.worldEvents.seven.title,
-    subtitle: predictI18n.cards.worldEvents.seven.subtitle,
-  },
-  {
-    id: "eight",
-    title: predictI18n.cards.worldEvents.eight.title,
-    subtitle: predictI18n.cards.worldEvents.eight.subtitle,
-  },
-  {
-    id: "nine",
-    title: predictI18n.cards.worldEvents.nine.title,
-    subtitle: predictI18n.cards.worldEvents.nine.subtitle,
-  },
-];
+const worldEventCards: PredictCard[] = Object.entries(PREDICTION_TARGETS).map(
+  ([key, value]) => ({
+    id: key,
+    title: value.title,
+    subtitle: `will ${key} reach ${value.target} by the end of the year?`,
+  }),
+);
 
 const PredictCards: React.FC = () => {
   const [selectedOptions, setSelectedOptions] = useState<
