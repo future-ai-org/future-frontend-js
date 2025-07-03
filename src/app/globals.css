@@ -132,6 +132,24 @@
   --background-color: var(--color-background);
   --glow-shadow-hover: var(--color-glow-shadow-hover);
 
+  /* Tooltip Variables */
+  --tooltip-font-size: 0.8rem;
+  --tooltip-border-radius: 16px;
+  --tooltip-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --tooltip-shadow: var(--glow-shadow);
+  --tooltip-blur: blur(8px);
+  --tooltip-large-bg: var(--color-primary);
+  --tooltip-quick-bg: var(--color-primary);
+
+  /* Opacity Variables */
+  --opacity-80: 0.8;
+  --opacity-90: 0.9;
+  --opacity-100: 1;
+  --opacity-10: 0.1;
+
+  /* Transition Variables */
+  --transition-all: all 0.3s ease;
+
   /* Common variables */
   --primary-color: var(--color-primary);
   --text-color: var(--color-primary);
@@ -149,6 +167,7 @@
   --base-shadow: 0 0 5px var(--glow-shadow);
   --trending-shadow-light: var(--color-shadow-trending-light);
   --trending-shadow-dark: var(--color-shadow-trending-dark);
+  --black-30: rgba(0, 0, 0, 0.3); /* Black 30% opacity */
 }
 
 /* Dark theme */
@@ -194,6 +213,43 @@ html.dark {
   --opacity-medium: 0.6;
   --background-color: var(--color-background);
   --glow-shadow-hover: var(--color-glow-shadow-hover);
+
+  /* Tooltip Variables */
+  --tooltip-font-size: 0.8rem;
+  --tooltip-border-radius: 16px;
+  --tooltip-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --tooltip-shadow: var(--glow-shadow);
+  --tooltip-blur: blur(8px);
+  --tooltip-large-bg: var(--color-primary);
+  --tooltip-quick-bg: var(--color-primary);
+
+  /* Opacity Variables */
+  --opacity-80: 0.8;
+  --opacity-90: 0.9;
+  --opacity-100: 1;
+  --opacity-10: 0.1;
+
+  /* Transition Variables */
+  --transition-all: all 0.3s ease;
+
+  /* Common variables */
+  --primary-color: var(--color-primary);
+  --text-color: var(--color-primary);
+  --background-color: var(--color-background);
+  --bearish-color: var(--color-bearish);
+  --bullish-color: var(--color-bullish);
+  --border-color: var(--color-border);
+  --glow-shadow: var(--color-glow-shadow);
+  --glow-shadow-hover: var(--color-glow-shadow-hover);
+  --scroll-track: var(--color-scroll-track);
+  --card-bg: var(--color-card-bg);
+  --info-bg: var(--color-info-bg);
+  --text-glow: var(--color-text-glow-normal);
+  --text-glow-hover: var(--color-text-glow-hover);
+  --base-shadow: 0 0 5px var(--glow-shadow);
+  --trending-shadow-light: var(--color-shadow-trending-light);
+  --trending-shadow-dark: var(--color-shadow-trending-dark);
+  --black-30: rgba(0, 0, 0, 0.3); /* Black 30% opacity */
 }
 
 /* Base Styles */
