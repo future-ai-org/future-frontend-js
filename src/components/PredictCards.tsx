@@ -25,7 +25,7 @@ const PredictCards: React.FC = () => {
     Record<string, "yes" | "no" | null>
   >({});
   const [activeTab, setActiveTab] = useState<
-    "world" | "personal" | "relationships"
+    "world" | "personal" | "relationships" | "finance"
   >("personal");
   const [question, setQuestion] = useState("");
 
@@ -120,6 +120,26 @@ const PredictCards: React.FC = () => {
     </div>
   );
 
+  const renderWorldCards = () => (
+    <div className="predict-card world-card">
+      <h3 className="card-title">World Predictions</h3>
+      <div className="world-content">
+        <p>Explore predictions about global events, politics, and world affairs.</p>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "2rem",
+          }}
+        >
+          <button className="submit-button">
+            Coming Soon
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div className="predict-cards-container">
       <div className="predict-tabs">
@@ -127,7 +147,7 @@ const PredictCards: React.FC = () => {
           className={`tab-button ${activeTab === "personal" ? "active" : ""}`}
           onClick={() => setActiveTab("personal")}
         >
-          {predictI18n.tabs.personalPredictions}
+          {predictI18n.tabs.personal}
         </button>
         <button
           className={`tab-button ${activeTab === "relationships" ? "active" : ""}`}
@@ -136,17 +156,25 @@ const PredictCards: React.FC = () => {
           {predictI18n.tabs.relationships}
         </button>
         <button
+          className={`tab-button ${activeTab === "finance" ? "active" : ""}`}
+          onClick={() => setActiveTab("finance")}
+        >
+          {predictI18n.tabs.finance}
+        </button>
+        <button
           className={`tab-button ${activeTab === "world" ? "active" : ""}`}
           onClick={() => setActiveTab("world")}
         >
-          {predictI18n.tabs.worldEvents}
+          {predictI18n.tabs.world}
         </button>
       </div>
       {activeTab === "personal"
         ? renderPersonalPredictions()
         : activeTab === "relationships"
           ? renderRelationshipCards()
-          : renderWorldEventCards()}
+          : activeTab === "finance"
+            ? renderWorldEventCards()
+            : renderWorldCards()}
     </div>
   );
 };
