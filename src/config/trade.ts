@@ -35,23 +35,4 @@ export const TRADE_CONFIG = {
     ORDER_BY: CRYPTO_CONFIG.ORDER_BY,
     TOP_CRYPTO_COUNT: CRYPTO_CONFIG.TOP_CRYPTO_COUNT,
   },
-  TABLE: {
-    HEADERS: {
-      ASSET: "asset",
-      PRICE: "price",
-      CHANGE: "change",
-      MARKET_CAP: "market cap",
-      ATH: "ATH",
-      CHART: "chart",
-    },
-  },
-  FORMATTING: {
-    CURRENCY: "$",
-    DECIMAL_SEPARATOR: ".",
-    PERCENTAGE: "%",
-    BILLION: "B",
-  },
-  CHART: {
-    NO_DATA: "no data",
-  },
 } as const;

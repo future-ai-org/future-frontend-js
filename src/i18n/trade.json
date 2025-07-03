@@ -9,7 +9,13 @@
       "trendingError": "failed to fetch trending details",
       "connectionError": "failed to fetch data. please check your internet connection.",
       "cacheError": "error accessing cached data",
-      "saveCacheError": "error saving data to cache"
+      "saveCacheError": "error saving data to cache",
+      "fetchFailed": "failed to fetch fresh data:",
+      "loadFavoritesFailed": "failed to load favorites:",
+      "saveFavoriteFailed": "failed to save favorite:",
+      "apiErrorGeneric": "API error",
+      "invalidDataGeneric": "invalid data",
+      "trendingDataError": "trending data error"
     },
     "table": {
       "headers": {
@@ -28,6 +34,32 @@
       "currency": "$"
     },
     "chart": {
+      "noData": "no data"
+    },
+    "asset": {
+      "loading": "loading {{assetId}}...",
+      "loadingGeneric": "loading...",
+      "tradingDashboard": "trading dashboard",
+      "favorite": {
+        "add": "add to favorites",
+        "remove": "remove from favorites"
+      }
+    },
+    "tableHeaders": {
+      "asset": "asset",
+      "price": "price",
+      "change": "change",
+      "marketCap": "market cap",
+      "ath": "ATH",
+      "chart": "chart"
+    },
+    "formattingConstants": {
+      "currency": "$",
+      "decimalSeparator": ".",
+      "percentage": "%",
+      "billion": "B"
+    },
+    "chartConstants": {
       "noData": "no data"
     }
   }

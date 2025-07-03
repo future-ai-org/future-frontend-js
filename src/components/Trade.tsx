@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import "../styles/trade.css";
 import strings from "../i18n/trade.json";
 import { TRADE_CONFIG, CryptoData, TrendingCoin } from "../config/trade";
@@ -49,7 +49,7 @@ export default function Trade() {
       console.error(t.error.cacheError, err);
     }
     return false;
-  }, [t.error.cacheError, setCryptoData, setTrendingData, setIsLoading]);
+  }, [t.error.cacheError]);
 
   const saveCachedData = useCallback(
     (crypto: CryptoData[], trending: CryptoData[]) => {
@@ -85,7 +85,7 @@ export default function Trade() {
         ]);
 
         if (!cryptoResponse.ok || !trendingResponse.ok) {
-          throw new Error("API error");
+          throw new Error(t.error.apiErrorGeneric);
         }
 
         const [cryptoData, trendingData] = await Promise.all([
@@ -94,7 +94,7 @@ export default function Trade() {
         ]);
 
         if (!Array.isArray(cryptoData) || !trendingData.coins) {
-          throw new Error("Invalid data");
+          throw new Error(t.error.invalidDataGeneric);
         }
 
         const filteredData = cryptoData.filter(
@@ -109,7 +109,7 @@ export default function Trade() {
         );
 
         if (!trendingDetailsResponse.ok) {
-          throw new Error("Trending data error");
+          throw new Error(t.error.trendingDataError);
         }
 
         const trendingDetails = await trendingDetailsResponse.json();
@@ -118,10 +118,7 @@ export default function Trade() {
         setTrendingData(trendingDetails);
         saveCachedData(filteredData, trendingDetails);
       } catch (err) {
-        console.error("Failed to fetch fresh data:", err);
-        if (!hasCachedData) {
-          setIsLoading(true);
-        }
+        console.error(t.error.fetchFailed, err);
       } finally {
         setIsLoading(false);
       }
@@ -144,7 +141,14 @@ export default function Trade() {
 
     const interval = setInterval(fetchCryptoData, TRADE_CONFIG.CACHE.DURATION);
     return () => clearInterval(interval);
-  }, [loadCachedData, saveCachedData]);
+  }, [
+    loadCachedData,
+    saveCachedData,
+    t.error.apiErrorGeneric,
+    t.error.fetchFailed,
+    t.error.invalidDataGeneric,
+    t.error.trendingDataError,
+  ]);
 
   useEffect(() => {
     const loadFavorites = () => {
@@ -154,14 +158,14 @@ export default function Trade() {
         );
         setFavorites(storedFavorites);
       } catch (err) {
-        console.error("Failed to load favorites:", err);
+        console.error(t.error.loadFavoritesFailed, err);
       }
     };
 
     loadFavorites();
     window.addEventListener("storage", loadFavorites);
     return () => window.removeEventListener("storage", loadFavorites);
-  }, []);
+  }, [t.error.loadFavoritesFailed]);
 
   const handleToggleFavorite = (crypto: CryptoData) => {
     try {
@@ -184,18 +188,9 @@ export default function Trade() {
 
       localStorage.setItem("favoriteAssets", JSON.stringify(updatedFavorites));
       setFavorites(updatedFavorites);
-
-      const storageEvent = new StorageEvent("storage", {
-        key: "favoriteAssets",
-        newValue: JSON.stringify(updatedFavorites),
-        oldValue: JSON.stringify(favorites),
-        storageArea: localStorage,
-        url: window.location.href,
-      });
-      window.dispatchEvent(storageEvent);
       window.dispatchEvent(new Event("favoritesUpdated"));
     } catch (err) {
-      console.error("Failed to save favorite:", err);
+      console.error(t.error.saveFavoriteFailed, err);
     }
   };
 
@@ -242,8 +237,8 @@ export default function Trade() {
                       className={`favorite-button ${isFavorite ? "active" : ""}`}
                       aria-label={
                         isFavorite
-                          ? "Remove from favorites"
-                          : "Add to favorites"
+                          ? t.asset.favorite.remove
+                          : t.asset.favorite.add
                       }
                     >
                       {isFavorite ? <FaStar /> : <FaRegStar />}
@@ -263,7 +258,7 @@ export default function Trade() {
                     </div>
                   </td>
                   <td className={`table-cell crypto-price-cell ${colorClass}`}>
-                    {TRADE_CONFIG.FORMATTING.CURRENCY}
+                    {t.formatting.currency}
                     {
                       crypto.current_price
                         .toLocaleString(undefined, {
@@ -272,7 +267,7 @@ export default function Trade() {
                         })
                         .split(".")[0]
                     }
-                    {TRADE_CONFIG.FORMATTING.DECIMAL_SEPARATOR}
+                    {t.formatting.decimalSeparator}
                     <span className="decimal-part">
                       {
                         crypto.current_price
@@ -293,25 +288,25 @@ export default function Trade() {
                         .toFixed(2)
                         .split(".")[0]
                     }
-                    {TRADE_CONFIG.FORMATTING.DECIMAL_SEPARATOR}
+                    {t.formatting.decimalSeparator}
                     <span className="decimal-part">
                       {
                         Math.abs(crypto.price_change_percentage_24h)
                           .toFixed(2)
                           .split(".")[1]
                       }
-                      {TRADE_CONFIG.FORMATTING.PERCENTAGE}
+                      {t.formatting.percentage}
                     </span>
                   </td>
                   <td
                     className={`table-cell crypto-market-cap-cell ${colorClass}`}
                   >
-                    {TRADE_CONFIG.FORMATTING.CURRENCY}
+                    {t.formatting.currency}
                     {(crypto.market_cap / 1000000000).toFixed(2)}
-                    {TRADE_CONFIG.FORMATTING.BILLION}
+                    {t.formatting.billion}
                   </td>
                   <td className={`table-cell crypto-ath-cell ${colorClass}`}>
-                    {TRADE_CONFIG.FORMATTING.CURRENCY}
+                    {t.formatting.currency}
                     {crypto.ath.toLocaleString(undefined, {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 6,
@@ -348,7 +343,7 @@ export default function Trade() {
                       <div className="chart-container">
                         <svg viewBox="0 0 100 30">
                           <text x="60" y="15" className={colorClass}>
-                            {TRADE_CONFIG.CHART.NO_DATA}
+                            {t.chart.noData}
                           </text>
                         </svg>
                       </div>

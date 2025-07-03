@@ -7,6 +7,7 @@ import Loading from "../../../utils/loading";
 import "../../../styles/tradeAsset.css";
 import { COINGECKO_CONFIG } from "../../../config/crypto";
 import { FaStar } from "react-icons/fa";
+import strings from "../../../i18n/trade.json";
 
 interface AssetInfo {
   symbol: string;
@@ -124,7 +125,10 @@ function TradeContent() {
           <div className="text-center">
             <Loading />
             <p className="text-gray-400 mt-4">
-              Loading {params.assetId?.toString().toUpperCase()}...
+              {strings.en.asset.loading.replace(
+                "{{assetId}}",
+                params.assetId?.toString().toUpperCase() || "",
+              )}
             </p>
           </div>
         </div>
@@ -150,12 +154,16 @@ function TradeContent() {
           </h1>
           <div className="advanced-subtitle">
             <div className="subtitle-icon">💎</div>
-            <span>{assetSymbol} • Trading Dashboard</span>
+            <span>
+              {assetSymbol} • {strings.en.asset.tradingDashboard}
+            </span>
             <button
               onClick={handleToggleFavorite}
               className={`favorite-toggle ${isFavorite ? "active" : ""}`}
               aria-label={
-                isFavorite ? "Remove from favorites" : "Add to favorites"
+                isFavorite
+                  ? strings.en.asset.favorite.remove
+                  : strings.en.asset.favorite.add
               }
             >
               <FaStar
@@ -188,7 +196,9 @@ export default function TradePage() {
           <div className="min-h-screen flex items-center justify-center">
             <div className="text-center">
               <Loading />
-              <p className="text-gray-400 mt-4">Loading...</p>
+              <p className="text-gray-400 mt-4">
+                {strings.en.asset.loadingGeneric}
+              </p>
             </div>
           </div>
         </div>
