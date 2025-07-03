@@ -124,7 +124,9 @@ const PredictCards: React.FC = () => {
     <div className="predict-card world-card">
       <h3 className="card-title">World Predictions</h3>
       <div className="world-content">
-        <p>Explore predictions about global events, politics, and world affairs.</p>
+        <p>
+          Explore predictions about global events, politics, and world affairs.
+        </p>
         <div
           style={{
             display: "flex",
@@ -132,9 +134,7 @@ const PredictCards: React.FC = () => {
             marginTop: "2rem",
           }}
         >
-          <button className="submit-button">
-            Coming Soon
-          </button>
+          <button className="submit-button">Coming Soon</button>
         </div>
       </div>
     </div>
