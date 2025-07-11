@@ -26,9 +26,7 @@ const PredictCards: React.FC = () => {
   const [selectedOptions, setSelectedOptions] = useState<
     Record<
       string,
-      | typeof predictI18n.options.yes
-      | typeof predictI18n.options.no
-      | null
+      typeof predictI18n.options.yes | typeof predictI18n.options.no | null
     >
   >({});
   const [activeTab, setActiveTab] = useState<
@@ -41,9 +39,7 @@ const PredictCards: React.FC = () => {
 
   const handleOptionClick = (
     cardId: string,
-    option:
-      | typeof predictI18n.options.yes
-      | typeof predictI18n.options.no,
+    option: typeof predictI18n.options.yes | typeof predictI18n.options.no,
   ) => {
     setSelectedOptions((prev) => ({
       ...prev,
@@ -83,9 +79,7 @@ const PredictCards: React.FC = () => {
             </button>
             <button
               className={`option-button ${selectedOptions[card.id] === predictI18n.options.no ? "selected" : ""}`}
-              onClick={() =>
-                handleOptionClick(card.id, predictI18n.options.no)
-              }
+              onClick={() => handleOptionClick(card.id, predictI18n.options.no)}
             >
               {predictI18n.options.no}
             </button>

@@ -26,10 +26,7 @@ const DecorativeStars: React.FC = () => {
         const baseLeft = (col / gridSize) * 100;
 
         const isInOuterArea =
-          baseTop < 25 ||
-          baseTop > 85 ||
-          baseLeft < 10 ||
-          baseLeft > 90;
+          baseTop < 25 || baseTop > 85 || baseLeft < 10 || baseLeft > 90;
 
         if (!isInOuterArea) continue;
 
