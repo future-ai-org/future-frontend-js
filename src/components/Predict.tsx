@@ -26,24 +26,24 @@ const PredictCards: React.FC = () => {
   const [selectedOptions, setSelectedOptions] = useState<
     Record<
       string,
-      | typeof predictI18n.optionValues.yes
-      | typeof predictI18n.optionValues.no
+      | typeof predictI18n.options.yes
+      | typeof predictI18n.options.no
       | null
     >
   >({});
   const [activeTab, setActiveTab] = useState<
-    | typeof predictI18n.tabValues.world
-    | typeof predictI18n.tabValues.personal
-    | typeof predictI18n.tabValues.relationships
-    | typeof predictI18n.tabValues.finance
-  >(predictI18n.tabValues.personal);
+    | typeof predictI18n.tabs.world
+    | typeof predictI18n.tabs.personal
+    | typeof predictI18n.tabs.relationships
+    | typeof predictI18n.tabs.finance
+  >(predictI18n.tabs.personal);
   const [question, setQuestion] = useState("");
 
   const handleOptionClick = (
     cardId: string,
     option:
-      | typeof predictI18n.optionValues.yes
-      | typeof predictI18n.optionValues.no,
+      | typeof predictI18n.options.yes
+      | typeof predictI18n.options.no,
   ) => {
     setSelectedOptions((prev) => ({
       ...prev,
@@ -74,17 +74,17 @@ const PredictCards: React.FC = () => {
           <p className="card-subtitle">{card.subtitle}</p>
           <div className="card-options">
             <button
-              className={`option-button ${selectedOptions[card.id] === predictI18n.optionValues.yes ? "selected" : ""}`}
+              className={`option-button ${selectedOptions[card.id] === predictI18n.options.yes ? "selected" : ""}`}
               onClick={() =>
-                handleOptionClick(card.id, predictI18n.optionValues.yes)
+                handleOptionClick(card.id, predictI18n.options.yes)
               }
             >
               {predictI18n.options.yes}
             </button>
             <button
-              className={`option-button ${selectedOptions[card.id] === predictI18n.optionValues.no ? "selected" : ""}`}
+              className={`option-button ${selectedOptions[card.id] === predictI18n.options.no ? "selected" : ""}`}
               onClick={() =>
-                handleOptionClick(card.id, predictI18n.optionValues.no)
+                handleOptionClick(card.id, predictI18n.options.no)
               }
             >
               {predictI18n.options.no}
@@ -151,35 +151,35 @@ const PredictCards: React.FC = () => {
     <div className="predict-cards-container">
       <div className="predict-tabs">
         <button
-          className={`tab-button ${activeTab === predictI18n.tabValues.personal ? "active" : ""}`}
-          onClick={() => setActiveTab(predictI18n.tabValues.personal)}
+          className={`tab-button ${activeTab === predictI18n.tabs.personal ? "active" : ""}`}
+          onClick={() => setActiveTab(predictI18n.tabs.personal)}
         >
           {predictI18n.tabs.personal}
         </button>
         <button
-          className={`tab-button ${activeTab === predictI18n.tabValues.relationships ? "active" : ""}`}
-          onClick={() => setActiveTab(predictI18n.tabValues.relationships)}
+          className={`tab-button ${activeTab === predictI18n.tabs.relationships ? "active" : ""}`}
+          onClick={() => setActiveTab(predictI18n.tabs.relationships)}
         >
           {predictI18n.tabs.relationships}
         </button>
         <button
-          className={`tab-button ${activeTab === predictI18n.tabValues.finance ? "active" : ""}`}
-          onClick={() => setActiveTab(predictI18n.tabValues.finance)}
+          className={`tab-button ${activeTab === predictI18n.tabs.finance ? "active" : ""}`}
+          onClick={() => setActiveTab(predictI18n.tabs.finance)}
         >
           {predictI18n.tabs.finance}
         </button>
         <button
-          className={`tab-button ${activeTab === predictI18n.tabValues.world ? "active" : ""}`}
-          onClick={() => setActiveTab(predictI18n.tabValues.world)}
+          className={`tab-button ${activeTab === predictI18n.tabs.world ? "active" : ""}`}
+          onClick={() => setActiveTab(predictI18n.tabs.world)}
         >
           {predictI18n.tabs.world}
         </button>
       </div>
-      {activeTab === predictI18n.tabValues.personal
+      {activeTab === predictI18n.tabs.personal
         ? renderPersonalPredictions()
-        : activeTab === predictI18n.tabValues.relationships
+        : activeTab === predictI18n.tabs.relationships
           ? renderRelationshipCards()
-          : activeTab === predictI18n.tabValues.finance
+          : activeTab === predictI18n.tabs.finance
             ? renderWorldEventCards()
             : renderWorldCards()}
     </div>

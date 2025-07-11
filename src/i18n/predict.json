@@ -8,17 +8,7 @@
     "relationships": "relationships",
     "world": "world"
   },
-  "tabValues": {
-    "finance": "finance",
-    "personal": "personal",
-    "relationships": "relationships",
-    "world": "world"
-  },
   "options": {
-    "yes": "yes",
-    "no": "no"
-  },
-  "optionValues": {
     "yes": "yes",
     "no": "no"
   },
