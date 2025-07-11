@@ -39,7 +39,7 @@
   background-color: var(--card-bg);
   border-radius: clamp(1rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem) 0 0;
   overflow: hidden;
-  box-shadow: 
+  box-shadow:
     0 8px 32px var(--color-shadow-black),
     0 0 15px var(--glow-shadow),
     0 0 30px var(--glow-shadow);
@@ -55,10 +55,12 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, 
-    rgba(var(--color-primary-rgb), 0.1) 0%, 
-    rgba(var(--color-primary-rgb), 0.05) 50%, 
-    rgba(var(--color-primary-rgb), 0.1) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(var(--color-primary-rgb), 0.1) 0%,
+    rgba(var(--color-primary-rgb), 0.05) 50%,
+    rgba(var(--color-primary-rgb), 0.1) 100%
+  );
   border-radius: clamp(1rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem) 0 0;
   pointer-events: none;
 }
@@ -94,7 +96,7 @@
   background-color: var(--color-primary);
   color: var(--background-color);
 
-  box-shadow: 
+  box-shadow:
     0 4px 20px rgba(var(--color-primary-rgb), 0.4),
     0 0 15px var(--glow-shadow);
   text-shadow: 0 0 15px var(--white);
@@ -102,18 +104,18 @@
 
 .tab-button.active {
   color: var(--text-color);
-  background: linear-gradient(135deg, 
-    rgba(var(--color-primary-rgb), 0.25) 0%, 
-    rgba(var(--color-primary-rgb), 0.45) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(var(--color-primary-rgb), 0.25) 0%,
+    rgba(var(--color-primary-rgb), 0.45) 100%
+  );
   font-weight: 700;
-  box-shadow: 
+  box-shadow:
     0 0 20px rgba(var(--color-primary-rgb), 0.3),
     0 0 40px rgba(var(--color-primary-rgb), 0.1);
   text-shadow: 0 0 15px rgba(var(--color-primary-rgb), 0.6);
   transform: translateY(-1px);
 }
-
-
 
 .predict-cards-grid {
   display: grid;
