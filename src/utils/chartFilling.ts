@@ -1,6 +1,5 @@
 import {
   ChartData,
-  ZODIAC_SIGNS,
   HOUSE_ANGLES,
   ZODIAC_SYMBOLS,
 } from "../config/logiaChart";
@@ -34,12 +33,13 @@ export function updateOrderedSigns(
   ascendantSign: string,
   chartData: ChartData,
 ) {
-  const ascendantIndex = ZODIAC_SIGNS.findIndex(
+  const zodiacSigns = chartStrings.en.zodiacSigns;
+  const ascendantIndex = zodiacSigns.findIndex(
     (sign) => sign.toLowerCase() === ascendantSign.toLowerCase(),
   );
   const orderedArray = [
-    ...ZODIAC_SIGNS.slice(ascendantIndex),
-    ...ZODIAC_SIGNS.slice(0, ascendantIndex),
+    ...zodiacSigns.slice(ascendantIndex),
+    ...zodiacSigns.slice(0, ascendantIndex),
   ];
   orderedSigns = new Map();
   orderedArray.forEach((sign) => {
@@ -66,13 +66,14 @@ export function drawZodiacSymbols(
     .attr("class", "tooltip tooltip-large");
 
   const orderedArray = Array.from(orderedSigns.keys());
+  const zodiacSigns = chartStrings.en.zodiacSigns;
   for (let index = 0; index < 12; index++) {
     const houseAngle = HOUSE_ANGLES[index];
     const middleAngle = ((houseAngle + 15) * Math.PI) / 180;
     const x = zodiacRadius * Math.cos(middleAngle);
     const y = zodiacRadius * Math.sin(middleAngle);
     const signName = orderedArray[index].toLowerCase() as ZodiacSign;
-    const signSymbol = ZODIAC_ORDER[ZODIAC_SIGNS.indexOf(orderedArray[index])];
+    const signSymbol = ZODIAC_ORDER[zodiacSigns.indexOf(orderedArray[index])];
 
     g.append("text")
       .attr("x", x)
@@ -234,64 +235,7 @@ export function drawPlanets(
     .attr("class", "planet-text ascendant-text");
 }
 
-export function calculateAspects(
-  planets: { name: string; position: number }[],
-) {
-  const aspects = [];
-  for (let i = 0; i < planets.length; i++) {
-    for (let j = i + 1; j < planets.length; j++) {
-      const angle = Math.abs(planets[i].position - planets[j].position);
-      const normalizedAngle = Math.min(angle, 360 - angle);
 
-      const aspectOrbs = {
-        conjunction: 8,
-        opposition: 8,
-        trine: 8,
-        square: 8,
-        sextile: 6,
-      };
-
-      // Check for aspects
-      if (normalizedAngle <= aspectOrbs.conjunction) {
-        aspects.push({
-          planet1: planets[i].name,
-          planet2: planets[j].name,
-          type: "conjunction",
-          orb: normalizedAngle,
-        });
-      } else if (Math.abs(normalizedAngle - 180) <= aspectOrbs.opposition) {
-        aspects.push({
-          planet1: planets[i].name,
-          planet2: planets[j].name,
-          type: "opposition",
-          orb: Math.abs(normalizedAngle - 180),
-        });
-      } else if (Math.abs(normalizedAngle - 120) <= aspectOrbs.trine) {
-        aspects.push({
-          planet1: planets[i].name,
-          planet2: planets[j].name,
-          type: "trine",
-          orb: Math.abs(normalizedAngle - 120),
-        });
-      } else if (Math.abs(normalizedAngle - 90) <= aspectOrbs.square) {
-        aspects.push({
-          planet1: planets[i].name,
-          planet2: planets[j].name,
-          type: "square",
-          orb: Math.abs(normalizedAngle - 90),
-        });
-      } else if (Math.abs(normalizedAngle - 60) <= aspectOrbs.sextile) {
-        aspects.push({
-          planet1: planets[i].name,
-          planet2: planets[j].name,
-          type: "sextile",
-          orb: Math.abs(normalizedAngle - 60),
-        });
-      }
-    }
-  }
-  return aspects;
-}
 
 export function calculateHouses(ascendantDegrees: number): number[] {
   return Array.from(

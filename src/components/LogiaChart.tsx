@@ -198,7 +198,6 @@ async function calculateChartData(
   const chartData: ChartData = {
     planets,
     houses,
-    aspects: [],
     birthDate,
     birthTime,
     latitude: coordinates.lat,

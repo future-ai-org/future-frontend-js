@@ -8,9 +8,60 @@
     "relationships": "relationships",
     "world": "world"
   },
+  "tabValues": {
+    "finance": "finance",
+    "personal": "personal",
+    "relationships": "relationships",
+    "world": "world"
+  },
   "options": {
     "yes": "yes",
     "no": "no"
+  },
+  "optionValues": {
+    "yes": "yes",
+    "no": "no"
+  },
+  "personal": {
+    "placeholder": "type your question here...",
+    "submit": "submit"
+  },
+  "world": {
+    "title": "world predictions",
+    "description": "explore predictions about global events, politics, and world affairs.",
+    "comingSoon": "coming soon"
+  },
+  "finance": {
+    "subtitleTemplate": "will {key} reach {target} by the end of the year?",
+    "viewChartTitle": "view chart",
+    "assets": {
+      "bitcoin": "bitcoin price",
+      "ethereum": "ethereum price",
+      "solana": "solana price",
+      "cardano": "cardano price",
+      "pepe": "pepe price",
+      "tron": "tron price",
+      "monero": "monero price",
+      "hyperliquid": "hyperliquid price",
+      "story": "story price",
+      "worldcoin": "worldcoin price",
+      "trump": "trump price",
+      "bittensor": "bittensor price"
+    },
+    "targets": {
+      "bitcoin": "$150,000",
+      "ethereum": "$5,000",
+      "solana": "$500",
+      "cardano": "$10",
+      "pepe": "$0.01",
+      "tron": "$1",
+      "monero": "$500",
+      "hyperliquid": "$100",
+      "story": "$10",
+      "worldcoin": "$50",
+      "trump": "$50",
+      "bittensor": "$400"
+    }
   },
   "synastry": {
     "title": "understanding synastry",
@@ -23,6 +74,7 @@
       "natural strengths in the relationship",
       "timing of important relationship milestones"
     ],
-    "conclusion": "this analysis helps you understand the deeper dynamics of your relationships and provides guidance for building stronger, more harmonious connections."
+    "conclusion": "this analysis helps you understand the deeper dynamics of your relationships and provides guidance for building stronger, more harmonious connections.",
+    "calculateButton": "calculate a synastry"
   }
 }

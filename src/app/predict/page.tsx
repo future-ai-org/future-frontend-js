@@ -1,4 +1,4 @@
-import PredictCards from "../../components/PredictCards";
+import PredictCards from "../../components/Predict";
 import predictStrings from "../../i18n/predict.json";
 import "../../styles/predict.css";
 
