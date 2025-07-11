@@ -23,7 +23,7 @@
 }
 
 .dashboard-container {
-  padding: 20px;
+  padding: 10px 20px 60px 20px;
   background-color: var(--background-color);
   color: var(--color-primary);
   width: 100%;
@@ -47,7 +47,7 @@
 .table {
   width: 100%;
   max-width: 1400px;
-  margin: 30px auto;
+  margin: 10px auto 30px auto;
   padding: 20px 10px;
   border-collapse: collapse;
   border-spacing: 0;

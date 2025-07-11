@@ -209,7 +209,6 @@ export default function Trade() {
 
   return (
     <div className="dashboard-container">
-      <h1 className="trade-title">{t.title}</h1>
       {allCryptoData.length > 0 && (
         <table className="table">
           <thead>
