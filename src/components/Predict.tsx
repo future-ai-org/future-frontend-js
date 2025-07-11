@@ -11,26 +11,40 @@ interface PredictCard {
   subtitle: string;
 }
 
-const worldEventCards: PredictCard[] = Object.entries(predictI18n.finance.targets).map(
-  ([key, target]) => ({
-    id: key,
-    title: predictI18n.finance.assets[key as keyof typeof predictI18n.finance.assets],
-    subtitle: predictI18n.finance.subtitleTemplate
-      .replace('{key}', key)
-      .replace('{target}', target),
-  }),
-);
+const worldEventCards: PredictCard[] = Object.entries(
+  predictI18n.finance.targets,
+).map(([key, target]) => ({
+  id: key,
+  title:
+    predictI18n.finance.assets[key as keyof typeof predictI18n.finance.assets],
+  subtitle: predictI18n.finance.subtitleTemplate
+    .replace("{key}", key)
+    .replace("{target}", target),
+}));
 
 const PredictCards: React.FC = () => {
   const [selectedOptions, setSelectedOptions] = useState<
-    Record<string, typeof predictI18n.optionValues.yes | typeof predictI18n.optionValues.no | null>
+    Record<
+      string,
+      | typeof predictI18n.optionValues.yes
+      | typeof predictI18n.optionValues.no
+      | null
+    >
   >({});
   const [activeTab, setActiveTab] = useState<
-    typeof predictI18n.tabValues.world | typeof predictI18n.tabValues.personal | typeof predictI18n.tabValues.relationships | typeof predictI18n.tabValues.finance
+    | typeof predictI18n.tabValues.world
+    | typeof predictI18n.tabValues.personal
+    | typeof predictI18n.tabValues.relationships
+    | typeof predictI18n.tabValues.finance
   >(predictI18n.tabValues.personal);
   const [question, setQuestion] = useState("");
 
-  const handleOptionClick = (cardId: string, option: typeof predictI18n.optionValues.yes | typeof predictI18n.optionValues.no) => {
+  const handleOptionClick = (
+    cardId: string,
+    option:
+      | typeof predictI18n.optionValues.yes
+      | typeof predictI18n.optionValues.no,
+  ) => {
     setSelectedOptions((prev) => ({
       ...prev,
       [cardId]: prev[cardId] === option ? null : option,
@@ -50,7 +64,10 @@ const PredictCards: React.FC = () => {
         <div key={card.id} className="predict-card">
           <div className="card-header">
             <h3 className="card-title">{card.title}</h3>
-            <button className="view-chart-button" title={predictI18n.finance.viewChartTitle}>
+            <button
+              className="predict-view-chart-button"
+              title={predictI18n.finance.viewChartTitle}
+            >
               <FaChartLine />
             </button>
           </div>
@@ -58,13 +75,17 @@ const PredictCards: React.FC = () => {
           <div className="card-options">
             <button
               className={`option-button ${selectedOptions[card.id] === predictI18n.optionValues.yes ? "selected" : ""}`}
-              onClick={() => handleOptionClick(card.id, predictI18n.optionValues.yes)}
+              onClick={() =>
+                handleOptionClick(card.id, predictI18n.optionValues.yes)
+              }
             >
               {predictI18n.options.yes}
             </button>
             <button
               className={`option-button ${selectedOptions[card.id] === predictI18n.optionValues.no ? "selected" : ""}`}
-              onClick={() => handleOptionClick(card.id, predictI18n.optionValues.no)}
+              onClick={() =>
+                handleOptionClick(card.id, predictI18n.optionValues.no)
+              }
             >
               {predictI18n.options.no}
             </button>
@@ -116,11 +137,11 @@ const PredictCards: React.FC = () => {
     <div className="predict-card world-card">
       <h3 className="card-title">{predictI18n.world.title}</h3>
       <div className="world-content">
-        <p>
-          {predictI18n.world.description}
-        </p>
+        <p>{predictI18n.world.description}</p>
         <div className="button-container">
-          <button className="submit-button">{predictI18n.world.comingSoon}</button>
+          <button className="submit-button">
+            {predictI18n.world.comingSoon}
+          </button>
         </div>
       </div>
     </div>

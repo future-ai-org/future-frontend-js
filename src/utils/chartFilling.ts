@@ -1,8 +1,4 @@
-import {
-  ChartData,
-  HOUSE_ANGLES,
-  ZODIAC_SYMBOLS,
-} from "../config/logiaChart";
+import { ChartData, HOUSE_ANGLES, ZODIAC_SYMBOLS } from "../config/logiaChart";
 import * as d3 from "d3";
 import chartStrings from "../i18n/logiaChart.json";
 
@@ -234,8 +230,6 @@ export function drawPlanets(
     .text(chartStrings.en.points.ascendantEmoji)
     .attr("class", "planet-text ascendant-text");
 }
-
-
 
 export function calculateHouses(ascendantDegrees: number): number[] {
   return Array.from(
