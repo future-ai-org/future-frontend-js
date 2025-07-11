@@ -1,8 +1,3 @@
-import logiaChartTranslations from "../i18n/logiaChart.json";
-
-export const ZODIAC_SIGNS = logiaChartTranslations.en
-  .zodiacSigns as readonly string[];
-
 export interface PlanetPosition {
   name: string;
   position: number;
@@ -10,17 +5,9 @@ export interface PlanetPosition {
   house: number;
 }
 
-export interface Aspect {
-  planet1: string;
-  planet2: string;
-  type: string;
-  orb: number;
-}
-
 export interface ChartData {
   planets: PlanetPosition[];
   houses: number[];
-  aspects: Aspect[];
   birthDate: string;
   birthTime: string;
   latitude: number;

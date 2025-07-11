@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 :root {
-  /* Theme Colors - Light */
   --light-primary: rgb(87, 76, 145);
   --light-primary-rgb: 87, 76, 145;
   --light-background: rgb(224, 222, 226);
@@ -24,34 +23,20 @@
   --light-card-bg: rgba(65, 62, 62, 0.1);
   --light-info-bg: rgba(65, 62, 62, 0.2);
   --light-shadow-black: rgba(65, 62, 62, 0.2);
-  --light-shadow-white: rgba(224, 222, 226, 0.3);
-  --light-shadow-trending-light: rgba(87, 76, 145, 0.5);
-  --light-shadow-trending-dark: rgba(87, 76, 145, 0.3);
   --light-text-glow-normal: 0 0 10px rgba(87, 76, 145, 0.7);
   --light-text-glow-hover:
     0 0 30px rgba(87, 76, 145, 0.7), 0 0 50px rgba(87, 76, 145, 0.5);
   --light-glow-pink-light: rgba(255, 192, 203, 0.7);
   --light-glow-pink-dark: rgba(190, 133, 195, 0.5);
-  --light-planet-symbol: #8a6cb3; /* Darker purple color for planet symbols */
-  --light-ascendant: #cc6096; /* Pink color for ascendant */
-  --light-gradient-purple: #a855f7; /* Purple for gradients */
-  --light-gradient-pink: #ec4899; /* Pink for gradients */
-  --light-glow-purple: rgba(168, 85, 247, 0.5); /* Purple glow effect */
-  --light-white-80: rgba(255, 255, 255, 0.8); /* White 80% opacity */
-  --light-white-60: rgba(255, 255, 255, 0.6); /* White 60% opacity */
-  --light-white-90: rgba(255, 255, 255, 0.9); /* White 90% opacity */
-  --light-white-70: rgba(255, 255, 255, 0.7); /* White 70% opacity */
-  --light-white-10: rgba(255, 255, 255, 0.1); /* White 10% opacity */
-  --light-white-05: rgba(255, 255, 255, 0.05); /* White 5% opacity */
-  --light-white-20: rgba(255, 255, 255, 0.2); /* White 20% opacity */
-  --light-white-30: rgba(255, 255, 255, 0.3); /* White 30% opacity */
-  --light-black-10: rgba(0, 0, 0, 0.1); /* Black 10% opacity */
-  --light-black-15: rgba(0, 0, 0, 0.15); /* Black 15% opacity */
-  --light-nebula-purple: rgba(120, 119, 198, 0.3); /* Nebula purple */
-  --light-nebula-pink: rgba(255, 119, 198, 0.3); /* Nebula pink */
-  --light-nebula-blue: rgba(120, 219, 255, 0.2); /* Nebula blue */
+  --light-planet-symbol: #8a6cb3;
+  --light-ascendant: #cc6096;
+  --light-gradient-purple: #a855f7;
+  --light-gradient-pink: #ec4899;
+  --light-glow-purple: rgba(168, 85, 247, 0.5);
+  --light-nebula-purple: rgba(120, 119, 198, 0.3);
+  --light-nebula-pink: rgba(255, 119, 198, 0.3);
+  --light-nebula-blue: rgba(120, 219, 255, 0.2);
 
-  /* Theme Colors - Dark */
   --dark-primary: #60a5fa;
   --dark-primary-rgb: 96, 165, 250;
   --dark-background: rgb(8, 12, 18);
@@ -72,38 +57,23 @@
   --dark-card-bg: rgba(16, 20, 30, 0.8);
   --dark-info-bg: rgba(0, 170, 255, 0.1);
   --dark-shadow-black: rgba(0, 0, 0, 0.4);
-  --dark-shadow-white: rgba(255, 255, 255, 0.05);
-  --dark-shadow-trending-light: rgba(0, 170, 255, 0.5);
-  --dark-shadow-trending-dark: rgba(0, 170, 255, 0.3);
   --dark-text-glow-normal: 0 0 10px rgba(0, 170, 255, 0.7);
   --dark-text-glow-hover:
     0 0 30px rgba(0, 170, 255, 0.7), 0 0 50px rgba(0, 170, 255, 0.5);
   --dark-glow-pink-light: rgba(255, 64, 129, 0.5);
   --dark-glow-pink-dark: rgba(52, 211, 153, 0.4);
-  --dark-planet-symbol: #8a6cb3; /* Darker purple color for planet symbols */
-  --dark-ascendant: #cc6096; /* Pink color for ascendant */
-  --dark-gradient-purple: #a855f7; /* Purple for gradients */
-  --dark-gradient-pink: #ec4899; /* Pink for gradients */
-  --dark-glow-purple: rgba(168, 85, 247, 0.5); /* Purple glow effect */
-  --dark-white-80: rgba(255, 255, 255, 0.8); /* White 80% opacity */
-  --dark-white-60: rgba(255, 255, 255, 0.6); /* White 60% opacity */
-  --dark-white-90: rgba(255, 255, 255, 0.9); /* White 90% opacity */
-  --dark-white-70: rgba(255, 255, 255, 0.7); /* White 70% opacity */
-  --dark-white-10: rgba(255, 255, 255, 0.1); /* White 10% opacity */
-  --dark-white-05: rgba(255, 255, 255, 0.05); /* White 5% opacity */
-  --dark-white-20: rgba(255, 255, 255, 0.2); /* White 20% opacity */
-  --dark-white-30: rgba(255, 255, 255, 0.3); /* White 30% opacity */
-  --dark-black-10: rgba(0, 0, 0, 0.1); /* Black 10% opacity */
-  --dark-black-15: rgba(0, 0, 0, 0.15); /* Black 15% opacity */
-  --dark-nebula-purple: rgba(120, 119, 198, 0.3); /* Nebula purple */
-  --dark-nebula-pink: rgba(255, 119, 198, 0.3); /* Nebula pink */
-  --dark-nebula-blue: rgba(120, 219, 255, 0.2); /* Nebula blue */
+  --dark-planet-symbol: #8a6cb3;
+  --dark-ascendant: #cc6096;
+  --dark-gradient-purple: #a855f7;
+  --dark-gradient-pink: #ec4899;
+  --dark-glow-purple: rgba(168, 85, 247, 0.5);
+  --dark-nebula-purple: rgba(120, 119, 198, 0.3);
+  --dark-nebula-pink: rgba(255, 119, 198, 0.3);
+  --dark-nebula-blue: rgba(120, 219, 255, 0.2);
 
-  /* Common Variables */
   --transition-duration: 0.3s;
   --transition-timing: ease;
 
-  /* Default to light theme */
   --color-primary: var(--light-primary);
   --color-primary-rgb: var(--light-primary-rgb);
   --color-background: var(--light-background);
@@ -124,9 +94,6 @@
   --color-card-bg: var(--light-card-bg);
   --color-info-bg: var(--light-info-bg);
   --color-shadow-black: var(--light-shadow-black);
-  --color-shadow-white: var(--light-shadow-white);
-  --color-shadow-trending-light: var(--light-shadow-trending-light);
-  --color-shadow-trending-dark: var(--light-shadow-trending-dark);
   --color-text-glow-normal: var(--light-text-glow-normal);
   --color-text-glow-hover: var(--light-text-glow-hover);
   --glow-pink-light: var(--light-glow-pink-light);
@@ -136,22 +103,11 @@
   --gradient-purple: var(--light-gradient-purple);
   --gradient-pink: var(--light-gradient-pink);
   --glow-purple: var(--light-glow-purple);
-  --white-80: var(--light-white-80);
-  --white-60: var(--light-white-60);
-  --white-90: var(--light-white-90);
-  --white-70: var(--light-white-70);
-  --white-10: var(--light-white-10);
-  --white-05: var(--light-white-05);
-  --white-20: var(--light-white-20);
-  --white-30: var(--light-white-30);
-  --black-10: var(--light-black-10);
-  --black-15: var(--light-black-15);
   --nebula-purple: var(--light-nebula-purple);
   --nebula-pink: var(--light-nebula-pink);
   --nebula-blue: var(--light-nebula-blue);
   --opacity-medium: 0.6;
 
-  /* Logia-specific colors */
   --logia-error: #ef4444;
   --logia-error-dark: #dc2626;
   --logia-element-fire: var(--color-bullish);
@@ -167,25 +123,15 @@
   --background-color: var(--color-background);
   --glow-shadow-hover: var(--color-glow-shadow-hover);
 
-  /* Tooltip Variables */
   --tooltip-font-size: 0.8rem;
   --tooltip-border-radius: 16px;
   --tooltip-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   --tooltip-shadow: var(--glow-shadow);
   --tooltip-blur: blur(8px);
   --tooltip-large-bg: var(--color-primary);
-  --tooltip-quick-bg: var(--color-primary);
 
-  /* Opacity Variables */
   --opacity-80: 0.8;
-  --opacity-90: 0.9;
-  --opacity-100: 1;
-  --opacity-10: 0.1;
 
-  /* Transition Variables */
-  --transition-all: all 0.3s ease;
-
-  /* Common variables */
   --primary-color: var(--color-primary);
   --text-color: var(--color-text);
   --background-color: var(--color-background);
@@ -199,13 +145,8 @@
   --info-bg: var(--color-info-bg);
   --text-glow: var(--color-text-glow-normal);
   --text-glow-hover: var(--color-text-glow-hover);
-  --base-shadow: 0 0 5px var(--glow-shadow);
-  --trending-shadow-light: var(--color-shadow-trending-light);
-  --trending-shadow-dark: var(--color-shadow-trending-dark);
-  --black-30: rgba(0, 0, 0, 0.3); /* Black 30% opacity */
 }
 
-/* Dark theme */
 html.dark {
   --color-primary: var(--dark-primary);
   --color-primary-rgb: var(--dark-primary-rgb);
@@ -227,9 +168,6 @@ html.dark {
   --color-card-bg: var(--dark-card-bg);
   --color-info-bg: var(--dark-info-bg);
   --color-shadow-black: var(--dark-shadow-black);
-  --color-shadow-white: var(--dark-shadow-white);
-  --color-shadow-trending-light: var(--dark-shadow-trending-light);
-  --color-shadow-trending-dark: var(--dark-shadow-trending-dark);
   --color-text-glow-normal: var(--dark-text-glow-normal);
   --color-text-glow-hover: var(--dark-text-glow-hover);
   --glow-pink-light: var(--dark-glow-pink-light);
@@ -239,22 +177,11 @@ html.dark {
   --gradient-purple: var(--dark-gradient-purple);
   --gradient-pink: var(--dark-gradient-pink);
   --glow-purple: var(--dark-glow-purple);
-  --white-80: var(--dark-white-80);
-  --white-60: var(--dark-white-60);
-  --white-90: var(--dark-white-90);
-  --white-70: var(--dark-white-70);
-  --white-10: var(--dark-white-10);
-  --white-05: var(--dark-white-05);
-  --white-20: var(--dark-white-20);
-  --white-30: var(--dark-white-30);
-  --black-10: var(--dark-black-10);
-  --black-15: var(--dark-black-15);
   --nebula-purple: var(--dark-nebula-purple);
   --nebula-pink: var(--dark-nebula-pink);
   --nebula-blue: var(--dark-nebula-blue);
   --opacity-medium: 0.6;
 
-  /* Logia-specific colors */
   --logia-error: #ef4444;
   --logia-error-dark: #dc2626;
   --logia-element-fire: var(--color-bullish);
@@ -270,25 +197,15 @@ html.dark {
   --background-color: var(--color-background);
   --glow-shadow-hover: var(--color-glow-shadow-hover);
 
-  /* Tooltip Variables */
   --tooltip-font-size: 0.8rem;
   --tooltip-border-radius: 16px;
   --tooltip-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   --tooltip-shadow: var(--glow-shadow);
   --tooltip-blur: blur(8px);
   --tooltip-large-bg: var(--color-primary);
-  --tooltip-quick-bg: var(--color-primary);
 
-  /* Opacity Variables */
   --opacity-80: 0.8;
-  --opacity-90: 0.9;
-  --opacity-100: 1;
-  --opacity-10: 0.1;
 
-  /* Transition Variables */
-  --transition-all: all 0.3s ease;
-
-  /* Common variables */
   --primary-color: var(--color-primary);
   --text-color: var(--color-primary);
   --background-color: var(--color-background);
@@ -302,13 +219,8 @@ html.dark {
   --info-bg: var(--color-info-bg);
   --text-glow: var(--color-text-glow-normal);
   --text-glow-hover: var(--color-text-glow-hover);
-  --base-shadow: 0 0 5px var(--glow-shadow);
-  --trending-shadow-light: var(--color-shadow-trending-light);
-  --trending-shadow-dark: var(--color-shadow-trending-dark);
-  --black-30: rgba(0, 0, 0, 0.3); /* Black 30% opacity */
 }
 
-/* Base Styles */
 body {
   font-family:
     var(--font-quicksand),
@@ -324,7 +236,6 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Animations */
 @keyframes modalFadeIn {
   from {
     opacity: 0;
@@ -360,7 +271,6 @@ body {
   }
 }
 
-/* Utility Classes */
 .glow-text {
   text-shadow: var(--text-glow);
   will-change: text-shadow;
@@ -374,7 +284,6 @@ body {
   color: var(--bearish-color);
 }
 
-/* Links */
 a {
   color: var(--color-primary);
   text-decoration: none;
@@ -385,12 +294,10 @@ a:hover {
   text-shadow: var(--text-glow-hover);
 }
 
-/* Form Elements */
 button {
   font-family: inherit;
 }
 
-/* Transitions */
 .theme-transition {
   transition:
     background-color var(--transition-duration) var(--transition-timing),
@@ -398,14 +305,12 @@ button {
     border-color var(--transition-duration) var(--transition-timing);
 }
 
-/* Reset */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* Layout Components */
 .app-container {
   min-height: 100vh;
   display: flex;

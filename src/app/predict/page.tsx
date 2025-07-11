@@ -1,18 +1,14 @@
-import PredictCards from "../../components/PredictCards";
+import PredictCards from "../../components/Predict";
 import predictStrings from "../../i18n/predict.json";
 import "../../styles/predict.css";
 
 export default function PredictPage() {
   return (
     <main className="min-h-screen">
-      <div className="predict-container">
-        <div className="predict-header">
-          <h1 className="predict-title">{predictStrings.en.title}</h1>
-        </div>
-        <div className="predict-content">
-          <PredictCards />
-        </div>
+      <div className="predict-header">
+        <h1 className="predict-title">{predictStrings.en.title}</h1>
       </div>
+      <PredictCards />
     </main>
   );
 }

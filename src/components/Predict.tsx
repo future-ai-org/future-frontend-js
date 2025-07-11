@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import predictI18n from "../i18n/predict.json";
-import { PREDICTION_TARGETS } from "../config/crypto";
-import "../styles/predictCards.css";
+import "../styles/predict.css";
 import { FaChartLine } from "react-icons/fa";
 
 interface PredictCard {
@@ -12,24 +11,36 @@ interface PredictCard {
   subtitle: string;
 }
 
-const worldEventCards: PredictCard[] = Object.entries(PREDICTION_TARGETS).map(
-  ([key, value]) => ({
-    id: key,
-    title: value.title,
-    subtitle: `will ${key} reach ${value.target} by the end of the year?`,
-  }),
-);
+const worldEventCards: PredictCard[] = Object.entries(
+  predictI18n.finance.targets,
+).map(([key, target]) => ({
+  id: key,
+  title:
+    predictI18n.finance.assets[key as keyof typeof predictI18n.finance.assets],
+  subtitle: predictI18n.finance.subtitleTemplate
+    .replace("{key}", key)
+    .replace("{target}", target),
+}));
 
 const PredictCards: React.FC = () => {
   const [selectedOptions, setSelectedOptions] = useState<
-    Record<string, "yes" | "no" | null>
+    Record<
+      string,
+      typeof predictI18n.options.yes | typeof predictI18n.options.no | null
+    >
   >({});
   const [activeTab, setActiveTab] = useState<
-    "world" | "personal" | "relationships" | "finance"
-  >("personal");
+    | typeof predictI18n.tabs.world
+    | typeof predictI18n.tabs.personal
+    | typeof predictI18n.tabs.relationships
+    | typeof predictI18n.tabs.finance
+  >(predictI18n.tabs.personal);
   const [question, setQuestion] = useState("");
 
-  const handleOptionClick = (cardId: string, option: "yes" | "no") => {
+  const handleOptionClick = (
+    cardId: string,
+    option: typeof predictI18n.options.yes | typeof predictI18n.options.no,
+  ) => {
     setSelectedOptions((prev) => ({
       ...prev,
       [cardId]: prev[cardId] === option ? null : option,
@@ -43,31 +54,32 @@ const PredictCards: React.FC = () => {
     }
   };
 
-  const handleCalculateSynastry = () => {
-    // TODO: Implement synastry calculation logic
-  };
-
   const renderWorldEventCards = () => (
     <div className="predict-cards-grid">
       {worldEventCards.map((card) => (
         <div key={card.id} className="predict-card">
           <div className="card-header">
             <h3 className="card-title">{card.title}</h3>
-            <button className="view-chart-button" title="View Chart">
+            <button
+              className="predict-view-chart-button"
+              title={predictI18n.finance.viewChartTitle}
+            >
               <FaChartLine />
             </button>
           </div>
           <p className="card-subtitle">{card.subtitle}</p>
           <div className="card-options">
             <button
-              className={`option-button ${selectedOptions[card.id] === "yes" ? "selected" : ""}`}
-              onClick={() => handleOptionClick(card.id, "yes")}
+              className={`option-button ${selectedOptions[card.id] === predictI18n.options.yes ? "selected" : ""}`}
+              onClick={() =>
+                handleOptionClick(card.id, predictI18n.options.yes)
+              }
             >
               {predictI18n.options.yes}
             </button>
             <button
-              className={`option-button ${selectedOptions[card.id] === "no" ? "selected" : ""}`}
-              onClick={() => handleOptionClick(card.id, "no")}
+              className={`option-button ${selectedOptions[card.id] === predictI18n.options.no ? "selected" : ""}`}
+              onClick={() => handleOptionClick(card.id, predictI18n.options.no)}
             >
               {predictI18n.options.no}
             </button>
@@ -84,11 +96,11 @@ const PredictCards: React.FC = () => {
           type="text"
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
-          placeholder="Type your question here..."
+          placeholder={predictI18n.personal.placeholder}
           className="question-input"
         />
         <button type="submit" className="submit-button">
-          Submit
+          {predictI18n.personal.submit}
         </button>
       </form>
     </div>
@@ -106,15 +118,9 @@ const PredictCards: React.FC = () => {
           ))}
         </ul>
         <p>{predictI18n.synastry.conclusion}</p>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "2rem",
-          }}
-        >
-          <button className="submit-button" onClick={handleCalculateSynastry}>
-            calculate a synastry
+        <div className="button-container">
+          <button className="submit-button">
+            {predictI18n.synastry.calculateButton}
           </button>
         </div>
       </div>
@@ -123,19 +129,13 @@ const PredictCards: React.FC = () => {
 
   const renderWorldCards = () => (
     <div className="predict-card world-card">
-      <h3 className="card-title">World Predictions</h3>
+      <h3 className="card-title">{predictI18n.world.title}</h3>
       <div className="world-content">
-        <p>
-          Explore predictions about global events, politics, and world affairs.
-        </p>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "2rem",
-          }}
-        >
-          <button className="submit-button">Coming Soon</button>
+        <p>{predictI18n.world.description}</p>
+        <div className="button-container">
+          <button className="submit-button">
+            {predictI18n.world.comingSoon}
+          </button>
         </div>
       </div>
     </div>
@@ -145,35 +145,35 @@ const PredictCards: React.FC = () => {
     <div className="predict-cards-container">
       <div className="predict-tabs">
         <button
-          className={`tab-button ${activeTab === "personal" ? "active" : ""}`}
-          onClick={() => setActiveTab("personal")}
+          className={`tab-button ${activeTab === predictI18n.tabs.personal ? "active" : ""}`}
+          onClick={() => setActiveTab(predictI18n.tabs.personal)}
         >
           {predictI18n.tabs.personal}
         </button>
         <button
-          className={`tab-button ${activeTab === "relationships" ? "active" : ""}`}
-          onClick={() => setActiveTab("relationships")}
+          className={`tab-button ${activeTab === predictI18n.tabs.relationships ? "active" : ""}`}
+          onClick={() => setActiveTab(predictI18n.tabs.relationships)}
         >
           {predictI18n.tabs.relationships}
         </button>
         <button
-          className={`tab-button ${activeTab === "finance" ? "active" : ""}`}
-          onClick={() => setActiveTab("finance")}
+          className={`tab-button ${activeTab === predictI18n.tabs.finance ? "active" : ""}`}
+          onClick={() => setActiveTab(predictI18n.tabs.finance)}
         >
           {predictI18n.tabs.finance}
         </button>
         <button
-          className={`tab-button ${activeTab === "world" ? "active" : ""}`}
-          onClick={() => setActiveTab("world")}
+          className={`tab-button ${activeTab === predictI18n.tabs.world ? "active" : ""}`}
+          onClick={() => setActiveTab(predictI18n.tabs.world)}
         >
           {predictI18n.tabs.world}
         </button>
       </div>
-      {activeTab === "personal"
+      {activeTab === predictI18n.tabs.personal
         ? renderPersonalPredictions()
-        : activeTab === "relationships"
+        : activeTab === predictI18n.tabs.relationships
           ? renderRelationshipCards()
-          : activeTab === "finance"
+          : activeTab === predictI18n.tabs.finance
             ? renderWorldEventCards()
             : renderWorldCards()}
     </div>
