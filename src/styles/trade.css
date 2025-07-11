@@ -33,6 +33,21 @@
   flex-direction: column;
 }
 
+.asset-section {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 800;
+  text-align: center;
+  margin: 20px 0 10px 0;
+  color: var(--text-color);
+  text-shadow: var(--text-glow);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
 .trade-title {
   font-size: clamp(2rem, 7vw, 4rem);
   font-weight: 800;

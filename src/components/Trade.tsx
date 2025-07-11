@@ -202,14 +202,17 @@ export default function Trade() {
     );
   }
 
-  const allCryptoData = [...cryptoData, ...trendingData].filter(
-    (crypto, index, self) =>
-      index === self.findIndex((c) => c.id === crypto.id),
+  const blueChipAssets = cryptoData.slice(0, 10); // Top 10 by market cap
+  const trendingAssets = trendingData.filter(
+    (crypto) => !blueChipAssets.some((blueChip) => blueChip.id === crypto.id),
   );
 
-  return (
-    <div className="dashboard-container">
-      {allCryptoData.length > 0 && (
+  const renderAssetTable = (assets: CryptoData[], sectionTitle: string) => {
+    if (assets.length === 0) return null;
+
+    return (
+      <div key={sectionTitle} className="asset-section">
+        <h2 className="section-title">{sectionTitle}</h2>
         <table className="table">
           <thead>
             <tr>
@@ -223,7 +226,7 @@ export default function Trade() {
             </tr>
           </thead>
           <tbody>
-            {allCryptoData.map((crypto) => {
+            {assets.map((crypto) => {
               const isPositive = crypto.price_change_percentage_24h >= 0;
               const colorClass = isPositive ? "positive" : "negative";
               const isFavorite = favorites.some((fav) => fav.id === crypto.id);
@@ -353,7 +356,14 @@ export default function Trade() {
             })}
           </tbody>
         </table>
-      )}
+      </div>
+    );
+  };
+
+  return (
+    <div className="dashboard-container">
+      {renderAssetTable(blueChipAssets, t.sections.blueChip)}
+      {renderAssetTable(trendingAssets, t.sections.trending)}
     </div>
   );
 }

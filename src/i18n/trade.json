@@ -36,6 +36,10 @@
     "chart": {
       "noData": "no data"
     },
+    "sections": {
+      "blueChip": "blue chip",
+      "trending": "trending"
+    },
     "asset": {
       "loading": "loading {{assetId}}...",
       "loadingGeneric": "loading...",
