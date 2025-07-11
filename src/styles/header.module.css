@@ -108,6 +108,16 @@
 
 .navLink.active {
   font-weight: 800;
+  background-color: rgba(var(--primary-color-rgb), 0.15);
+  box-shadow: 0 0 15px rgba(var(--primary-color-rgb), 0.3);
+  transform: scale(1.05);
+  border: 1px solid rgba(var(--primary-color-rgb), 0.3);
+}
+
+.navLink.active::after {
+  width: calc(100% - 8px);
+  background-color: var(--primary-color);
+  box-shadow: 0 0 8px rgba(var(--primary-color-rgb), 0.6);
 }
 
 .headerRight {
