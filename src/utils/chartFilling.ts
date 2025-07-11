@@ -120,27 +120,22 @@ export function drawPlanets(
     const signData = orderedSigns.get(sign);
     if (!signData) return;
 
-    // Calculate the middle angle for this house (15 degrees into the house)
     const middleAngle = ((houseAngle + 15) * Math.PI) / 180;
 
-    // Count planets in this sign and sort by angle (largest to smallest)
     const sortedPlanets = [...signData.planets].sort((a, b) => {
       const aPos = (a.position - houseAngle + 360) % 360;
       const bPos = (b.position - houseAngle + 360) % 360;
-      return bPos - aPos; // Reversed order
+      return bPos - aPos;
     });
     const planetsInSign = sortedPlanets.length;
 
-    // Calculate spread based on number of planets (max 24 degrees to stay within house)
     const angleSpread = Math.min(24, planetsInSign * 5);
 
     sortedPlanets.forEach((planet, planetIndex) => {
-      // Calculate position within the spread
-      const angleStep = angleSpread / (planetsInSign - 1 || 1); // Avoid division by zero
+      const angleStep = angleSpread / (planetsInSign - 1 || 1);
       const offset = (planetIndex - (planetsInSign - 1) / 2) * angleStep;
       const angle = middleAngle + (offset * Math.PI) / 180;
 
-      // Calculate position with consistent radius
       const x = (radius - 45) * Math.cos(angle);
       const y = (radius - 45) * Math.sin(angle);
 
