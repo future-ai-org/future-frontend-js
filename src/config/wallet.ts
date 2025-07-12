@@ -1,5 +1,5 @@
 import { injected } from "wagmi/connectors";
-import { COINGECKO_CONFIG } from "./crypto";
+import { COINGECKO_CONFIG } from "./coingecko";
 
 export const WALLET_CONFIG = {
   METAMASK: {

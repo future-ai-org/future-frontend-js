@@ -5,7 +5,7 @@ import { TradeAsset } from "../../../components/TradeAsset";
 import { useParams } from "next/navigation";
 import Loading from "../../../utils/loading";
 import "../../../styles/tradeAsset.css";
-import { COINGECKO_CONFIG } from "../../../config/crypto";
+import { COINGECKO_CONFIG } from "../../../config/coingecko";
 import { FaStar } from "react-icons/fa";
 import strings from "../../../i18n/trade.json";
 

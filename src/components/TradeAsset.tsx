@@ -19,7 +19,7 @@ import {
   TIME_PERIODS,
 } from "@/config/tradeAsset";
 import tradingMessages from "@/i18n/tradeAsset.json";
-import { COINGECKO_CONFIG } from "@/config/crypto";
+import { COINGECKO_CONFIG } from "@/config/coingecko";
 import { FaStar } from "react-icons/fa";
 
 interface TradeAssetProps {

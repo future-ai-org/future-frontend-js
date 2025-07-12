@@ -1,4 +1,7 @@
-import { COINGECKO_CONFIG, SLIDER_CRYPTO_IDS } from "./crypto";
+import { COINGECKO_CONFIG } from "./coingecko";
+import { BLUECHIP_COINS } from "./trade";
+
+export const SLIDER_CRYPTO_IDS = BLUECHIP_COINS.join(",");
 
 export const PRICE_SLIDER_CONFIG = {
   CACHE: {

@@ -1,4 +1,4 @@
-import { COINGECKO_CONFIG } from "./crypto";
+import { COINGECKO_CONFIG } from "./coingecko";
 
 export const dashboardConfig = {
   refresh: {

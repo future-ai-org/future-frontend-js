@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import "../styles/trade.css";
 import strings from "../i18n/trade.json";
 import { TRADE_CONFIG, CryptoData, TrendingCoin } from "../config/trade";
-import { COINGECKO_CONFIG } from "../config/crypto";
+import { COINGECKO_CONFIG, CRYPTO_CONFIG } from "../config/coingecko";
 import Loading from "../utils/loading";
 import { FaStar, FaRegStar } from "react-icons/fa";
 
@@ -123,8 +123,29 @@ export default function Trade() {
         }
 
         const trendingDetails = await trendingDetailsResponse.json();
+        const additionalCoinsResponse = await fetch(
+          `${COINGECKO_CONFIG.BASE_URL}${COINGECKO_CONFIG.ENDPOINTS.MARKETS}?vs_currency=${CRYPTO_CONFIG.CURRENCY}&order=market_cap_desc&per_page=${TRADE_CONFIG.TRENDING.ADDITIONAL_COINS_LIMIT}&page=1&sparkline=true`,
+        );
 
-        setTrendingData(trendingDetails);
+        let additionalCoins = [];
+        if (additionalCoinsResponse.ok) {
+          additionalCoins = await additionalCoinsResponse.json();
+        }
+
+        const trendingIdsSet = new Set(trendingIds.split(","));
+        const bluechipIdsSet = new Set(
+          TRADE_CONFIG.BLUECHIP.COINS as readonly string[],
+        );
+
+        const combinedTrending = [
+          ...trendingDetails,
+          ...additionalCoins.filter(
+            (coin: CryptoData) =>
+              !trendingIdsSet.has(coin.id) && !bluechipIdsSet.has(coin.id),
+          ),
+        ].slice(0, TRADE_CONFIG.TRENDING.MAX_ITEMS); // Limit to configured max items
+
+        setTrendingData(combinedTrending);
 
         let finalBluechipData = [];
         if (Array.isArray(bluechipData) && bluechipData.length > 0) {
@@ -165,14 +186,7 @@ export default function Trade() {
 
     const interval = setInterval(fetchCryptoData, TRADE_CONFIG.CACHE.DURATION);
     return () => clearInterval(interval);
-  }, [
-    loadCachedData,
-    saveCachedData,
-    t.error.apiErrorGeneric,
-    t.error.fetchFailed,
-    t.error.invalidDataGeneric,
-    t.error.trendingDataError,
-  ]);
+  }, [loadCachedData, saveCachedData, t]);
 
   useEffect(() => {
     const loadFavorites = () => {

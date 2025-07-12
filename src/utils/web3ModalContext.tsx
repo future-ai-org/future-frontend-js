@@ -16,7 +16,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { ethers } from "ethers";
 import { WALLET_CONFIG } from "../config/wallet";
-import { COINGECKO_CONFIG } from "../config/crypto";
+import { COINGECKO_CONFIG } from "../config/coingecko";
 import strings from "../i18n/home.json";
 import walletStrings from "../i18n/wallet.json";
 

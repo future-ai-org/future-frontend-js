@@ -1,4 +1,4 @@
-import { COINGECKO_CONFIG, CRYPTO_CONFIG } from "@/config/crypto";
+import { COINGECKO_CONFIG, CRYPTO_CONFIG } from "@/config/coingecko";
 import { CACHE_CONFIG } from "@/config/cache";
 
 export interface CryptoData {
@@ -32,6 +32,9 @@ export const BLUECHIP_COINS = [
   "tron",
   "monero",
   "pepe",
+  "worldcoin",
+  "story",
+  "bittensor",
 ] as const;
 
 export const TRADE_CONFIG = {
@@ -44,13 +47,12 @@ export const TRADE_CONFIG = {
     KEYS: CACHE_CONFIG.KEYS,
     DURATION: CACHE_CONFIG.DURATION,
   },
-  CRYPTO: {
-    CURRENCY: CRYPTO_CONFIG.CURRENCY,
-    ORDER_BY: CRYPTO_CONFIG.ORDER_BY,
-    TOP_CRYPTO_COUNT: CRYPTO_CONFIG.TOP_CRYPTO_COUNT,
-  },
   BLUECHIP: {
     COINS: BLUECHIP_COINS,
-    CACHE_KEY: "bluechip_coins_data",
+    CACHE_KEY: CACHE_CONFIG.KEYS.BLUECHIP_DATA,
+  },
+  TRENDING: {
+    MAX_ITEMS: 30,
+    ADDITIONAL_COINS_LIMIT: 50,
   },
 } as const;
