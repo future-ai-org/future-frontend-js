@@ -1,19 +1,12 @@
 {
   "en": {
-    "title": "trade",
     "error": {
-      "title": "error loading data",
-      "refresh": "please try refreshing the page",
-      "apiError": "failed to fetch data from one or more endpoints",
-      "invalidData": "invalid data format received from api",
-      "trendingError": "failed to fetch trending details",
-      "connectionError": "failed to fetch data. please check your internet connection.",
       "cacheError": "error accessing cached data",
       "saveCacheError": "error saving data to cache",
       "fetchFailed": "failed to fetch fresh data:",
       "loadFavoritesFailed": "failed to load favorites:",
       "saveFavoriteFailed": "failed to save favorite:",
-      "apiErrorGeneric": "API error",
+      "apiErrorGeneric": "api error",
       "invalidDataGeneric": "invalid data",
       "trendingDataError": "trending data error"
     },
@@ -30,41 +23,27 @@
     "formatting": {
       "decimalSeparator": ".",
       "percentage": "%",
-      "billion": "B",
+      "billion": "b",
       "currency": "$"
     },
     "chart": {
       "noData": "no data"
     },
     "sections": {
-      "blueChip": "blue chip",
+      "bluechipAssets": "blue chip",
       "trending": "trending"
     },
     "asset": {
-      "loading": "loading {{assetId}}...",
-      "loadingGeneric": "loading...",
+      "loading": "loading {{assetId}} data...",
+      "loadingGeneric": "loading asset data...",
       "tradingDashboard": "trading dashboard",
       "favorite": {
         "add": "add to favorites",
         "remove": "remove from favorites"
       }
     },
-    "tableHeaders": {
-      "asset": "asset",
-      "price": "price",
-      "change": "change",
-      "marketCap": "market cap",
-      "ath": "ATH",
-      "chart": "chart"
-    },
-    "formattingConstants": {
-      "currency": "$",
-      "decimalSeparator": ".",
-      "percentage": "%",
-      "billion": "B"
-    },
-    "chartConstants": {
-      "noData": "no data"
+    "messages": {
+      "noDataAvailable": "no data available for"
     }
   }
 }

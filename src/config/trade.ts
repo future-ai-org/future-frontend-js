@@ -21,10 +21,24 @@ export interface TrendingCoin {
   };
 }
 
+export const BLUECHIP_COINS = [
+  "bitcoin",
+  "ethereum",
+  "solana",
+  "cardano",
+  "binancecoin",
+  "ripple",
+  "chainlink",
+  "tron",
+  "monero",
+  "pepe",
+] as const;
+
 export const TRADE_CONFIG = {
   API: {
     CRYPTO_ENDPOINT: `${COINGECKO_CONFIG.BASE_URL}${COINGECKO_CONFIG.ENDPOINTS.MARKETS}?vs_currency=${CRYPTO_CONFIG.CURRENCY}&order=${CRYPTO_CONFIG.ORDER_BY}&per_page=${CRYPTO_CONFIG.TOP_CRYPTO_COUNT}&page=1&sparkline=true`,
     TRENDING_ENDPOINT: `${COINGECKO_CONFIG.BASE_URL}${COINGECKO_CONFIG.ENDPOINTS.SEARCH}`,
+    BLUECHIP_ENDPOINT: `${COINGECKO_CONFIG.BASE_URL}${COINGECKO_CONFIG.ENDPOINTS.MARKETS}?vs_currency=${CRYPTO_CONFIG.CURRENCY}&ids=${BLUECHIP_COINS.join(",")}&sparkline=true`,
   },
   CACHE: {
     KEYS: CACHE_CONFIG.KEYS,
@@ -34,5 +48,9 @@ export const TRADE_CONFIG = {
     CURRENCY: CRYPTO_CONFIG.CURRENCY,
     ORDER_BY: CRYPTO_CONFIG.ORDER_BY,
     TOP_CRYPTO_COUNT: CRYPTO_CONFIG.TOP_CRYPTO_COUNT,
+  },
+  BLUECHIP: {
+    COINS: BLUECHIP_COINS,
+    CACHE_KEY: "bluechip_coins_data",
   },
 } as const;

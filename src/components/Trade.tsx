@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import "../styles/trade.css";
 import strings from "../i18n/trade.json";
 import { TRADE_CONFIG, CryptoData, TrendingCoin } from "../config/trade";
+import { COINGECKO_CONFIG } from "../config/crypto";
 import Loading from "../utils/loading";
 import { FaStar, FaRegStar } from "react-icons/fa";
 
@@ -15,8 +16,8 @@ interface FavoriteAsset {
 }
 
 export default function Trade() {
-  const [cryptoData, setCryptoData] = useState<CryptoData[]>([]);
   const [trendingData, setTrendingData] = useState<CryptoData[]>([]);
+  const [bluechipData, setBluechipData] = useState<CryptoData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [favorites, setFavorites] = useState<FavoriteAsset[]>([]);
 
@@ -24,23 +25,28 @@ export default function Trade() {
 
   const loadCachedData = useCallback(() => {
     try {
-      const cachedCrypto = localStorage.getItem(
-        TRADE_CONFIG.CACHE.KEYS.CRYPTO_DATA,
-      );
       const cachedTrending = localStorage.getItem(
         TRADE_CONFIG.CACHE.KEYS.TRENDING_DATA,
       );
-      const cachedTimestamp = localStorage.getItem(
-        TRADE_CONFIG.CACHE.KEYS.TIMESTAMP,
+      const cachedBluechip = localStorage.getItem(
+        TRADE_CONFIG.BLUECHIP.CACHE_KEY,
       );
 
-      if (cachedCrypto && cachedTrending && cachedTimestamp) {
-        const parsedCrypto = JSON.parse(cachedCrypto);
+      if (cachedTrending) {
         const parsedTrending = JSON.parse(cachedTrending);
+        let parsedBluechip = [];
 
-        if (Array.isArray(parsedCrypto) && Array.isArray(parsedTrending)) {
-          setCryptoData(parsedCrypto);
+        if (cachedBluechip) {
+          try {
+            parsedBluechip = JSON.parse(cachedBluechip);
+          } catch (err) {
+            console.error(t.error.cacheError, err);
+          }
+        }
+
+        if (Array.isArray(parsedTrending)) {
           setTrendingData(parsedTrending);
+          setBluechipData(Array.isArray(parsedBluechip) ? parsedBluechip : []);
           setIsLoading(false);
           return true;
         }
@@ -52,15 +58,15 @@ export default function Trade() {
   }, [t.error.cacheError]);
 
   const saveCachedData = useCallback(
-    (crypto: CryptoData[], trending: CryptoData[]) => {
+    (trending: CryptoData[], bluechip: CryptoData[]) => {
       try {
-        localStorage.setItem(
-          TRADE_CONFIG.CACHE.KEYS.CRYPTO_DATA,
-          JSON.stringify(crypto),
-        );
         localStorage.setItem(
           TRADE_CONFIG.CACHE.KEYS.TRENDING_DATA,
           JSON.stringify(trending),
+        );
+        localStorage.setItem(
+          TRADE_CONFIG.BLUECHIP.CACHE_KEY,
+          JSON.stringify(bluechip),
         );
         localStorage.setItem(
           TRADE_CONFIG.CACHE.KEYS.TIMESTAMP,
@@ -79,27 +85,31 @@ export default function Trade() {
     const fetchCryptoData = async () => {
       try {
         setIsLoading(true);
-        const [cryptoResponse, trendingResponse] = await Promise.all([
-          fetch(TRADE_CONFIG.API.CRYPTO_ENDPOINT),
-          fetch(TRADE_CONFIG.API.TRENDING_ENDPOINT),
-        ]);
 
-        if (!cryptoResponse.ok || !trendingResponse.ok) {
+        const trendingResponse = await fetch(
+          TRADE_CONFIG.API.TRENDING_ENDPOINT,
+        );
+
+        let bluechipResponse;
+        try {
+          bluechipResponse = await fetch(TRADE_CONFIG.API.BLUECHIP_ENDPOINT);
+        } catch (error) {
+          console.error(t.error.fetchFailed, error);
+          bluechipResponse = { ok: false, status: 0 };
+        }
+
+        if (!trendingResponse.ok || !bluechipResponse.ok) {
           throw new Error(t.error.apiErrorGeneric);
         }
 
-        const [cryptoData, trendingData] = await Promise.all([
-          cryptoResponse.json(),
-          trendingResponse.json(),
-        ]);
+        const trendingData = await trendingResponse.json();
+        const bluechipData =
+          "json" in bluechipResponse ? await bluechipResponse.json() : [];
 
-        if (!Array.isArray(cryptoData) || !trendingData.coins) {
+        if (!trendingData.coins) {
           throw new Error(t.error.invalidDataGeneric);
         }
 
-        const filteredData = cryptoData.filter(
-          (crypto) => crypto.id !== "dogecoin",
-        );
         const trendingIds = trendingData.coins
           .map((coin: TrendingCoin) => coin.item.id)
           .join(",");
@@ -114,9 +124,23 @@ export default function Trade() {
 
         const trendingDetails = await trendingDetailsResponse.json();
 
-        setCryptoData(filteredData);
         setTrendingData(trendingDetails);
-        saveCachedData(filteredData, trendingDetails);
+
+        let finalBluechipData = [];
+        if (Array.isArray(bluechipData) && bluechipData.length > 0) {
+          finalBluechipData = bluechipData;
+        } else {
+          const fallbackResponse = await fetch(
+            `${COINGECKO_CONFIG.BASE_URL}${COINGECKO_CONFIG.ENDPOINTS.MARKETS}?vs_currency=usd&ids=${TRADE_CONFIG.BLUECHIP.COINS.join(",")}&sparkline=true`,
+          );
+          if (fallbackResponse.ok) {
+            const fallbackData = await fallbackResponse.json();
+            finalBluechipData = Array.isArray(fallbackData) ? fallbackData : [];
+          }
+        }
+
+        setBluechipData(finalBluechipData);
+        saveCachedData(trendingDetails, finalBluechipData);
       } catch (err) {
         console.error(t.error.fetchFailed, err);
       } finally {
@@ -202,13 +226,21 @@ export default function Trade() {
     );
   }
 
-  const blueChipAssets = cryptoData.slice(0, 10); // Top 10 by market cap
   const trendingAssets = trendingData.filter(
-    (crypto) => !blueChipAssets.some((blueChip) => blueChip.id === crypto.id),
+    (crypto) => !bluechipData.some((bluechip) => bluechip.id === crypto.id),
   );
 
   const renderAssetTable = (assets: CryptoData[], sectionTitle: string) => {
-    if (assets.length === 0) return null;
+    if (assets.length === 0) {
+      return (
+        <div key={sectionTitle} className="asset-section">
+          <h2 className="section-title">{sectionTitle}</h2>
+          <p>
+            {t.messages.noDataAvailable} {sectionTitle}
+          </p>
+        </div>
+      );
+    }
 
     return (
       <div key={sectionTitle} className="asset-section">
@@ -248,10 +280,7 @@ export default function Trade() {
                   </td>
                   <td className={`table-cell crypto-name-cell ${colorClass}`}>
                     <div className="crypto-name-content">
-                      <span
-                        className="crypto-full-name"
-                        data-fullname={`${crypto.name} (${crypto.symbol.toUpperCase()})`}
-                      >
+                      <span className="crypto-full-name">
                         {crypto.name}{" "}
                         <span className="symbol">
                           ({crypto.symbol.toUpperCase()})
@@ -362,7 +391,7 @@ export default function Trade() {
 
   return (
     <div className="dashboard-container">
-      {renderAssetTable(blueChipAssets, t.sections.blueChip)}
+      {renderAssetTable(bluechipData, t.sections.bluechipAssets)}
       {renderAssetTable(trendingAssets, t.sections.trending)}
     </div>
   );
