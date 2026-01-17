@@ -3,49 +3,14 @@
 import { useState } from "react";
 import predictI18n from "../i18n/predict.json";
 import "../styles/predict.css";
-import { FaChartLine } from "react-icons/fa";
-
-interface PredictCard {
-  id: string;
-  title: string;
-  subtitle: string;
-}
-
-const worldEventCards: PredictCard[] = Object.entries(
-  predictI18n.finance.targets,
-).map(([key, target]) => ({
-  id: key,
-  title:
-    predictI18n.finance.assets[key as keyof typeof predictI18n.finance.assets],
-  subtitle: predictI18n.finance.subtitleTemplate
-    .replace("{key}", key)
-    .replace("{target}", target),
-}));
 
 const PredictCards: React.FC = () => {
-  const [selectedOptions, setSelectedOptions] = useState<
-    Record<
-      string,
-      typeof predictI18n.options.yes | typeof predictI18n.options.no | null
-    >
-  >({});
   const [activeTab, setActiveTab] = useState<
-    | typeof predictI18n.tabs.world
+    | typeof predictI18n.tabs.collective
     | typeof predictI18n.tabs.personal
     | typeof predictI18n.tabs.relationships
-    | typeof predictI18n.tabs.finance
   >(predictI18n.tabs.personal);
   const [question, setQuestion] = useState("");
-
-  const handleOptionClick = (
-    cardId: string,
-    option: typeof predictI18n.options.yes | typeof predictI18n.options.no,
-  ) => {
-    setSelectedOptions((prev) => ({
-      ...prev,
-      [cardId]: prev[cardId] === option ? null : option,
-    }));
-  };
 
   const handleQuestionSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,41 +18,6 @@ const PredictCards: React.FC = () => {
       setQuestion("");
     }
   };
-
-  const renderWorldEventCards = () => (
-    <div className="predict-cards-grid">
-      {worldEventCards.map((card) => (
-        <div key={card.id} className="predict-card">
-          <div className="card-header">
-            <h3 className="card-title">{card.title}</h3>
-            <button
-              className="predict-view-chart-button"
-              title={predictI18n.finance.viewChartTitle}
-            >
-              <FaChartLine />
-            </button>
-          </div>
-          <p className="card-subtitle">{card.subtitle}</p>
-          <div className="card-options">
-            <button
-              className={`option-button ${selectedOptions[card.id] === predictI18n.options.yes ? "selected" : ""}`}
-              onClick={() =>
-                handleOptionClick(card.id, predictI18n.options.yes)
-              }
-            >
-              {predictI18n.options.yes}
-            </button>
-            <button
-              className={`option-button ${selectedOptions[card.id] === predictI18n.options.no ? "selected" : ""}`}
-              onClick={() => handleOptionClick(card.id, predictI18n.options.no)}
-            >
-              {predictI18n.options.no}
-            </button>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
 
   const renderPersonalPredictions = () => (
     <div className="personal-predictions-container">
@@ -127,14 +57,14 @@ const PredictCards: React.FC = () => {
     </div>
   );
 
-  const renderWorldCards = () => (
-    <div className="predict-card world-card">
-      <h3 className="card-title">{predictI18n.world.title}</h3>
-      <div className="world-content">
-        <p>{predictI18n.world.description}</p>
+  const renderCollectiveCards = () => (
+    <div className="predict-card collective-card">
+      <h3 className="card-title">{predictI18n.collective.title}</h3>
+      <div className="collective-content">
+        <p>{predictI18n.collective.description}</p>
         <div className="button-container">
           <button className="submit-button">
-            {predictI18n.world.comingSoon}
+            {predictI18n.collective.comingSoon}
           </button>
         </div>
       </div>
@@ -157,25 +87,17 @@ const PredictCards: React.FC = () => {
           {predictI18n.tabs.relationships}
         </button>
         <button
-          className={`tab-button ${activeTab === predictI18n.tabs.finance ? "active" : ""}`}
-          onClick={() => setActiveTab(predictI18n.tabs.finance)}
+          className={`tab-button ${activeTab === predictI18n.tabs.collective ? "active" : ""}`}
+          onClick={() => setActiveTab(predictI18n.tabs.collective)}
         >
-          {predictI18n.tabs.finance}
-        </button>
-        <button
-          className={`tab-button ${activeTab === predictI18n.tabs.world ? "active" : ""}`}
-          onClick={() => setActiveTab(predictI18n.tabs.world)}
-        >
-          {predictI18n.tabs.world}
+          {predictI18n.tabs.collective}
         </button>
       </div>
       {activeTab === predictI18n.tabs.personal
         ? renderPersonalPredictions()
         : activeTab === predictI18n.tabs.relationships
           ? renderRelationshipCards()
-          : activeTab === predictI18n.tabs.finance
-            ? renderWorldEventCards()
-            : renderWorldCards()}
+          : renderCollectiveCards()}
     </div>
   );
 };

@@ -4,7 +4,7 @@
     "finance": "finance",
     "personal": "personal",
     "relationships": "relationships",
-    "world": "world"
+    "collective": "collective"
   },
   "options": {
     "yes": "yes",
@@ -14,8 +14,8 @@
     "placeholder": "type your question here...",
     "submit": "submit"
   },
-  "world": {
-    "title": "world predictions",
+  "collective": {
+    "title": "collective predictions",
     "description": "explore predictions about global events, politics, and world affairs.",
     "comingSoon": "coming soon"
   },

@@ -279,17 +279,17 @@
   margin-top: 2rem;
 }
 
-.world-card {
+.collective-card {
   max-width: 800px;
   margin: 2rem auto;
   text-align: left;
 }
 
-.world-content {
+.collective-content {
   width: 100%;
 }
 
-.world-content p {
+.collective-content p {
   color: var(--text-color);
   line-height: 1.2;
   margin-bottom: 0.8rem;

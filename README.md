@@ -54,8 +54,6 @@ make prod
 the following domains are allowed in the content security policy, and should be addded to `next.config.js`:
 
 ```
-- api.coingecko.com
 - nominatim.openstreetmap.org
-- stream.binance.com
 - future-service-astro.vercel.app
 ```

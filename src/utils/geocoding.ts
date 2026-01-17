@@ -182,9 +182,3 @@ function limitCacheSize(cache: Map<string, string>): void {
     toDelete.forEach(([key]) => cache.delete(key));
   }
 }
-
-export function clearFormatCache(): void {
-  formatCache.clear();
-  coordinateCache.clear();
-  pendingRequests.clear();
-}
