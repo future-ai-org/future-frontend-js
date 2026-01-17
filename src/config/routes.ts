@@ -9,7 +9,7 @@ export const SECURITY_HEADERS = {
   "X-Content-Type-Options": "nosniff",
   "X-Frame-Options": "DENY",
 } as const;
-export const USER_AGENT = "Lilit/1.0";
+export const USER_AGENT = "Future/1.0";
 
 export const ROUTES = {
   HOME: "/",
