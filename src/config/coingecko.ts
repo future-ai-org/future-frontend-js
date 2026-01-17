@@ -21,3 +21,19 @@ export const CRYPTO_CONFIG = {
   CURRENCY: COINGECKO_CONFIG.PARAMS.VS_CURRENCY,
   ORDER_BY: COINGECKO_CONFIG.PARAMS.ORDER,
 } as const;
+
+export const BLUECHIP_COINS = [
+  "bitcoin",
+  "ethereum",
+  "solana",
+  "cardano",
+  "binancecoin",
+  "ripple",
+  "chainlink",
+  "tron",
+  "monero",
+  "pepe",
+  "worldcoin",
+  "story",
+  "bittensor",
+] as const;

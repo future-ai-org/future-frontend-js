@@ -395,14 +395,6 @@ const Dashboard: React.FC = () => {
                           : "—"}
                       </div>
                       <button
-                        onClick={() => router.push(`/trade/${asset.id}`)}
-                        className="view-asset-button"
-                        aria-label={strings.en.cards.favorites.actions.view}
-                        title={strings.en.cards.favorites.actions.view}
-                      >
-                        <FaEye />
-                      </button>
-                      <button
                         onClick={() => handleRemoveFavorite(asset.id)}
                         className="remove-favorite-button"
                         aria-label={strings.en.cards.favorites.actions.remove}

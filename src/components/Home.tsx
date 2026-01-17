@@ -132,8 +132,6 @@ export default function Home() {
         title: strings.en.features.three.title.toLowerCase(),
         description: (
           <>
-            <Link href={ROUTES.TRADE}>{strings.en.links.predict.link}</Link>
-            {strings.en.links.predict.suffix}
             <Link href={ROUTES.PREDICT}>
               {strings.en.links.predict.secondLink}
             </Link>

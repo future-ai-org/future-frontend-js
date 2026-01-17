@@ -39,8 +39,8 @@
       },
       "predict": {
         "prefix": "",
-        "link": "trade",
-        "suffix": " and ",
+        "link": "predict",
+        "suffix": "",
         "secondLink": "predict",
         "finalSuffix": " by leveraging intel from our AI oracle agents"
       }
