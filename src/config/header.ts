@@ -4,7 +4,7 @@ import { NAV_ITEMS, DASHBOARD } from "./routes";
 export const HEADER_CONFIG = {
   title: strings.en.title,
   logo: {
-    alt: "LILIT Logo",
+    alt: "FUTURE Logo",
     width: 30,
     height: 30,
   },

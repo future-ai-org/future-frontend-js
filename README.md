@@ -1,6 +1,14 @@
-## lilit.ai frontend
+## future.ai frontend
 
 <br>
+
+<p align="center">
+<img src="docs/future1.png" width="90%" align="center"/>
+</p>
+
+<br>
+
+---
 
 ### running locally
 
@@ -49,5 +57,5 @@ the following domains are allowed in the content security policy, and should be 
 - api.coingecko.com
 - nominatim.openstreetmap.org
 - stream.binance.com
-- lilit-service-astro.vercel.app
+- future-service-astro.vercel.app
 ```
